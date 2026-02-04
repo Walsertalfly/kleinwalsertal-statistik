@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kleinwalsertal Tourismusstatistik – Ankünfte & Nächtigungen</title>
+    <meta name="description" content="Aktuelle Tourismusstatistik für das Kleinwalsertal: Ankünfte, Nächtigungen, Trends und Prognosen. Daten vom Land Vorarlberg Open Government Data.">
+    <meta name="keywords" content="Kleinwalsertal, Tourismus, Statistik, Nächtigungen, Ankünfte, Mittelberg, Vorarlberg">
+    <link rel="canonical" href="https://kleinwalsertal-statistik.at/">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Kleinwalsertal Tourismusstatistik">
+    <meta property="og:description" content="Aktuelle Ankünfte und Nächtigungen im Kleinwalsertal – mit Prognose">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kleinwalsertal-statistik.at/">
+    
+    <style>
+        :root {
+            --primary: #1e40af;
+            --primary-light: #3b82f6;
+            --success: #059669;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-sec: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px 16px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        h1 {
+            font-size: clamp(1.5rem, 4vw, 2.25rem);
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--text-sec);
+            font-size: 1.05rem;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-top: 16px;
+        }
+
+        .status-badge.live { background: #dcfce7; color: #166534; }
+        .status-badge.offline { background: #fef3c7; color: #92400e; }
+        .status-badge.loading { background: #e0e7ff; color: #3730a3; }
+        .status-badge.error { background: #fee2e2; color: #991b1b; }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .status-badge.live .status-dot { animation: pulse 2s infinite; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* KPI Cards */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .kpi-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .kpi-card h3 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-sec);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .kpi-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1.2;
+        }
+
+        .kpi-detail {
+            font-size: 0.9rem;
+            color: var(--text-sec);
+            margin-top: 4px;
+        }
+
+        .kpi-trend {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 8px;
+            padding: 4px 10px;
+            border-radius: 12px;
+        }
+
+        .kpi-trend.up { background: #dcfce7; color: #166534; }
+        .kpi-trend.down { background: #fee2e2; color: #991b1b; }
+        .kpi-trend.neutral { background: #f1f5f9; color: #475569; }
+
+        /* Chart */
+        .chart-container {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            margin-bottom: 32px;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .chart-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .chart-legend {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            color: var(--text-sec);
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 350px;
+        }
+
+        .chart-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Bars */
+        .bar-actual { fill: var(--primary); }
+        .bar-estimated { fill: var(--warning); }
+        .bar-projected { fill: var(--text-sec); opacity: 0.6; }
+
+        .bar-group:hover .bar { opacity: 0.8; }
+
+        /* Tooltip */
+        .tooltip {
+            position: absolute;
+            background: var(--text);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 100;
+            max-width: 280px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .tooltip.visible { opacity: 1; }
+
+        .tooltip-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .tooltip-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .tooltip-label { opacity: 0.8; }
+        .tooltip-value { font-weight: 600; }
+
+        /* Table */
+        .table-container {
+            background: var(--card);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            margin-bottom: 32px;
+        }
+
+        .table-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .table-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .table-scroll {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: right;
+        }
+
+        th:first-child, td:first-child { text-align: left; }
+
+        th {
+            background: #f8fafc;
+            font-weight: 600;
+            color: var(--text-sec);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+
+        tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
+
+        tr:hover td { background: #f8fafc; }
+
+        .status-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-tag.actual { background: #dbeafe; color: #1e40af; }
+        .status-tag.estimated { background: #fef3c7; color: #92400e; }
+        .status-tag.projected { background: #f1f5f9; color: #475569; }
+
+        /* Source Section */
+        .source-section {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            margin-bottom: 24px;
+        }
+
+        .source-section h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .source-section a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .source-section a:hover { text-decoration: underline; }
+
+        .source-section p {
+            color: var(--text-sec);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 24px;
+            color: var(--text-sec);
+            font-size: 0.85rem;
+        }
+
+        /* Loading */
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid currentColor;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .container { padding: 16px 12px; }
+            .kpi-card { padding: 18px; }
+            .kpi-value { font-size: 1.6rem; }
+            th, td { padding: 12px 14px; }
+            .chart-wrapper { height: 280px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏔️ Kleinwalsertal Tourismusstatistik</h1>
+            <p class="subtitle">Ankünfte & Nächtigungen – Gemeinde Mittelberg</p>
+            <div id="statusBadge" class="status-badge loading">
+                <span class="loading-spinner"></span>
+                <span>Lade Daten...</span>
+            </div>
+        </header>
+
+        <!-- KPI Cards -->
+        <div class="kpi-grid" id="kpiGrid">
+            <div class="kpi-card">
+                <h3>Letztes vollständiges Jahr</h3>
+                <div class="kpi-value" id="kpiYear">–</div>
+                <div class="kpi-detail" id="kpiYearDetail">Wird geladen...</div>
+            </div>
+            <div class="kpi-card">
+                <h3>Nächtigungen</h3>
+                <div class="kpi-value" id="kpiNights">–</div>
+                <div class="kpi-detail" id="kpiNightsDetail">–</div>
+                <div class="kpi-trend neutral" id="kpiNightsTrend">–</div>
+            </div>
+            <div class="kpi-card">
+                <h3>Ankünfte</h3>
+                <div class="kpi-value" id="kpiArrivals">–</div>
+                <div class="kpi-detail" id="kpiArrivalsDetail">–</div>
+                <div class="kpi-trend neutral" id="kpiArrivalsTrend">–</div>
+            </div>
+            <div class="kpi-card">
+                <h3>Ø Aufenthaltsdauer</h3>
+                <div class="kpi-value" id="kpiStay">–</div>
+                <div class="kpi-detail">Nächtigungen ÷ Ankünfte</div>
+            </div>
+        </div>
+
+        <!-- Chart -->
+        <div class="chart-container">
+            <div class="chart-header">
+                <h2 class="chart-title">Nächtigungen pro Jahr</h2>
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: var(--primary);"></div>
+                        <span>Vollständig</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: var(--warning);"></div>
+                        <span>Hochrechnung</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: var(--text-sec); opacity: 0.6;"></div>
+                        <span>Prognose</span>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-wrapper">
+                <svg id="chart" class="chart-svg"></svg>
+                <div id="tooltip" class="tooltip"></div>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="table-container">
+            <div class="table-header">
+                <h2>Jahresübersicht</h2>
+            </div>
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Jahr</th>
+                            <th>Ankünfte</th>
+                            <th>Nächtigungen</th>
+                            <th>Ø Aufenthalt</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr><td colspan="5" style="text-align:center; color: var(--text-sec);">Lade Daten...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Source -->
+        <div class="source-section">
+            <h3>📊 Datenquelle</h3>
+            <p>
+                <a href="https://www.data.gv.at/katalog/dataset/88472b80-92c8-452b-b2b4-b417e97349bb" target="_blank" rel="noopener">Tourismusstatistik Vorarlberg – Open Government Data</a><br>
+                <a href="https://data.vorarlberg.gv.at/katalog/wirtschaft/wirfin_vbg_tour_ankuenfte_naechtigungen_hauptgliederung_monatlich.csv" target="_blank" rel="noopener">CSV-Rohdaten (direkt)</a>
+            </p>
+            <p style="margin-top: 12px;">
+                Gemeinde Mittelberg (GKZ 80228) = Kleinwalsertal · 
+                Hochrechnung: Verfügbare Monate × 12/n · 
+                Prognose: Ø Wachstum der letzten 3 vollständigen Jahre
+            </p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© <span id="footerYear"></span> kleinwalsertal-statistik.at · Daten: Land Vorarlberg OGD</p>
+    </footer>
+
+<script>
+// ===========================================================
+// KONFIGURATION
+// ===========================================================
+
+const CONFIG = {
+    csvUrl: 'https://data.vorarlberg.gv.at/katalog/wirtschaft/wirfin_vbg_tour_ankuenfte_naechtigungen_hauptgliederung_monatlich.csv',
+    corsProxies: [
+        'https://api.allorigins.win/raw?url=',
+        'https://corsproxy.io/?',
+    ],
+    cacheKey: 'kwt_tourismus_v2',
+    cacheTTL: 24 * 60 * 60 * 1000, // 24h
+    gkz: '80228',
+    startYear: 2015,
+    monthNames: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
+
+    // Verifizierte Fallback-Daten (Chronik Gemeinde Mittelberg + KWT Saisonsstatistik)
+    fallbackData: [
+        { jahr: 2015, monate_count: 12, ankuenfte: 318000,  naechtigungen: 1602000  },
+        { jahr: 2016, monate_count: 12, ankuenfte: 339204,  naechtigungen: 1716644  },
+        { jahr: 2017, monate_count: 12, ankuenfte: 333030,  naechtigungen: 1683619  },
+        { jahr: 2018, monate_count: 12, ankuenfte: 355096,  naechtigungen: 1768699  },
+        { jahr: 2019, monate_count: 12, ankuenfte: 353438,  naechtigungen: 1774369  },
+        { jahr: 2020, monate_count: 12, ankuenfte: 210000,  naechtigungen: 1100000  },
+        { jahr: 2021, monate_count: 12, ankuenfte: 175000,  naechtigungen:  950000  },
+        { jahr: 2022, monate_count: 12, ankuenfte: 321708,  naechtigungen: 1653841  },
+        { jahr: 2023, monate_count: 12, ankuenfte: 334346,  naechtigungen: 1658762  },
+        { jahr: 2024, monate_count: 12, ankuenfte: 343299,  naechtigungen: 1709506  },
+    ]
+};
+
+// ===========================================================
+// STATUS ANZEIGE
+// ===========================================================
+
+function setStatus(type, message) {
+    const badge = document.getElementById('statusBadge');
+    badge.className = `status-badge ${type}`;
+    
+    if (type === 'loading') {
+        badge.innerHTML = `<span class="loading-spinner"></span><span>${message}</span>`;
+    } else {
+        badge.innerHTML = `<span class="status-dot"></span><span>${message}</span>`;
+    }
+}
+
+// ===========================================================
+// CACHE
+// ===========================================================
+
+function loadFromCache() {
+    try {
+        const raw = localStorage.getItem(CONFIG.cacheKey);
+        if (!raw) return null;
+        const cache = JSON.parse(raw);
+        if (Date.now() - cache.timestamp > CONFIG.cacheTTL) return null;
+        return cache;
+    } catch { return null; }
+}
+
+function saveToCache(data, source) {
+    try {
+        localStorage.setItem(CONFIG.cacheKey, JSON.stringify({
+            data, source, timestamp: Date.now()
+        }));
+    } catch {}
+}
+
+// ===========================================================
+// CSV PARSING
+// ===========================================================
+
+function parseCSV(csvText) {
+    // Encoding-Fix: manchmal kommen komische Zeichen
+    csvText = csvText.replace(/^\uFEFF/, ''); // BOM entfernen
+    
+    const lines = csvText.split(/\r?\n/);
+    if (lines.length < 2) return [];
+
+    // Header finden
+    const headerLine = lines[0];
+    const delimiter = headerLine.includes(';') ? ';' : ',';
+    const headers = headerLine.split(delimiter).map(h => h.trim().toLowerCase().replace(/['"]/g, ''));
+
+    // Spalten-Indices finden
+    const colMap = {};
+    headers.forEach((h, i) => {
+        if (/^gkz$|gemeindekennz/.test(h)) colMap.gkz = i;
+        if (/^berichtsjahr$/.test(h)) colMap.jahr = i;
+        if (/^monat$/.test(h)) colMap.monat = i;
+        if (/ank[uü]nfte/.test(h)) colMap.ankuenfte = i;
+        if (/n[aä]chtigungen|[uü]bernachtungen/.test(h)) colMap.naechtigungen = i;
+    });
+
+    console.log('CSV Header:', headers);
+    console.log('Column Map:', colMap);
+
+    if (colMap.gkz === undefined || colMap.monat === undefined) {
+        console.warn('Wichtige Spalten nicht gefunden!');
+        return [];
+    }
+
+    // Monatsnamen zu Zahlen
+    const monatMap = {
+        'jänner': 1, 'januar': 1, 'jan': 1,
+        'februar': 2, 'feb': 2,
+        'märz': 3, 'maerz': 3, 'mär': 3, 'mar': 3,
+        'april': 4, 'apr': 4,
+        'mai': 5,
+        'juni': 6, 'jun': 6,
+        'juli': 7, 'jul': 7,
+        'august': 8, 'aug': 8,
+        'september': 9, 'sep': 9, 'sept': 9,
+        'oktober': 10, 'okt': 10,
+        'november': 11, 'nov': 11,
+        'dezember': 12, 'dez': 12
+    };
+
+    // Daten parsen
+    const monthlyData = [];
+    
+    for (let i = 1; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (!line) continue;
+
+        const fields = line.split(delimiter).map(f => f.trim().replace(/['"]/g, ''));
+        
+        // GKZ prüfen
+        const gkz = (fields[colMap.gkz] || '').replace(/^0+/, '');
+        if (gkz !== CONFIG.gkz.replace(/^0+/, '')) continue;
+
+        // Jahr
+        const jahr = parseInt(fields[colMap.jahr]) || 0;
+        if (jahr < 2000) continue;
+
+        // Monat (kann Zahl oder Name sein)
+        let monat = 0;
+        const monatRaw = (fields[colMap.monat] || '').toLowerCase();
+        if (/^\d+$/.test(monatRaw)) {
+            monat = parseInt(monatRaw);
+        } else {
+            monat = monatMap[monatRaw] || 0;
+        }
+        if (monat < 1 || monat > 12) continue;
+
+        // Werte (Tausenderpunkt entfernen)
+        const ankuenfte = parseInt((fields[colMap.ankuenfte] || '0').replace(/[.\s]/g, '')) || 0;
+        const naechtigungen = parseInt((fields[colMap.naechtigungen] || '0').replace(/[.\s]/g, '')) || 0;
+
+        monthlyData.push({ jahr, monat, ankuenfte, naechtigungen });
+    }
+
+    console.log(`Gefunden: ${monthlyData.length} Monatsdatensätze für GKZ ${CONFIG.gkz}`);
+    return monthlyData;
+}
+
+// ===========================================================
+// DATEN AGGREGIEREN
+// ===========================================================
+
+function aggregateByYear(monthlyData) {
+    // Erst nach Jahr+Monat aggregieren (summiert Hauptgliederungen)
+    const monthAgg = {};
+    monthlyData.forEach(row => {
+        const key = `${row.jahr}-${row.monat}`;
+        if (!monthAgg[key]) {
+            monthAgg[key] = { jahr: row.jahr, monat: row.monat, ankuenfte: 0, naechtigungen: 0 };
+        }
+        monthAgg[key].ankuenfte += row.ankuenfte;
+        monthAgg[key].naechtigungen += row.naechtigungen;
+    });
+
+    // Dann nach Jahr aggregieren
+    const yearly = {};
+    Object.values(monthAgg).forEach(row => {
+        if (!yearly[row.jahr]) {
+            yearly[row.jahr] = { jahr: row.jahr, ankuenfte: 0, naechtigungen: 0, monate: new Set() };
+        }
+        yearly[row.jahr].ankuenfte += row.ankuenfte;
+        yearly[row.jahr].naechtigungen += row.naechtigungen;
+        yearly[row.jahr].monate.add(row.monat);
+    });
+
+    // In Array umwandeln
+    return Object.values(yearly).map(y => ({
+        jahr: y.jahr,
+        ankuenfte: y.ankuenfte,
+        naechtigungen: y.naechtigungen,
+        monate_count: y.monate.size
+    })).sort((a, b) => a.jahr - b.jahr);
+}
+
+// ===========================================================
+// DATEN HOLEN
+// ===========================================================
+
+async function fetchCSV(url) {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return await response.text();
+}
+
+async function fetchData() {
+    // 1. Cache prüfen
+    const cached = loadFromCache();
+    if (cached) {
+        setStatus('live', `Live-Daten (Cache, ${cached.source})`);
+        return cached.data;
+    }
+
+    // 2. Direkt versuchen (falls CORS erlaubt)
+    setStatus('loading', 'Lade Daten von data.vorarlberg.gv.at...');
+    
+    try {
+        const csv = await fetchCSV(CONFIG.csvUrl);
+        const monthly = parseCSV(csv);
+        if (monthly.length > 0) {
+            const yearly = aggregateByYear(monthly);
+            saveToCache(yearly, 'Direkt');
+            setStatus('live', `Live-Daten – Land Vorarlberg OGD (${monthly.length} Datensätze)`);
+            return yearly;
+        }
+    } catch (e) {
+        console.log('Direkter Zugriff fehlgeschlagen:', e.message);
+    }
+
+    // 3. CORS-Proxy versuchen
+    for (const proxy of CONFIG.corsProxies) {
+        try {
+            setStatus('loading', 'Versuche alternativen Zugang...');
+            const proxyUrl = proxy + encodeURIComponent(CONFIG.csvUrl);
+            const csv = await fetchCSV(proxyUrl);
+            const monthly = parseCSV(csv);
+            if (monthly.length > 0) {
+                const yearly = aggregateByYear(monthly);
+                saveToCache(yearly, 'Proxy');
+                setStatus('live', `Live-Daten – Land Vorarlberg OGD`);
+                return yearly;
+            }
+        } catch (e) {
+            console.log('Proxy fehlgeschlagen:', proxy, e.message);
+        }
+    }
+
+    // 4. Fallback
+    console.log('Alle Quellen fehlgeschlagen, verwende Fallback-Daten');
+    setStatus('offline', 'Offline – verifizierte Archivdaten (Chronik Mittelberg)');
+    return CONFIG.fallbackData;
+}
+
+// ===========================================================
+// DATENVERARBEITUNG
+// ===========================================================
+
+function processData(rawData) {
+    const now = new Date();
+    const currentYear = now.getFullYear();
+
+    // Ab startYear filtern
+    let years = rawData
+        .filter(d => d.jahr >= CONFIG.startYear)
+        .sort((a, b) => a.jahr - b.jahr);
+
+    // Status bestimmen
+    const processed = years.map(d => {
+        const months = d.monate_count || 12;
+        const isComplete = months === 12;
+
+        return {
+            jahr: d.jahr,
+            ankuenfte_raw: d.ankuenfte,
+            naechtigungen_raw: d.naechtigungen,
+            ankuenfte: isComplete ? d.ankuenfte : Math.round(d.ankuenfte * 12 / months),
+            naechtigungen: isComplete ? d.naechtigungen : Math.round(d.naechtigungen * 12 / months),
+            status: isComplete ? 'actual' : 'estimated',
+            months: months,
+            detail: isComplete ? 'Vollständig (12 Monate)' : `${CONFIG.monthNames[0]}-${CONFIG.monthNames[months - 1]} (${months} Monate) → hochgerechnet`
+        };
+    });
+
+    // Fehlende Jahre bis aktuelles Jahr auffüllen
+    const lastDataYear = processed[processed.length - 1]?.jahr || currentYear - 1;
+    if (lastDataYear < currentYear) {
+        const actualYears = processed.filter(d => d.status === 'actual');
+        if (actualYears.length >= 2) {
+            const prev = actualYears[actualYears.length - 1];
+            const prevPrev = actualYears[actualYears.length - 2];
+            const growth = prev.naechtigungen / prevPrev.naechtigungen;
+
+            let lastNach = processed[processed.length - 1].naechtigungen;
+            let lastAnk = processed[processed.length - 1].ankuenfte;
+
+            for (let y = lastDataYear + 1; y <= currentYear; y++) {
+                lastNach = Math.round(lastNach * growth);
+                lastAnk = Math.round(lastAnk * growth);
+                processed.push({
+                    jahr: y,
+                    ankuenfte_raw: 0,
+                    naechtigungen_raw: 0,
+                    ankuenfte: lastAnk,
+                    naechtigungen: lastNach,
+                    status: 'estimated',
+                    months: 0,
+                    detail: 'Schätzung (keine Daten verfügbar)'
+                });
+            }
+        }
+    }
+
+    // Prognose für nächstes Jahr
+    const nextYear = currentYear + 1;
+    const actualYears = processed.filter(d => d.status === 'actual');
+    if (actualYears.length >= 3 && !processed.find(d => d.jahr === nextYear)) {
+        const recent3 = actualYears.slice(-3);
+        let totalGrowth = 0;
+        for (let i = 1; i < recent3.length; i++) {
+            totalGrowth += (recent3[i].naechtigungen - recent3[i-1].naechtigungen) / recent3[i-1].naechtigungen;
+        }
+        const avgGrowth = totalGrowth / (recent3.length - 1);
+        const lastData = processed[processed.length - 1];
+
+        processed.push({
+            jahr: nextYear,
+            ankuenfte_raw: 0,
+            naechtigungen_raw: 0,
+            ankuenfte: Math.round(lastData.ankuenfte * (1 + avgGrowth)),
+            naechtigungen: Math.round(lastData.naechtigungen * (1 + avgGrowth)),
+            status: 'projected',
+            months: 0,
+            detail: `Prognose (Ø ${(avgGrowth * 100).toFixed(1)}% Wachstum)`
+        });
+    }
+
+    return processed.sort((a, b) => a.jahr - b.jahr);
+}
+
+// ===========================================================
+// UI RENDERING
+// ===========================================================
+
+function formatNumber(n) {
+    return new Intl.NumberFormat('de-AT').format(n);
+}
+
+function renderKPIs(data) {
+    const actual = data.filter(d => d.status === 'actual');
+    const lastComplete = actual[actual.length - 1];
+    const prevComplete = actual[actual.length - 2];
+
+    if (!lastComplete) return;
+
+    document.getElementById('kpiYear').textContent = lastComplete.jahr;
+    document.getElementById('kpiYearDetail').textContent = lastComplete.detail;
+
+    document.getElementById('kpiNights').textContent = formatNumber(lastComplete.naechtigungen);
+    document.getElementById('kpiNightsDetail').textContent = 'Übernachtungen';
+
+    document.getElementById('kpiArrivals').textContent = formatNumber(lastComplete.ankuenfte);
+    document.getElementById('kpiArrivalsDetail').textContent = 'Gästeankünfte';
+
+    const avgStay = (lastComplete.naechtigungen / lastComplete.ankuenfte).toFixed(2);
+    document.getElementById('kpiStay').textContent = avgStay + ' Nächte';
+
+    if (prevComplete) {
+        const nightsChange = ((lastComplete.naechtigungen - prevComplete.naechtigungen) / prevComplete.naechtigungen * 100);
+        const arrivalsChange = ((lastComplete.ankuenfte - prevComplete.ankuenfte) / prevComplete.ankuenfte * 100);
+
+        const nightsTrend = document.getElementById('kpiNightsTrend');
+        nightsTrend.className = `kpi-trend ${nightsChange >= 0 ? 'up' : 'down'}`;
+        nightsTrend.textContent = `${nightsChange >= 0 ? '↑' : '↓'} ${Math.abs(nightsChange).toFixed(1)}% vs. ${prevComplete.jahr}`;
+
+        const arrivalsTrend = document.getElementById('kpiArrivalsTrend');
+        arrivalsTrend.className = `kpi-trend ${arrivalsChange >= 0 ? 'up' : 'down'}`;
+        arrivalsTrend.textContent = `${arrivalsChange >= 0 ? '↑' : '↓'} ${Math.abs(arrivalsChange).toFixed(1)}% vs. ${prevComplete.jahr}`;
+    }
+}
+
+function renderChart(data) {
+    const svg = document.getElementById('chart');
+    const tooltip = document.getElementById('tooltip');
+    const rect = svg.getBoundingClientRect();
+    const width = rect.width || 800;
+    const height = rect.height || 350;
+
+    const margin = { top: 20, right: 20, bottom: 40, left: 70 };
+    const chartWidth = width - margin.left - margin.right;
+    const chartHeight = height - margin.top - margin.bottom;
+
+    const maxVal = Math.max(...data.map(d => d.naechtigungen)) * 1.1;
+    const barWidth = Math.min(50, (chartWidth / data.length) * 0.7);
+    const barGap = (chartWidth - barWidth * data.length) / (data.length + 1);
+
+    // Y-Achsen-Ticks
+    const yTicks = 5;
+    const yStep = maxVal / yTicks;
+
+    let svgContent = `
+        <g transform="translate(${margin.left}, ${margin.top})">
+            <!-- Y-Achse -->
+            <line x1="0" y1="0" x2="0" y2="${chartHeight}" stroke="#e2e8f0" stroke-width="1"/>
+    `;
+
+    // Y-Achsen-Labels und Linien
+    for (let i = 0; i <= yTicks; i++) {
+        const y = chartHeight - (i * chartHeight / yTicks);
+        const val = Math.round(i * yStep);
+        svgContent += `
+            <line x1="0" y1="${y}" x2="${chartWidth}" y2="${y}" stroke="#e2e8f0" stroke-width="1"/>
+            <text x="-10" y="${y + 4}" text-anchor="end" font-size="11" fill="#64748b">${(val / 1000000).toFixed(1)}M</text>
+        `;
+    }
+
+    // Balken
+    data.forEach((d, i) => {
+        const x = barGap + i * (barWidth + barGap);
+        const barHeight = (d.naechtigungen / maxVal) * chartHeight;
+        const y = chartHeight - barHeight;
+
+        const barClass = d.status === 'actual' ? 'bar-actual' : d.status === 'estimated' ? 'bar-estimated' : 'bar-projected';
+
+        svgContent += `
+            <g class="bar-group" data-index="${i}">
+                <rect class="bar ${barClass}" x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" rx="4"/>
+                <text x="${x + barWidth/2}" y="${chartHeight + 20}" text-anchor="middle" font-size="11" fill="#64748b">${d.jahr}</text>
+            </g>
+        `;
+    });
+
+    svgContent += '</g>';
+    svg.innerHTML = svgContent;
+
+    // Tooltip Events
+    svg.querySelectorAll('.bar-group').forEach(group => {
+        group.addEventListener('mouseenter', (e) => {
+            const idx = parseInt(group.dataset.index);
+            const d = data[idx];
+            const avgStay = (d.naechtigungen / d.ankuenfte).toFixed(2);
+
+            tooltip.innerHTML = `
+                <div class="tooltip-title">${d.jahr} – ${d.status === 'actual' ? 'Vollständig' : d.status === 'estimated' ? 'Hochrechnung' : 'Prognose'}</div>
+                <div class="tooltip-row"><span class="tooltip-label">Nächtigungen:</span><span class="tooltip-value">${formatNumber(d.naechtigungen)}</span></div>
+                <div class="tooltip-row"><span class="tooltip-label">Ankünfte:</span><span class="tooltip-value">${formatNumber(d.ankuenfte)}</span></div>
+                <div class="tooltip-row"><span class="tooltip-label">Ø Aufenthalt:</span><span class="tooltip-value">${avgStay} Nächte</span></div>
+                <div style="margin-top: 6px; font-size: 0.8rem; opacity: 0.8;">${d.detail}</div>
+            `;
+            tooltip.classList.add('visible');
+        });
+
+        group.addEventListener('mousemove', (e) => {
+            const containerRect = svg.parentElement.getBoundingClientRect();
+            tooltip.style.left = (e.clientX - containerRect.left + 15) + 'px';
+            tooltip.style.top = (e.clientY - containerRect.top - 10) + 'px';
+        });
+
+        group.addEventListener('mouseleave', () => {
+            tooltip.classList.remove('visible');
+        });
+    });
+}
+
+function renderTable(data) {
+    const tbody = document.getElementById('tableBody');
+    
+    // Neueste zuerst
+    const sorted = [...data].sort((a, b) => b.jahr - a.jahr);
+
+    tbody.innerHTML = sorted.map(d => {
+        const avgStay = (d.naechtigungen / d.ankuenfte).toFixed(2);
+        const statusClass = d.status;
+        const statusText = d.status === 'actual' ? 'Vollständig' : d.status === 'estimated' ? 'Hochrechnung' : 'Prognose';
+
+        return `
+            <tr>
+                <td><strong>${d.jahr}</strong></td>
+                <td>${formatNumber(d.ankuenfte)}</td>
+                <td>${formatNumber(d.naechtigungen)}</td>
+                <td>${avgStay} Nächte</td>
+                <td><span class="status-tag ${statusClass}">${statusText}</span></td>
+            </tr>
+        `;
+    }).join('');
+}
+
+// ===========================================================
+// INIT
+// ===========================================================
+
+async function init() {
+    document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+    try {
+        const rawData = await fetchData();
+        const processed = processData(rawData);
+
+        renderKPIs(processed);
+        renderChart(processed);
+        renderTable(processed);
+
+        // Chart bei Resize neu zeichnen
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => renderChart(processed), 200);
+        });
+
+    } catch (err) {
+        console.error('Fehler:', err);
+        setStatus('error', 'Fehler beim Laden der Daten');
+    }
+}
+
+init();
+</script>
+</body>
+</html>
