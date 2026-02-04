@@ -376,14 +376,6 @@
             // Lokale Dateien (von GitHub Actions täglich aktualisiert)
             CSV_URL: 'data/hauptgliederung.csv',
             COUNTRIES_CSV_URL: 'data/staaten.csv',
-            // Fallback zu Original-URLs falls lokal nicht verfügbar
-            CSV_URL_REMOTE: 'https://www.data.gv.at/katalog/dataset/3ef56cc4-3dcc-4f31-9f82-b62bb34bbe99/resource/4f86b84d-8f58-4f35-ae1a-d94bcdfcc8c9/download/wirfin_vbg_tour_ankuenfte_naechtigungen_hauptgliederung_monatlich.csv',
-            COUNTRIES_CSV_URL_REMOTE: 'https://www.data.gv.at/katalog/dataset/3ef56cc4-3dcc-4f31-9f82-b62bb34bbe99/resource/db9d31c0-e38b-43c0-aa27-00b8bb148ca5/download/wirfin_vbg_tour_ankuenfte_naechtigungen_staaten_monatlich.csv',
-            CORS_PROXIES: [
-                url => `https://api.cors.lol/?url=${encodeURIComponent(url)}`,
-                url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-                url => `https://corsproxy.io/?${encodeURIComponent(url)}`
-            ],
             GKZ: '80228',
             MONTHS_DE: ['Jän', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
             MONTHS_FULL: ['Jänner', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
@@ -465,110 +457,59 @@
         }
 
         async function loadData() {
-            setStatus('loading', 'Lade Daten...');
+            setStatus('loading', 'Lade...');
             let mainOK = false, countryOK = false;
-            let dataSource = 'fallback';
-            
-            // Set fallback first to ensure data is always available
-            yearlyData = [...FALLBACK.yearly];
-            monthlyData = JSON.parse(JSON.stringify(FALLBACK.monthly));
-            accommodationData = JSON.parse(JSON.stringify(FALLBACK.accommodation));
-            countryData = JSON.parse(JSON.stringify(FALLBACK.countries));
             
             // Lade Hauptdaten
             try { 
-                setStatus('loading', 'Lade Übernachtungsdaten...');
-                const result = await fetchCSV(CONFIG.CSV_URL, CONFIG.CSV_URL_REMOTE);
-                if (result.data) { 
-                    parseMainCSV(result.data); 
+                const csv = await fetchCSV(CONFIG.CSV_URL);
+                if (csv) { 
+                    parseMainCSV(csv); 
                     if (yearlyData.length > 5) {
                         mainOK = true;
-                        dataSource = result.source;
-                        console.log('Hauptdaten geladen:', yearlyData.length, 'Jahre');
                     }
                 } 
             } catch (e) { console.log('Hauptdaten Fehler:', e); }
             
             // Lade Länderdaten
             try { 
-                setStatus('loading', 'Lade Herkunftsdaten...');
-                const result = await fetchCSV(CONFIG.COUNTRIES_CSV_URL, CONFIG.COUNTRIES_CSV_URL_REMOTE);
-                if (result.data) { 
-                    parseCountriesCSV(result.data); 
+                const csv = await fetchCSV(CONFIG.COUNTRIES_CSV_URL);
+                if (csv) { 
+                    parseCountriesCSV(csv); 
                     if (Object.keys(countryData).length > 3) {
                         countryOK = true;
-                        console.log('Länderdaten geladen:', Object.keys(countryData).length, 'Jahre');
                     }
                 } 
             } catch (e) { console.log('Länderdaten Fehler:', e); }
             
-            // Restore fallback if parsing failed
+            // Fallback wenn nötig
             if (!mainOK) { 
-                console.log('Verwende Fallback-Hauptdaten');
                 yearlyData = [...FALLBACK.yearly]; 
                 monthlyData = JSON.parse(JSON.stringify(FALLBACK.monthly)); 
                 accommodationData = JSON.parse(JSON.stringify(FALLBACK.accommodation)); 
             }
             if (!countryOK) { 
-                console.log('Verwende Fallback-Länderdaten');
                 countryData = JSON.parse(JSON.stringify(FALLBACK.countries)); 
             }
             
-            // Status anzeigen
-            let statusText = 'Offline-Daten';
-            let statusType = 'offline';
-            if (mainOK) {
-                statusType = 'live';
-                statusText = dataSource === 'local' ? 'Live-Daten' : 'Live (Proxy)';
-            }
-            setStatus(statusType, statusText);
-            
+            setStatus(mainOK ? 'live' : 'offline', mainOK ? 'Live-Daten' : 'Offline-Daten');
             populateSelectors();
             updateAll();
-            console.log('Dashboard geladen:', statusText);
         }
 
-        async function fetchCSV(localUrl, remoteUrl) {
-            const timeout = (ms) => new Promise((_, reject) => setTimeout(() => reject('timeout'), ms));
-            
-            // 1. Versuche lokale Datei (von GitHub Actions)
+        async function fetchCSV(localUrl) {
             try { 
-                console.log('Versuche lokale Datei:', localUrl);
-                const r = await Promise.race([fetch(localUrl), timeout(5000)]); 
+                console.log('Lade:', localUrl);
+                const r = await fetch(localUrl); 
                 if (r.ok) { 
                     const text = await r.text();
                     if (text && text.length > 500 && !text.includes('<!DOCTYPE')) {
-                        console.log('✓ Lokale Datei geladen:', localUrl);
-                        return { data: text, source: 'local' };
+                        console.log('✓ Geladen:', localUrl);
+                        return text;
                     }
                 }
-            } catch (e) { console.log('Lokale Datei nicht verfügbar'); }
-            
-            // 2. Versuche Remote mit CORS-Proxies
-            for (let i = 0; i < CONFIG.CORS_PROXIES.length; i++) {
-                const p = CONFIG.CORS_PROXIES[i];
-                try { 
-                    console.log('Versuche Proxy', i + 1);
-                    const proxyUrl = p(remoteUrl);
-                    const r = await Promise.race([fetch(proxyUrl), timeout(10000)]); 
-                    if (r.ok) {
-                        const text = await r.text();
-                        if (text && text.length > 500 && !text.includes('<!DOCTYPE')) {
-                            console.log('✓ Proxy', i + 1, 'erfolgreich');
-                            return { data: text, source: 'proxy' };
-                        }
-                    }
-                } catch (e) { console.log('Proxy', i + 1, 'fehlgeschlagen'); } 
-            }
-            
-            console.log('✗ Alle Quellen fehlgeschlagen');
-            return { data: null, source: 'fallback' };
-        }
-
-        async function fetchProxy(url) {
-            // Legacy-Funktion für Kompatibilität
-            const result = await fetchCSV(url, url);
-            return result.data;
+            } catch (e) { console.log('Fehler:', e); }
+            return null;
         }
 
         function parseMainCSV(csv) {
