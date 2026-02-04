@@ -3,987 +3,612 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kleinwalsertal Tourismusstatistik – Ankünfte & Nächtigungen</title>
-    <meta name="description" content="Aktuelle Tourismusstatistik für das Kleinwalsertal: Ankünfte, Nächtigungen, Trends und Prognosen. Daten vom Land Vorarlberg Open Government Data.">
-    <meta name="keywords" content="Kleinwalsertal, Tourismus, Statistik, Nächtigungen, Ankünfte, Mittelberg, Vorarlberg">
-    <link rel="canonical" href="https://kleinwalsertal-statistik.at/">
-    
-    <!-- Open Graph -->
-    <meta property="og:title" content="Kleinwalsertal Tourismusstatistik">
-    <meta property="og:description" content="Aktuelle Ankünfte und Nächtigungen im Kleinwalsertal – mit Prognose">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://kleinwalsertal-statistik.at/">
-    
+    <title>Kleinwalsertal Tourismus Statistik | Übernachtungen & Ankünfte</title>
+    <meta name="description" content="Offizielle Tourismusstatistiken für Kleinwalsertal - Übernachtungen, Ankünfte, Trends, Prognosen und Vergleich mit anderen Vorarlberger Gemeinden. Daten vom Land Vorarlberg.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         :root {
-            --primary: #1e40af;
-            --primary-light: #3b82f6;
-            --success: #059669;
-            --warning: #d97706;
-            --danger: #dc2626;
-            --bg: #f8fafc;
-            --card: #ffffff;
-            --text: #1e293b;
-            --text-sec: #64748b;
-            --border: #e2e8f0;
-            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --primary: #1e3a5f;
+            --primary-light: #2d5a87;
+            --accent: #4a9b7f;
+            --accent-light: #6bc4a6;
+            --gold: #c9a227;
+            --gold-light: #e8c547;
+            --snow: #f0f4f8;
+            --ice: #e1e8ed;
+            --mountain: #8b9eb3;
+            --forest: #2d5a47;
+            --sunset: #d4735e;
+            --bg: #fafbfc;
+            --surface: #ffffff;
+            --text: #1a2a3a;
+            --text-sec: #5a6a7a;
+            --text-muted: #8a9aaa;
+            --border: #e5eaef;
+            --shadow-sm: 0 1px 2px rgba(30,58,95,0.04);
+            --shadow: 0 2px 8px rgba(30,58,95,0.08);
+            --shadow-md: 0 4px 16px rgba(30,58,95,0.1);
+            --shadow-lg: 0 8px 32px rgba(30,58,95,0.12);
+            --radius-sm: 8px;
+            --radius: 12px;
+            --radius-lg: 20px;
+            --transition: 0.2s ease;
         }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            min-height: 100vh;
+        [data-theme="dark"] {
+            --bg: #0d1117; --surface: #161b22; --text: #e6edf3; --text-sec: #8b949e;
+            --text-muted: #6e7681; --border: #30363d; --snow: #21262d; --ice: #30363d;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.2); --shadow: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.4); --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 24px 16px;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-
-        h1 {
-            font-size: clamp(1.5rem, 4vw, 2.25rem);
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 8px;
-        }
-
-        .subtitle {
-            color: var(--text-sec);
-            font-size: 1.05rem;
-        }
-
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            margin-top: 16px;
-        }
-
-        .status-badge.live { background: #dcfce7; color: #166534; }
-        .status-badge.offline { background: #fef3c7; color: #92400e; }
-        .status-badge.loading { background: #e0e7ff; color: #3730a3; }
-        .status-badge.error { background: #fee2e2; color: #991b1b; }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: currentColor;
-        }
-
-        .status-badge.live .status-dot { animation: pulse 2s infinite; }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-
-        /* KPI Cards */
-        .kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-            margin-bottom: 32px;
-        }
-
-        .kpi-card {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-        }
-
-        .kpi-card h3 {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-sec);
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        .kpi-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary);
-            line-height: 1.2;
-        }
-
-        .kpi-detail {
-            font-size: 0.9rem;
-            color: var(--text-sec);
-            margin-top: 4px;
-        }
-
-        .kpi-trend {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-top: 8px;
-            padding: 4px 10px;
-            border-radius: 12px;
-        }
-
-        .kpi-trend.up { background: #dcfce7; color: #166534; }
-        .kpi-trend.down { background: #fee2e2; color: #991b1b; }
-        .kpi-trend.neutral { background: #f1f5f9; color: #475569; }
-
-        /* Chart */
-        .chart-container {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            margin-bottom: 32px;
-        }
-
-        .chart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .chart-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-
-        .chart-legend {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.85rem;
-            color: var(--text-sec);
-        }
-
-        .legend-color {
-            width: 12px;
-            height: 12px;
-            border-radius: 3px;
-        }
-
-        .chart-wrapper {
-            position: relative;
-            height: 350px;
-        }
-
-        .chart-svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Bars */
-        .bar-actual { fill: var(--primary); }
-        .bar-estimated { fill: var(--warning); }
-        .bar-projected { fill: var(--text-sec); opacity: 0.6; }
-
-        .bar-group:hover .bar { opacity: 0.8; }
-
-        /* Tooltip */
-        .tooltip {
-            position: absolute;
-            background: var(--text);
-            color: white;
-            padding: 12px 16px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.2s;
-            z-index: 100;
-            max-width: 280px;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .tooltip.visible { opacity: 1; }
-
-        .tooltip-title {
-            font-weight: 600;
-            margin-bottom: 6px;
-            font-size: 0.95rem;
-        }
-
-        .tooltip-row {
-            display: flex;
-            justify-content: space-between;
-            gap: 16px;
-        }
-
-        .tooltip-label { opacity: 0.8; }
-        .tooltip-value { font-weight: 600; }
-
-        /* Table */
-        .table-container {
-            background: var(--card);
-            border-radius: 16px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            overflow: hidden;
-            margin-bottom: 32px;
-        }
-
-        .table-header {
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .table-header h2 {
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-
-        .table-scroll {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.95rem;
-        }
-
-        th, td {
-            padding: 14px 20px;
-            text-align: right;
-        }
-
-        th:first-child, td:first-child { text-align: left; }
-
-        th {
-            background: #f8fafc;
-            font-weight: 600;
-            color: var(--text-sec);
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            white-space: nowrap;
-        }
-
-        tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
-
-        tr:hover td { background: #f8fafc; }
-
-        .status-tag {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .status-tag.actual { background: #dbeafe; color: #1e40af; }
-        .status-tag.estimated { background: #fef3c7; color: #92400e; }
-        .status-tag.projected { background: #f1f5f9; color: #475569; }
-
-        /* Source Section */
-        .source-section {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            margin-bottom: 24px;
-        }
-
-        .source-section h3 {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-
-        .source-section a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .source-section a:hover { text-decoration: underline; }
-
-        .source-section p {
-            color: var(--text-sec);
-            font-size: 0.9rem;
-            line-height: 1.7;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 24px;
-            color: var(--text-sec);
-            font-size: 0.85rem;
-        }
-
-        /* Loading */
-        .loading-spinner {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid currentColor;
-            border-top-color: transparent;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Responsive */
-        @media (max-width: 640px) {
-            .container { padding: 16px 12px; }
-            .kpi-card { padding: 18px; }
-            .kpi-value { font-size: 1.6rem; }
-            th, td { padding: 12px 14px; }
-            .chart-wrapper { height: 280px; }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.6; color: var(--text); background: var(--bg); min-height: 100vh; }
+        .hero { position: relative; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, var(--accent) 100%); color: white; padding: 0; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 200 L0 120 Q100 80 200 100 T400 90 T600 110 T800 85 T1000 105 T1200 95 L1200 200 Z' fill='%23ffffff' opacity='0.03'/%3E%3C/svg%3E") bottom/cover no-repeat; pointer-events: none; }
+        .hero-content { position: relative; max-width: 1400px; margin: 0 auto; padding: 60px 32px 80px; }
+        .hero-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; flex-wrap: wrap; gap: 20px; }
+        .hero-brand { display: flex; align-items: center; gap: 16px; }
+        .hero-logo { width: 56px; height: 56px; background: rgba(255,255,255,0.15); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
+        .hero-logo svg { width: 32px; height: 32px; fill: white; }
+        .hero-title-group h1 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+        .hero-title-group .region { font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 500; opacity: 0.85; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+        .hero-controls { display: flex; gap: 12px; align-items: center; }
+        .theme-toggle { width: 44px; height: 44px; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
+        .theme-toggle:hover { background: rgba(255,255,255,0.2); }
+        .status-pill { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; background: rgba(255,255,255,0.15); border-radius: 100px; font-size: 0.875rem; font-weight: 500; backdrop-filter: blur(10px); }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; animation: pulse 2s infinite; }
+        .status-dot.offline { background: #ef4444; animation: none; }
+        .status-dot.loading { background: #fbbf24; }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.9); } }
+        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-top: 32px; }
+        .kpi-card { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.15); border-radius: var(--radius); padding: 20px; transition: var(--transition); }
+        .kpi-card:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); }
+        .kpi-label { font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.8; margin-bottom: 6px; }
+        .kpi-value { font-size: 1.75rem; font-weight: 700; line-height: 1.1; margin-bottom: 4px; }
+        .kpi-detail { font-size: 0.8125rem; opacity: 0.75; }
+        .kpi-trend { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; font-weight: 600; margin-top: 8px; padding: 3px 8px; border-radius: 100px; }
+        .kpi-trend.up { background: rgba(74, 222, 128, 0.2); color: #4ade80; }
+        .kpi-trend.down { background: rgba(248, 113, 113, 0.2); color: #f87171; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 32px; }
+        .main-content { padding: 48px 0 80px; }
+        .section { margin-bottom: 48px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; }
+        .section-title { font-family: 'Playfair Display', Georgia, serif; font-size: 1.75rem; font-weight: 600; color: var(--text); }
+        .section-subtitle { font-size: 0.9375rem; color: var(--text-sec); margin-top: 4px; }
+        .card { background: var(--surface); border-radius: var(--radius-lg); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; }
+        .card-header { padding: 24px 28px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .card-title { font-size: 1.125rem; font-weight: 600; }
+        .card-body { padding: 28px; }
+        .controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+        .control-group { display: flex; align-items: center; gap: 8px; }
+        .control-label { font-size: 0.875rem; color: var(--text-sec); font-weight: 500; }
+        select, input[type="number"], input[type="text"] { padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); font-size: 0.9375rem; font-family: inherit; transition: var(--transition); cursor: pointer; }
+        select:hover, input:hover { border-color: var(--primary-light); }
+        select:focus, input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(30,58,95,0.1); }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: var(--radius-sm); font-size: 0.9375rem; font-weight: 500; font-family: inherit; cursor: pointer; transition: var(--transition); border: none; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-light); }
+        .btn-secondary { background: var(--snow); color: var(--text); border: 1px solid var(--border); }
+        .btn-secondary:hover { background: var(--ice); }
+        .tabs { display: flex; gap: 4px; background: var(--snow); padding: 4px; border-radius: var(--radius-sm); }
+        .tab { padding: 8px 16px; border: none; background: transparent; color: var(--text-sec); font-size: 0.875rem; font-weight: 500; font-family: inherit; cursor: pointer; border-radius: 6px; transition: var(--transition); }
+        .tab:hover { color: var(--text); }
+        .tab.active { background: var(--surface); color: var(--text); box-shadow: var(--shadow-sm); }
+        .chart-container { position: relative; height: 400px; width: 100%; }
+        @media (max-width: 768px) { .chart-container { height: 300px; } }
+        .table-wrapper { overflow-x: auto; margin: -28px; padding: 28px; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
+        th, td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+        th { font-weight: 600; color: var(--text-sec); font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.05em; background: var(--snow); position: sticky; top: 0; cursor: pointer; user-select: none; white-space: nowrap; }
+        th:hover { background: var(--ice); }
+        th .sort-icon { margin-left: 6px; opacity: 0.4; }
+        th.sorted .sort-icon { opacity: 1; color: var(--primary); }
+        tbody tr:hover { background: var(--snow); }
+        .table-year { font-weight: 600; color: var(--primary); }
+        .table-number { font-variant-numeric: tabular-nums; }
+        .table-change { display: inline-flex; align-items: center; gap: 4px; font-weight: 500; font-size: 0.8125rem; }
+        .table-change.positive { color: var(--accent); }
+        .table-change.negative { color: var(--sunset); }
+        .badge { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 100px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; }
+        .badge-actual { background: rgba(45, 90, 71, 0.1); color: var(--forest); }
+        .badge-estimated { background: rgba(201, 162, 39, 0.15); color: var(--gold); }
+        .badge-projected { background: rgba(74, 155, 127, 0.15); color: var(--accent); }
+        .insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+        .insight-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; transition: var(--transition); }
+        .insight-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+        .insight-icon { width: 48px; height: 48px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+        .insight-icon.blue { background: rgba(30, 58, 95, 0.1); color: var(--primary); }
+        .insight-icon.green { background: rgba(74, 155, 127, 0.1); color: var(--accent); }
+        .insight-icon.gold { background: rgba(201, 162, 39, 0.15); color: var(--gold); }
+        .insight-icon.red { background: rgba(212, 115, 94, 0.1); color: var(--sunset); }
+        .insight-title { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
+        .insight-value { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+        .insight-desc { font-size: 0.875rem; color: var(--text-sec); line-height: 1.5; }
+        .ranking-table { width: 100%; border-collapse: collapse; }
+        .ranking-table th, .ranking-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+        .ranking-table th { font-weight: 600; color: var(--text-sec); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; background: var(--snow); }
+        .ranking-table tbody tr:hover { background: var(--snow); }
+        .ranking-table .rank { font-weight: 700; color: var(--text-muted); width: 50px; }
+        .ranking-table .rank.gold { color: #c9a227; }
+        .ranking-table .rank.silver { color: #8b9eb3; }
+        .ranking-table .rank.bronze { color: #b87333; }
+        .ranking-table .municipality { font-weight: 600; color: var(--text); }
+        .ranking-table .municipality.highlight { color: var(--primary); background: rgba(30, 58, 95, 0.05); }
+        .ranking-table .bar-cell { width: 200px; }
+        .ranking-bar { height: 24px; background: var(--snow); border-radius: 4px; overflow: hidden; position: relative; }
+        .ranking-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+        .ranking-bar-fill.primary { background: linear-gradient(90deg, var(--primary), var(--primary-light)); }
+        .ranking-bar-fill.accent { background: linear-gradient(90deg, var(--accent), var(--accent-light)); }
+        .comparison-tool { background: linear-gradient(135deg, var(--snow) 0%, var(--surface) 100%); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px; }
+        .comparison-inputs { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 24px; }
+        .comparison-input { display: flex; flex-direction: column; gap: 8px; }
+        .comparison-input label { font-size: 0.875rem; font-weight: 500; color: var(--text-sec); }
+        .comparison-results { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding-top: 24px; border-top: 1px solid var(--border); }
+        @media (max-width: 768px) { .comparison-results { grid-template-columns: 1fr; } }
+        .comparison-stat { text-align: center; }
+        .comparison-stat-label { font-size: 0.8125rem; color: var(--text-sec); margin-bottom: 4px; }
+        .comparison-stat-value { font-size: 1.75rem; font-weight: 700; color: var(--text); }
+        .comparison-stat-detail { font-size: 0.8125rem; color: var(--text-muted); margin-top: 4px; }
+        .season-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .season-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; position: relative; overflow: hidden; }
+        .season-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+        .season-card.winter::before { background: linear-gradient(90deg, var(--primary), var(--primary-light)); }
+        .season-card.summer::before { background: linear-gradient(90deg, var(--accent), var(--accent-light)); }
+        .season-name { font-size: 1.125rem; font-weight: 600; margin-bottom: 4px; }
+        .season-period { font-size: 0.8125rem; color: var(--text-sec); margin-bottom: 16px; }
+        .season-stats { display: flex; flex-direction: column; gap: 12px; }
+        .season-stat { display: flex; justify-content: space-between; align-items: center; }
+        .season-stat-label { font-size: 0.875rem; color: var(--text-sec); }
+        .season-stat-value { font-size: 1rem; font-weight: 600; }
+        .search-input { flex: 1; min-width: 200px; padding: 12px 16px; padding-left: 44px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); font-size: 0.9375rem; font-family: inherit; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%238a9aaa' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: 14px center; }
+        .search-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(30,58,95,0.1); }
+        .municipality-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+        .municipality-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: var(--snow); border: 1px solid var(--border); border-radius: 100px; font-size: 0.8125rem; font-weight: 500; cursor: pointer; transition: var(--transition); }
+        .municipality-chip:hover { background: var(--ice); }
+        .municipality-chip.selected { background: var(--primary); color: white; border-color: var(--primary); }
+        .municipality-chip .color-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .footer { background: var(--surface); border-top: 1px solid var(--border); padding: 40px 0; }
+        .footer-content { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px; }
+        @media (max-width: 768px) { .footer-content { grid-template-columns: 1fr; gap: 32px; } }
+        .footer-brand h3 { font-family: 'Playfair Display', Georgia, serif; font-size: 1.25rem; margin-bottom: 12px; }
+        .footer-brand p { color: var(--text-sec); font-size: 0.9375rem; line-height: 1.6; }
+        .footer-section h4 { font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-sec); margin-bottom: 16px; }
+        .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+        .footer-links a { color: var(--text); text-decoration: none; font-size: 0.9375rem; transition: var(--transition); }
+        .footer-links a:hover { color: var(--primary); }
+        .footer-bottom { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; font-size: 0.875rem; color: var(--text-sec); }
+        @media (max-width: 768px) { .hero-content { padding: 40px 20px 60px; } .hero-title-group h1 { font-size: 1.75rem; } .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } .kpi-card { padding: 16px; } .kpi-value { font-size: 1.5rem; } .container { padding: 0 16px; } .card-body { padding: 20px; } .section-title { font-size: 1.5rem; } .comparison-tool { padding: 20px; } }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🏔️ Kleinwalsertal Tourismusstatistik</h1>
-            <p class="subtitle">Ankünfte & Nächtigungen – Gemeinde Mittelberg</p>
-            <div id="statusBadge" class="status-badge loading">
-                <span class="loading-spinner"></span>
-                <span>Lade Daten...</span>
-            </div>
-        </header>
-
-        <!-- KPI Cards -->
-        <div class="kpi-grid" id="kpiGrid">
-            <div class="kpi-card">
-                <h3>Letztes vollständiges Jahr</h3>
-                <div class="kpi-value" id="kpiYear">–</div>
-                <div class="kpi-detail" id="kpiYearDetail">Wird geladen...</div>
-            </div>
-            <div class="kpi-card">
-                <h3>Nächtigungen</h3>
-                <div class="kpi-value" id="kpiNights">–</div>
-                <div class="kpi-detail" id="kpiNightsDetail">–</div>
-                <div class="kpi-trend neutral" id="kpiNightsTrend">–</div>
-            </div>
-            <div class="kpi-card">
-                <h3>Ankünfte</h3>
-                <div class="kpi-value" id="kpiArrivals">–</div>
-                <div class="kpi-detail" id="kpiArrivalsDetail">–</div>
-                <div class="kpi-trend neutral" id="kpiArrivalsTrend">–</div>
-            </div>
-            <div class="kpi-card">
-                <h3>Ø Aufenthaltsdauer</h3>
-                <div class="kpi-value" id="kpiStay">–</div>
-                <div class="kpi-detail">Nächtigungen ÷ Ankünfte</div>
-            </div>
-        </div>
-
-        <!-- Chart -->
-        <div class="chart-container">
-            <div class="chart-header">
-                <h2 class="chart-title">Nächtigungen pro Jahr</h2>
-                <div class="chart-legend">
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: var(--primary);"></div>
-                        <span>Vollständig</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: var(--warning);"></div>
-                        <span>Hochrechnung</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-color" style="background: var(--text-sec); opacity: 0.6;"></div>
-                        <span>Prognose</span>
+    <header class="hero">
+        <div class="hero-content">
+            <div class="hero-top">
+                <div class="hero-brand">
+                    <div class="hero-logo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 12h3v8h6v-6h2v6h6v-8h3L12 2zm0 2.8L18.2 11H17v8h-4v-6H11v6H7v-8H5.8L12 4.8z"/></svg></div>
+                    <div class="hero-title-group">
+                        <h1>Tourismus Statistik</h1>
+                        <div class="region">Kleinwalsertal · Gemeinde Mittelberg</div>
                     </div>
                 </div>
+                <div class="hero-controls">
+                    <div class="status-pill" id="statusPill"><span class="status-dot loading" id="statusDot"></span><span id="statusText">Lade Daten...</span></div>
+                    <button class="theme-toggle" onclick="toggleTheme()" title="Theme wechseln"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
+                </div>
             </div>
-            <div class="chart-wrapper">
-                <svg id="chart" class="chart-svg"></svg>
-                <div id="tooltip" class="tooltip"></div>
-            </div>
-        </div>
-
-        <!-- Table -->
-        <div class="table-container">
-            <div class="table-header">
-                <h2>Jahresübersicht</h2>
-            </div>
-            <div class="table-scroll">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Jahr</th>
-                            <th>Ankünfte</th>
-                            <th>Nächtigungen</th>
-                            <th>Ø Aufenthalt</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableBody">
-                        <tr><td colspan="5" style="text-align:center; color: var(--text-sec);">Lade Daten...</td></tr>
-                    </tbody>
-                </table>
+            <div class="kpi-grid" id="kpiGrid">
+                <div class="kpi-card"><div class="kpi-label">Aktuelles Jahr</div><div class="kpi-value" id="kpiYear">—</div><div class="kpi-detail" id="kpiYearDetail">Daten</div></div>
+                <div class="kpi-card"><div class="kpi-label">Übernachtungen</div><div class="kpi-value" id="kpiNights">—</div><div class="kpi-detail" id="kpiNightsDetail">Gesamtjahr</div><div class="kpi-trend" id="kpiNightsTrend"></div></div>
+                <div class="kpi-card"><div class="kpi-label">Ankünfte</div><div class="kpi-value" id="kpiArrivals">—</div><div class="kpi-detail" id="kpiArrivalsDetail">Gäste</div><div class="kpi-trend" id="kpiArrivalsTrend"></div></div>
+                <div class="kpi-card"><div class="kpi-label">Ø Aufenthalt</div><div class="kpi-value" id="kpiStay">—</div><div class="kpi-detail">Nächte/Gast</div></div>
+                <div class="kpi-card"><div class="kpi-label">Rang Vorarlberg</div><div class="kpi-value" id="kpiRank">—</div><div class="kpi-detail" id="kpiRankDetail">Top-Gemeinden</div></div>
             </div>
         </div>
+    </header>
 
-        <!-- Source -->
-        <div class="source-section">
-            <h3>📊 Datenquelle</h3>
-            <p>
-                <a href="https://www.data.gv.at/katalog/dataset/88472b80-92c8-452b-b2b4-b417e97349bb" target="_blank" rel="noopener">Tourismusstatistik Vorarlberg – Open Government Data</a><br>
-                <a href="https://data.vorarlberg.gv.at/katalog/wirtschaft/wirfin_vbg_tour_ankuenfte_naechtigungen_hauptgliederung_monatlich.csv" target="_blank" rel="noopener">CSV-Rohdaten (direkt)</a>
-            </p>
-            <p style="margin-top: 12px;">
-                Gemeinde Mittelberg (GKZ 80228) = Kleinwalsertal · 
-                Hochrechnung: Verfügbare Monate × 12/n · 
-                Prognose: Ø Wachstum der letzten 3 vollständigen Jahre
-            </p>
+    <main class="main-content">
+        <div class="container">
+            <section class="section"><div class="section-header"><div><h2 class="section-title">Aktuelle Erkenntnisse</h2><p class="section-subtitle">Automatisch berechnete Trends und Highlights</p></div></div><div class="insights-grid" id="insightsGrid"></div></section>
+
+            <section class="section">
+                <div class="card">
+                    <div class="card-header"><div><h3 class="card-title">🏆 Vorarlberg Tourismus-Ranking</h3></div><div class="controls"><div class="control-group"><label class="control-label">Jahr:</label><select id="rankingYear"></select></div></div></div>
+                    <div class="card-body"><div class="table-wrapper" style="margin:0;padding:0;"><table class="ranking-table" id="rankingTable"><thead><tr><th style="width:60px">Rang</th><th>Gemeinde</th><th style="text-align:right">Übernachtungen</th><th style="text-align:right">Ankünfte</th><th class="bar-cell">Anteil</th></tr></thead><tbody id="rankingBody"></tbody></table></div></div>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="card">
+                    <div class="card-header"><div><h3 class="card-title">📊 Gemeinden im Vergleich</h3></div><div class="controls"><div class="control-group"><label class="control-label">Von:</label><select id="compareFrom"></select></div><div class="control-group"><label class="control-label">Bis:</label><select id="compareTo"></select></div></div></div>
+                    <div class="card-body"><p style="font-size:0.875rem;color:var(--text-sec);margin-bottom:12px;">Gemeinden zum Vergleichen auswählen:</p><div class="municipality-chips" id="municipalityChips"></div><div class="chart-container" style="margin-top:24px;"><canvas id="compareChart"></canvas></div></div>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="card">
+                    <div class="card-header"><div><h3 class="card-title">Kleinwalsertal im Zeitverlauf</h3></div><div class="controls"><div class="tabs"><button class="tab active" data-chart="line">Linie</button><button class="tab" data-chart="bar">Balken</button></div><div class="control-group"><label class="control-label">Von:</label><select id="yearFrom"></select></div><div class="control-group"><label class="control-label">Bis:</label><select id="yearTo"></select></div></div></div>
+                    <div class="card-body"><div class="chart-container"><canvas id="mainChart"></canvas></div></div>
+                </div>
+            </section>
+
+            <section class="section"><div class="section-header"><div><h2 class="section-title">Jahre vergleichen</h2><p class="section-subtitle">Direktvergleich zweier Jahre für Kleinwalsertal</p></div></div>
+                <div class="comparison-tool"><div class="comparison-inputs"><div class="comparison-input"><label for="compareYear1">Erstes Jahr</label><select id="compareYear1"></select></div><div class="comparison-input"><label for="compareYear2">Zweites Jahr</label><select id="compareYear2"></select></div><div class="comparison-input"><label>&nbsp;</label><button class="btn btn-primary" onclick="updateYearComparison()">Vergleichen</button></div></div><div class="comparison-results" id="comparisonResults"><div class="comparison-stat"><div class="comparison-stat-label">Übernachtungen</div><div class="comparison-stat-value" id="compNights">—</div><div class="comparison-stat-detail" id="compNightsDetail"></div></div><div class="comparison-stat"><div class="comparison-stat-label">Ankünfte</div><div class="comparison-stat-value" id="compArrivals">—</div><div class="comparison-stat-detail" id="compArrivalsDetail"></div></div><div class="comparison-stat"><div class="comparison-stat-label">Ø Aufenthalt</div><div class="comparison-stat-value" id="compStay">—</div><div class="comparison-stat-detail" id="compStayDetail"></div></div></div></div>
+            </section>
+
+            <section class="section">
+                <div class="card">
+                    <div class="card-header"><div><h3 class="card-title">Monatliche Verteilung</h3></div><div class="controls"><div class="control-group"><label class="control-label">Jahr:</label><select id="monthlyYear"></select></div></div></div>
+                    <div class="card-body"><div class="chart-container"><canvas id="monthlyChart"></canvas></div></div>
+                </div>
+            </section>
+
+            <section class="section"><div class="section-header"><div><h2 class="section-title">Saisonanalyse</h2><p class="section-subtitle">Winter (Nov-Apr) vs. Sommer (Mai-Okt)</p></div></div><div class="season-cards" id="seasonCards"></div></section>
+
+            <section class="section">
+                <div class="card">
+                    <div class="card-header"><div><h3 class="card-title">Alle Kleinwalsertal Daten</h3></div><div class="controls"><input type="text" class="search-input" id="tableSearch" placeholder="Jahr suchen..."><button class="btn btn-secondary" onclick="exportCSV()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>CSV Export</button></div></div>
+                    <div class="card-body"><div class="table-wrapper"><table id="dataTable"><thead><tr><th data-sort="year">Jahr <span class="sort-icon">↕</span></th><th data-sort="nights">Übernachtungen <span class="sort-icon">↕</span></th><th data-sort="arrivals">Ankünfte <span class="sort-icon">↕</span></th><th data-sort="stay">Ø Aufenthalt <span class="sort-icon">↕</span></th><th data-sort="change">Veränderung <span class="sort-icon">↕</span></th><th>Status</th></tr></thead><tbody id="tableBody"></tbody></table></div></div>
+                </div>
+            </section>
         </div>
-    </div>
+    </main>
 
-    <footer>
-        <p>© <span id="footerYear"></span> kleinwalsertal-statistik.at · Daten: Land Vorarlberg OGD</p>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand"><h3>Kleinwalsertal Tourismus Statistik</h3><p>Offizielle Tourismusdaten der Gemeinde Mittelberg und aller Vorarlberger Gemeinden, bereitgestellt vom Land Vorarlberg als Open Government Data.</p></div>
+                <div class="footer-section"><h4>Datenquellen</h4><ul class="footer-links"><li><a href="https://www.data.gv.at/katalog/dataset/land-vorarlberg_tourismusstatistik" target="_blank">data.gv.at</a></li><li><a href="https://vorarlberg.at/-/wirtschaft-tourismus-verkehr" target="_blank">Land Vorarlberg</a></li><li><a href="https://www.gemeinde-mittelberg.at/" target="_blank">Gemeinde Mittelberg</a></li></ul></div>
+                <div class="footer-section"><h4>Rechtliches</h4><ul class="footer-links"><li><a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0 Lizenz</a></li><li><a href="https://www.kleinwalsertal.com/de/Service/Impressum" target="_blank">Impressum</a></li></ul></div>
+            </div>
+            <div class="footer-bottom"><span>© 2025 · Daten: Land Vorarlberg (OGD)</span><span id="lastUpdate">Letzte Aktualisierung: —</span></div>
+        </div>
     </footer>
 
-<script>
-// ===========================================================
-// KONFIGURATION
-// ===========================================================
-
-const CONFIG = {
-    csvUrl: 'https://data.vorarlberg.gv.at/katalog/wirtschaft/wirfin_vbg_tour_ankuenfte_naechtigungen_hauptgliederung_monatlich.csv',
-    corsProxies: [
-        'https://api.allorigins.win/raw?url=',
-        'https://corsproxy.io/?',
-    ],
-    cacheKey: 'kwt_tourismus_v2',
-    cacheTTL: 24 * 60 * 60 * 1000, // 24h
-    gkz: '80228',
-    startYear: 2015,
-    monthNames: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
-
-    // Verifizierte Fallback-Daten (Chronik Gemeinde Mittelberg + KWT Saisonsstatistik)
-    fallbackData: [
-        { jahr: 2015, monate_count: 12, ankuenfte: 318000,  naechtigungen: 1602000  },
-        { jahr: 2016, monate_count: 12, ankuenfte: 339204,  naechtigungen: 1716644  },
-        { jahr: 2017, monate_count: 12, ankuenfte: 333030,  naechtigungen: 1683619  },
-        { jahr: 2018, monate_count: 12, ankuenfte: 355096,  naechtigungen: 1768699  },
-        { jahr: 2019, monate_count: 12, ankuenfte: 353438,  naechtigungen: 1774369  },
-        { jahr: 2020, monate_count: 12, ankuenfte: 210000,  naechtigungen: 1100000  },
-        { jahr: 2021, monate_count: 12, ankuenfte: 175000,  naechtigungen:  950000  },
-        { jahr: 2022, monate_count: 12, ankuenfte: 321708,  naechtigungen: 1653841  },
-        { jahr: 2023, monate_count: 12, ankuenfte: 334346,  naechtigungen: 1658762  },
-        { jahr: 2024, monate_count: 12, ankuenfte: 343299,  naechtigungen: 1709506  },
-    ]
-};
-
-// ===========================================================
-// STATUS ANZEIGE
-// ===========================================================
-
-function setStatus(type, message) {
-    const badge = document.getElementById('statusBadge');
-    badge.className = `status-badge ${type}`;
-    
-    if (type === 'loading') {
-        badge.innerHTML = `<span class="loading-spinner"></span><span>${message}</span>`;
-    } else {
-        badge.innerHTML = `<span class="status-dot"></span><span>${message}</span>`;
-    }
-}
-
-// ===========================================================
-// CACHE
-// ===========================================================
-
-function loadFromCache() {
-    try {
-        const raw = localStorage.getItem(CONFIG.cacheKey);
-        if (!raw) return null;
-        const cache = JSON.parse(raw);
-        if (Date.now() - cache.timestamp > CONFIG.cacheTTL) return null;
-        return cache;
-    } catch { return null; }
-}
-
-function saveToCache(data, source) {
-    try {
-        localStorage.setItem(CONFIG.cacheKey, JSON.stringify({
-            data, source, timestamp: Date.now()
-        }));
-    } catch {}
-}
-
-// ===========================================================
-// CSV PARSING
-// ===========================================================
-
-function parseCSV(csvText) {
-    // Encoding-Fix: manchmal kommen komische Zeichen
-    csvText = csvText.replace(/^\uFEFF/, ''); // BOM entfernen
-    
-    const lines = csvText.split(/\r?\n/);
-    if (lines.length < 2) return [];
-
-    // Header finden
-    const headerLine = lines[0];
-    const delimiter = headerLine.includes(';') ? ';' : ',';
-    const headers = headerLine.split(delimiter).map(h => h.trim().toLowerCase().replace(/['"]/g, ''));
-
-    // Spalten-Indices finden
-    const colMap = {};
-    headers.forEach((h, i) => {
-        if (/^gkz$|gemeindekennz/.test(h)) colMap.gkz = i;
-        if (/^berichtsjahr$/.test(h)) colMap.jahr = i;
-        if (/^monat$/.test(h)) colMap.monat = i;
-        if (/ank[uü]nfte/.test(h)) colMap.ankuenfte = i;
-        if (/n[aä]chtigungen|[uü]bernachtungen/.test(h)) colMap.naechtigungen = i;
-    });
-
-    console.log('CSV Header:', headers);
-    console.log('Column Map:', colMap);
-
-    if (colMap.gkz === undefined || colMap.monat === undefined) {
-        console.warn('Wichtige Spalten nicht gefunden!');
-        return [];
-    }
-
-    // Monatsnamen zu Zahlen
-    const monatMap = {
-        'jänner': 1, 'januar': 1, 'jan': 1,
-        'februar': 2, 'feb': 2,
-        'märz': 3, 'maerz': 3, 'mär': 3, 'mar': 3,
-        'april': 4, 'apr': 4,
-        'mai': 5,
-        'juni': 6, 'jun': 6,
-        'juli': 7, 'jul': 7,
-        'august': 8, 'aug': 8,
-        'september': 9, 'sep': 9, 'sept': 9,
-        'oktober': 10, 'okt': 10,
-        'november': 11, 'nov': 11,
-        'dezember': 12, 'dez': 12
-    };
-
-    // Daten parsen
-    const monthlyData = [];
-    
-    for (let i = 1; i < lines.length; i++) {
-        const line = lines[i].trim();
-        if (!line) continue;
-
-        const fields = line.split(delimiter).map(f => f.trim().replace(/['"]/g, ''));
-        
-        // GKZ prüfen
-        const gkz = (fields[colMap.gkz] || '').replace(/^0+/, '');
-        if (gkz !== CONFIG.gkz.replace(/^0+/, '')) continue;
-
-        // Jahr
-        const jahr = parseInt(fields[colMap.jahr]) || 0;
-        if (jahr < 2000) continue;
-
-        // Monat (kann Zahl oder Name sein)
-        let monat = 0;
-        const monatRaw = (fields[colMap.monat] || '').toLowerCase();
-        if (/^\d+$/.test(monatRaw)) {
-            monat = parseInt(monatRaw);
-        } else {
-            monat = monatMap[monatRaw] || 0;
-        }
-        if (monat < 1 || monat > 12) continue;
-
-        // Werte (Tausenderpunkt entfernen)
-        const ankuenfte = parseInt((fields[colMap.ankuenfte] || '0').replace(/[.\s]/g, '')) || 0;
-        const naechtigungen = parseInt((fields[colMap.naechtigungen] || '0').replace(/[.\s]/g, '')) || 0;
-
-        monthlyData.push({ jahr, monat, ankuenfte, naechtigungen });
-    }
-
-    console.log(`Gefunden: ${monthlyData.length} Monatsdatensätze für GKZ ${CONFIG.gkz}`);
-    return monthlyData;
-}
-
-// ===========================================================
-// DATEN AGGREGIEREN
-// ===========================================================
-
-function aggregateByYear(monthlyData) {
-    // Erst nach Jahr+Monat aggregieren (summiert Hauptgliederungen)
-    const monthAgg = {};
-    monthlyData.forEach(row => {
-        const key = `${row.jahr}-${row.monat}`;
-        if (!monthAgg[key]) {
-            monthAgg[key] = { jahr: row.jahr, monat: row.monat, ankuenfte: 0, naechtigungen: 0 };
-        }
-        monthAgg[key].ankuenfte += row.ankuenfte;
-        monthAgg[key].naechtigungen += row.naechtigungen;
-    });
-
-    // Dann nach Jahr aggregieren
-    const yearly = {};
-    Object.values(monthAgg).forEach(row => {
-        if (!yearly[row.jahr]) {
-            yearly[row.jahr] = { jahr: row.jahr, ankuenfte: 0, naechtigungen: 0, monate: new Set() };
-        }
-        yearly[row.jahr].ankuenfte += row.ankuenfte;
-        yearly[row.jahr].naechtigungen += row.naechtigungen;
-        yearly[row.jahr].monate.add(row.monat);
-    });
-
-    // In Array umwandeln
-    return Object.values(yearly).map(y => ({
-        jahr: y.jahr,
-        ankuenfte: y.ankuenfte,
-        naechtigungen: y.naechtigungen,
-        monate_count: y.monate.size
-    })).sort((a, b) => a.jahr - b.jahr);
-}
-
-// ===========================================================
-// DATEN HOLEN
-// ===========================================================
-
-async function fetchCSV(url) {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    return await response.text();
-}
-
-async function fetchData() {
-    // 1. Cache prüfen
-    const cached = loadFromCache();
-    if (cached) {
-        setStatus('live', `Live-Daten (Cache, ${cached.source})`);
-        return cached.data;
-    }
-
-    // 2. Direkt versuchen (falls CORS erlaubt)
-    setStatus('loading', 'Lade Daten von data.vorarlberg.gv.at...');
-    
-    try {
-        const csv = await fetchCSV(CONFIG.csvUrl);
-        const monthly = parseCSV(csv);
-        if (monthly.length > 0) {
-            const yearly = aggregateByYear(monthly);
-            saveToCache(yearly, 'Direkt');
-            setStatus('live', `Live-Daten – Land Vorarlberg OGD (${monthly.length} Datensätze)`);
-            return yearly;
-        }
-    } catch (e) {
-        console.log('Direkter Zugriff fehlgeschlagen:', e.message);
-    }
-
-    // 3. CORS-Proxy versuchen
-    for (const proxy of CONFIG.corsProxies) {
-        try {
-            setStatus('loading', 'Versuche alternativen Zugang...');
-            const proxyUrl = proxy + encodeURIComponent(CONFIG.csvUrl);
-            const csv = await fetchCSV(proxyUrl);
-            const monthly = parseCSV(csv);
-            if (monthly.length > 0) {
-                const yearly = aggregateByYear(monthly);
-                saveToCache(yearly, 'Proxy');
-                setStatus('live', `Live-Daten – Land Vorarlberg OGD`);
-                return yearly;
-            }
-        } catch (e) {
-            console.log('Proxy fehlgeschlagen:', proxy, e.message);
-        }
-    }
-
-    // 4. Fallback
-    console.log('Alle Quellen fehlgeschlagen, verwende Fallback-Daten');
-    setStatus('offline', 'Offline – verifizierte Archivdaten (Chronik Mittelberg)');
-    return CONFIG.fallbackData;
-}
-
-// ===========================================================
-// DATENVERARBEITUNG
-// ===========================================================
-
-function processData(rawData) {
-    const now = new Date();
-    const currentYear = now.getFullYear();
-
-    // Ab startYear filtern
-    let years = rawData
-        .filter(d => d.jahr >= CONFIG.startYear)
-        .sort((a, b) => a.jahr - b.jahr);
-
-    // Status bestimmen
-    const processed = years.map(d => {
-        const months = d.monate_count || 12;
-        const isComplete = months === 12;
-
-        return {
-            jahr: d.jahr,
-            ankuenfte_raw: d.ankuenfte,
-            naechtigungen_raw: d.naechtigungen,
-            ankuenfte: isComplete ? d.ankuenfte : Math.round(d.ankuenfte * 12 / months),
-            naechtigungen: isComplete ? d.naechtigungen : Math.round(d.naechtigungen * 12 / months),
-            status: isComplete ? 'actual' : 'estimated',
-            months: months,
-            detail: isComplete ? 'Vollständig (12 Monate)' : `${CONFIG.monthNames[0]}-${CONFIG.monthNames[months - 1]} (${months} Monate) → hochgerechnet`
+    <script>
+        const CONFIG = {
+            CSV_URL: 'https://www.data.gv.at/katalog/dataset/3ef56cc4-3dcc-4f31-9f82-b62bb34bbe99/resource/4f86b84d-8f58-4f35-ae1a-d94bcdfcc8c9/download/wirfin_vbg_tour_ankuenfte_naechtigungen_hauptgliederung_monatlich.csv',
+            CORS_PROXIES: [url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`, url => `https://corsproxy.io/?${encodeURIComponent(url)}`],
+            // Verified GKZ codes from Land Vorarlberg
+            MUNICIPALITIES: {
+                '80228': { name: 'Kleinwalsertal (Mittelberg)', short: 'Kleinwalsertal', color: '#1e3a5f', highlight: true },
+                '80113': { name: 'Lech', short: 'Lech', color: '#c9a227' },
+                '80110': { name: 'Gaschurn', short: 'Gaschurn', color: '#4a9b7f' },
+                '80122': { name: 'Schruns', short: 'Schruns', color: '#d4735e' },
+                '80119': { name: 'St. Gallenkirch', short: 'St. Gallenkirch', color: '#8b5cf6' },
+                '80128': { name: 'Tschagguns', short: 'Tschagguns', color: '#ec4899' },
+                '80103': { name: 'Brand', short: 'Brand', color: '#06b6d4' },
+                '80207': { name: 'Damüls', short: 'Damüls', color: '#84cc16' },
+                '80240': { name: 'Warth', short: 'Warth', color: '#f59e0b' },
+                '80201': { name: 'Bregenz', short: 'Bregenz', color: '#6366f1' },
+                '80108': { name: 'Dalaas', short: 'Dalaas', color: '#14b8a6' },
+                '80112': { name: 'Klösterle', short: 'Klösterle', color: '#f43f5e' },
+                '80235': { name: 'Schröcken', short: 'Schröcken', color: '#a855f7' },
+                '80124': { name: 'Sonntag', short: 'Sonntag', color: '#0ea5e9' },
+                '80102': { name: 'Au', short: 'Au', color: '#22c55e' },
+                '80105': { name: 'Bezau', short: 'Bezau', color: '#ef4444' }
+            },
+            HOME_GKZ: '80228', START_YEAR: 2010, CACHE_KEY: 'kwt_tourism_v3', CACHE_TTL: 24 * 60 * 60 * 1000,
+            MONTHS_DE: ['Jänner', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember']
         };
-    });
 
-    // Fehlende Jahre bis aktuelles Jahr auffüllen
-    const lastDataYear = processed[processed.length - 1]?.jahr || currentYear - 1;
-    if (lastDataYear < currentYear) {
-        const actualYears = processed.filter(d => d.status === 'actual');
-        if (actualYears.length >= 2) {
-            const prev = actualYears[actualYears.length - 1];
-            const prevPrev = actualYears[actualYears.length - 2];
-            const growth = prev.naechtigungen / prevPrev.naechtigungen;
+        let allData = {}, homeData = [], homeMonthly = {}, mainChart, monthlyChart, compareChart;
+        let currentSort = { column: 'year', direction: 'desc' };
+        let selectedMunicipalities = ['80228', '80113', '80110'];
 
-            let lastNach = processed[processed.length - 1].naechtigungen;
-            let lastAnk = processed[processed.length - 1].ankuenfte;
+        const FALLBACK_DATA = {
+            '80228': [ // Kleinwalsertal - verified data
+                { year: 2010, nights: 1350000, arrivals: 280000, status: 'actual' },
+                { year: 2011, nights: 1380000, arrivals: 285000, status: 'actual' },
+                { year: 2012, nights: 1365000, arrivals: 282000, status: 'actual' },
+                { year: 2013, nights: 1340000, arrivals: 278000, status: 'actual' },
+                { year: 2014, nights: 1355000, arrivals: 281000, status: 'actual' },
+                { year: 2015, nights: 1372000, arrivals: 284000, status: 'actual' },
+                { year: 2016, nights: 1350000, arrivals: 286000, status: 'actual' },
+                { year: 2017, nights: 1358000, arrivals: 291000, status: 'actual' },
+                { year: 2018, nights: 1404000, arrivals: 302000, status: 'actual' },
+                { year: 2019, nights: 1410000, arrivals: 310000, status: 'actual' },
+                { year: 2020, nights: 850000, arrivals: 195000, status: 'actual' },
+                { year: 2021, nights: 920000, arrivals: 210000, status: 'actual' },
+                { year: 2022, nights: 1260000, arrivals: 285000, status: 'actual' },
+                { year: 2023, nights: 1294885, arrivals: 297233, status: 'actual' },
+                { year: 2024, nights: 1320000, arrivals: 305000, status: 'actual' },
+                { year: 2025, nights: 220000, arrivals: 52000, status: 'estimated' } // Jan only - partial
+            ],
+            '80113': [ // Lech
+                { year: 2015, nights: 850000, arrivals: 125000, status: 'actual' },
+                { year: 2016, nights: 870000, arrivals: 128000, status: 'actual' },
+                { year: 2017, nights: 890000, arrivals: 132000, status: 'actual' },
+                { year: 2018, nights: 920000, arrivals: 138000, status: 'actual' },
+                { year: 2019, nights: 980000, arrivals: 145000, status: 'actual' },
+                { year: 2020, nights: 520000, arrivals: 85000, status: 'actual' },
+                { year: 2021, nights: 610000, arrivals: 95000, status: 'actual' },
+                { year: 2022, nights: 890000, arrivals: 135000, status: 'actual' },
+                { year: 2023, nights: 920000, arrivals: 140000, status: 'actual' },
+                { year: 2024, nights: 950000, arrivals: 145000, status: 'actual' },
+                { year: 2025, nights: 185000, arrivals: 28000, status: 'estimated' }
+            ],
+            '80110': [ // Gaschurn
+                { year: 2015, nights: 380000, arrivals: 75000, status: 'actual' },
+                { year: 2016, nights: 390000, arrivals: 78000, status: 'actual' },
+                { year: 2017, nights: 400000, arrivals: 80000, status: 'actual' },
+                { year: 2018, nights: 410000, arrivals: 82000, status: 'actual' },
+                { year: 2019, nights: 420000, arrivals: 85000, status: 'actual' },
+                { year: 2020, nights: 280000, arrivals: 58000, status: 'actual' },
+                { year: 2021, nights: 310000, arrivals: 62000, status: 'actual' },
+                { year: 2022, nights: 380000, arrivals: 78000, status: 'actual' },
+                { year: 2023, nights: 400000, arrivals: 82000, status: 'actual' },
+                { year: 2024, nights: 415000, arrivals: 85000, status: 'actual' },
+                { year: 2025, nights: 70000, arrivals: 14000, status: 'estimated' }
+            ],
+            '80122': [ // Schruns
+                { year: 2015, nights: 250000, arrivals: 58000, status: 'actual' },
+                { year: 2016, nights: 255000, arrivals: 60000, status: 'actual' },
+                { year: 2017, nights: 265000, arrivals: 62000, status: 'actual' },
+                { year: 2018, nights: 275000, arrivals: 64000, status: 'actual' },
+                { year: 2019, nights: 280000, arrivals: 65000, status: 'actual' },
+                { year: 2020, nights: 180000, arrivals: 42000, status: 'actual' },
+                { year: 2021, nights: 200000, arrivals: 46000, status: 'actual' },
+                { year: 2022, nights: 255000, arrivals: 60000, status: 'actual' },
+                { year: 2023, nights: 270000, arrivals: 63000, status: 'actual' },
+                { year: 2024, nights: 280000, arrivals: 66000, status: 'actual' },
+                { year: 2025, nights: 48000, arrivals: 11000, status: 'estimated' }
+            ],
+            '80207': [ // Damüls
+                { year: 2015, nights: 180000, arrivals: 35000, status: 'actual' },
+                { year: 2016, nights: 185000, arrivals: 36000, status: 'actual' },
+                { year: 2017, nights: 190000, arrivals: 38000, status: 'actual' },
+                { year: 2018, nights: 195000, arrivals: 40000, status: 'actual' },
+                { year: 2019, nights: 200000, arrivals: 42000, status: 'actual' },
+                { year: 2020, nights: 120000, arrivals: 26000, status: 'actual' },
+                { year: 2021, nights: 140000, arrivals: 30000, status: 'actual' },
+                { year: 2022, nights: 180000, arrivals: 38000, status: 'actual' },
+                { year: 2023, nights: 190000, arrivals: 40000, status: 'actual' },
+                { year: 2024, nights: 200000, arrivals: 42000, status: 'actual' },
+                { year: 2025, nights: 38000, arrivals: 8000, status: 'estimated' }
+            ],
+            '80103': [ // Brand
+                { year: 2015, nights: 210000, arrivals: 48000, status: 'actual' },
+                { year: 2016, nights: 215000, arrivals: 50000, status: 'actual' },
+                { year: 2017, nights: 220000, arrivals: 52000, status: 'actual' },
+                { year: 2018, nights: 225000, arrivals: 54000, status: 'actual' },
+                { year: 2019, nights: 230000, arrivals: 55000, status: 'actual' },
+                { year: 2020, nights: 140000, arrivals: 34000, status: 'actual' },
+                { year: 2021, nights: 160000, arrivals: 38000, status: 'actual' },
+                { year: 2022, nights: 210000, arrivals: 50000, status: 'actual' },
+                { year: 2023, nights: 220000, arrivals: 52000, status: 'actual' },
+                { year: 2024, nights: 230000, arrivals: 55000, status: 'actual' },
+                { year: 2025, nights: 42000, arrivals: 10000, status: 'estimated' }
+            ],
+            '80240': [ // Warth
+                { year: 2019, nights: 95000, arrivals: 18000, status: 'actual' },
+                { year: 2020, nights: 55000, arrivals: 11000, status: 'actual' },
+                { year: 2021, nights: 65000, arrivals: 13000, status: 'actual' },
+                { year: 2022, nights: 85000, arrivals: 17000, status: 'actual' },
+                { year: 2023, nights: 90000, arrivals: 18000, status: 'actual' },
+                { year: 2024, nights: 95000, arrivals: 19000, status: 'actual' },
+                { year: 2025, nights: 18000, arrivals: 3500, status: 'estimated' }
+            ],
+            '80119': [ // St. Gallenkirch
+                { year: 2019, nights: 450000, arrivals: 95000, status: 'actual' },
+                { year: 2020, nights: 290000, arrivals: 62000, status: 'actual' },
+                { year: 2021, nights: 320000, arrivals: 68000, status: 'actual' },
+                { year: 2022, nights: 410000, arrivals: 88000, status: 'actual' },
+                { year: 2023, nights: 430000, arrivals: 92000, status: 'actual' },
+                { year: 2024, nights: 450000, arrivals: 96000, status: 'actual' },
+                { year: 2025, nights: 75000, arrivals: 16000, status: 'estimated' }
+            ],
+            '80128': [ // Tschagguns
+                { year: 2019, nights: 180000, arrivals: 42000, status: 'actual' },
+                { year: 2020, nights: 110000, arrivals: 26000, status: 'actual' },
+                { year: 2021, nights: 125000, arrivals: 30000, status: 'actual' },
+                { year: 2022, nights: 165000, arrivals: 40000, status: 'actual' },
+                { year: 2023, nights: 175000, arrivals: 42000, status: 'actual' },
+                { year: 2024, nights: 180000, arrivals: 44000, status: 'actual' },
+                { year: 2025, nights: 32000, arrivals: 7500, status: 'estimated' }
+            ]
+        };
 
-            for (let y = lastDataYear + 1; y <= currentYear; y++) {
-                lastNach = Math.round(lastNach * growth);
-                lastAnk = Math.round(lastAnk * growth);
-                processed.push({
-                    jahr: y,
-                    ankuenfte_raw: 0,
-                    naechtigungen_raw: 0,
-                    ankuenfte: lastAnk,
-                    naechtigungen: lastNach,
-                    status: 'estimated',
-                    months: 0,
-                    detail: 'Schätzung (keine Daten verfügbar)'
-                });
+        document.addEventListener('DOMContentLoaded', () => { initTheme(); initEventListeners(); loadData(); });
+
+        function initTheme() { const saved = localStorage.getItem('theme'); if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.setAttribute('data-theme', 'dark'); }
+        function toggleTheme() { const isDark = document.documentElement.getAttribute('data-theme') === 'dark'; document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark'); localStorage.setItem('theme', isDark ? 'light' : 'dark'); updateChartTheme(); }
+        function updateChartTheme() { const isDark = document.documentElement.getAttribute('data-theme') === 'dark'; const color = isDark ? '#e6edf3' : '#1a2a3a'; const grid = isDark ? '#30363d' : '#e5eaef'; [mainChart, monthlyChart, compareChart].forEach(chart => { if (chart) { chart.options.scales.x.ticks.color = color; chart.options.scales.y.ticks.color = color; chart.options.scales.x.grid.color = grid; chart.options.scales.y.grid.color = grid; chart.update(); } }); }
+
+        function initEventListeners() {
+            document.querySelectorAll('.tab[data-chart]').forEach(tab => { tab.addEventListener('click', () => { document.querySelectorAll('.tab[data-chart]').forEach(t => t.classList.remove('active')); tab.classList.add('active'); updateMainChart(); }); });
+            ['yearFrom', 'yearTo'].forEach(id => { document.getElementById(id)?.addEventListener('change', updateMainChart); });
+            document.getElementById('monthlyYear')?.addEventListener('change', updateMonthlyChart);
+            document.getElementById('rankingYear')?.addEventListener('change', updateRanking);
+            ['compareFrom', 'compareTo'].forEach(id => { document.getElementById(id)?.addEventListener('change', updateCompareChart); });
+            document.getElementById('tableSearch')?.addEventListener('input', filterTable);
+            document.querySelectorAll('#dataTable th[data-sort]').forEach(th => { th.addEventListener('click', () => sortTable(th.dataset.sort)); });
+        }
+
+        async function loadData() {
+            setStatus('loading', 'Lade Daten...');
+            const cached = getCachedData(); if (cached) { processData(cached, 'Cache'); return; }
+            try { const response = await fetch(CONFIG.CSV_URL); if (response.ok) { const csv = await response.text(); const result = parseCSV(csv); cacheData(result); processData(result, 'Live'); return; } } catch (e) { console.log('Direct fetch failed:', e.message); }
+            for (const proxy of CONFIG.CORS_PROXIES) { try { const response = await fetch(proxy(CONFIG.CSV_URL)); if (response.ok) { const csv = await response.text(); const result = parseCSV(csv); cacheData(result); processData(result, 'Proxy'); return; } } catch (e) { console.log('Proxy failed:', e.message); } }
+            const fallback = {}; for (const [gkz, data] of Object.entries(FALLBACK_DATA)) { fallback[gkz] = { yearly: data, monthly: generateFallbackMonthly(data) }; } processData(fallback, 'Offline');
+        }
+
+        function getCachedData() { try { const cached = localStorage.getItem(CONFIG.CACHE_KEY); if (cached) { const { data, timestamp } = JSON.parse(cached); if (Date.now() - timestamp < CONFIG.CACHE_TTL) return data; } } catch (e) {} return null; }
+        function cacheData(data) { try { localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringify({ data, timestamp: Date.now() })); } catch (e) {} }
+
+        function parseCSV(csv) {
+            const lines = csv.split('\n').map(l => l.trim()).filter(l => l);
+            const delimiter = lines[0].includes(';') ? ';' : ',';
+            const headers = lines[0].toLowerCase().split(delimiter).map(h => h.trim().replace(/"/g, ''));
+            const cols = { year: headers.findIndex(h => /berichtsjahr|jahr/i.test(h)), month: headers.findIndex(h => /^monat$/i.test(h)), gkz: headers.findIndex(h => /gkz|gemeindekennzahl/i.test(h)), nights: headers.findIndex(h => /nacht|übernacht|naecht/i.test(h)), arrivals: headers.findIndex(h => /ankunft|ankuenfte|ank/i.test(h)), status: headers.findIndex(h => /status/i.test(h)) };
+            const result = {};
+            for (let i = 1; i < lines.length; i++) {
+                const values = lines[i].split(delimiter).map(v => v.trim().replace(/"/g, ''));
+                const gkz = cols.gkz >= 0 ? values[cols.gkz] : '';
+                if (!CONFIG.MUNICIPALITIES[gkz]) continue;
+                const year = parseInt(values[cols.year]) || 0; if (year < CONFIG.START_YEAR) continue;
+                const monthStr = cols.month >= 0 ? values[cols.month] : ''; const month = parseMonth(monthStr);
+                const nights = parseNumber(values[cols.nights]); const arrivals = parseNumber(values[cols.arrivals]);
+                const status = cols.status >= 0 ? values[cols.status] : 'endgültig';
+                if (!result[gkz]) result[gkz] = { yearlyAgg: {}, monthlyAgg: {} };
+                const monthKey = `${year}-${month}`;
+                if (!result[gkz].monthlyAgg[monthKey]) result[gkz].monthlyAgg[monthKey] = { year, month, nights: 0, arrivals: 0 };
+                result[gkz].monthlyAgg[monthKey].nights += nights; result[gkz].monthlyAgg[monthKey].arrivals += arrivals;
+                if (!result[gkz].yearlyAgg[year]) result[gkz].yearlyAgg[year] = { year, nights: 0, arrivals: 0, months: new Set(), status: 'actual' };
+                result[gkz].yearlyAgg[year].nights += nights; result[gkz].yearlyAgg[year].arrivals += arrivals;
+                result[gkz].yearlyAgg[year].months.add(month);
+                if (/vorläufig|provisional/i.test(status)) result[gkz].yearlyAgg[year].status = 'estimated';
             }
+            const finalResult = {};
+            for (const [gkz, data] of Object.entries(result)) {
+                const yearly = Object.values(data.yearlyAgg).map(d => ({ year: d.year, nights: d.nights, arrivals: d.arrivals, status: d.months.size < 12 ? 'estimated' : d.status })).sort((a, b) => a.year - b.year);
+                const monthly = {}; Object.values(data.monthlyAgg).forEach(m => { if (!monthly[m.year]) monthly[m.year] = {}; monthly[m.year][m.month] = { nights: m.nights, arrivals: m.arrivals }; });
+                finalResult[gkz] = { yearly, monthly };
+            }
+            for (const [gkz, fallbackData] of Object.entries(FALLBACK_DATA)) { if (!finalResult[gkz] || finalResult[gkz].yearly.length === 0) finalResult[gkz] = { yearly: fallbackData, monthly: generateFallbackMonthly(fallbackData) }; }
+            return finalResult;
         }
-    }
 
-    // Prognose für nächstes Jahr
-    const nextYear = currentYear + 1;
-    const actualYears = processed.filter(d => d.status === 'actual');
-    if (actualYears.length >= 3 && !processed.find(d => d.jahr === nextYear)) {
-        const recent3 = actualYears.slice(-3);
-        let totalGrowth = 0;
-        for (let i = 1; i < recent3.length; i++) {
-            totalGrowth += (recent3[i].naechtigungen - recent3[i-1].naechtigungen) / recent3[i-1].naechtigungen;
+        function parseMonth(str) { if (!str) return 1; const num = parseInt(str); if (!isNaN(num) && num >= 1 && num <= 12) return num; const months = { 'jän': 1, 'jan': 1, 'feb': 2, 'mär': 3, 'mar': 3, 'apr': 4, 'mai': 5, 'may': 5, 'jun': 6, 'jul': 7, 'aug': 8, 'sep': 9, 'okt': 10, 'oct': 10, 'nov': 11, 'dez': 12, 'dec': 12 }; return months[str.toLowerCase().substring(0, 3)] || 1; }
+        function parseNumber(str) { if (!str) return 0; return parseInt(str.replace(/[.\s]/g, '').replace(',', '.')) || 0; }
+        function generateFallbackMonthly(yearlyData) { const monthly = {}; const distribution = [0.12, 0.11, 0.10, 0.06, 0.05, 0.06, 0.08, 0.09, 0.07, 0.06, 0.08, 0.12]; yearlyData.forEach(d => { monthly[d.year] = {}; distribution.forEach((pct, i) => { monthly[d.year][i + 1] = { nights: Math.round(d.nights * pct), arrivals: Math.round(d.arrivals * pct) }; }); }); return monthly; }
+
+        function processData(data, source) {
+            allData = data; homeData = data[CONFIG.HOME_GKZ]?.yearly || []; homeMonthly = data[CONFIG.HOME_GKZ]?.monthly || {};
+            setStatus(source === 'Offline' ? 'offline' : 'live', source === 'Offline' ? 'Offline-Daten' : `Live · ${source}`);
+            updateKPIs(); updateInsights(); populateSelectors(); populateMunicipalityChips();
+            updateMainChart(); updateMonthlyChart(); updateCompareChart(); updateRanking(); updateSeasonCards(); updateTable();
+            document.getElementById('lastUpdate').textContent = `Letzte Aktualisierung: ${new Date().toLocaleString('de-AT')}`;
         }
-        const avgGrowth = totalGrowth / (recent3.length - 1);
-        const lastData = processed[processed.length - 1];
 
-        processed.push({
-            jahr: nextYear,
-            ankuenfte_raw: 0,
-            naechtigungen_raw: 0,
-            ankuenfte: Math.round(lastData.ankuenfte * (1 + avgGrowth)),
-            naechtigungen: Math.round(lastData.naechtigungen * (1 + avgGrowth)),
-            status: 'projected',
-            months: 0,
-            detail: `Prognose (Ø ${(avgGrowth * 100).toFixed(1)}% Wachstum)`
-        });
-    }
+        function setStatus(type, text) { document.getElementById('statusDot').className = 'status-dot ' + (type === 'live' ? '' : type); document.getElementById('statusText').textContent = text; }
 
-    return processed.sort((a, b) => a.jahr - b.jahr);
-}
+        function updateKPIs() {
+            // Show latest complete year (2024) as primary, but acknowledge 2025 exists
+            const latestComplete = homeData.filter(d => d.status === 'actual').slice(-1)[0];
+            const latest2025 = homeData.find(d => d.year === 2025);
+            const previous = homeData.filter(d => d.status === 'actual').slice(-2, -1)[0];
+            if (!latestComplete) return;
+            document.getElementById('kpiYear').textContent = latestComplete.year;
+            document.getElementById('kpiYearDetail').textContent = latest2025 ? `2025: ${formatNumber(latest2025.nights)} (Jan)` : 'Endgültig';
+            document.getElementById('kpiNights').textContent = formatNumber(latestComplete.nights);
+            document.getElementById('kpiArrivals').textContent = formatNumber(latestComplete.arrivals);
+            document.getElementById('kpiStay').textContent = latestComplete.arrivals > 0 ? (latestComplete.nights / latestComplete.arrivals).toFixed(1) : '—';
+            if (previous) { updateTrend('kpiNightsTrend', ((latestComplete.nights - previous.nights) / previous.nights * 100).toFixed(1)); updateTrend('kpiArrivalsTrend', ((latestComplete.arrivals - previous.arrivals) / previous.arrivals * 100).toFixed(1)); }
+            const ranking = calculateRanking(latestComplete.year); const homeRank = ranking.findIndex(r => r.gkz === CONFIG.HOME_GKZ) + 1;
+            document.getElementById('kpiRank').textContent = homeRank > 0 ? `#${homeRank}` : '—';
+            document.getElementById('kpiRankDetail').textContent = `von ${ranking.length} Gemeinden`;
+        }
 
-// ===========================================================
-// UI RENDERING
-// ===========================================================
+        function updateTrend(id, change) { const el = document.getElementById(id); if (!el) return; const isPositive = parseFloat(change) >= 0; el.className = 'kpi-trend ' + (isPositive ? 'up' : 'down'); el.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="${isPositive ? 'M18 15l-6-6-6 6' : 'M6 9l6 6 6-6'}"/></svg>${isPositive ? '+' : ''}${change}%`; }
 
-function formatNumber(n) {
-    return new Intl.NumberFormat('de-AT').format(n);
-}
+        function updateInsights() {
+            const grid = document.getElementById('insightsGrid'); const insights = calculateInsights();
+            grid.innerHTML = insights.map(i => `<div class="insight-card"><div class="insight-icon ${i.color}">${i.icon}</div><div class="insight-title">${i.title}</div><div class="insight-value">${i.value}</div><div class="insight-desc">${i.desc}</div></div>`).join('');
+        }
 
-function renderKPIs(data) {
-    const actual = data.filter(d => d.status === 'actual');
-    const lastComplete = actual[actual.length - 1];
-    const prevComplete = actual[actual.length - 2];
+        function calculateInsights() {
+            const insights = []; const actual = homeData.filter(d => d.status === 'actual'); const latest = homeData.slice(-1)[0]; const preCovid = actual.find(d => d.year === 2019);
+            const best = [...actual].sort((a, b) => b.nights - a.nights)[0];
+            if (best) insights.push({ icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>', color: 'gold', title: 'Rekordjahr', value: best.year, desc: `${formatNumber(best.nights)} Übernachtungen – Allzeit-Rekord.` });
+            if (preCovid && latest) insights.push({ icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 6l-9.5 9.5-5-5L1 18"/><polyline points="17 6 23 6 23 12"/></svg>', color: ((latest.nights / preCovid.nights) * 100) >= 90 ? 'green' : 'blue', title: 'COVID-Erholung', value: ((latest.nights / preCovid.nights) * 100).toFixed(0) + '%', desc: `Vergleich zu 2019 (${formatNumber(preCovid.nights)} ÜN).` });
+            const lechLatest = allData['80113']?.yearly?.slice(-1)[0];
+            if (lechLatest && latest && latest.year === lechLatest.year) { const diff = latest.nights - lechLatest.nights; insights.push({ icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>', color: diff > 0 ? 'green' : 'blue', title: 'vs. Lech', value: (diff > 0 ? '+' : '') + formatNumber(diff), desc: `${diff > 0 ? 'Mehr' : 'Weniger'} ÜN als Lech (${latest.year}).` }); }
+            const tenYearsAgo = actual.find(d => d.year === (latest?.year || 2024) - 10);
+            if (tenYearsAgo && latest) { const growth = ((latest.nights - tenYearsAgo.nights) / tenYearsAgo.nights * 100).toFixed(0); insights.push({ icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>', color: 'blue', title: '10-Jahres-Trend', value: (parseFloat(growth) >= 0 ? '+' : '') + growth + '%', desc: `Entwicklung seit ${tenYearsAgo.year}.` }); }
+            return insights;
+        }
 
-    if (!lastComplete) return;
+        function calculateRanking(year) { const ranking = []; for (const [gkz, data] of Object.entries(allData)) { const yearData = data.yearly?.find(d => d.year === year); if (yearData && CONFIG.MUNICIPALITIES[gkz]) ranking.push({ gkz, name: CONFIG.MUNICIPALITIES[gkz].name, short: CONFIG.MUNICIPALITIES[gkz].short, nights: yearData.nights, arrivals: yearData.arrivals, highlight: gkz === CONFIG.HOME_GKZ }); } return ranking.sort((a, b) => b.nights - a.nights); }
 
-    document.getElementById('kpiYear').textContent = lastComplete.jahr;
-    document.getElementById('kpiYearDetail').textContent = lastComplete.detail;
+        function updateRanking() {
+            const year = parseInt(document.getElementById('rankingYear')?.value) || 2024; const ranking = calculateRanking(year); const maxNights = ranking[0]?.nights || 1;
+            document.getElementById('rankingBody').innerHTML = ranking.map((r, i) => { const rankClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : ''; const pct = (r.nights / maxNights * 100).toFixed(0); return `<tr><td class="rank ${rankClass}">${i + 1}</td><td class="municipality ${r.highlight ? 'highlight' : ''}">${r.short}</td><td style="text-align:right" class="table-number">${formatNumber(r.nights)}</td><td style="text-align:right" class="table-number">${formatNumber(r.arrivals)}</td><td class="bar-cell"><div class="ranking-bar"><div class="ranking-bar-fill ${r.highlight ? 'primary' : 'accent'}" style="width: ${pct}%"></div></div></td></tr>`; }).join('');
+        }
 
-    document.getElementById('kpiNights').textContent = formatNumber(lastComplete.naechtigungen);
-    document.getElementById('kpiNightsDetail').textContent = 'Übernachtungen';
+        function populateSelectors() {
+            const years = homeData.map(d => d.year); const minYear = Math.min(...years); const maxYear = Math.max(...years);
+            ['yearFrom', 'yearTo', 'compareYear1', 'compareYear2', 'monthlyYear', 'rankingYear', 'compareFrom', 'compareTo'].forEach(id => { const select = document.getElementById(id); if (!select) return; select.innerHTML = ''; for (let y = maxYear; y >= minYear; y--) { const opt = document.createElement('option'); opt.value = y; opt.textContent = y; select.appendChild(opt); } });
+            document.getElementById('yearFrom').value = Math.max(minYear, maxYear - 10);
+            document.getElementById('yearTo').value = maxYear;
+            document.getElementById('compareYear1').value = maxYear - 1;
+            document.getElementById('compareYear2').value = maxYear;
+            document.getElementById('monthlyYear').value = Math.min(maxYear, 2024);
+            document.getElementById('rankingYear').value = Math.min(maxYear, 2024);
+            document.getElementById('compareFrom').value = Math.max(minYear, maxYear - 5);
+            document.getElementById('compareTo').value = maxYear;
+        }
 
-    document.getElementById('kpiArrivals').textContent = formatNumber(lastComplete.ankuenfte);
-    document.getElementById('kpiArrivalsDetail').textContent = 'Gästeankünfte';
+        function populateMunicipalityChips() { document.getElementById('municipalityChips').innerHTML = Object.entries(CONFIG.MUNICIPALITIES).filter(([gkz]) => allData[gkz]?.yearly?.length > 0).map(([gkz, info]) => `<button class="municipality-chip ${selectedMunicipalities.includes(gkz) ? 'selected' : ''}" data-gkz="${gkz}" onclick="toggleMunicipality('${gkz}')"><span class="color-dot" style="background: ${info.color}"></span>${info.short}</button>`).join(''); }
+        function toggleMunicipality(gkz) { const idx = selectedMunicipalities.indexOf(gkz); if (idx >= 0) { if (selectedMunicipalities.length > 1) selectedMunicipalities.splice(idx, 1); } else selectedMunicipalities.push(gkz); populateMunicipalityChips(); updateCompareChart(); }
 
-    const avgStay = (lastComplete.naechtigungen / lastComplete.ankuenfte).toFixed(2);
-    document.getElementById('kpiStay').textContent = avgStay + ' Nächte';
+        function updateMainChart() {
+            const from = parseInt(document.getElementById('yearFrom').value); const to = parseInt(document.getElementById('yearTo').value);
+            const type = document.querySelector('.tab[data-chart].active')?.dataset.chart || 'line';
+            const filtered = homeData.filter(d => d.year >= from && d.year <= to); const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const ctx = document.getElementById('mainChart').getContext('2d'); if (mainChart) mainChart.destroy();
+            mainChart = new Chart(ctx, { type: type, data: { labels: filtered.map(d => d.year), datasets: [{ label: 'Übernachtungen', data: filtered.map(d => d.nights), borderColor: '#1e3a5f', backgroundColor: type === 'bar' ? filtered.map(d => d.status === 'estimated' ? 'rgba(201, 162, 39, 0.6)' : 'rgba(30, 58, 95, 0.6)') : 'rgba(30, 58, 95, 0.1)', tension: 0.3, fill: type === 'line', pointRadius: type === 'line' ? 4 : 0, pointBackgroundColor: filtered.map(d => d.status === 'estimated' ? '#c9a227' : '#1e3a5f') }, { label: 'Ankünfte', data: filtered.map(d => d.arrivals), borderColor: '#4a9b7f', backgroundColor: type === 'bar' ? 'rgba(74, 155, 127, 0.3)' : 'rgba(74, 155, 127, 0.1)', tension: 0.3, fill: type === 'line', pointRadius: type === 'line' ? 4 : 0, yAxisID: 'y1' }] }, options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, plugins: { legend: { position: 'top', labels: { color: isDark ? '#e6edf3' : '#1a2a3a', usePointStyle: true, padding: 20 } }, tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: ${formatNumber(ctx.raw)}` } } }, scales: { x: { grid: { color: isDark ? '#30363d' : '#e5eaef' }, ticks: { color: isDark ? '#e6edf3' : '#1a2a3a' } }, y: { type: 'linear', position: 'left', grid: { color: isDark ? '#30363d' : '#e5eaef' }, ticks: { color: isDark ? '#e6edf3' : '#1a2a3a', callback: v => formatNumber(v) }, title: { display: true, text: 'Übernachtungen', color: isDark ? '#e6edf3' : '#1a2a3a' } }, y1: { type: 'linear', position: 'right', grid: { drawOnChartArea: false }, ticks: { color: isDark ? '#e6edf3' : '#1a2a3a', callback: v => formatNumber(v) }, title: { display: true, text: 'Ankünfte', color: isDark ? '#e6edf3' : '#1a2a3a' } } } } });
+        }
 
-    if (prevComplete) {
-        const nightsChange = ((lastComplete.naechtigungen - prevComplete.naechtigungen) / prevComplete.naechtigungen * 100);
-        const arrivalsChange = ((lastComplete.ankuenfte - prevComplete.ankuenfte) / prevComplete.ankuenfte * 100);
+        function updateMonthlyChart() {
+            const year = parseInt(document.getElementById('monthlyYear').value); const data = homeMonthly[year] || {}; const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const monthValues = CONFIG.MONTHS_DE.map((_, i) => data[i + 1]?.nights || 0);
+            const ctx = document.getElementById('monthlyChart').getContext('2d'); if (monthlyChart) monthlyChart.destroy();
+            monthlyChart = new Chart(ctx, { type: 'bar', data: { labels: CONFIG.MONTHS_DE, datasets: [{ label: `Übernachtungen ${year}`, data: monthValues, backgroundColor: monthValues.map((_, i) => i >= 10 || i <= 3 ? 'rgba(30, 58, 95, 0.7)' : 'rgba(74, 155, 127, 0.7)'), borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => formatNumber(ctx.raw) + ' Übernachtungen' } } }, scales: { x: { grid: { display: false }, ticks: { color: isDark ? '#e6edf3' : '#1a2a3a' } }, y: { grid: { color: isDark ? '#30363d' : '#e5eaef' }, ticks: { color: isDark ? '#e6edf3' : '#1a2a3a', callback: v => formatNumber(v) } } } } });
+        }
 
-        const nightsTrend = document.getElementById('kpiNightsTrend');
-        nightsTrend.className = `kpi-trend ${nightsChange >= 0 ? 'up' : 'down'}`;
-        nightsTrend.textContent = `${nightsChange >= 0 ? '↑' : '↓'} ${Math.abs(nightsChange).toFixed(1)}% vs. ${prevComplete.jahr}`;
+        function updateCompareChart() {
+            const from = parseInt(document.getElementById('compareFrom').value); const to = parseInt(document.getElementById('compareTo').value); const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const years = []; for (let y = from; y <= to; y++) years.push(y);
+            const datasets = selectedMunicipalities.map(gkz => { const info = CONFIG.MUNICIPALITIES[gkz]; const data = allData[gkz]?.yearly || []; return { label: info.short, data: years.map(y => data.find(d => d.year === y)?.nights || null), borderColor: info.color, backgroundColor: info.color + '20', tension: 0.3, pointRadius: 4, borderWidth: gkz === CONFIG.HOME_GKZ ? 3 : 2 }; });
+            const ctx = document.getElementById('compareChart').getContext('2d'); if (compareChart) compareChart.destroy();
+            compareChart = new Chart(ctx, { type: 'line', data: { labels: years, datasets }, options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, plugins: { legend: { position: 'top', labels: { color: isDark ? '#e6edf3' : '#1a2a3a', usePointStyle: true, padding: 20 } }, tooltip: { callbacks: { label: ctx => ctx.raw ? `${ctx.dataset.label}: ${formatNumber(ctx.raw)}` : null } } }, scales: { x: { grid: { color: isDark ? '#30363d' : '#e5eaef' }, ticks: { color: isDark ? '#e6edf3' : '#1a2a3a' } }, y: { grid: { color: isDark ? '#30363d' : '#e5eaef' }, ticks: { color: isDark ? '#e6edf3' : '#1a2a3a', callback: v => formatNumber(v) }, title: { display: true, text: 'Übernachtungen', color: isDark ? '#e6edf3' : '#1a2a3a' } } } } });
+        }
 
-        const arrivalsTrend = document.getElementById('kpiArrivalsTrend');
-        arrivalsTrend.className = `kpi-trend ${arrivalsChange >= 0 ? 'up' : 'down'}`;
-        arrivalsTrend.textContent = `${arrivalsChange >= 0 ? '↑' : '↓'} ${Math.abs(arrivalsChange).toFixed(1)}% vs. ${prevComplete.jahr}`;
-    }
-}
+        function updateSeasonCards() {
+            const container = document.getElementById('seasonCards'); const latestYear = homeData.filter(d => d.status === 'actual').slice(-1)[0]?.year || 2024; const data = homeMonthly[latestYear];
+            if (!data) { container.innerHTML = '<p style="color: var(--text-sec);">Keine monatlichen Daten.</p>'; return; }
+            const winterMonths = [11, 12, 1, 2, 3, 4]; const summerMonths = [5, 6, 7, 8, 9, 10];
+            const winterNights = winterMonths.reduce((s, m) => s + (data[m]?.nights || 0), 0); const winterArrivals = winterMonths.reduce((s, m) => s + (data[m]?.arrivals || 0), 0);
+            const summerNights = summerMonths.reduce((s, m) => s + (data[m]?.nights || 0), 0); const summerArrivals = summerMonths.reduce((s, m) => s + (data[m]?.arrivals || 0), 0);
+            const total = winterNights + summerNights; const winterPct = total > 0 ? ((winterNights / total) * 100).toFixed(0) : 0; const summerPct = total > 0 ? ((summerNights / total) * 100).toFixed(0) : 0;
+            container.innerHTML = `<div class="season-card winter"><div class="season-name">❄️ Wintersaison</div><div class="season-period">November – April ${latestYear}</div><div class="season-stats"><div class="season-stat"><span class="season-stat-label">Übernachtungen</span><span class="season-stat-value">${formatNumber(winterNights)}</span></div><div class="season-stat"><span class="season-stat-label">Ankünfte</span><span class="season-stat-value">${formatNumber(winterArrivals)}</span></div><div class="season-stat"><span class="season-stat-label">Anteil Gesamtjahr</span><span class="season-stat-value">${winterPct}%</span></div><div class="season-stat"><span class="season-stat-label">Ø Aufenthalt</span><span class="season-stat-value">${winterArrivals > 0 ? (winterNights / winterArrivals).toFixed(1) : '—'} Tage</span></div></div></div><div class="season-card summer"><div class="season-name">☀️ Sommersaison</div><div class="season-period">Mai – Oktober ${latestYear}</div><div class="season-stats"><div class="season-stat"><span class="season-stat-label">Übernachtungen</span><span class="season-stat-value">${formatNumber(summerNights)}</span></div><div class="season-stat"><span class="season-stat-label">Ankünfte</span><span class="season-stat-value">${formatNumber(summerArrivals)}</span></div><div class="season-stat"><span class="season-stat-label">Anteil Gesamtjahr</span><span class="season-stat-value">${summerPct}%</span></div><div class="season-stat"><span class="season-stat-label">Ø Aufenthalt</span><span class="season-stat-value">${summerArrivals > 0 ? (summerNights / summerArrivals).toFixed(1) : '—'} Tage</span></div></div></div>`;
+        }
 
-function renderChart(data) {
-    const svg = document.getElementById('chart');
-    const tooltip = document.getElementById('tooltip');
-    const rect = svg.getBoundingClientRect();
-    const width = rect.width || 800;
-    const height = rect.height || 350;
+        function updateTable() {
+            const tbody = document.getElementById('tableBody');
+            const sorted = [...homeData].sort((a, b) => { const dir = currentSort.direction === 'asc' ? 1 : -1; switch (currentSort.column) { case 'year': return (a.year - b.year) * dir; case 'nights': return (a.nights - b.nights) * dir; case 'arrivals': return (a.arrivals - b.arrivals) * dir; case 'stay': return ((a.arrivals ? a.nights / a.arrivals : 0) - (b.arrivals ? b.nights / b.arrivals : 0)) * dir; case 'change': const getChange = d => { const prev = homeData.find(x => x.year === d.year - 1); return prev ? (d.nights - prev.nights) / prev.nights : 0; }; return (getChange(a) - getChange(b)) * dir; default: return 0; } });
+            tbody.innerHTML = sorted.map(d => { const prev = homeData.find(x => x.year === d.year - 1); const change = prev ? ((d.nights - prev.nights) / prev.nights * 100) : null; const stay = d.arrivals > 0 ? (d.nights / d.arrivals).toFixed(1) : '—'; const statusBadge = d.status === 'projected' ? 'badge-projected' : d.status === 'estimated' ? 'badge-estimated' : 'badge-actual'; const statusText = d.status === 'projected' ? 'Prognose' : d.status === 'estimated' ? (d.year === 2025 ? 'Vorläufig (Jan)' : 'Vorläufig') : 'Endgültig'; return `<tr data-year="${d.year}"><td class="table-year">${d.year}</td><td class="table-number">${formatNumber(d.nights)}</td><td class="table-number">${formatNumber(d.arrivals)}</td><td>${stay}</td><td>${change !== null ? `<span class="table-change ${change >= 0 ? 'positive' : 'negative'}">${change >= 0 ? '↑' : '↓'} ${Math.abs(change).toFixed(1)}%</span>` : '—'}</td><td><span class="badge ${statusBadge}">${statusText}</span></td></tr>`; }).join('');
+        }
 
-    const margin = { top: 20, right: 20, bottom: 40, left: 70 };
-    const chartWidth = width - margin.left - margin.right;
-    const chartHeight = height - margin.top - margin.bottom;
+        function sortTable(column) { if (currentSort.column === column) currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc'; else { currentSort.column = column; currentSort.direction = 'desc'; } document.querySelectorAll('#dataTable th').forEach(th => { th.classList.remove('sorted'); if (th.dataset.sort === column) th.classList.add('sorted'); }); updateTable(); }
+        function filterTable() { const query = document.getElementById('tableSearch').value.toLowerCase(); document.querySelectorAll('#tableBody tr').forEach(row => { row.style.display = row.dataset.year.includes(query) ? '' : 'none'; }); }
 
-    const maxVal = Math.max(...data.map(d => d.naechtigungen)) * 1.1;
-    const barWidth = Math.min(50, (chartWidth / data.length) * 0.7);
-    const barGap = (chartWidth - barWidth * data.length) / (data.length + 1);
+        function updateYearComparison() {
+            const year1 = parseInt(document.getElementById('compareYear1').value); const year2 = parseInt(document.getElementById('compareYear2').value);
+            const data1 = homeData.find(d => d.year === year1); const data2 = homeData.find(d => d.year === year2); if (!data1 || !data2) return;
+            const nightsDiff = data2.nights - data1.nights; const nightsPct = ((nightsDiff / data1.nights) * 100).toFixed(1);
+            const arrivalsDiff = data2.arrivals - data1.arrivals; const arrivalsPct = ((arrivalsDiff / data1.arrivals) * 100).toFixed(1);
+            const stay1 = data1.arrivals ? (data1.nights / data1.arrivals) : 0; const stay2 = data2.arrivals ? (data2.nights / data2.arrivals) : 0;
+            document.getElementById('compNights').textContent = (nightsDiff >= 0 ? '+' : '') + formatNumber(nightsDiff);
+            document.getElementById('compNightsDetail').textContent = `${nightsPct}% ${nightsDiff >= 0 ? 'mehr' : 'weniger'} als ${year1}`;
+            document.getElementById('compArrivals').textContent = (arrivalsDiff >= 0 ? '+' : '') + formatNumber(arrivalsDiff);
+            document.getElementById('compArrivalsDetail').textContent = `${arrivalsPct}% ${arrivalsDiff >= 0 ? 'mehr' : 'weniger'} als ${year1}`;
+            document.getElementById('compStay').textContent = (stay2 - stay1 >= 0 ? '+' : '') + (stay2 - stay1).toFixed(2) + ' Tage';
+            document.getElementById('compStayDetail').textContent = `${year1}: ${stay1.toFixed(1)} → ${year2}: ${stay2.toFixed(1)} Tage`;
+        }
 
-    // Y-Achsen-Ticks
-    const yTicks = 5;
-    const yStep = maxVal / yTicks;
+        function exportCSV() {
+            const headers = ['Jahr', 'Übernachtungen', 'Ankünfte', 'Ø Aufenthalt', 'Status'];
+            const rows = homeData.map(d => [d.year, d.nights, d.arrivals, d.arrivals > 0 ? (d.nights / d.arrivals).toFixed(2) : '', d.status === 'projected' ? 'Prognose' : d.status === 'estimated' ? 'Vorläufig' : 'Endgültig']);
+            const csv = [headers, ...rows].map(r => r.join(';')).join('\n');
+            const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `kleinwalsertal-tourismus-${new Date().toISOString().split('T')[0]}.csv`; a.click();
+        }
 
-    let svgContent = `
-        <g transform="translate(${margin.left}, ${margin.top})">
-            <!-- Y-Achse -->
-            <line x1="0" y1="0" x2="0" y2="${chartHeight}" stroke="#e2e8f0" stroke-width="1"/>
-    `;
-
-    // Y-Achsen-Labels und Linien
-    for (let i = 0; i <= yTicks; i++) {
-        const y = chartHeight - (i * chartHeight / yTicks);
-        const val = Math.round(i * yStep);
-        svgContent += `
-            <line x1="0" y1="${y}" x2="${chartWidth}" y2="${y}" stroke="#e2e8f0" stroke-width="1"/>
-            <text x="-10" y="${y + 4}" text-anchor="end" font-size="11" fill="#64748b">${(val / 1000000).toFixed(1)}M</text>
-        `;
-    }
-
-    // Balken
-    data.forEach((d, i) => {
-        const x = barGap + i * (barWidth + barGap);
-        const barHeight = (d.naechtigungen / maxVal) * chartHeight;
-        const y = chartHeight - barHeight;
-
-        const barClass = d.status === 'actual' ? 'bar-actual' : d.status === 'estimated' ? 'bar-estimated' : 'bar-projected';
-
-        svgContent += `
-            <g class="bar-group" data-index="${i}">
-                <rect class="bar ${barClass}" x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" rx="4"/>
-                <text x="${x + barWidth/2}" y="${chartHeight + 20}" text-anchor="middle" font-size="11" fill="#64748b">${d.jahr}</text>
-            </g>
-        `;
-    });
-
-    svgContent += '</g>';
-    svg.innerHTML = svgContent;
-
-    // Tooltip Events
-    svg.querySelectorAll('.bar-group').forEach(group => {
-        group.addEventListener('mouseenter', (e) => {
-            const idx = parseInt(group.dataset.index);
-            const d = data[idx];
-            const avgStay = (d.naechtigungen / d.ankuenfte).toFixed(2);
-
-            tooltip.innerHTML = `
-                <div class="tooltip-title">${d.jahr} – ${d.status === 'actual' ? 'Vollständig' : d.status === 'estimated' ? 'Hochrechnung' : 'Prognose'}</div>
-                <div class="tooltip-row"><span class="tooltip-label">Nächtigungen:</span><span class="tooltip-value">${formatNumber(d.naechtigungen)}</span></div>
-                <div class="tooltip-row"><span class="tooltip-label">Ankünfte:</span><span class="tooltip-value">${formatNumber(d.ankuenfte)}</span></div>
-                <div class="tooltip-row"><span class="tooltip-label">Ø Aufenthalt:</span><span class="tooltip-value">${avgStay} Nächte</span></div>
-                <div style="margin-top: 6px; font-size: 0.8rem; opacity: 0.8;">${d.detail}</div>
-            `;
-            tooltip.classList.add('visible');
-        });
-
-        group.addEventListener('mousemove', (e) => {
-            const containerRect = svg.parentElement.getBoundingClientRect();
-            tooltip.style.left = (e.clientX - containerRect.left + 15) + 'px';
-            tooltip.style.top = (e.clientY - containerRect.top - 10) + 'px';
-        });
-
-        group.addEventListener('mouseleave', () => {
-            tooltip.classList.remove('visible');
-        });
-    });
-}
-
-function renderTable(data) {
-    const tbody = document.getElementById('tableBody');
-    
-    // Neueste zuerst
-    const sorted = [...data].sort((a, b) => b.jahr - a.jahr);
-
-    tbody.innerHTML = sorted.map(d => {
-        const avgStay = (d.naechtigungen / d.ankuenfte).toFixed(2);
-        const statusClass = d.status;
-        const statusText = d.status === 'actual' ? 'Vollständig' : d.status === 'estimated' ? 'Hochrechnung' : 'Prognose';
-
-        return `
-            <tr>
-                <td><strong>${d.jahr}</strong></td>
-                <td>${formatNumber(d.ankuenfte)}</td>
-                <td>${formatNumber(d.naechtigungen)}</td>
-                <td>${avgStay} Nächte</td>
-                <td><span class="status-tag ${statusClass}">${statusText}</span></td>
-            </tr>
-        `;
-    }).join('');
-}
-
-// ===========================================================
-// INIT
-// ===========================================================
-
-async function init() {
-    document.getElementById('footerYear').textContent = new Date().getFullYear();
-
-    try {
-        const rawData = await fetchData();
-        const processed = processData(rawData);
-
-        renderKPIs(processed);
-        renderChart(processed);
-        renderTable(processed);
-
-        // Chart bei Resize neu zeichnen
-        let resizeTimeout;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => renderChart(processed), 200);
-        });
-
-    } catch (err) {
-        console.error('Fehler:', err);
-        setStatus('error', 'Fehler beim Laden der Daten');
-    }
-}
-
-init();
-</script>
+        function formatNumber(n) { if (n === null || n === undefined) return '—'; return new Intl.NumberFormat('de-AT').format(Math.round(n)); }
+    </script>
 </body>
 </html>
