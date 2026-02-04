@@ -459,18 +459,56 @@
         async function loadData() {
             setStatus('loading', 'Lade...');
             let mainOK = false, countryOK = false;
-            try { let csv = await fetchProxy(CONFIG.CSV_URL); if (csv) { parseMainCSV(csv); mainOK = true; } } catch (e) {}
-            try { let csv = await fetchProxy(CONFIG.COUNTRIES_CSV_URL); if (csv) { parseCountriesCSV(csv); countryOK = true; } } catch (e) {}
-            if (!mainOK) { yearlyData = FALLBACK.yearly; monthlyData = FALLBACK.monthly; accommodationData = FALLBACK.accommodation; }
-            if (!countryOK) { countryData = FALLBACK.countries; }
+            
+            // Set fallback first to ensure data is always available
+            yearlyData = FALLBACK.yearly;
+            monthlyData = FALLBACK.monthly;
+            accommodationData = FALLBACK.accommodation;
+            countryData = FALLBACK.countries;
+            
+            try { 
+                let csv = await fetchProxy(CONFIG.CSV_URL); 
+                if (csv && csv.length > 100) { 
+                    parseMainCSV(csv); 
+                    if (yearlyData.length > 0) mainOK = true; 
+                } 
+            } catch (e) { console.log('Main CSV error:', e); }
+            
+            try { 
+                let csv = await fetchProxy(CONFIG.COUNTRIES_CSV_URL); 
+                if (csv && csv.length > 100) { 
+                    parseCountriesCSV(csv); 
+                    if (Object.keys(countryData).length > 0) countryOK = true; 
+                } 
+            } catch (e) { console.log('Countries CSV error:', e); }
+            
+            // Restore fallback if parsing failed
+            if (!mainOK) { 
+                yearlyData = FALLBACK.yearly; 
+                monthlyData = FALLBACK.monthly; 
+                accommodationData = FALLBACK.accommodation; 
+            }
+            if (!countryOK) { 
+                countryData = FALLBACK.countries; 
+            }
+            
             setStatus(mainOK ? 'live' : 'offline', mainOK ? 'Live' : 'Offline');
             populateSelectors();
             updateAll();
         }
 
         async function fetchProxy(url) {
-            try { const r = await fetch(url); if (r.ok) return await r.text(); } catch (e) {}
-            for (const p of CONFIG.CORS_PROXIES) { try { const r = await fetch(p(url)); if (r.ok) return await r.text(); } catch (e) {} }
+            const timeout = (ms) => new Promise((_, reject) => setTimeout(() => reject('timeout'), ms));
+            try { 
+                const r = await Promise.race([fetch(url), timeout(5000)]); 
+                if (r.ok) return await r.text(); 
+            } catch (e) {}
+            for (const p of CONFIG.CORS_PROXIES) { 
+                try { 
+                    const r = await Promise.race([fetch(p(url)), timeout(5000)]); 
+                    if (r.ok) return await r.text(); 
+                } catch (e) {} 
+            }
             return null;
         }
 
