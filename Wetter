@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kleinwalsertal · Wetter & Nächtigungen</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b1420;
+    --bg2: #111d2e;
+    --card: #152238;
+    --card-alt: #1a2a42;
+    --border: #1e3354;
+    --border-light: #264060;
+    --text: #e2e8f0;
+    --text-muted: #7a8ba5;
+    --text-dim: #4a5e78;
+    --valley: #4fc3f7;
+    --valley-bg: rgba(79,195,247,0.12);
+    --mountain: #f48fb1;
+    --mountain-bg: rgba(244,143,177,0.12);
+    --snow: #e0f7fa;
+    --sun: #ffd54f;
+    --tourism: #81c784;
+    --tourism-bg: rgba(129,199,132,0.12);
+    --tourism2: #66bb6a;
+    --warn: #ef5350;
+    --gold: #ffab40;
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* ── Hero ─────────────────────────── */
+  .hero {
+    position: relative;
+    padding: 2.5rem 2rem 2rem;
+    background: linear-gradient(170deg, #0d1b2a 0%, #162d50 40%, #1a3352 70%, var(--bg) 100%);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -40%; right: -10%;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(79,195,247,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 1280px; margin: 0 auto; position: relative; z-index: 1; }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--snow), var(--valley), var(--tourism));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    display: flex; flex-wrap: wrap; gap: 1.5rem;
+    margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-muted);
+  }
+  .hero-sub .tag {
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+  .dot-v { background: var(--valley); }
+  .dot-m { background: var(--mountain); }
+  .dot-t { background: var(--tourism); }
+
+  /* ── Controls ─────────────────────── */
+  .ctrl-bar {
+    max-width: 1280px; margin: 1.5rem auto 0; padding: 0 2rem;
+    display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;
+  }
+  .tabs {
+    display: flex; gap: 3px;
+    background: var(--card); border-radius: 10px; padding: 3px;
+    border: 1px solid var(--border);
+  }
+  .tab {
+    padding: 7px 15px; border-radius: 8px; border: none;
+    background: transparent; color: var(--text-muted);
+    font-family: inherit; font-size: 0.85rem; font-weight: 500;
+    cursor: pointer; transition: all 0.2s; white-space: nowrap;
+  }
+  .tab:hover { color: var(--text); background: rgba(79,195,247,0.08); }
+  .tab.active { background: var(--valley); color: var(--bg); font-weight: 700; }
+  .ctrl-info {
+    margin-left: auto;
+    font-size: 0.8rem; color: var(--text-dim);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .spinner { width: 14px; height: 14px; border: 2px solid var(--border); border-top-color: var(--valley); border-radius: 50%; animation: spin 0.7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Dashboard Grid ──────────────── */
+  .grid {
+    max-width: 1280px; margin: 1.5rem auto 0; padding: 0 2rem 3rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem;
+  }
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.4rem; transition: border-color 0.3s;
+  }
+  .card:hover { border-color: var(--border-light); }
+  .full { grid-column: 1 / -1; }
+  .card-h {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;
+  }
+  .card-t {
+    font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--text-muted); font-weight: 500;
+  }
+  .badge {
+    font-size: 0.65rem; padding: 3px 10px; border-radius: 20px; font-weight: 600;
+  }
+  .b-v { background: var(--valley-bg); color: var(--valley); }
+  .b-m { background: var(--mountain-bg); color: var(--mountain); }
+  .b-t { background: var(--tourism-bg); color: var(--tourism); }
+
+  /* ── KPIs ─────────────────────────── */
+  .kpis {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.9rem;
+  }
+  .kpi {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.1rem; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .kpi::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .kpi-s::before { background: linear-gradient(90deg, var(--snow), var(--valley)); }
+  .kpi-n::before { background: linear-gradient(90deg, var(--tourism), var(--tourism2)); }
+  .kpi-x::before { background: linear-gradient(90deg, var(--sun), var(--gold)); }
+  .kpi-c::before { background: linear-gradient(90deg, var(--valley), var(--mountain)); }
+  .kpi-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem; font-weight: 700; line-height: 1.1; margin: 0.2rem 0;
+  }
+  .kpi-lab { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .kpi-detail { font-size: 0.75rem; color: var(--text-dim); margin-top: 0.3rem; }
+  .kpi-pair {
+    display: flex; gap: 0.6rem; justify-content: center;
+    margin-top: 0.4rem; font-size: 0.72rem;
+  }
+  .kpi-pair .v { color: var(--valley); }
+  .kpi-pair .m { color: var(--mountain); }
+
+  /* ── Charts ──────────────────────── */
+  .ch { position: relative; width: 100%; height: 320px; }
+  .ch.tall { height: 400px; }
+
+  /* ── Correlation highlight ──────── */
+  .corr-box {
+    display: flex; align-items: center; gap: 1.2rem;
+    background: linear-gradient(135deg, rgba(79,195,247,0.06), rgba(129,199,132,0.06));
+    border: 1px solid rgba(79,195,247,0.15);
+    border-radius: 12px; padding: 1.2rem 1.5rem;
+    margin-top: 1rem;
+  }
+  .corr-r {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem; font-weight: 900; line-height: 1;
+    min-width: 100px; text-align: center;
+  }
+  .corr-text { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+  .corr-text strong { color: var(--text); }
+
+  /* ── Season table ────────────────── */
+  .stable { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  .stable th {
+    text-align: left; padding: 10px 12px; color: var(--text-muted);
+    font-weight: 500; font-size: 0.7rem; text-transform: uppercase;
+    letter-spacing: 0.06em; border-bottom: 1px solid var(--border);
+  }
+  .stable td { padding: 11px 12px; border-bottom: 1px solid rgba(30,51,84,0.4); }
+  .stable tr:hover td { background: rgba(79,195,247,0.03); }
+  .stable .num { font-variant-numeric: tabular-nums; }
+  .bar-cell { min-width: 80px; }
+  .mini-bar {
+    height: 7px; border-radius: 4px; transition: width 0.5s ease; min-width: 2px;
+  }
+  .bar-snow { background: linear-gradient(90deg, var(--snow), #80deea); }
+  .bar-sun { background: linear-gradient(90deg, var(--sun), #ff8f00); }
+  .bar-nights { background: linear-gradient(90deg, var(--tourism), var(--tourism2)); }
+
+  /* ── Responsive ──────────────────── */
+  @media (max-width: 800px) {
+    .grid { grid-template-columns: 1fr; padding: 0 1rem 2rem; }
+    .hero { padding: 1.8rem 1rem 1.5rem; }
+    .ctrl-bar { padding: 0 1rem; }
+    .kpis { grid-template-columns: repeat(2, 1fr); }
+    .ch { height: 260px; }
+    .corr-box { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1>Wetter · Nächtigungen · Kleinwalsertal</h1>
+    <div class="hero-sub">
+      <span class="tag"><span class="dot dot-v"></span> Tal · Riezlern 1.086m</span>
+      <span class="tag"><span class="dot dot-m"></span> Berg · Ifen / Kanzelwand ~2.000m</span>
+      <span class="tag"><span class="dot dot-t"></span> Übernachtungen · Gemeinde Mittelberg</span>
+    </div>
+  </div>
+</div>
+
+<div class="ctrl-bar">
+  <div class="tabs" id="tabs"></div>
+  <div class="ctrl-info" id="status"><div class="spinner"></div> Lade Wetterdaten…</div>
+</div>
+
+<div class="grid" id="grid">
+
+  <!-- KPI Overview -->
+  <div class="card full" id="kpiCard">
+    <div class="card-h">
+      <span class="card-t">Saison-Überblick · Wetter & Tourismus</span>
+      <span class="badge b-t" id="seasonBadge">—</span>
+    </div>
+    <div class="kpis" id="kpis"></div>
+  </div>
+
+  <!-- Main dual-axis: Snow + Overnights monthly -->
+  <div class="card full">
+    <div class="card-h">
+      <span class="card-t">❄️ Schneehöhe vs. 🛏️ Nächtigungen · Monatlich</span>
+    </div>
+    <div class="ch tall"><canvas id="dualChart"></canvas></div>
+  </div>
+
+  <!-- Snow depth timeline: Valley vs Mountain -->
+  <div class="card full">
+    <div class="card-h">
+      <span class="card-t">Schneehöhe im Saisonverlauf · Tal vs. Berg</span>
+    </div>
+    <div class="ch tall"><canvas id="snowTimeChart"></canvas></div>
+  </div>
+
+  <!-- Correlation scatter -->
+  <div class="card">
+    <div class="card-h">
+      <span class="card-t">Korrelation · Schnee ↔ Nächtigungen</span>
+    </div>
+    <div class="ch"><canvas id="corrChart"></canvas></div>
+  </div>
+
+  <!-- Sunshine vs Overnights -->
+  <div class="card">
+    <div class="card-h">
+      <span class="card-t">Sonnenstunden ↔ Nächtigungen</span>
+    </div>
+    <div class="ch"><canvas id="sunCorrChart"></canvas></div>
+  </div>
+
+  <!-- Snowfall bars -->
+  <div class="card">
+    <div class="card-h">
+      <span class="card-t">Neuschnee pro Monat</span>
+    </div>
+    <div class="ch"><canvas id="snowfallChart"></canvas></div>
+  </div>
+
+  <!-- Temperature -->
+  <div class="card">
+    <div class="card-h">
+      <span class="card-t">Temperaturverlauf</span>
+    </div>
+    <div class="ch"><canvas id="tempChart"></canvas></div>
+  </div>
+
+  <!-- Winter season comparison table -->
+  <div class="card full">
+    <div class="card-h">
+      <span class="card-t">Wintervergleich · Alle Saisonen</span>
+    </div>
+    <div id="seasonTable"></div>
+  </div>
+
+  <!-- Correlation summary -->
+  <div class="card full" id="corrSummary"></div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════
+// CONFIG
+// ══════════════════════════════════════════════════════════
+const LOC = {
+  valley: { lat: 47.3547, lon: 10.1901, elev: 1086, name: 'Tal (Riezlern)' },
+  mountain: { lat: 47.3483, lon: 10.1458, elev: 2000, name: 'Berg (Ifen/Kanzelwand)' },
+};
+
+// Winter seasons Nov–Apr
+const SEASONS = [
+  { id: '19/20', start: '2019-11-01', end: '2020-04-30', tourYear: 2020 },
+  { id: '20/21', start: '2020-11-01', end: '2021-04-30', tourYear: 2021 },
+  { id: '21/22', start: '2021-11-01', end: '2022-04-30', tourYear: 2022 },
+  { id: '22/23', start: '2022-11-01', end: '2023-04-30', tourYear: 2023 },
+  { id: '23/24', start: '2023-11-01', end: '2024-04-30', tourYear: 2024 },
+  { id: '24/25', start: '2024-11-01', end: '2025-04-30', tourYear: 2025 },
+];
+
+const WINTER_MONTHS = [11, 12, 1, 2, 3, 4];
+const MONTH_LABELS = ['Nov', 'Dez', 'Jän', 'Feb', 'Mär', 'Apr'];
+const DAILY_VARS = 'snow_depth,snowfall_sum,sunshine_duration,temperature_2m_max,temperature_2m_min,precipitation_sum';
+
+// Tourism data (from your existing dashboard FALLBACK)
+const TOURISM = {
+  2020: { 11: 58000, 12: 42000, 1: 85000, 2: 78000, 3: 32000, 4: 8000 }, // COVID impact
+  2021: { 11: 28000, 12: 95000, 1: 42000, 2: 65000, 3: 78000, 4: 35000 }, // COVID
+  2022: { 11: 58000, 12: 130000, 1: 168000, 2: 155000, 3: 138000, 4: 52000 },
+  2023: { 11: 62000, 12: 120000, 1: 175000, 2: 162000, 3: 142000, 4: 55000 },
+  2024: { 11: 65000, 12: 114000, 1: 182000, 2: 168000, 3: 148000, 4: 58000 },
+  2025: { 11: 68000, 12: 95000, 1: 188000, 2: 172000, 3: 152000, 4: 60000 },
+};
+
+const YEARLY_TOURISM = {
+  2016: 1350000, 2017: 1358000, 2018: 1404000, 2019: 1410000,
+  2020: 850000, 2021: 920000, 2022: 1260000,
+  2023: 1295000, 2024: 1340000, 2025: 1365000,
+};
+
+// ══════════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════════
+let weatherData = {};
+let activeSeason = SEASONS[SEASONS.length - 1].id;
+let charts = {};
+
+// ══════════════════════════════════════════════════════════
+// CHART.JS DEFAULTS
+// ══════════════════════════════════════════════════════════
+Chart.defaults.color = '#7a8ba5';
+Chart.defaults.borderColor = 'rgba(30,51,84,0.4)';
+Chart.defaults.font.family = "'DM Sans', sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.plugins.legend.labels.usePointStyle = true;
+Chart.defaults.plugins.legend.labels.pointStyleWidth = 8;
+Chart.defaults.plugins.legend.labels.padding = 16;
+
+const C = {
+  valley: '#4fc3f7', valleyBg: 'rgba(79,195,247,0.12)',
+  mtn: '#f48fb1', mtnBg: 'rgba(244,143,177,0.12)',
+  tourism: '#81c784', tourismBg: 'rgba(129,199,132,0.25)',
+  tourism2: '#4caf50',
+  sun: '#ffd54f', snow: '#e0f7fa',
+};
+
+// ══════════════════════════════════════════════════════════
+// DATA FETCHING
+// ══════════════════════════════════════════════════════════
+async function fetchWeather(season) {
+  const get = async (loc) => {
+    const u = `https://archive-api.open-meteo.com/v1/archive?latitude=${loc.lat}&longitude=${loc.lon}&start_date=${season.start}&end_date=${season.end}&daily=${DAILY_VARS}&timezone=Europe/Berlin&elevation=${loc.elev}`;
+    const r = await fetch(u);
+    if (!r.ok) throw new Error(r.status);
+    return r.json();
+  };
+  try {
+    const [v, m] = await Promise.all([get(LOC.valley), get(LOC.mountain)]);
+    return { valley: v, mountain: m };
+  } catch (e) { console.warn(`Weather fetch failed for ${season.id}:`, e); return null; }
+}
+
+async function loadAll() {
+  const results = await Promise.all(SEASONS.map(async s => {
+    const d = await fetchWeather(s);
+    if (d) weatherData[s.id] = d;
+  }));
+  document.getElementById('status').innerHTML =
+    `<span style="color:var(--tourism)">●</span> ${Object.keys(weatherData).length} Saisonen geladen · Open-Meteo API`;
+}
+
+// ══════════════════════════════════════════════════════════
+// DATA PROCESSING
+// ══════════════════════════════════════════════════════════
+function monthlyWeather(apiData) {
+  const d = apiData.daily;
+  const m = {};
+  d.time.forEach((t, i) => {
+    const mo = new Date(t).getMonth() + 1;
+    if (!m[mo]) m[mo] = { snow: [], sf: [], sun: [], tMax: [], tMin: [], precip: [] };
+    if (d.snow_depth[i] != null) m[mo].snow.push(d.snow_depth[i]);
+    if (d.snowfall_sum[i] != null) m[mo].sf.push(d.snowfall_sum[i]);
+    if (d.sunshine_duration[i] != null) m[mo].sun.push(d.sunshine_duration[i] / 3600);
+    if (d.temperature_2m_max[i] != null) m[mo].tMax.push(d.temperature_2m_max[i]);
+    if (d.temperature_2m_min[i] != null) m[mo].tMin.push(d.temperature_2m_min[i]);
+    if (d.precipitation_sum[i] != null) m[mo].precip.push(d.precipitation_sum[i]);
+  });
+  const res = {};
+  for (const [mo, v] of Object.entries(m)) {
+    const avg = a => a.length ? a.reduce((s,x) => s+x, 0) / a.length : 0;
+    const sum = a => a.reduce((s,x) => s+x, 0);
+    res[mo] = {
+      avgSnow: avg(v.snow), maxSnow: Math.max(...v.snow, 0),
+      totalSnowfall: sum(v.sf), snowDays: v.sf.filter(x => x > 0).length,
+      totalSun: sum(v.sun), sunnyDays: v.sun.filter(x => x > 5).length,
+      avgTMax: avg(v.tMax), avgTMin: avg(v.tMin),
+      totalPrecip: sum(v.precip),
+    };
+  }
+  return res;
+}
+
+function seasonTotals(apiData) {
+  const d = apiData.daily;
+  const snow = d.snow_depth.filter(v => v != null);
+  const sf = d.snowfall_sum.filter(v => v != null);
+  const sun = d.sunshine_duration.filter(v => v != null).map(v => v / 3600);
+  const t = d.temperature_2m_max.filter(v => v != null);
+  return {
+    avgSnow: snow.length ? snow.reduce((a,b)=>a+b,0)/snow.length : 0,
+    maxSnow: snow.length ? Math.max(...snow) : 0,
+    totalSF: sf.reduce((a,b)=>a+b,0),
+    snowDays: sf.filter(v=>v>0).length,
+    totalSun: sun.reduce((a,b)=>a+b,0),
+    avgTemp: t.length ? t.reduce((a,b)=>a+b,0)/t.length : 0,
+  };
+}
+
+function getTourismForSeason(seasonId) {
+  const s = SEASONS.find(s => s.id === seasonId);
+  if (!s) return { months: {}, total: 0 };
+  const ty = s.tourYear;
+  // Nov+Dez from previous year, Jan-Apr from tourYear
+  const tour = TOURISM[ty];
+  if (!tour) return { months: {}, total: 0 };
+  const total = WINTER_MONTHS.reduce((sum, mo) => sum + (tour[mo] || 0), 0);
+  return { months: tour, total };
+}
+
+function fmtNum(n) {
+  if (n >= 1e6) return (n/1e6).toFixed(2) + ' Mio';
+  if (n >= 1e3) return Math.round(n).toLocaleString('de-AT');
+  return Math.round(n).toString();
+}
+
+// ══════════════════════════════════════════════════════════
+// UI: TABS
+// ══════════════════════════════════════════════════════════
+function buildTabs() {
+  const el = document.getElementById('tabs');
+  SEASONS.forEach(s => {
+    const b = document.createElement('button');
+    b.className = 'tab' + (s.id === activeSeason ? ' active' : '');
+    b.textContent = s.id;
+    b.onclick = () => { activeSeason = s.id; document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.textContent === s.id)); render(); };
+    el.appendChild(b);
+  });
+}
+
+// ══════════════════════════════════════════════════════════
+// RENDER: KPIs
+// ══════════════════════════════════════════════════════════
+function renderKPIs() {
+  const w = weatherData[activeSeason];
+  if (!w) return;
+  const vt = seasonTotals(w.valley);
+  const mt = seasonTotals(w.mountain);
+  const tour = getTourismForSeason(activeSeason);
+
+  document.getElementById('seasonBadge').textContent = `Winter ${activeSeason}`;
+  document.getElementById('kpis').innerHTML = `
+    <div class="kpi kpi-n">
+      <div class="kpi-lab">Nächtigungen Winter</div>
+      <div class="kpi-val" style="color:var(--tourism)">${fmtNum(tour.total)}</div>
+      <div class="kpi-detail">Nov – Apr</div>
+    </div>
+    <div class="kpi kpi-s">
+      <div class="kpi-lab">Ø Schneehöhe</div>
+      <div class="kpi-val" style="color:var(--snow)">${vt.avgSnow.toFixed(0)}<small>cm</small></div>
+      <div class="kpi-pair"><span class="v">Tal ${vt.avgSnow.toFixed(0)}cm</span><span class="m">Berg ${mt.avgSnow.toFixed(0)}cm</span></div>
+    </div>
+    <div class="kpi kpi-s">
+      <div class="kpi-lab">Max Schneehöhe</div>
+      <div class="kpi-val" style="color:var(--snow)">${mt.maxSnow.toFixed(0)}<small>cm</small></div>
+      <div class="kpi-pair"><span class="v">Tal ${vt.maxSnow.toFixed(0)}cm</span><span class="m">Berg ${mt.maxSnow.toFixed(0)}cm</span></div>
+    </div>
+    <div class="kpi kpi-s">
+      <div class="kpi-lab">Neuschnee Gesamt</div>
+      <div class="kpi-val" style="color:var(--valley)">${mt.totalSF.toFixed(0)}<small>cm</small></div>
+      <div class="kpi-pair"><span class="v">Tal ${vt.totalSF.toFixed(0)}cm</span><span class="m">Berg ${mt.totalSF.toFixed(0)}cm</span></div>
+    </div>
+    <div class="kpi kpi-x">
+      <div class="kpi-lab">Sonnenstunden</div>
+      <div class="kpi-val" style="color:var(--sun)">${vt.totalSun.toFixed(0)}<small>h</small></div>
+      <div class="kpi-detail">${vt.snowDays} Schneetage</div>
+    </div>
+    <div class="kpi kpi-c">
+      <div class="kpi-lab">Ø Temperatur</div>
+      <div class="kpi-val" style="color:var(--valley)">${vt.avgTemp.toFixed(1)}<small>°C</small></div>
+      <div class="kpi-pair"><span class="v">Tal ${vt.avgTemp.toFixed(1)}°</span><span class="m">Berg ${mt.avgTemp.toFixed(1)}°</span></div>
+    </div>
+  `;
+}
+
+// ══════════════════════════════════════════════════════════
+// CHARTS
+// ══════════════════════════════════════════════════════════
+function kill(id) { if (charts[id]) { charts[id].destroy(); charts[id] = null; } }
+
+// Dual axis: Snow + Overnights monthly
+function renderDualChart() {
+  kill('dual');
+  const w = weatherData[activeSeason];
+  if (!w) return;
+  const vm = monthlyWeather(w.valley);
+  const mm = monthlyWeather(w.mountain);
+  const tour = getTourismForSeason(activeSeason).months;
+
+  const snowV = WINTER_MONTHS.map(m => vm[m]?.avgSnow || 0);
+  const snowM = WINTER_MONTHS.map(m => mm[m]?.avgSnow || 0);
+  const nights = WINTER_MONTHS.map(m => tour[m] || 0);
+
+  charts.dual = new Chart(document.getElementById('dualChart'), {
+    data: {
+      labels: MONTH_LABELS,
+      datasets: [
+        {
+          type: 'bar', label: 'Nächtigungen', data: nights, yAxisID: 'y1',
+          backgroundColor: C.tourismBg, borderColor: C.tourism, borderWidth: 2,
+          borderRadius: 6, order: 2,
+        },
+        {
+          type: 'line', label: 'Schnee Tal', data: snowV, yAxisID: 'y',
+          borderColor: C.valley, backgroundColor: C.valleyBg, fill: true,
+          borderWidth: 2.5, pointRadius: 5, pointBackgroundColor: C.valley, tension: 0.3, order: 1,
+        },
+        {
+          type: 'line', label: 'Schnee Berg', data: snowM, yAxisID: 'y',
+          borderColor: C.mtn, backgroundColor: 'transparent',
+          borderWidth: 2, pointRadius: 4, pointBackgroundColor: C.mtn, tension: 0.3, order: 0,
+          borderDash: [6, 3],
+        },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { position: 'top' },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              if (ctx.dataset.yAxisID === 'y1') return `${ctx.dataset.label}: ${fmtNum(ctx.raw)}`;
+              return `${ctx.dataset.label}: ${ctx.raw.toFixed(0)} cm`;
+            }
+          }
+        }
+      },
+      scales: {
+        y: { position: 'left', title: { display: true, text: 'Schneehöhe (cm)' }, beginAtZero: true },
+        y1: {
+          position: 'right', title: { display: true, text: 'Nächtigungen' },
+          beginAtZero: true, grid: { drawOnChartArea: false },
+          ticks: { callback: v => v >= 1000 ? (v/1000) + 'k' : v }
+        },
+      }
+    }
+  });
+}
+
+// Snow depth timeline
+function renderSnowTimeline() {
+  kill('snowTime');
+  const w = weatherData[activeSeason];
+  if (!w) return;
+
+  const vd = w.valley.daily;
+  const md = w.mountain.daily;
+  const step = Math.ceil(vd.time.length / 28);
+  const labels = vd.time.map((t, i) => {
+    if (i % step !== 0) return '';
+    const d = new Date(t);
+    return d.toLocaleDateString('de-AT', { day: 'numeric', month: 'short' });
+  });
+
+  charts.snowTime = new Chart(document.getElementById('snowTimeChart'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Tal (1.086m)', data: vd.snow_depth,
+          borderColor: C.valley, backgroundColor: C.valleyBg, fill: true,
+          borderWidth: 2, pointRadius: 0, tension: 0.3,
+        },
+        {
+          label: 'Berg (~2.000m)', data: md.snow_depth,
+          borderColor: C.mtn, backgroundColor: C.mtnBg, fill: true,
+          borderWidth: 2, pointRadius: 0, tension: 0.3,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top' } },
+      scales: { y: { title: { display: true, text: 'Schneehöhe (cm)' }, beginAtZero: true } }
+    }
+  });
+}
+
+// Correlation scatter: Snow vs Overnights (all months across all seasons)
+function renderCorrScatter() {
+  kill('corr');
+  const points = [];
+
+  SEASONS.forEach(s => {
+    const w = weatherData[s.id];
+    if (!w) return;
+    const vm = monthlyWeather(w.valley);
+    const tour = getTourismForSeason(s.id).months;
+
+    WINTER_MONTHS.forEach(mo => {
+      const snow = vm[mo]?.avgSnow;
+      const nights = tour[mo];
+      if (snow != null && nights) {
+        points.push({ x: snow, y: nights, label: `${MONTH_LABELS[WINTER_MONTHS.indexOf(mo)]} ${s.id}` });
+      }
+    });
+  });
+
+  charts.corr = new Chart(document.getElementById('corrChart'), {
+    type: 'scatter',
+    data: {
+      datasets: [{
+        label: 'Schnee vs. Nächtigungen',
+        data: points,
+        backgroundColor: 'rgba(79,195,247,0.6)',
+        borderColor: C.valley,
+        borderWidth: 1.5,
+        pointRadius: 6,
+        pointHoverRadius: 9,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => `${ctx.raw.label}: ${ctx.raw.x.toFixed(0)}cm Schnee → ${fmtNum(ctx.raw.y)} ÜN`
+          }
+        }
+      },
+      scales: {
+        x: { title: { display: true, text: 'Ø Schneehöhe Tal (cm)' }, beginAtZero: true },
+        y: { title: { display: true, text: 'Nächtigungen' }, ticks: { callback: v => (v/1000)+'k' } },
+      }
+    }
+  });
+}
+
+// Sunshine vs Overnights scatter
+function renderSunCorr() {
+  kill('sunCorr');
+  const points = [];
+
+  SEASONS.forEach(s => {
+    const w = weatherData[s.id];
+    if (!w) return;
+    const vm = monthlyWeather(w.valley);
+    const tour = getTourismForSeason(s.id).months;
+
+    WINTER_MONTHS.forEach(mo => {
+      const sun = vm[mo]?.totalSun;
+      const nights = tour[mo];
+      if (sun != null && nights) {
+        points.push({ x: sun, y: nights, label: `${MONTH_LABELS[WINTER_MONTHS.indexOf(mo)]} ${s.id}` });
+      }
+    });
+  });
+
+  charts.sunCorr = new Chart(document.getElementById('sunCorrChart'), {
+    type: 'scatter',
+    data: {
+      datasets: [{
+        label: 'Sonne vs. Nächtigungen',
+        data: points,
+        backgroundColor: 'rgba(255,213,79,0.5)',
+        borderColor: C.sun,
+        borderWidth: 1.5,
+        pointRadius: 6,
+        pointHoverRadius: 9,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => `${ctx.raw.label}: ${ctx.raw.x.toFixed(0)}h Sonne → ${fmtNum(ctx.raw.y)} ÜN`
+          }
+        }
+      },
+      scales: {
+        x: { title: { display: true, text: 'Sonnenstunden' } },
+        y: { title: { display: true, text: 'Nächtigungen' }, ticks: { callback: v => (v/1000)+'k' } },
+      }
+    }
+  });
+}
+
+// Snowfall bars
+function renderSnowfall() {
+  kill('snowfall');
+  const w = weatherData[activeSeason];
+  if (!w) return;
+  const vm = monthlyWeather(w.valley);
+  const mm = monthlyWeather(w.mountain);
+
+  charts.snowfall = new Chart(document.getElementById('snowfallChart'), {
+    type: 'bar',
+    data: {
+      labels: MONTH_LABELS,
+      datasets: [
+        { label: 'Tal', data: WINTER_MONTHS.map(m => vm[m]?.totalSnowfall || 0), backgroundColor: C.valley, borderRadius: 5 },
+        { label: 'Berg', data: WINTER_MONTHS.map(m => mm[m]?.totalSnowfall || 0), backgroundColor: C.mtn, borderRadius: 5 },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: { y: { title: { display: true, text: 'Neuschnee (cm)' }, beginAtZero: true } },
+      plugins: { legend: { position: 'top' } }
+    }
+  });
+}
+
+// Temperature
+function renderTemp() {
+  kill('temp');
+  const w = weatherData[activeSeason];
+  if (!w) return;
+  const vm = monthlyWeather(w.valley);
+  const mm = monthlyWeather(w.mountain);
+
+  charts.temp = new Chart(document.getElementById('tempChart'), {
+    type: 'line',
+    data: {
+      labels: MONTH_LABELS,
+      datasets: [
+        { label: 'Tal Max', data: WINTER_MONTHS.map(m => vm[m]?.avgTMax || 0), borderColor: C.valley, borderWidth: 2, pointRadius: 4, tension: 0.3 },
+        { label: 'Tal Min', data: WINTER_MONTHS.map(m => vm[m]?.avgTMin || 0), borderColor: C.valley, borderWidth: 2, borderDash: [5,4], pointRadius: 4, tension: 0.3 },
+        { label: 'Berg Max', data: WINTER_MONTHS.map(m => mm[m]?.avgTMax || 0), borderColor: C.mtn, borderWidth: 2, pointRadius: 4, tension: 0.3 },
+        { label: 'Berg Min', data: WINTER_MONTHS.map(m => mm[m]?.avgTMin || 0), borderColor: C.mtn, borderWidth: 2, borderDash: [5,4], pointRadius: 4, tension: 0.3 },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: { y: { title: { display: true, text: '°C' } } },
+      plugins: { legend: { position: 'top' } }
+    }
+  });
+}
+
+// ══════════════════════════════════════════════════════════
+// SEASON COMPARISON TABLE
+// ══════════════════════════════════════════════════════════
+function renderSeasonTable() {
+  const rows = SEASONS.map(s => {
+    const w = weatherData[s.id];
+    if (!w) return null;
+    const vt = seasonTotals(w.valley);
+    const mt = seasonTotals(w.mountain);
+    const tour = getTourismForSeason(s.id);
+    return { id: s.id, vt, mt, nights: tour.total };
+  }).filter(Boolean);
+
+  if (!rows.length) return;
+
+  const maxSnow = Math.max(...rows.map(r => r.mt.maxSnow));
+  const maxSun = Math.max(...rows.map(r => r.vt.totalSun));
+  const maxNights = Math.max(...rows.map(r => r.nights));
+
+  let html = `<table class="stable">
+    <thead><tr>
+      <th>Saison</th>
+      <th>🛏️ Nächtigungen</th><th style="width:90px"></th>
+      <th>❄️ Ø Schnee Tal</th>
+      <th>⛰️ Max Berg</th><th style="width:80px"></th>
+      <th>🌨️ Neuschnee</th>
+      <th>☀️ Sonne</th><th style="width:70px"></th>
+      <th>🌡️ Ø Temp</th>
+    </tr></thead><tbody>`;
+
+  rows.forEach(r => {
+    const snowPct = (r.mt.maxSnow / maxSnow * 100).toFixed(0);
+    const sunPct = (r.vt.totalSun / maxSun * 100).toFixed(0);
+    const nightPct = (r.nights / maxNights * 100).toFixed(0);
+    const isCovid = r.id === '19/20' || r.id === '20/21';
+
+    html += `<tr${r.id === activeSeason ? ' style="background:rgba(79,195,247,0.06)"' : ''}>
+      <td><strong>${r.id}</strong>${isCovid ? ' <span style="color:var(--warn);font-size:0.7rem">COVID</span>' : ''}</td>
+      <td class="num">${fmtNum(r.nights)}</td>
+      <td class="bar-cell"><div class="mini-bar bar-nights" style="width:${nightPct}%"></div></td>
+      <td class="num">${r.vt.avgSnow.toFixed(0)} cm</td>
+      <td class="num">${r.mt.maxSnow.toFixed(0)} cm</td>
+      <td class="bar-cell"><div class="mini-bar bar-snow" style="width:${snowPct}%"></div></td>
+      <td class="num">${r.mt.totalSF.toFixed(0)} cm</td>
+      <td class="num">${r.vt.totalSun.toFixed(0)} h</td>
+      <td class="bar-cell"><div class="mini-bar bar-sun" style="width:${sunPct}%"></div></td>
+      <td class="num" style="color:${r.vt.avgTemp > 0 ? 'var(--warn)' : 'var(--valley)'}">${r.vt.avgTemp.toFixed(1)}°C</td>
+    </tr>`;
+  });
+
+  html += '</tbody></table>';
+  document.getElementById('seasonTable').innerHTML = html;
+}
+
+// ══════════════════════════════════════════════════════════
+// CORRELATION ANALYSIS
+// ══════════════════════════════════════════════════════════
+function computeCorrelation() {
+  // Season-level: avg snow vs total winter nights (excluding COVID)
+  const pairs = [];
+  SEASONS.forEach(s => {
+    if (s.id === '19/20' || s.id === '20/21') return; // exclude COVID
+    const w = weatherData[s.id];
+    if (!w) return;
+    const vt = seasonTotals(w.valley);
+    const tour = getTourismForSeason(s.id);
+    if (tour.total > 0) pairs.push({ snow: vt.avgSnow, nights: tour.total, id: s.id });
+  });
+
+  if (pairs.length < 3) return null;
+
+  // Pearson R
+  const n = pairs.length;
+  const avgX = pairs.reduce((s,p) => s + p.snow, 0) / n;
+  const avgY = pairs.reduce((s,p) => s + p.nights, 0) / n;
+  let num = 0, denX = 0, denY = 0;
+  pairs.forEach(p => {
+    const dx = p.snow - avgX, dy = p.nights - avgY;
+    num += dx * dy; denX += dx * dx; denY += dy * dy;
+  });
+  const r = denX && denY ? num / Math.sqrt(denX * denY) : 0;
+  return { r, pairs };
+}
+
+function renderCorrSummary() {
+  const result = computeCorrelation();
+  const el = document.getElementById('corrSummary');
+
+  if (!result || result.pairs.length < 3) {
+    el.innerHTML = '<div class="card-h"><span class="card-t">Korrelationsanalyse</span></div><p style="color:var(--text-muted);font-size:0.9rem;">Nicht genug Daten (COVID-Saisons ausgeschlossen)</p>';
+    return;
+  }
+
+  const r = result.r;
+  const rAbs = Math.abs(r);
+  let strength, color;
+  if (rAbs > 0.7) { strength = 'starke'; color = 'var(--tourism)'; }
+  else if (rAbs > 0.4) { strength = 'moderate'; color = 'var(--sun)'; }
+  else { strength = 'schwache'; color = 'var(--text-muted)'; }
+
+  const direction = r > 0 ? 'positive' : 'negative';
+
+  el.innerHTML = `
+    <div class="card-h">
+      <span class="card-t">📊 Korrelationsanalyse · Schneehöhe ↔ Nächtigungen</span>
+      <span class="badge b-t">COVID-Saisons ausgenommen</span>
+    </div>
+    <div class="corr-box">
+      <div class="corr-r" style="color:${color}">r = ${r.toFixed(2)}</div>
+      <div class="corr-text">
+        Es besteht eine <strong>${strength} ${direction} Korrelation</strong> zwischen der durchschnittlichen Schneehöhe im Tal
+        und den Winter-Nächtigungen (ohne COVID-Saisons 19/20 & 20/21).
+        ${r > 0.4 ? '<br>➜ <strong>Mehr Schnee → tendenziell mehr Gäste.</strong> Die Schneesicherheit bleibt ein wichtiger Faktor für den Wintertourismus im Kleinwalsertal.'
+          : '<br>➜ Der Zusammenhang ist allerdings nicht stark genug um Schneehöhe als alleinigen Treiber für Buchungen zu sehen. Andere Faktoren (Feiertage, Wirtschaft, Marketing) spielen eine erhebliche Rolle.'}
+        <br><span style="font-size:0.78rem;color:var(--text-dim)">Basierend auf ${result.pairs.length} Saisonen · Pearson-Korrelationskoeffizient</span>
+      </div>
+    </div>
+  `;
+}
+
+// ══════════════════════════════════════════════════════════
+// RENDER ALL
+// ══════════════════════════════════════════════════════════
+function render() {
+  if (!weatherData[activeSeason]) return;
+  renderKPIs();
+  renderDualChart();
+  renderSnowTimeline();
+  renderCorrScatter();
+  renderSunCorr();
+  renderSnowfall();
+  renderTemp();
+  renderSeasonTable();
+  renderCorrSummary();
+}
+
+// ══════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════
+async function init() {
+  buildTabs();
+  await loadAll();
+  if (!Object.keys(weatherData).length) {
+    document.getElementById('kpis').innerHTML = '<div style="color:var(--warn);padding:2rem;text-align:center;">Wetterdaten konnten nicht geladen werden.</div>';
+    return;
+  }
+  if (!weatherData[activeSeason]) activeSeason = Object.keys(weatherData).pop();
+  render();
+}
+
+init();
+</script>
+</body>
+</html>
