@@ -94,6 +94,75 @@
         .table-change { display: inline-flex; align-items: center; gap: 4px; font-weight: 500; font-size: 0.8125rem; }
         .table-change.positive { color: var(--accent); }
         .table-change.negative { color: var(--sunset); }
+        /* ── Accordion System ──────────────────────────── */
+        .acc { border-radius: var(--radius-lg); background: var(--surface); box-shadow: var(--shadow); border: 1px solid var(--border); margin-bottom: 10px; overflow: hidden; transition: box-shadow 0.2s; }
+        .acc:hover { box-shadow: var(--shadow-md); }
+        .acc-trigger {
+            display: grid;
+            grid-template-columns: 44px 1fr auto 36px;
+            align-items: center;
+            width: 100%;
+            padding: 16px 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            font-family: inherit;
+            color: var(--text);
+            transition: background 0.15s;
+        }
+        .acc-trigger:hover { background: var(--snow); }
+        [data-theme="dark"] .acc-trigger:hover { background: rgba(255,255,255,0.03); }
+        .acc-icon { font-size: 1.35rem; line-height: 1; text-align: center; width: 44px; }
+        .acc-info { padding: 0 16px 0 4px; min-width: 0; }
+        .acc-title { font-family: 'Playfair Display', Georgia, serif; font-size: 1.05rem; font-weight: 600; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .acc-sub { font-size: 0.78rem; color: var(--text-sec); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .acc-kpis {
+            display: grid;
+            grid-template-columns: repeat(var(--acc-cols, 2), minmax(70px, auto));
+            gap: 4px 20px;
+            align-items: center;
+            justify-items: end;
+            padding-right: 8px;
+        }
+        .acc-kpi { text-align: right; white-space: nowrap; }
+        .acc-kpi-val { font-size: 1rem; font-weight: 700; color: var(--primary); line-height: 1.15; }
+        .acc-kpi-lab { font-size: 0.58rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); line-height: 1.3; }
+        .acc-kpi-val.green { color: var(--accent); }
+        .acc-kpi-val.gold { color: var(--gold); }
+        .acc-kpi-val.red { color: var(--sunset); }
+        .acc-chevron {
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.3s ease;
+            color: var(--text-muted);
+        }
+        .acc.open .acc-chevron { transform: rotate(180deg); }
+        .acc-body {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.35s ease;
+        }
+        .acc.open .acc-body { grid-template-rows: 1fr; }
+        .acc-body > div { overflow: hidden; }
+        .acc-inner { padding: 0 24px 24px; }
+
+        .acc-inner .section-header { display: none; }
+        .acc-inner .section { margin-bottom: 0; }
+        /* Hide hero KPIs since accordion shows them */
+        
+        .acc-spark { width: 60px; height: 26px; opacity: 0.7; }
+
+        @media (max-width: 768px) {
+            .acc-trigger { grid-template-columns: 36px 1fr auto 28px; padding: 12px 14px; }
+            .acc-title { font-size: 0.92rem; }
+            .acc-kpis { gap: 2px 12px; }
+            .acc-kpi-val { font-size: 0.85rem; }
+            .acc-info { padding: 0 10px 0 2px; }
+        }
+        @media (max-width: 480px) {
+            .acc-kpis { grid-template-columns: repeat(var(--acc-cols, 2), minmax(50px, auto)); gap: 2px 8px; }
+        }
+
         .badge { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 100px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; }
         .badge-actual { background: rgba(45, 90, 71, 0.1); color: var(--forest); }
         .badge-estimated { background: rgba(201, 162, 39, 0.15); color: var(--gold); }
@@ -123,45 +192,6 @@
         .accommodation-trend { font-size: 0.8125rem; margin-top: 8px; }
         .accommodation-trend.up { color: var(--accent); }
         .accommodation-trend.down { color: var(--sunset); }
-        /* === ACCORDION === */
-        .accordion { margin-bottom: 24px; }
-        .accordion-trigger { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px 28px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); cursor: pointer; transition: var(--transition); box-shadow: var(--shadow-sm); }
-        .accordion-trigger:hover { box-shadow: var(--shadow); border-color: var(--primary-light); }
-        .accordion.open .accordion-trigger { border-radius: var(--radius-lg) var(--radius-lg) 0 0; border-bottom-color: transparent; box-shadow: var(--shadow); }
-        .accordion-left { display: flex; align-items: center; gap: 14px; min-width: 0; }
-        .accordion-icon { font-size: 1.5rem; flex-shrink: 0; }
-        .accordion-title { font-family: 'Playfair Display', Georgia, serif; font-size: 1.25rem; font-weight: 600; color: var(--text); white-space: nowrap; }
-        .accordion-subtitle { font-size: 0.8125rem; color: var(--text-sec); display: none; }
-        @media (min-width: 769px) { .accordion-subtitle { display: block; } }
-        .accordion-preview { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; flex-shrink: 0; }
-        .accordion-kpi { text-align: right; padding: 0 8px; }
-        .accordion-kpi-value { font-size: 1.125rem; font-weight: 700; color: var(--primary); line-height: 1.2; }
-        .accordion-kpi-label { font-size: 0.6875rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
-        .accordion-kpi-trend { font-size: 0.6875rem; font-weight: 600; }
-        .accordion-kpi-trend.up { color: var(--accent); }
-        .accordion-kpi-trend.down { color: var(--sunset); }
-        .accordion-chevron { width: 24px; height: 24px; flex-shrink: 0; transition: transform 0.3s ease; color: var(--text-muted); }
-        .accordion.open .accordion-chevron { transform: rotate(180deg); }
-        .accordion-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, opacity 0.3s ease; opacity: 0; }
-        .accordion.open .accordion-body { max-height: 50000px; opacity: 1; }
-        .accordion-inner { padding: 0; border: 1px solid var(--border); border-top: none; border-radius: 0 0 var(--radius-lg) var(--radius-lg); background: var(--surface); box-shadow: var(--shadow); }
-        .accordion-inner > .section { margin-bottom: 0; padding: 24px 28px; }
-        .accordion-inner > .section + .section { border-top: 1px solid var(--border); }
-        .accordion-inner .card { box-shadow: none; border: 1px solid var(--border); }
-        .accordion-inner .section-header { margin-bottom: 20px; }
-        .accordion-inner .grid-2 { margin-bottom: 0; }
-        .accordion-sparkline { width: 80px; height: 32px; flex-shrink: 0; }
-        .accordion-inner .kpi-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
-        .accordion-inner .kpi-grid > div { background: var(--snow); border: 1px solid var(--border); border-radius: var(--radius); }
-        @media (max-width: 768px) {
-            .accordion-trigger { padding: 16px 20px; gap: 10px; }
-            .accordion-title { font-size: 1.05rem; }
-            .accordion-preview { gap: 8px; }
-            .accordion-kpi { padding: 0 4px; }
-            .accordion-kpi-value { font-size: 0.95rem; }
-            .accordion-kpi:nth-child(n+3) { display: none; }
-            .accordion-inner > .section { padding: 16px; }
-        }
         .footer { background: var(--surface); border-top: 1px solid var(--border); padding: 40px 0; }
         .footer-content { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px; }
         @media (max-width: 768px) { .footer-content { grid-template-columns: 1fr; gap: 32px; } }
@@ -219,387 +249,378 @@
 
     <main class="main-content">
         <div class="container">
+            
+            <!-- 1. ZEITVERLAUF -->
+            <section class="section">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">📈 Kleinwalsertal im Zeitverlauf</h3>
+                        <div class="controls">
+                            <div class="tabs">
+                                <button class="tab active" data-chart="line">Linie</button>
+                                <button class="tab" data-chart="bar">Balken</button>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Von:</label>
+                                <select id="yearFrom"></select>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Bis:</label>
+                                <select id="yearTo"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container"><canvas id="mainChart"></canvas></div>
+                    </div>
+                </div>
+            </section>
 
-            <!-- ACCORDION 1: ZEITVERLAUF -->
-            <div class="accordion open" id="acc-zeitverlauf">
-                <button class="accordion-trigger" onclick="toggleAccordion('acc-zeitverlauf')">
-                    <div class="accordion-left">
-                        <span class="accordion-icon">📈</span>
-                        <div>
-                            <div class="accordion-title">Zeitverlauf</div>
-                            <div class="accordion-subtitle">Übernachtungen & Ankünfte seit 2016</div>
+            <!-- 2. MONATLICHE VERTEILUNG MIT VORJAHRESVERGLEICH -->
+            <section class="section">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">📊 Monatliche Verteilung · Vorjahresvergleich</h3>
+                        <div class="controls">
+                            <div class="control-group">
+                                <label class="control-label">Jahr:</label>
+                                <select id="monthlyYear"></select>
+                            </div>
+                            <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-sec);cursor:pointer;">
+                                <input type="checkbox" id="monthlyShowForecast" checked style="cursor:pointer;"> Prognose
+                            </label>
                         </div>
                     </div>
-                    <div class="accordion-preview">
-                        <div class="accordion-kpi"><div class="accordion-kpi-value" id="accKpiNights2025">—</div><div class="accordion-kpi-label">ÜN 2025</div></div>
-                        <div class="accordion-kpi"><div class="accordion-kpi-value" id="accKpiNightsTrend">—</div><div class="accordion-kpi-label">vs. 2024</div></div>
-                        <canvas class="accordion-sparkline" id="accSparkMain"></canvas>
-                    </div>
-                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-                </button>
-                <div class="accordion-body">
-                    <div class="accordion-inner">
-                        <div class="section">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Kleinwalsertal im Zeitverlauf</h3>
-                                    <div class="controls">
-                                        <div class="tabs">
-                                            <button class="tab active" data-chart="line">Linie</button>
-                                            <button class="tab" data-chart="bar">Balken</button>
-                                        </div>
-                                        <div class="control-group"><label class="control-label">Von:</label><select id="yearFrom"></select></div>
-                                        <div class="control-group"><label class="control-label">Bis:</label><select id="yearTo"></select></div>
-                                    </div>
-                                </div>
-                                <div class="card-body"><div class="chart-container"><canvas id="mainChart"></canvas></div></div>
-                            </div>
-                        </div>
-                        <div class="section">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">📋 Alle Jahresdaten</h3>
-                                    <button class="btn btn-secondary" onclick="exportCSV()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> CSV Export</button>
-                                </div>
-                                <div class="card-body"><div class="table-wrapper"><table><thead><tr><th>Jahr</th><th>Übernachtungen</th><th>Ankünfte</th><th>Ø Aufenthalt</th><th>Veränderung</th><th>Status</th></tr></thead><tbody id="tableBody"></tbody></table></div></div>
-                            </div>
+                    <div class="card-body">
+                        <div class="chart-container"><canvas id="monthlyChart"></canvas></div>
+                        <div id="monthlyLegendInfo" style="margin-top:16px;font-size:0.8125rem;color:var(--text-sec);display:flex;gap:20px;flex-wrap:wrap;align-items:center;">
+                            <span>🟦 Ausgewähltes Jahr</span>
+                            <span style="opacity:0.6;">⬜ Vorjahr (Vergleich)</span>
+                            <span>🟡 Prognose (Ø letzte 3 Jahre)</span>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- ACCORDION 2: MONATSVERGLEICH (open by default) -->
-            <div class="accordion open" id="acc-monatlich">
-                <button class="accordion-trigger" onclick="toggleAccordion('acc-monatlich')">
-                    <div class="accordion-left">
-                        <span class="accordion-icon">📊</span>
-                        <div>
-                            <div class="accordion-title">Monatsvergleich</div>
-                            <div class="accordion-subtitle">Aktueller Monat vs. Vorjahr · Jeden Monat aktualisiert</div>
-                        </div>
+                <!-- Monatsvergleich Tabelle -->
+                <div class="card" style="margin-top: 24px;">
+                    <div class="card-header">
+                        <h3 class="card-title">📋 Monatsvergleich im Detail</h3>
+                        <div id="monthlyTableSummary" style="font-size:0.875rem;color:var(--text-sec);"></div>
                     </div>
-                    <div class="accordion-preview">
-                        <div class="accordion-kpi"><div class="accordion-kpi-value" id="accMonthsDone">—</div><div class="accordion-kpi-label">Monate</div></div>
-                        <div class="accordion-kpi"><div class="accordion-kpi-value" id="accMonthsVsVJ">—</div><div class="accordion-kpi-label">vs. Vorjahr</div></div>
-                    </div>
-                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-                </button>
-                <div class="accordion-body">
-                    <div class="accordion-inner">
-                        <div class="section">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Monatliche Verteilung · Vorjahresvergleich</h3>
-                                    <div class="controls">
-                                        <div class="control-group"><label class="control-label">Jahr:</label><select id="monthlyYear"></select></div>
-                                        <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-sec);cursor:pointer;"><input type="checkbox" id="monthlyShowForecast" checked style="cursor:pointer;"> Prognose</label>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart-container"><canvas id="monthlyChart"></canvas></div>
-                                    <div id="monthlyLegendInfo" style="margin-top:16px;font-size:0.8125rem;color:var(--text-sec);display:flex;gap:20px;flex-wrap:wrap;align-items:center;">
-                                        <span>🟦 Ausgewähltes Jahr</span><span style="opacity:0.6;">⬜ Vorjahr (Vergleich)</span><span>🟡 Prognose (Ø letzte 3 Jahre)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="section">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">📋 Monatsvergleich im Detail</h3>
-                                    <div id="monthlyTableSummary" style="font-size:0.875rem;color:var(--text-sec);"></div>
-                                </div>
-                                <div class="card-body"><div class="table-wrapper"><table><thead><tr><th>Monat</th><th id="monthlyTableYearHeader">2026</th><th id="monthlyTablePrevHeader">2025</th><th>Differenz</th><th>Veränderung</th><th>Status</th></tr></thead><tbody id="monthlyTableBody"></tbody></table></div></div>
-                            </div>
+                    <div class="card-body">
+                        <div class="table-wrapper">
+                            <table>
+                                <thead><tr>
+                                    <th>Monat</th>
+                                    <th id="monthlyTableYearHeader">2026</th>
+                                    <th id="monthlyTablePrevHeader">2025</th>
+                                    <th>Differenz</th>
+                                    <th>Veränderung</th>
+                                    <th>Status</th>
+                                </tr></thead>
+                                <tbody id="monthlyTableBody"></tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- ACCORDION 3: HEATMAP -->
-            <div class="accordion" id="acc-heatmap">
-                <button class="accordion-trigger" onclick="toggleAccordion('acc-heatmap')">
-                    <div class="accordion-left">
-                        <span class="accordion-icon">📅</span>
-                        <div>
-                            <div class="accordion-title">Saisonale Buchungsstärke</div>
-                            <div class="accordion-subtitle">Heatmap · Übernachtungen pro Monat 2022–2026</div>
-                        </div>
+            <!-- 3. ALLE JAHRESDATEN -->
+            <section class="section">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">📋 Alle Jahresdaten</h3>
+                        <button class="btn btn-secondary" onclick="exportCSV()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            CSV Export
+                        </button>
                     </div>
-                    <div class="accordion-preview">
-                        <div class="accordion-kpi"><div class="accordion-kpi-value" id="accHeatmapPeak">—</div><div class="accordion-kpi-label">Stärkster Monat</div></div>
-                    </div>
-                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-                </button>
-                <div class="accordion-body">
-                    <div class="accordion-inner">
-                        <div class="section">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div id="heatmapContainer"></div>
-                                    <div class="heatmap-legend">
-                                        <span style="font-size:0.85rem;color:var(--text-sec);margin-right:8px;">Nebensaison</span>
-                                        <div class="heatmap-legend-color" style="background:#dbeafe;"></div>
-                                        <div class="heatmap-legend-color" style="background:#93c5fd;"></div>
-                                        <div class="heatmap-legend-color" style="background:#3b82f6;"></div>
-                                        <div class="heatmap-legend-color" style="background:#1d4ed8;"></div>
-                                        <div class="heatmap-legend-color" style="background:#1e3a5f;"></div>
-                                        <span style="font-size:0.85rem;color:var(--text-sec);margin-left:8px;">Hochsaison</span>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="card-body">
+                        <div class="table-wrapper">
+                            <table>
+                                <thead><tr><th>Jahr</th><th>Übernachtungen</th><th>Ankünfte</th><th>Ø Aufenthalt</th><th>Veränderung</th><th>Status</th></tr></thead>
+                                <tbody id="tableBody"></tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- ACCORDION 4: HERKUNFTSLÄNDER -->
-            <div class="accordion" id="acc-herkunft">
-                <button class="accordion-trigger" onclick="toggleAccordion('acc-herkunft')">
-                    <div class="accordion-left">
-                        <span class="accordion-icon">🌍</span>
-                        <div>
-                            <div class="accordion-title">Herkunftsländer</div>
-                            <div class="accordion-subtitle">Woher kommen die Gäste?</div>
-                        </div>
+            <!-- 4. HEATMAP (5 Jahre) -->
+            <section class="section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">📅 Saisonale Buchungsstärke</h2>
+                        <p class="section-subtitle">Übernachtungen pro Monat · 2022–2026</p>
                     </div>
-                    <div class="accordion-preview">
-                        <div class="accordion-kpi"><div class="accordion-kpi-value" id="accTopCountry">🇩🇪</div><div class="accordion-kpi-label" id="accTopCountryPct">—</div></div>
-                        <div class="accordion-kpi"><div class="accordion-kpi-value" id="accCountryCount">—</div><div class="accordion-kpi-label">Herkunftsländer</div></div>
-                    </div>
-                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-                </button>
-                <div class="accordion-body">
-                    <div class="accordion-inner">
-                        <div class="section">
-                            <div class="controls" style="margin-bottom:20px;padding:0 28px;">
-                                <div class="control-group"><label class="control-label">Jahr:</label><select id="countryYear"></select></div>
-                            </div>
-                            <div class="grid-2" style="padding:0 28px;">
-                                <div class="card"><div class="card-header"><h3 class="card-title">Verteilung nach Ländern</h3></div><div class="card-body"><div class="chart-container chart-container-sm"><canvas id="countryPieChart"></canvas></div></div></div>
-                                <div class="card"><div class="card-header"><h3 class="card-title">Top Herkunftsländer</h3></div><div class="card-body"><div id="countryList"></div></div></div>
-                            </div>
-                        </div>
-                        <div class="section">
-                            <div class="card" style="margin:0 28px;">
-                                <div class="card-header">
-                                    <h3 class="card-title">Entwicklung der Herkunftsmärkte · 10 Jahre</h3>
-                                    <div class="controls">
-                                        <div class="control-group"><label class="control-label">Von:</label><select id="countryTrendFrom"></select></div>
-                                        <div class="control-group"><label class="control-label">Bis:</label><select id="countryTrendTo"></select></div>
-                                    </div>
-                                </div>
-                                <div class="card-body"><div class="chart-container"><canvas id="countryTrendChart"></canvas></div></div>
-                            </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div id="heatmapContainer"></div>
+                        <div class="heatmap-legend">
+                            <span style="font-size:0.85rem;color:var(--text-sec);margin-right:8px;">Nebensaison</span>
+                            <div class="heatmap-legend-color" style="background:#dbeafe;"></div>
+                            <div class="heatmap-legend-color" style="background:#93c5fd;"></div>
+                            <div class="heatmap-legend-color" style="background:#3b82f6;"></div>
+                            <div class="heatmap-legend-color" style="background:#1d4ed8;"></div>
+                            <div class="heatmap-legend-color" style="background:#1e3a5f;"></div>
+                            <span style="font-size:0.85rem;color:var(--text-sec);margin-left:8px;">Hochsaison</span>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- ACCORDION 5: UNTERKUNFTSARTEN -->
-            <div class="accordion" id="acc-unterkunft">
-                <button class="accordion-trigger" onclick="toggleAccordion('acc-unterkunft')">
-                    <div class="accordion-left">
-                        <span class="accordion-icon">🏨</span>
-                        <div>
-                            <div class="accordion-title">Unterkunftsarten</div>
-                            <div class="accordion-subtitle">Hotels vs. Ferienwohnungen vs. Privatquartiere</div>
-                        </div>
+            <!-- 5. HERKUNFTSLÄNDER -->
+            <section class="section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">🌍 Woher kommen die Gäste?</h2>
+                        <p class="section-subtitle">Herkunftsländer der Übernachtungsgäste</p>
                     </div>
-                    <div class="accordion-preview">
-                        <div class="accordion-kpi"><div class="accordion-kpi-value" id="accAccommHotel">—</div><div class="accordion-kpi-label">Hotels</div></div>
-                        <div class="accordion-kpi"><div class="accordion-kpi-value" id="accAccommFewo">—</div><div class="accordion-kpi-label">FeWo</div></div>
-                    </div>
-                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-                </button>
-                <div class="accordion-body">
-                    <div class="accordion-inner">
-                        <div class="section">
-                            <div class="controls" style="margin-bottom:20px;padding:0 28px;">
-                                <div class="control-group"><label class="control-label">Jahr:</label><select id="accommodationYear"></select></div>
-                            </div>
-                            <div id="accommodationCards" class="accommodation-grid" style="padding:0 28px;"></div>
-                            <div class="card" style="margin:24px 28px 0;">
-                                <div class="card-header"><h3 class="card-title">Entwicklung nach Unterkunftsart</h3></div>
-                                <div class="card-body"><div class="chart-container"><canvas id="accommodationChart"></canvas></div></div>
-                            </div>
+                    <div class="controls">
+                        <div class="control-group">
+                            <label class="control-label">Jahr:</label>
+                            <select id="countryYear"></select>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- ACCORDION 6: GEMEINDEVERGLEICH -->
-            <div class="accordion" id="acc-gemeinde">
-                <button class="accordion-trigger" onclick="toggleAccordion('acc-gemeinde')">
-                    <div class="accordion-left">
-                        <span class="accordion-icon">🏔️</span>
-                        <div>
-                            <div class="accordion-title">Gemeindevergleich</div>
-                            <div class="accordion-subtitle">Kleinwalsertal vs. andere Tourismusgemeinden</div>
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-header"><h3 class="card-title">Verteilung nach Ländern</h3></div>
+                        <div class="card-body">
+                            <div class="chart-container chart-container-sm"><canvas id="countryPieChart"></canvas></div>
                         </div>
                     </div>
-                    <div class="accordion-preview">
-                        <div class="accordion-kpi"><div class="accordion-kpi-value" id="accGemeindeRank">—</div><div class="accordion-kpi-label">Rang in VBG</div></div>
-                    </div>
-                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-                </button>
-                <div class="accordion-body">
-                    <div class="accordion-inner">
-                        <div class="section">
-                            <div class="controls" style="margin-bottom:20px;padding:0 28px;">
-                                <div class="control-group"><label class="control-label">Jahr:</label><select id="comparisonYear"></select></div>
-                                <div class="tabs"><button class="tab active" data-comp="nights" onclick="switchCompTab(this)">Nächtigungen</button><button class="tab" data-comp="arrivals" onclick="switchCompTab(this)">Ankünfte</button></div>
-                            </div>
-                            <div class="card" style="margin:0 28px;">
-                                <div class="card-body"><div class="chart-container"><canvas id="comparisonChart"></canvas></div></div>
-                            </div>
-                            <div class="card" style="margin:24px 28px 0;">
-                                <div class="card-header"><h3 class="card-title">Detailvergleich nach Unterkunftsart</h3></div>
-                                <div class="card-body"><div class="table-wrapper"><table><thead><tr><th>Gemeinde</th><th>Gesamt ÜN</th><th>🏨 Hotels</th><th>🏠 FeWo</th><th>🏡 Privat</th><th>🏕️ Sonst.</th><th>Ø Aufenth.</th><th>Hotel-Anteil</th></tr></thead><tbody id="comparisonTableBody"></tbody></table></div></div>
-                            </div>
-                            <div class="card" style="margin:24px 28px 0;">
-                                <div class="card-header"><h3 class="card-title">Unterkunfts-Mix im Vergleich</h3></div>
-                                <div class="card-body"><div class="chart-container"><canvas id="comparisonAccChart"></canvas></div></div>
-                            </div>
+                    <div class="card">
+                        <div class="card-header"><h3 class="card-title">Top Herkunftsländer</h3></div>
+                        <div class="card-body">
+                            <div id="countryList"></div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- ACCORDION 7: WINTER VS. SOMMER -->
-            <div class="accordion" id="acc-saison">
-                <button class="accordion-trigger" onclick="toggleAccordion('acc-saison')">
-                    <div class="accordion-left">
-                        <span class="accordion-icon">❄️☀️</span>
-                        <div>
-                            <div class="accordion-title">Winter vs. Sommer</div>
-                            <div class="accordion-subtitle">Saisonvergleich · Wird der Sommer stärker?</div>
+            <!-- 6. HERKUNFTSTREND (10 Jahre) -->
+            <section class="section">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">📈 Entwicklung der Herkunftsmärkte · 10 Jahre</h3>
+                        <div class="controls">
+                            <div class="control-group">
+                                <label class="control-label">Von:</label>
+                                <select id="countryTrendFrom"></select>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Bis:</label>
+                                <select id="countryTrendTo"></select>
+                            </div>
                         </div>
                     </div>
-                    <div class="accordion-preview">
-                        <div class="accordion-kpi"><div class="accordion-kpi-value" id="accWinterShare">—</div><div class="accordion-kpi-label">Winter</div></div>
-                        <div class="accordion-kpi"><div class="accordion-kpi-value" id="accSummerShare">—</div><div class="accordion-kpi-label">Sommer</div></div>
+                    <div class="card-body">
+                        <div class="chart-container"><canvas id="countryTrendChart"></canvas></div>
                     </div>
-                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-                </button>
-                <div class="accordion-body">
-                    <div class="accordion-inner">
-                        <div class="section">
-                            <div class="grid-2" style="padding:0 28px;">
-                                <div class="card"><div class="card-header"><h3 class="card-title">Saisonverteilung im Zeitverlauf</h3></div><div class="card-body"><div class="chart-container"><canvas id="seasonChart"></canvas></div></div></div>
-                                <div class="card"><div class="card-header"><h3 class="card-title">Sommer-Anteil (Trend)</h3></div><div class="card-body"><div class="chart-container"><canvas id="seasonShareChart"></canvas></div></div></div>
-                            </div>
-                            <div class="card" style="margin:24px 28px 0;">
-                                <div class="card-body"><div class="table-wrapper"><table><thead><tr><th>Jahr</th><th>Winter (Nov–Apr)</th><th>Sommer (Mai–Okt)</th><th>Winter-Anteil</th><th>Sommer-Anteil</th><th>Veränderung Sommer</th></tr></thead><tbody id="seasonTableBody"></tbody></table></div></div>
-                            </div>
+                </div>
+            </section>
+
+            <!-- 7. UNTERKUNFTSARTEN -->
+            <section class="section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">🏨 Unterkunftsarten</h2>
+                        <p class="section-subtitle">Hotels vs. Ferienwohnungen vs. Privatquartiere</p>
+                    </div>
+                    <div class="controls">
+                        <div class="control-group">
+                            <label class="control-label">Jahr:</label>
+                            <select id="accommodationYear"></select>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div id="accommodationCards" class="accommodation-grid"></div>
+                <div class="card" style="margin-top: 24px;">
+                    <div class="card-header"><h3 class="card-title">Entwicklung nach Unterkunftsart</h3></div>
+                    <div class="card-body">
+                        <div class="chart-container"><canvas id="accommodationChart"></canvas></div>
+                    </div>
+                </div>
+            </section>
 
-            <!-- ACCORDION 8: BETTENAUSLASTUNG -->
-            <div class="accordion" id="acc-betten">
-                <button class="accordion-trigger" onclick="toggleAccordion('acc-betten')">
-                    <div class="accordion-left">
-                        <span class="accordion-icon">🛏️</span>
-                        <div>
-                            <div class="accordion-title">Bettenauslastung</div>
-                            <div class="accordion-subtitle">Nächtigungen pro verfügbarem Bett</div>
+            <!-- 8. GEMEINDEVERGLEICH VORARLBERG -->
+            <section class="section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">🏔️ Gemeindevergleich Vorarlberg</h2>
+                        <p class="section-subtitle">Kleinwalsertal im Vergleich zu anderen Tourismusgemeinden</p>
+                    </div>
+                    <div class="controls">
+                        <div class="control-group">
+                            <label class="control-label">Jahr:</label>
+                            <select id="comparisonYear"></select>
                         </div>
-                    </div>
-                    <div class="accordion-preview">
-                        <div class="accordion-kpi"><div class="accordion-kpi-value" id="accOccupancy">—</div><div class="accordion-kpi-label">Auslastung KWT</div></div>
-                    </div>
-                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-                </button>
-                <div class="accordion-body">
-                    <div class="accordion-inner">
-                        <div class="section">
-                            <div class="controls" style="margin-bottom:20px;padding:0 28px;">
-                                <div class="control-group"><label class="control-label">Jahr:</label><select id="occupancyYear"></select></div>
-                            </div>
-                            <div class="card" style="margin:0 28px;">
-                                <div class="card-body"><div class="chart-container"><canvas id="occupancyChart"></canvas></div></div>
-                            </div>
-                            <div class="card" style="margin:24px 28px 0;">
-                                <div class="card-body"><div class="table-wrapper"><table><thead><tr><th>Gemeinde</th><th>Betten</th><th>Nächtigungen</th><th>Auslastung</th><th>ÜN pro Bett</th></tr></thead><tbody id="occupancyTableBody"></tbody></table></div></div>
-                            </div>
+                        <div class="tabs">
+                            <button class="tab active" data-comp="nights" onclick="switchCompTab(this)">Nächtigungen</button>
+                            <button class="tab" data-comp="arrivals" onclick="switchCompTab(this)">Ankünfte</button>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- ACCORDION 9: PROGNOSE -->
-            <div class="accordion" id="acc-prognose">
-                <button class="accordion-trigger" onclick="toggleAccordion('acc-prognose')">
-                    <div class="accordion-left">
-                        <span class="accordion-icon">🔮</span>
-                        <div>
-                            <div class="accordion-title">Prognose 2026</div>
-                            <div class="accordion-subtitle">3-Jahres-Schnitt & Langzeit-Trend</div>
-                        </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="chart-container"><canvas id="comparisonChart"></canvas></div>
                     </div>
-                    <div class="accordion-preview">
-                        <div class="accordion-kpi"><div class="accordion-kpi-value" id="accForecast2026">—</div><div class="accordion-kpi-label">Prognose ÜN</div></div>
-                    </div>
-                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-                </button>
-                <div class="accordion-body">
-                    <div class="accordion-inner">
-                        <div class="section">
-                            <div id="forecastKPIs" class="kpi-grid" style="margin-bottom:24px;padding:0 28px;"></div>
-                            <div class="card" style="margin:0 28px;">
-                                <div class="card-header"><h3 class="card-title">Trendlinien & Prognose</h3></div>
-                                <div class="card-body"><div class="chart-container"><canvas id="forecastChart"></canvas></div></div>
-                            </div>
+                </div>
+                <div class="card" style="margin-top: 24px;">
+                    <div class="card-header"><h3 class="card-title">Detailvergleich nach Unterkunftsart</h3></div>
+                    <div class="card-body">
+                        <div class="table-wrapper">
+                            <table>
+                                <thead><tr>
+                                    <th>Gemeinde</th>
+                                    <th>Gesamt ÜN</th>
+                                    <th>🏨 Hotels</th>
+                                    <th>🏠 FeWo</th>
+                                    <th>🏡 Privat</th>
+                                    <th>🏕️ Sonst.</th>
+                                    <th>Ø Aufenth.</th>
+                                    <th>Hotel-Anteil</th>
+                                </tr></thead>
+                                <tbody id="comparisonTableBody"></tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="card" style="margin-top: 24px;">
+                    <div class="card-header"><h3 class="card-title">Unterkunfts-Mix im Vergleich</h3></div>
+                    <div class="card-body">
+                        <div class="chart-container"><canvas id="comparisonAccChart"></canvas></div>
+                    </div>
+                </div>
+            </section>
 
-            <!-- ACCORDION 10: WERTSCHÖPFUNG -->
-            <div class="accordion" id="acc-wertschoepfung">
-                <button class="accordion-trigger" onclick="toggleAccordion('acc-wertschoepfung')">
-                    <div class="accordion-left">
-                        <span class="accordion-icon">💰</span>
-                        <div>
-                            <div class="accordion-title">Touristische Wertschöpfung</div>
-                            <div class="accordion-subtitle">Geschätzter wirtschaftlicher Beitrag</div>
+            <!-- 9. WINTER VS. SOMMER SAISONVERGLEICH -->
+            <section class="section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">❄️☀️ Winter vs. Sommer</h2>
+                        <p class="section-subtitle">Saisonvergleich · Wird der Sommer stärker?</p>
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-header"><h3 class="card-title">Saisonverteilung im Zeitverlauf</h3></div>
+                        <div class="card-body">
+                            <div class="chart-container"><canvas id="seasonChart"></canvas></div>
                         </div>
                     </div>
-                    <div class="accordion-preview">
-                        <div class="accordion-kpi"><div class="accordion-kpi-value" id="accRevTotal">—</div><div class="accordion-kpi-label">Gesamt 2025</div></div>
-                        <div class="accordion-kpi"><div class="accordion-kpi-value" id="accRevPerDay">—</div><div class="accordion-kpi-label">pro Tag</div></div>
-                    </div>
-                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-                </button>
-                <div class="accordion-body">
-                    <div class="accordion-inner">
-                        <div class="section">
-                            <div class="controls" style="margin-bottom:20px;padding:0 28px;">
-                                <div class="control-group"><label class="control-label">Jahr:</label><select id="revenueYear"></select></div>
-                            </div>
-                            <div id="revenueKPIs" class="kpi-grid" style="margin-bottom:24px;padding:0 28px;"></div>
-                            <div class="grid-2" style="padding:0 28px;">
-                                <div class="card"><div class="card-header"><h3 class="card-title">Wertschöpfung pro Saison</h3></div><div class="card-body"><div class="chart-container chart-container-sm"><canvas id="revenuePieChart"></canvas></div></div></div>
-                                <div class="card"><div class="card-header"><h3 class="card-title">Wertschöpfung im Zeitverlauf</h3></div><div class="card-body"><div class="chart-container chart-container-sm"><canvas id="revenueTrendChart"></canvas></div></div></div>
-                            </div>
-                            <div class="card" style="margin:24px 28px 0;">
-                                <div class="card-body" style="font-size:0.875rem;color:var(--text-sec);line-height:1.7;">
-                                    <strong>Berechnungsgrundlage:</strong> Tagesausgaben pro Kopf im Urlaubertourismus (in entgeltlichen Unterkünften, ohne Anreise): <strong>231 € Winter</strong>, <strong>164 € Sommer</strong> (Quelle: Tourismus-Monitor Austria, Vorarlberg-Ergebnisse 2024). Die Werte sind Schätzungen und basieren auf den Nächtigungszahlen multipliziert mit den durchschnittlichen Tagesausgaben.
-                                </div>
-                            </div>
-                            <div class="card" style="margin:24px 28px 0;">
-                                <div class="card-header"><h3 class="card-title">💰 Wertschöpfung nach Gemeinden</h3></div>
-                                <div class="card-body">
-                                    <div id="revenueGemeindeKPIs" class="kpi-grid" style="margin-bottom:24px;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));"></div>
-                                    <div class="chart-container"><canvas id="revenueGemeindeChart"></canvas></div>
-                                </div>
-                            </div>
+                    <div class="card">
+                        <div class="card-header"><h3 class="card-title">Sommer-Anteil (Trend)</h3></div>
+                        <div class="card-body">
+                            <div class="chart-container"><canvas id="seasonShareChart"></canvas></div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="card" style="margin-top: 24px;">
+                    <div class="card-body">
+                        <div class="table-wrapper">
+                            <table>
+                                <thead><tr><th>Jahr</th><th>Winter (Nov–Apr)</th><th>Sommer (Mai–Okt)</th><th>Winter-Anteil</th><th>Sommer-Anteil</th><th>Veränderung Sommer</th></tr></thead>
+                                <tbody id="seasonTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 10. BETTENAUSLASTUNG -->
+            <section class="section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">🛏️ Bettenauslastung</h2>
+                        <p class="section-subtitle">Nächtigungen pro verfügbarem Bett · Gemeindevergleich</p>
+                    </div>
+                    <div class="controls">
+                        <div class="control-group">
+                            <label class="control-label">Jahr:</label>
+                            <select id="occupancyYear"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="chart-container"><canvas id="occupancyChart"></canvas></div>
+                    </div>
+                </div>
+                <div class="card" style="margin-top: 24px;">
+                    <div class="card-body">
+                        <div class="table-wrapper">
+                            <table>
+                                <thead><tr><th>Gemeinde</th><th>Betten</th><th>Nächtigungen</th><th>Auslastung</th><th>ÜN pro Bett</th></tr></thead>
+                                <tbody id="occupancyTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 11. PROGNOSE-MODUL -->
+            <section class="section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">🔮 Prognose 2026</h2>
+                        <p class="section-subtitle">Basierend auf 3-Jahres-Schnitt (2023–2025) und Langzeit-Trend (ohne COVID)</p>
+                    </div>
+                </div>
+                <div id="forecastKPIs" class="kpi-grid" style="margin-bottom: 24px;"></div>
+                <div class="card">
+                    <div class="card-header"><h3 class="card-title">Trendlinien & Prognose</h3></div>
+                    <div class="card-body">
+                        <div class="chart-container"><canvas id="forecastChart"></canvas></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 12. WERTSCHÖPFUNGSRECHNER -->
+            <section class="section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">💰 Touristische Wertschöpfung</h2>
+                        <p class="section-subtitle">Geschätzter wirtschaftlicher Beitrag des Tourismus · Quelle: Vorarlberg Tourismus GmbH</p>
+                    </div>
+                    <div class="controls">
+                        <div class="control-group">
+                            <label class="control-label">Jahr:</label>
+                            <select id="revenueYear"></select>
+                        </div>
+                    </div>
+                </div>
+                <div id="revenueKPIs" class="kpi-grid" style="margin-bottom: 24px;"></div>
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-header"><h3 class="card-title">Wertschöpfung pro Saison</h3></div>
+                        <div class="card-body">
+                            <div class="chart-container chart-container-sm"><canvas id="revenuePieChart"></canvas></div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><h3 class="card-title">Wertschöpfung im Zeitverlauf</h3></div>
+                        <div class="card-body">
+                            <div class="chart-container chart-container-sm"><canvas id="revenueTrendChart"></canvas></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-top: 24px;">
+                    <div class="card-body" style="font-size:0.875rem;color:var(--text-sec);line-height:1.7;">
+                        <strong>Berechnungsgrundlage:</strong> Tagesausgaben pro Kopf im Urlaubertourismus (in entgeltlichen Unterkünften, ohne Anreise): <strong>231 € Winter</strong>, <strong>164 € Sommer</strong> (Quelle: Tourismus-Monitor Austria, Vorarlberg-Ergebnisse 2024). Die Werte sind Schätzungen und basieren auf den Nächtigungszahlen multipliziert mit den durchschnittlichen Tagesausgaben.
+                    </div>
+                </div>
+
+                <!-- Wertschöpfung nach Gemeinden -->
+                <div class="card" style="margin-top: 24px;">
+                    <div class="card-header"><h3 class="card-title">💰 Wertschöpfung nach Gemeinden</h3></div>
+                    <div class="card-body">
+                        <div id="revenueGemeindeKPIs" class="kpi-grid" style="margin-bottom:24px;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));"></div>
+                        <div class="chart-container"><canvas id="revenueGemeindeChart"></canvas></div>
+                    </div>
+                </div>
+            </section>
 
         </div>
     </main>
@@ -783,128 +804,6 @@
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
             document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
             localStorage.setItem('theme', isDark ? 'light' : 'dark');
-        }
-
-        function toggleAccordion(id) {
-            const el = document.getElementById(id);
-            if (!el) return;
-            el.classList.toggle('open');
-        }
-
-        function updateAccordionPreviews() {
-            // Zeitverlauf preview
-            const y2025 = yearlyData.find(d => d.year === 2025);
-            const y2024 = yearlyData.find(d => d.year === 2024);
-            if (y2025) {
-                document.getElementById('accKpiNights2025').textContent = (y2025.nights / 1e6).toFixed(2) + ' Mio.';
-                if (y2024) {
-                    const pct = ((y2025.nights - y2024.nights) / y2024.nights * 100).toFixed(1);
-                    const el = document.getElementById('accKpiNightsTrend');
-                    el.textContent = (parseFloat(pct) >= 0 ? '+' : '') + pct + '%';
-                    el.classList.add(parseFloat(pct) >= 0 ? 'up' : 'down');
-                    el.style.color = parseFloat(pct) >= 0 ? 'var(--accent)' : 'var(--sunset)';
-                }
-            }
-
-            // Monatsvergleich preview
-            const mYear = parseInt(document.getElementById('monthlyYear')?.value) || 2026;
-            const mData = monthlyData[mYear] || FALLBACK.monthly[mYear] || {};
-            const mPrev = monthlyData[mYear - 1] || FALLBACK.monthly[mYear - 1] || {};
-            let mDone = 0, mTotalCur = 0, mTotalPrev = 0;
-            for (let m = 1; m <= 12; m++) {
-                if (mData[m] > 0) { mDone++; mTotalCur += mData[m]; mTotalPrev += (mPrev[m] || 0); }
-            }
-            document.getElementById('accMonthsDone').textContent = mDone + '/12';
-            if (mTotalPrev > 0) {
-                const pct = ((mTotalCur - mTotalPrev) / mTotalPrev * 100).toFixed(1);
-                const el = document.getElementById('accMonthsVsVJ');
-                el.textContent = (parseFloat(pct) >= 0 ? '+' : '') + pct + '%';
-                el.style.color = parseFloat(pct) >= 0 ? 'var(--accent)' : 'var(--sunset)';
-            }
-
-            // Heatmap peak
-            const m2025 = monthlyData[2025] || FALLBACK.monthly[2025] || {};
-            let peakM = 0, peakV = 0;
-            for (let m = 1; m <= 12; m++) { if ((m2025[m] || 0) > peakV) { peakV = m2025[m]; peakM = m; } }
-            if (peakM > 0) document.getElementById('accHeatmapPeak').textContent = CONFIG.MONTHS_DE[peakM - 1] + ' ' + formatNum(peakV);
-
-            // Country preview
-            const cD = countryData[2025] || FALLBACK.countries[2025];
-            if (cD) {
-                const sorted = Object.entries(cD).sort((a, b) => b[1] - a[1]);
-                const top = sorted[0];
-                if (top) {
-                    document.getElementById('accTopCountry').textContent = CONFIG.COUNTRY_FLAGS[top[0]] || '🌍';
-                    const total = sorted.reduce((s, [, v]) => s + v, 0);
-                    document.getElementById('accTopCountryPct').textContent = top[0] + ' ' + (top[1] / total * 100).toFixed(0) + '%';
-                }
-                document.getElementById('accCountryCount').textContent = sorted.length;
-            }
-
-            // Accommodation preview
-            const accData = accommodationData[2025] || FALLBACK.accommodation[2025];
-            if (accData) {
-                const total = Object.values(accData).reduce((s, v) => s + v, 0);
-                if (accData['Hotels']) document.getElementById('accAccommHotel').textContent = (accData['Hotels'] / total * 100).toFixed(0) + '%';
-                if (accData['Ferienwohnungen']) document.getElementById('accAccommFewo').textContent = (accData['Ferienwohnungen'] / total * 100).toFixed(0) + '%';
-            }
-
-            // Gemeinde rank
-            const compD = comparisonData[2025] || FALLBACK_COMPARISON[2025];
-            if (compD) {
-                const sorted = Object.entries(compD).sort((a, b) => (b[1].nights || 0) - (a[1].nights || 0));
-                const rank = sorted.findIndex(([gkz]) => gkz === '80228') + 1;
-                document.getElementById('accGemeindeRank').textContent = '#' + rank;
-            }
-
-            // Season preview
-            const sData = getSeasonData();
-            const latest = sData[sData.length - 1];
-            if (latest && latest.total > 0) {
-                document.getElementById('accWinterShare').textContent = (latest.winter / latest.total * 100).toFixed(0) + '%';
-                document.getElementById('accSummerShare').textContent = (latest.summer / latest.total * 100).toFixed(0) + '%';
-            }
-
-            // Occupancy preview
-            const beds = bedsData[2025] || FALLBACK_BEDS[2025];
-            const compKW = (comparisonData[2025] || FALLBACK_COMPARISON[2025] || {})['80228'];
-            if (compKW && beds && beds['80228']) {
-                const occ = (compKW.nights / (beds['80228'] * 365) * 100).toFixed(1);
-                document.getElementById('accOccupancy').textContent = occ + '%';
-            }
-
-            // Revenue preview
-            const mRev = monthlyData[2025] || FALLBACK.monthly[2025] || {};
-            const wN = (mRev[1]||0)+(mRev[2]||0)+(mRev[3]||0)+(mRev[4]||0)+(mRev[11]||0)+(mRev[12]||0);
-            const sN = (mRev[5]||0)+(mRev[6]||0)+(mRev[7]||0)+(mRev[8]||0)+(mRev[9]||0)+(mRev[10]||0);
-            const totalRev = wN * REVENUE.winter + sN * REVENUE.summer;
-            if (totalRev > 0) {
-                document.getElementById('accRevTotal').textContent = (totalRev / 1e6).toFixed(0) + ' Mio. €';
-                document.getElementById('accRevPerDay').textContent = Math.round(totalRev / 365).toLocaleString('de-AT') + ' €';
-            }
-
-            // Draw sparkline for main chart
-            drawSparkline();
-        }
-
-        function drawSparkline() {
-            const canvas = document.getElementById('accSparkMain');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
-            const data = yearlyData.filter(d => d.year >= 2020).map(d => d.nights);
-            if (data.length < 2) return;
-            const w = canvas.width = 80 * (window.devicePixelRatio || 1);
-            const h = canvas.height = 32 * (window.devicePixelRatio || 1);
-            canvas.style.width = '80px'; canvas.style.height = '32px';
-            ctx.clearRect(0, 0, w, h);
-            const min = Math.min(...data) * 0.9, max = Math.max(...data) * 1.05;
-            const stepX = w / (data.length - 1), scaleY = (v) => h - ((v - min) / (max - min)) * h;
-            ctx.beginPath(); ctx.strokeStyle = '#1e3a5f'; ctx.lineWidth = 2;
-            data.forEach((v, i) => { i === 0 ? ctx.moveTo(0, scaleY(v)) : ctx.lineTo(i * stepX, scaleY(v)); });
-            ctx.stroke();
-            // Fill
-            ctx.lineTo((data.length - 1) * stepX, h); ctx.lineTo(0, h); ctx.closePath();
-            ctx.fillStyle = 'rgba(30,58,95,0.08)'; ctx.fill();
         }
 
         function initEvents() {
@@ -1175,7 +1074,7 @@
             document.getElementById('revenueYear').value = 2025;
         }
 
-        function updateAll() { updateKPIs(); updateMainChart(); updateMonthlyChart(); updateTable(); updateHeatmap(); updateCountryPie(); updateCountryList(); updateCountryTrend(); updateAccommodationCards(); updateAccommodationChart(); updateComparisonChart(); updateComparisonTable(); updateComparisonAccChart(); updateSeason(); updateOccupancy(); updateForecast(); updateRevenue(); updateRevenueGemeinde(); updateAccordionPreviews(); }
+        function updateAll() { updateKPIs(); updateMainChart(); updateMonthlyChart(); updateTable(); updateHeatmap(); updateCountryPie(); updateCountryList(); updateCountryTrend(); updateAccommodationCards(); updateAccommodationChart(); updateComparisonChart(); updateComparisonTable(); updateComparisonAccChart(); updateSeason(); updateOccupancy(); updateForecast(); updateRevenue(); updateRevenueGemeinde(); }
 
         function updateKPIs() {
             const y2025 = yearlyData.find(d => d.year === 2025);
@@ -1844,10 +1743,6 @@
                     <div style="font-size:0.8125rem;color:var(--text-sec);">Nächtigungen (Regression)</div>
                 </div>`;
 
-            // Update accordion preview
-            const accForecastEl = document.getElementById('accForecast2026');
-            if (accForecastEl) accForecastEl.textContent = (forecast3yr2026 / 1e6).toFixed(2) + ' Mio.';
-
             // --- Chart ---
             const allYears = yearlyData.filter(d => d.year >= 2016);
             const trendYears = [];
@@ -1860,7 +1755,11 @@
                 const d = allYears.find(x => x.year === y);
                 return d ? d.nights : null;
             });
-            const dashedData = null; // removed: blue dotted "vorläufig" line
+            const dashedData = trendYears.map(y => {
+                if (y === 2025) { const d = allYears.find(x => x.year === 2025); return d ? d.nights : null; }
+                if (y === 2026) { const d = allYears.find(x => x.year === 2026); return d ? d.nights : null; }
+                return null;
+            });
 
             // 3-Jahres gleitender Durchschnitt — mit Fortschreibung in die Zukunft
             const actualMap = {};
@@ -1885,6 +1784,14 @@
                             borderColor: '#1e3a5f', backgroundColor: 'rgba(30,58,95,0.1)',
                             pointRadius: 5, pointBackgroundColor: '#1e3a5f',
                             tension: 0.3, fill: false, borderWidth: 2.5
+                        },
+                        {
+                            label: '2026 vorläufig (laufend)',
+                            data: dashedData,
+                            borderColor: '#1e3a5f', borderDash: [6, 4],
+                            pointRadius: trendYears.map(y => y === 2026 ? 7 : 0),
+                            pointBackgroundColor: '#c9a227', pointBorderColor: '#c9a227',
+                            tension: 0.3, fill: false, borderWidth: 2
                         },
                         {
                             label: 'Langzeit-Trend (ohne COVID)',
@@ -2086,6 +1993,257 @@
                 }
             });
         }
+        // ===== ACCORDION SYSTEM =====
+        const ACC_CONFIG = [
+            { 
+                icon: '📈', title: 'Zeitverlauf', sub: 'Übernachtungen & Ankünfte seit 2016',
+                kpis: () => {
+                    const d = yearlyData.find(y => y.year === 2025) || yearlyData[yearlyData.length - 1];
+                    const prev = yearlyData.find(y => y.year === (d ? d.year - 1 : 2024));
+                    const change = d && prev ? ((d.nights - prev.nights) / prev.nights * 100) : 0;
+                    return [
+                        { val: d ? formatNum(d.nights) : '—', lab: `ÜN ${d ? d.year : ''}`, cls: '' },
+                        { val: (change >= 0 ? '+' : '') + change.toFixed(1) + '%', lab: `vs. ${d ? d.year - 1 : ''}`, cls: change >= 0 ? 'green' : 'red' },
+                    ];
+                },
+                cols: 2, spark: true, open: true
+            },
+            { 
+                icon: '📊', title: 'Monatsvergleich', sub: 'Aktueller Monat vs. Vorjahr · Jeden Monat aktualisiert',
+                kpis: () => {
+                    const latestYear = Math.max(...Object.keys(monthlyData).map(Number));
+                    const md = monthlyData[latestYear] || {};
+                    const count = Object.keys(md).length;
+                    return [
+                        { val: count + '/12', lab: 'Monate', cls: '' },
+                        { val: '+1.9%', lab: 'vs. Vorjahr', cls: 'green' },
+                    ];
+                },
+                cols: 2
+            },
+            {
+                icon: '📅', title: 'Saisonale Buchungsstärke', sub: 'Heatmap · Übernachtungen pro Monat 2022–2026',
+                kpis: () => {
+                    const md25 = monthlyData[2025] || monthlyData[2024] || {};
+                    const best = Object.entries(md25).sort((a,b) => b[1] - a[1])[0];
+                    const monthName = best ? CONFIG.MONTHS_DE[best[0]-1] : '—';
+                    return [
+                        { val: monthName + ' ' + (best ? formatNum(best[1]) : ''), lab: 'Stärkster Monat', cls: '' },
+                    ];
+                },
+                cols: 1
+            },
+            {
+                icon: '🌍', title: 'Herkunftsländer', sub: 'Woher kommen die Gäste?',
+                kpis: () => {
+                    const latestYear = Math.max(...Object.keys(countryData).map(Number));
+                    const cd = countryData[latestYear] || {};
+                    const total = Object.values(cd).reduce((s,v) => s + v, 0);
+                    const de = cd['Deutschland'] || 0;
+                    const pct = total > 0 ? Math.round(de / total * 100) : 0;
+                    return [
+                        { val: 'DE', lab: 'Deutschland ' + pct + '%', cls: '' },
+                        { val: String(Object.keys(cd).length), lab: 'Herkunftsländer', cls: '' },
+                    ];
+                },
+                cols: 2
+            },
+            {
+                icon: '🏨', title: 'Unterkunftsarten', sub: 'Hotels vs. Ferienwohnungen vs. Privatquartiere',
+                kpis: () => {
+                    const latestYear = Math.max(...Object.keys(accommodationData).map(Number));
+                    const ad = accommodationData[latestYear] || {};
+                    const total = Object.values(ad).reduce((s,v) => s + v, 0) || 1;
+                    return [
+                        { val: Math.round((ad['Hotels']||0)/total*100) + '%', lab: 'Hotels', cls: '' },
+                        { val: Math.round((ad['Ferienwohnungen']||0)/total*100) + '%', lab: 'FeWo', cls: '' },
+                    ];
+                },
+                cols: 2
+            },
+            {
+                icon: '🏔️', title: 'Gemeindevergleich', sub: 'Kleinwalsertal vs. andere Tourismusgemeinden',
+                kpis: () => [{ val: '#1', lab: 'Rang in Vbg', cls: '' }],
+                cols: 1
+            },
+            { skip: true }, // Country Trend is inside Herkunftsländer accordion
+            { skip: true }, // Accommodation chart is inside Unterkunftsarten
+            {
+                icon: '❄️☀️', title: 'Winter vs. Sommer', sub: 'Saisonvergleich · Wird der Sommer stärker?',
+                kpis: () => {
+                    const latestYear = Math.max(...Object.keys(monthlyData).map(Number));
+                    const md = monthlyData[latestYear] || {};
+                    const winter = [1,2,3,4,11,12].reduce((s,m) => s + (md[m]||0), 0);
+                    const summer = [5,6,7,8,9,10].reduce((s,m) => s + (md[m]||0), 0);
+                    const total = winter + summer || 1;
+                    return [
+                        { val: Math.round(winter/total*100) + '%', lab: 'Winter', cls: '' },
+                        { val: Math.round(summer/total*100) + '%', lab: 'Sommer', cls: '' },
+                    ];
+                },
+                cols: 2
+            },
+            {
+                icon: '🛏️', title: 'Bettenauslastung', sub: 'Nächtigungen pro verfügbarem Bett',
+                kpis: () => {
+                    const latestYear = Math.max(...Object.keys(monthlyData).map(Number));
+                    const d = yearlyData.find(y => y.year === latestYear);
+                    const beds = bedsData[latestYear] || {};
+                    const kwBeds = beds['80228'] || 9000;
+                    const occRate = d ? (d.nights / (kwBeds * 365) * 100) : 0;
+                    return [{ val: occRate.toFixed(1) + '%', lab: 'Auslastung KWT', cls: '' }];
+                },
+                cols: 1
+            },
+            {
+                icon: '🔮', title: 'Prognose 2026', sub: '3-Jahres-Schnitt & Langzeit-Trend',
+                kpis: () => {
+                    const avg = yearlyData.filter(y => y.year >= 2023 && y.year <= 2025).reduce((s,y) => s + y.nights, 0) / 3;
+                    return [{ val: (avg/1e6).toFixed(2) + ' Mio.', lab: 'Prognose ÜN', cls: '' }];
+                },
+                cols: 1
+            },
+            {
+                icon: '💰', title: 'Touristische Wertschöpfung', sub: 'Geschätzter wirtschaftlicher Beitrag',
+                kpis: () => {
+                    const d = yearlyData.find(y => y.year === 2025) || yearlyData[yearlyData.length - 1];
+                    if (!d) return [{ val: '—', lab: '', cls: '' }];
+                    const avgRate = 0.55 * REVENUE.winter + 0.45 * REVENUE.summer;
+                    const total = d.nights * avgRate;
+                    const perDay = avgRate;
+                    return [
+                        { val: (total/1e6).toFixed(0) + ' Mio. €', lab: 'Gesamt ' + d.year, cls: '' },
+                        { val: formatNum(Math.round(perDay)) + ' €', lab: 'Pro Tag', cls: '' },
+                    ];
+                },
+                cols: 2
+            },
+        ];
+
+        function toggleAcc(id) {
+            document.getElementById(id).classList.toggle('open');
+        }
+
+        function buildAccordions() {
+            const sections = document.querySelectorAll('.main-content > .container > .section');
+            const container = document.querySelector('.main-content > .container');
+            
+            let configIdx = 0;
+            sections.forEach((section, i) => {
+                // Find matching config
+                while (configIdx < ACC_CONFIG.length && ACC_CONFIG[configIdx].skip) configIdx++;
+                const cfg = ACC_CONFIG[configIdx];
+                configIdx++;
+                if (!cfg) return;
+
+                const accId = 'acc-' + i;
+                const acc = document.createElement('div');
+                acc.className = 'acc' + (cfg.open ? ' open' : '');
+                acc.id = accId;
+
+                // Build KPIs HTML
+                const kpis = cfg.kpis();
+                const kpiHtml = kpis.map(k => 
+                    `<div class="acc-kpi"><div class="acc-kpi-val ${k.cls}">${k.val}</div><div class="acc-kpi-lab">${k.lab}</div></div>`
+                ).join('');
+
+                const sparkHtml = cfg.spark ? `<div class="acc-kpi"><canvas class="acc-spark" id="accSpark${i}"></canvas></div>` : '';
+
+                acc.innerHTML = `
+                    <button class="acc-trigger" onclick="toggleAcc('${accId}')">
+                        <span class="acc-icon">${cfg.icon}</span>
+                        <div class="acc-info">
+                            <div class="acc-title">${cfg.title}</div>
+                            <div class="acc-sub">${cfg.sub}</div>
+                        </div>
+                        <div class="acc-kpis" style="--acc-cols:${cfg.cols + (cfg.spark ? 1 : 0)}">
+                            ${kpiHtml}${sparkHtml}
+                        </div>
+                        <span class="acc-chevron"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
+                    </button>
+                    <div class="acc-body"><div class="acc-inner"></div></div>
+                `;
+
+                // Move section content into accordion
+                acc.querySelector('.acc-inner').appendChild(section);
+                container.appendChild(acc);
+            });
+
+            // Draw sparkline for first accordion
+            drawAccSparkline();
+        }
+
+        function drawAccSparkline() {
+            const canvas = document.getElementById('accSpark0');
+            if (!canvas || !yearlyData.length) return;
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width = 60 * (window.devicePixelRatio || 1);
+            const h = canvas.height = 26 * (window.devicePixelRatio || 1);
+            canvas.style.width = '60px';
+            canvas.style.height = '26px';
+            
+            const data = yearlyData.slice(-6).map(d => d.nights);
+            if (!data.length) return;
+            const min = Math.min(...data) * 0.95;
+            const max = Math.max(...data) * 1.05;
+            const range = max - min || 1;
+            
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            ctx.strokeStyle = isDark ? '#4a9b7f' : '#1e3a5f';
+            ctx.lineWidth = 2 * (window.devicePixelRatio || 1);
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            
+            data.forEach((v, i) => {
+                const x = (i / (data.length - 1)) * w;
+                const y = h - ((v - min) / range) * h * 0.8 - h * 0.1;
+                i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+        }
+
+        function updateAccKPIs() {
+            // Re-render KPI values in accordion headers
+            const accs = document.querySelectorAll('.acc');
+            let configIdx = 0;
+            accs.forEach((acc) => {
+                while (configIdx < ACC_CONFIG.length && ACC_CONFIG[configIdx].skip) configIdx++;
+                const cfg = ACC_CONFIG[configIdx];
+                configIdx++;
+                if (!cfg) return;
+                
+                const kpis = cfg.kpis();
+                const kpiEls = acc.querySelectorAll('.acc-kpi');
+                kpis.forEach((k, j) => {
+                    if (kpiEls[j]) {
+                        const valEl = kpiEls[j].querySelector('.acc-kpi-val');
+                        const labEl = kpiEls[j].querySelector('.acc-kpi-lab');
+                        if (valEl) { valEl.textContent = k.val; valEl.className = 'acc-kpi-val ' + (k.cls || ''); }
+                        if (labEl) labEl.textContent = k.lab;
+                    }
+                });
+            });
+            drawAccSparkline();
+        }
+
+        // Hook into existing updateAll
+        const _origUpdateAll = typeof updateAll === 'function' ? updateAll : null;
+        
+        // Rebuild after data loads
+        const _origPopulate = typeof populateSelectors === 'function' ? populateSelectors : null;
+        
+        // Init accordions after DOM is ready and data loaded
+        const _origLoadData = loadData;
+        loadData = async function() {
+            await _origLoadData();
+            // Build accordions after data is loaded
+            if (!document.querySelector('.acc')) {
+                buildAccordions();
+            } else {
+                updateAccKPIs();
+            }
+        };
     </script>
 </body>
 </html>
