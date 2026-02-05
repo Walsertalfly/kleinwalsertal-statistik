@@ -392,6 +392,124 @@
                 </div>
             </section>
 
+            <!-- 9. WINTER VS. SOMMER SAISONVERGLEICH -->
+            <section class="section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">❄️☀️ Winter vs. Sommer</h2>
+                        <p class="section-subtitle">Saisonvergleich · Wird der Sommer stärker?</p>
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-header"><h3 class="card-title">Saisonverteilung im Zeitverlauf</h3></div>
+                        <div class="card-body">
+                            <div class="chart-container"><canvas id="seasonChart"></canvas></div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><h3 class="card-title">Sommer-Anteil (Trend)</h3></div>
+                        <div class="card-body">
+                            <div class="chart-container"><canvas id="seasonShareChart"></canvas></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-top: 24px;">
+                    <div class="card-body">
+                        <div class="table-wrapper">
+                            <table>
+                                <thead><tr><th>Jahr</th><th>Winter (Nov–Apr)</th><th>Sommer (Mai–Okt)</th><th>Winter-Anteil</th><th>Sommer-Anteil</th><th>Veränderung Sommer</th></tr></thead>
+                                <tbody id="seasonTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 10. BETTENAUSLASTUNG -->
+            <section class="section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">🛏️ Bettenauslastung</h2>
+                        <p class="section-subtitle">Nächtigungen pro verfügbarem Bett · Gemeindevergleich</p>
+                    </div>
+                    <div class="controls">
+                        <div class="control-group">
+                            <label class="control-label">Jahr:</label>
+                            <select id="occupancyYear"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="chart-container"><canvas id="occupancyChart"></canvas></div>
+                    </div>
+                </div>
+                <div class="card" style="margin-top: 24px;">
+                    <div class="card-body">
+                        <div class="table-wrapper">
+                            <table>
+                                <thead><tr><th>Gemeinde</th><th>Betten</th><th>Nächtigungen</th><th>Auslastung</th><th>ÜN pro Bett</th></tr></thead>
+                                <tbody id="occupancyTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 11. PROGNOSE-MODUL -->
+            <section class="section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">🔮 Prognose 2026</h2>
+                        <p class="section-subtitle">Hochrechnung basierend auf 10-Jahres-Trend (ohne COVID-Jahre)</p>
+                    </div>
+                </div>
+                <div id="forecastKPIs" class="kpi-grid" style="margin-bottom: 24px;"></div>
+                <div class="card">
+                    <div class="card-header"><h3 class="card-title">Trendlinie & Prognose</h3></div>
+                    <div class="card-body">
+                        <div class="chart-container"><canvas id="forecastChart"></canvas></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 12. WERTSCHÖPFUNGSRECHNER -->
+            <section class="section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">💰 Touristische Wertschöpfung</h2>
+                        <p class="section-subtitle">Geschätzter wirtschaftlicher Beitrag des Tourismus · Quelle: Vorarlberg Tourismus GmbH</p>
+                    </div>
+                    <div class="controls">
+                        <div class="control-group">
+                            <label class="control-label">Jahr:</label>
+                            <select id="revenueYear"></select>
+                        </div>
+                    </div>
+                </div>
+                <div id="revenueKPIs" class="kpi-grid" style="margin-bottom: 24px;"></div>
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-header"><h3 class="card-title">Wertschöpfung pro Saison</h3></div>
+                        <div class="card-body">
+                            <div class="chart-container chart-container-sm"><canvas id="revenuePieChart"></canvas></div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header"><h3 class="card-title">Wertschöpfung im Zeitverlauf</h3></div>
+                        <div class="card-body">
+                            <div class="chart-container chart-container-sm"><canvas id="revenueTrendChart"></canvas></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-top: 24px;">
+                    <div class="card-body" style="font-size:0.875rem;color:var(--text-sec);line-height:1.7;">
+                        <strong>Berechnungsgrundlage:</strong> Tagesausgaben pro Kopf im Urlaubertourismus (in entgeltlichen Unterkünften, ohne Anreise): <strong>231 € Winter</strong>, <strong>164 € Sommer</strong> (Quelle: Tourismus-Monitor Austria, Vorarlberg-Ergebnisse 2024). Die Werte sind Schätzungen und basieren auf den Nächtigungszahlen multipliziert mit den durchschnittlichen Tagesausgaben.
+                    </div>
+                </div>
+            </section>
+
         </div>
     </main>
 
@@ -442,6 +560,18 @@
         let yearlyData = [], monthlyData = {}, countryData = {}, accommodationData = {};
         let comparisonData = {};
         let mainChart, monthlyChart, countryPieChart, countryTrendChart, accommodationChart, comparisonChart, comparisonAccChart;
+        let seasonChart, seasonShareChart, occupancyChart, forecastChart, revenuePieChart, revenueTrendChart;
+
+        // Wertschöpfung: Tagesausgaben pro Kopf (Quelle: TMA Vorarlberg 2024)
+        const REVENUE = { winter: 231, summer: 164 }; // €/Tag
+
+        // FALLBACK: Bettenzahlen pro Gemeinde (Richtwerte, Sommer-Durchschnitt)
+        const FALLBACK_BEDS = {
+            2023: { '80228': 9200, '80224': 7800, '80211': 2400, '80201': 1800, '80233': 2800, '80240': 2300, '80208': 2600, '80216': 3200, '80226': 1500, '80244': 1900 },
+            2024: { '80228': 9100, '80224': 7900, '80211': 2450, '80201': 1800, '80233': 2850, '80240': 2300, '80208': 2550, '80216': 3250, '80226': 1500, '80244': 1950 },
+            2025: { '80228': 9000, '80224': 8000, '80211': 2500, '80201': 1850, '80233': 2900, '80240': 2350, '80208': 2500, '80216': 3300, '80226': 1550, '80244': 2000 }
+        };
+        let bedsData = {};
 
         // Gemeinde-Mapping (GKZ → Name)
         const GEMEINDE_MAP = {
@@ -572,6 +702,8 @@
             ['countryTrendFrom', 'countryTrendTo'].forEach(id => document.getElementById(id)?.addEventListener('change', updateCountryTrend));
             document.getElementById('accommodationYear')?.addEventListener('change', () => { updateAccommodationCards(); updateAccommodationChart(); });
             document.getElementById('comparisonYear')?.addEventListener('change', () => { updateComparisonChart(); updateComparisonTable(); updateComparisonAccChart(); });
+            document.getElementById('occupancyYear')?.addEventListener('change', () => { updateOccupancy(); });
+            document.getElementById('revenueYear')?.addEventListener('change', () => { updateRevenue(); });
         }
 
         async function loadData() {
@@ -619,6 +751,7 @@
             if (Object.keys(comparisonData).length === 0) {
                 comparisonData = JSON.parse(JSON.stringify(FALLBACK_COMPARISON));
             }
+            bedsData = JSON.parse(JSON.stringify(FALLBACK_BEDS));
             
             setStatus(mainOK ? 'live' : 'offline', mainOK ? 'Live-Daten' : 'Offline-Daten');
             populateSelectors();
@@ -798,7 +931,7 @@
         function populateSelectors() {
             const years = yearlyData.map(d => d.year);
             const min = Math.min(...years), max = Math.max(...years);
-            ['yearFrom', 'yearTo', 'monthlyYear', 'countryYear', 'countryTrendFrom', 'countryTrendTo', 'accommodationYear', 'comparisonYear'].forEach(id => {
+            ['yearFrom', 'yearTo', 'monthlyYear', 'countryYear', 'countryTrendFrom', 'countryTrendTo', 'accommodationYear', 'comparisonYear', 'occupancyYear', 'revenueYear'].forEach(id => {
                 const el = document.getElementById(id); if (!el) return;
                 el.innerHTML = ''; for (let y = max; y >= min; y--) el.innerHTML += `<option value="${y}">${y}</option>`;
             });
@@ -811,9 +944,11 @@
             document.getElementById('countryYear').value = 2025;
             document.getElementById('accommodationYear').value = 2025;
             document.getElementById('comparisonYear').value = 2025;
+            document.getElementById('occupancyYear').value = 2025;
+            document.getElementById('revenueYear').value = 2025;
         }
 
-        function updateAll() { updateKPIs(); updateMainChart(); updateMonthlyChart(); updateTable(); updateHeatmap(); updateCountryPie(); updateCountryList(); updateCountryTrend(); updateAccommodationCards(); updateAccommodationChart(); updateComparisonChart(); updateComparisonTable(); updateComparisonAccChart(); }
+        function updateAll() { updateKPIs(); updateMainChart(); updateMonthlyChart(); updateTable(); updateHeatmap(); updateCountryPie(); updateCountryList(); updateCountryTrend(); updateAccommodationCards(); updateAccommodationChart(); updateComparisonChart(); updateComparisonTable(); updateComparisonAccChart(); updateSeason(); updateOccupancy(); updateForecast(); updateRevenue(); }
 
         function updateKPIs() {
             const y2025 = yearlyData.find(d => d.year === 2025);
@@ -1158,6 +1293,288 @@
                         y: { stacked: true, ticks: { color: isDark ? '#e6edf3' : '#1a2a3a' }, grid: { display: false } }
                     }
                 }
+            });
+        }
+
+        // ===== 9. WINTER VS. SOMMER =====
+        function getSeasonData() {
+            const years = Object.keys(monthlyData).map(Number).filter(y => y >= 2016 && y <= 2025).sort();
+            return years.map(y => {
+                const m = monthlyData[y] || FALLBACK.monthly[y] || {};
+                // Winter = Nov(Vorjahr)+Dez(Vorjahr)+Jan+Feb+Mar+Apr, Sommer = Mai-Okt
+                const winter = (m[1]||0) + (m[2]||0) + (m[3]||0) + (m[4]||0) + (m[11]||0) + (m[12]||0);
+                const summer = (m[5]||0) + (m[6]||0) + (m[7]||0) + (m[8]||0) + (m[9]||0) + (m[10]||0);
+                return { year: y, winter, summer, total: winter + summer };
+            }).filter(d => d.total > 0);
+        }
+
+        function updateSeason() {
+            const data = getSeasonData();
+            if (data.length === 0) return;
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const txtCol = isDark ? '#e6edf3' : '#1a2a3a';
+            const gridCol = isDark ? '#30363d' : '#e5eaef';
+
+            // Stacked bar chart
+            const ctx1 = document.getElementById('seasonChart').getContext('2d');
+            if (seasonChart) seasonChart.destroy();
+            seasonChart = new Chart(ctx1, {
+                type: 'bar',
+                data: { labels: data.map(d => d.year), datasets: [
+                    { label: '❄️ Winter (Nov–Apr)', data: data.map(d => d.winter), backgroundColor: '#1e3a5fcc', borderRadius: 4 },
+                    { label: '☀️ Sommer (Mai–Okt)', data: data.map(d => d.summer), backgroundColor: '#4a9b7fcc', borderRadius: 4 }
+                ]},
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: txtCol } }, tooltip: { callbacks: { label: c => `${c.dataset.label}: ${formatNum(c.raw)}` } } }, scales: { x: { stacked: true, ticks: { color: txtCol }, grid: { display: false } }, y: { stacked: true, ticks: { color: txtCol, callback: v => formatNum(v) }, grid: { color: gridCol } } } }
+            });
+
+            // Summer share trend line
+            const ctx2 = document.getElementById('seasonShareChart').getContext('2d');
+            if (seasonShareChart) seasonShareChart.destroy();
+            const summerPcts = data.map(d => d.total > 0 ? (d.summer / d.total * 100) : 0);
+            seasonShareChart = new Chart(ctx2, {
+                type: 'line',
+                data: { labels: data.map(d => d.year), datasets: [{
+                    label: 'Sommer-Anteil %',
+                    data: summerPcts,
+                    borderColor: '#4a9b7f', backgroundColor: 'rgba(74,155,127,0.15)',
+                    fill: true, tension: 0.3, pointRadius: 6, pointBackgroundColor: '#4a9b7f'
+                }]},
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => `Sommer-Anteil: ${c.raw.toFixed(1)}%` } } }, scales: { x: { ticks: { color: txtCol }, grid: { display: false } }, y: { min: 25, max: 55, ticks: { color: txtCol, callback: v => v + '%' }, grid: { color: gridCol } } } }
+            });
+
+            // Season table
+            document.getElementById('seasonTableBody').innerHTML = [...data].reverse().map((d, i, arr) => {
+                const prevD = arr[i+1];
+                const wPct = d.total > 0 ? (d.winter / d.total * 100).toFixed(1) : '—';
+                const sPct = d.total > 0 ? (d.summer / d.total * 100).toFixed(1) : '—';
+                const sChange = prevD && prevD.summer > 0 ? ((d.summer - prevD.summer) / prevD.summer * 100).toFixed(1) : null;
+                return `<tr><td class="table-year">${d.year}</td><td class="table-number">${formatNum(d.winter)}</td><td class="table-number">${formatNum(d.summer)}</td><td>${wPct}%</td><td>${sPct}%</td><td>${sChange !== null ? `<span class="table-change ${parseFloat(sChange) >= 0 ? 'positive' : 'negative'}">${parseFloat(sChange) >= 0 ? '↑' : '↓'} ${Math.abs(sChange)}%</span>` : '—'}</td></tr>`;
+            }).join('');
+        }
+
+        // ===== 10. BETTENAUSLASTUNG =====
+        function updateOccupancy() {
+            const year = parseInt(document.getElementById('occupancyYear').value);
+            const compData = comparisonData[year] || FALLBACK_COMPARISON[year] || FALLBACK_COMPARISON[2025];
+            const beds = bedsData[year] || FALLBACK_BEDS[year] || FALLBACK_BEDS[2025];
+            if (!compData || !beds) return;
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+
+            const items = Object.entries(compData)
+                .map(([gkz, d]) => {
+                    const b = beds[gkz] || 0;
+                    const nights = d.nights || 0;
+                    const maxNights = b * 365;
+                    const occupancy = maxNights > 0 ? (nights / maxNights * 100) : 0;
+                    const nightsPerBed = b > 0 ? Math.round(nights / b) : 0;
+                    return { gkz, name: d.name || GEMEINDE_MAP[gkz] || gkz, beds: b, nights, occupancy, nightsPerBed };
+                })
+                .filter(d => d.beds > 0)
+                .sort((a, b) => b.occupancy - a.occupancy);
+
+            // Bar chart
+            const ctx = document.getElementById('occupancyChart').getContext('2d');
+            if (occupancyChart) occupancyChart.destroy();
+            occupancyChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: items.map(d => d.name),
+                    datasets: [{
+                        label: 'Bettenauslastung %',
+                        data: items.map(d => d.occupancy),
+                        backgroundColor: items.map(d => d.gkz === '80228' ? '#1e3a5fcc' : d.occupancy > 40 ? '#4a9b7fcc' : '#c9a227cc'),
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => `${c.raw.toFixed(1)}% Auslastung (${formatNum(items[c.dataIndex].nightsPerBed)} ÜN/Bett)` } } },
+                    scales: {
+                        x: { max: 55, ticks: { color: isDark ? '#e6edf3' : '#1a2a3a', callback: v => v + '%' }, grid: { color: isDark ? '#30363d' : '#e5eaef' } },
+                        y: { ticks: { color: isDark ? '#e6edf3' : '#1a2a3a' }, grid: { display: false } }
+                    }
+                }
+            });
+
+            // Table
+            document.getElementById('occupancyTableBody').innerHTML = items.map(d => {
+                const isKW = d.gkz === '80228';
+                const barW = Math.min(d.occupancy / 50 * 100, 100);
+                const barCol = d.occupancy > 40 ? 'var(--accent)' : d.occupancy > 30 ? 'var(--gold)' : 'var(--sunset)';
+                return `<tr style="${isKW ? 'background:rgba(30,58,95,0.06);font-weight:600;' : ''}">
+                    <td class="table-year">${isKW ? '⛷️ ' : ''}${d.name}</td>
+                    <td class="table-number">${formatNum(d.beds)}</td>
+                    <td class="table-number">${formatNum(d.nights)}</td>
+                    <td><div style="display:flex;align-items:center;gap:8px;"><div style="width:80px;height:10px;background:var(--snow);border-radius:5px;overflow:hidden;"><div style="width:${barW}%;height:100%;background:${barCol};border-radius:5px;"></div></div><strong>${d.occupancy.toFixed(1)}%</strong></div></td>
+                    <td class="table-number">${formatNum(d.nightsPerBed)}</td>
+                </tr>`;
+            }).join('');
+        }
+
+        // ===== 11. PROGNOSE-MODUL =====
+        function updateForecast() {
+            // Filter: Nur echte Jahre (kein COVID 2020/2021), nur endgültige Daten
+            const actual = yearlyData.filter(d => d.status === 'actual' && d.year >= 2016 && d.year <= 2025 && d.year !== 2020 && d.year !== 2021);
+            if (actual.length < 4) return;
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+
+            // Einfache lineare Regression
+            function linReg(data, key) {
+                const n = data.length;
+                const xs = data.map(d => d.year), ys = data.map(d => d[key]);
+                const xm = xs.reduce((a,b) => a+b, 0) / n, ym = ys.reduce((a,b) => a+b, 0) / n;
+                const num = xs.reduce((s, x, i) => s + (x - xm) * (ys[i] - ym), 0);
+                const den = xs.reduce((s, x) => s + (x - xm) ** 2, 0);
+                const slope = den !== 0 ? num / den : 0;
+                const intercept = ym - slope * xm;
+                return { slope, intercept, predict: y => slope * y + intercept };
+            }
+
+            const nightsReg = linReg(actual, 'nights');
+            const arrivalsReg = linReg(actual, 'arrivals');
+            const forecast2026N = Math.round(nightsReg.predict(2026));
+            const forecast2026A = Math.round(arrivalsReg.predict(2026));
+            const forecast2027N = Math.round(nightsReg.predict(2027));
+
+            // KPI cards
+            const y2025 = yearlyData.find(d => d.year === 2025);
+            const pctChange = y2025 ? ((forecast2026N - y2025.nights) / y2025.nights * 100).toFixed(1) : '—';
+            document.getElementById('forecastKPIs').innerHTML = `
+                <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;">
+                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">Prognose 2026</div>
+                    <div style="font-size:1.75rem;font-weight:700;color:var(--primary);">${formatNum(forecast2026N)}</div>
+                    <div style="font-size:0.8125rem;color:var(--text-sec);">Nächtigungen</div>
+                    <div style="font-size:0.8125rem;margin-top:8px;color:${parseFloat(pctChange) >= 0 ? 'var(--accent)' : 'var(--sunset)'}">${parseFloat(pctChange) >= 0 ? '↑' : '↓'} ${pctChange}% vs. 2025</div>
+                </div>
+                <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;">
+                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">Prognose 2026</div>
+                    <div style="font-size:1.75rem;font-weight:700;color:var(--accent);">${formatNum(forecast2026A)}</div>
+                    <div style="font-size:0.8125rem;color:var(--text-sec);">Ankünfte</div>
+                </div>
+                <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;">
+                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">Trend / Jahr</div>
+                    <div style="font-size:1.75rem;font-weight:700;color:var(--gold);">+${formatNum(Math.round(nightsReg.slope))}</div>
+                    <div style="font-size:0.8125rem;color:var(--text-sec);">ÜN pro Jahr (Trend)</div>
+                </div>
+                <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;">
+                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">Ausblick 2027</div>
+                    <div style="font-size:1.75rem;font-weight:700;color:var(--text-sec);">${formatNum(forecast2027N)}</div>
+                    <div style="font-size:0.8125rem;color:var(--text-sec);">Nächtigungen (Trend)</div>
+                </div>`;
+
+            // Chart with trendline
+            const allYears = yearlyData.filter(d => d.year >= 2016);
+            const trendYears = [];
+            for (let y = 2016; y <= 2027; y++) trendYears.push(y);
+            const ctx = document.getElementById('forecastChart').getContext('2d');
+            if (forecastChart) forecastChart.destroy();
+            forecastChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: trendYears,
+                    datasets: [
+                        {
+                            label: 'Nächtigungen (Ist)',
+                            data: trendYears.map(y => { const d = allYears.find(x => x.year === y); return d ? d.nights : null; }),
+                            borderColor: '#1e3a5f', backgroundColor: 'rgba(30,58,95,0.1)',
+                            pointRadius: 5, pointBackgroundColor: trendYears.map(y => y >= 2026 ? '#c9a227' : '#1e3a5f'),
+                            tension: 0.3, fill: false
+                        },
+                        {
+                            label: 'Trendlinie (ohne COVID)',
+                            data: trendYears.map(y => Math.round(nightsReg.predict(y))),
+                            borderColor: '#c9a227', borderDash: [8, 4],
+                            pointRadius: trendYears.map(y => y >= 2026 ? 7 : 0),
+                            pointBackgroundColor: '#c9a227',
+                            tension: 0, fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: isDark ? '#e6edf3' : '#1a2a3a' } },
+                        tooltip: { callbacks: { label: c => c.raw ? `${c.dataset.label}: ${formatNum(c.raw)}` : '' } }
+                    },
+                    scales: {
+                        x: { ticks: { color: isDark ? '#e6edf3' : '#1a2a3a' }, grid: { color: isDark ? '#30363d' : '#e5eaef' } },
+                        y: { ticks: { color: isDark ? '#e6edf3' : '#1a2a3a', callback: v => formatNum(v) }, grid: { color: isDark ? '#30363d' : '#e5eaef' } }
+                    }
+                }
+            });
+        }
+
+        // ===== 12. WERTSCHÖPFUNGSRECHNER =====
+        function updateRevenue() {
+            const year = parseInt(document.getElementById('revenueYear').value);
+            const m = monthlyData[year] || FALLBACK.monthly[year] || {};
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+
+            // Winter = Nov-Apr, Sommer = Mai-Okt
+            const winterNights = (m[1]||0) + (m[2]||0) + (m[3]||0) + (m[4]||0) + (m[11]||0) + (m[12]||0);
+            const summerNights = (m[5]||0) + (m[6]||0) + (m[7]||0) + (m[8]||0) + (m[9]||0) + (m[10]||0);
+            const totalNights = winterNights + summerNights;
+
+            const winterRev = winterNights * REVENUE.winter;
+            const summerRev = summerNights * REVENUE.summer;
+            const totalRev = winterRev + summerRev;
+
+            const fmtEuro = v => {
+                if (v >= 1e9) return (v / 1e9).toFixed(1) + ' Mrd. €';
+                if (v >= 1e6) return (v / 1e6).toFixed(1) + ' Mio. €';
+                if (v >= 1e3) return (v / 1e3).toFixed(0) + ' Tsd. €';
+                return formatNum(v) + ' €';
+            };
+
+            // KPI cards
+            document.getElementById('revenueKPIs').innerHTML = `
+                <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;">
+                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">Gesamtwertschöpfung ${year}</div>
+                    <div style="font-size:1.75rem;font-weight:700;color:var(--primary);">${fmtEuro(totalRev)}</div>
+                    <div style="font-size:0.8125rem;color:var(--text-sec);">${formatNum(totalNights)} Nächtigungen</div>
+                </div>
+                <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;">
+                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">❄️ Winter</div>
+                    <div style="font-size:1.75rem;font-weight:700;color:#1e3a5f;">${fmtEuro(winterRev)}</div>
+                    <div style="font-size:0.8125rem;color:var(--text-sec);">${formatNum(winterNights)} ÜN × ${REVENUE.winter} €</div>
+                </div>
+                <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;">
+                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">☀️ Sommer</div>
+                    <div style="font-size:1.75rem;font-weight:700;color:#4a9b7f;">${fmtEuro(summerRev)}</div>
+                    <div style="font-size:0.8125rem;color:var(--text-sec);">${formatNum(summerNights)} ÜN × ${REVENUE.summer} €</div>
+                </div>
+                <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;">
+                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">Ø pro Tag</div>
+                    <div style="font-size:1.75rem;font-weight:700;color:var(--gold);">${fmtEuro(Math.round(totalRev / 365))}</div>
+                    <div style="font-size:0.8125rem;color:var(--text-sec);">Wertschöpfung / Tag</div>
+                </div>`;
+
+            // Pie chart
+            const ctx1 = document.getElementById('revenuePieChart').getContext('2d');
+            if (revenuePieChart) revenuePieChart.destroy();
+            revenuePieChart = new Chart(ctx1, {
+                type: 'doughnut',
+                data: { labels: ['Winter', 'Sommer'], datasets: [{ data: [winterRev, summerRev], backgroundColor: ['#1e3a5fcc', '#4a9b7fcc'], borderWidth: 3, borderColor: isDark ? '#161b22' : '#fff' }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: isDark ? '#e6edf3' : '#1a2a3a' } }, tooltip: { callbacks: { label: c => `${c.label}: ${fmtEuro(c.raw)} (${(c.raw / totalRev * 100).toFixed(1)}%)` } } } }
+            });
+
+            // Trend over years
+            const years = yearlyData.filter(d => d.year >= 2016 && d.year <= 2025).map(d => d.year);
+            const trendData = years.map(y => {
+                const md = monthlyData[y] || FALLBACK.monthly[y] || {};
+                const wN = (md[1]||0) + (md[2]||0) + (md[3]||0) + (md[4]||0) + (md[11]||0) + (md[12]||0);
+                const sN = (md[5]||0) + (md[6]||0) + (md[7]||0) + (md[8]||0) + (md[9]||0) + (md[10]||0);
+                return { year: y, winter: wN * REVENUE.winter, summer: sN * REVENUE.summer };
+            });
+            const ctx2 = document.getElementById('revenueTrendChart').getContext('2d');
+            if (revenueTrendChart) revenueTrendChart.destroy();
+            revenueTrendChart = new Chart(ctx2, {
+                type: 'bar',
+                data: { labels: trendData.map(d => d.year), datasets: [
+                    { label: 'Winter €', data: trendData.map(d => d.winter), backgroundColor: '#1e3a5fcc', borderRadius: 4 },
+                    { label: 'Sommer €', data: trendData.map(d => d.summer), backgroundColor: '#4a9b7fcc', borderRadius: 4 }
+                ]},
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: isDark ? '#e6edf3' : '#1a2a3a' } }, tooltip: { callbacks: { label: c => `${c.dataset.label}: ${fmtEuro(c.raw)}` } } }, scales: { x: { stacked: true, ticks: { color: isDark ? '#e6edf3' : '#1a2a3a' }, grid: { display: false } }, y: { stacked: true, ticks: { color: isDark ? '#e6edf3' : '#1a2a3a', callback: v => fmtEuro(v) }, grid: { color: isDark ? '#30363d' : '#e5eaef' } } } }
             });
         }
     </script>
