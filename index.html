@@ -365,14 +365,29 @@
                     </div>
                 </div>
                 <div class="card" style="margin-top: 24px;">
-                    <div class="card-header"><h3 class="card-title">Detailvergleich</h3></div>
+                    <div class="card-header"><h3 class="card-title">Detailvergleich nach Unterkunftsart</h3></div>
                     <div class="card-body">
                         <div class="table-wrapper">
                             <table>
-                                <thead><tr><th>Gemeinde</th><th>Nächtigungen</th><th>Ankünfte</th><th>Ø Aufenthalt</th><th>Anteil Vorarlberg</th></tr></thead>
+                                <thead><tr>
+                                    <th>Gemeinde</th>
+                                    <th>Gesamt ÜN</th>
+                                    <th>🏨 Hotels</th>
+                                    <th>🏠 FeWo</th>
+                                    <th>🏡 Privat</th>
+                                    <th>🏕️ Sonst.</th>
+                                    <th>Ø Aufenth.</th>
+                                    <th>Hotel-Anteil</th>
+                                </tr></thead>
                                 <tbody id="comparisonTableBody"></tbody>
                             </table>
                         </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-top: 24px;">
+                    <div class="card-header"><h3 class="card-title">Unterkunfts-Mix im Vergleich</h3></div>
+                    <div class="card-body">
+                        <div class="chart-container"><canvas id="comparisonAccChart"></canvas></div>
                     </div>
                 </div>
             </section>
@@ -403,7 +418,7 @@
             </div>
             <div class="footer-bottom">
                 <span>© 2026 · Daten: Land Vorarlberg (OGD)</span>
-                <span>Stand: 4. Februar 2026</span>
+                <span>Stand: 5. Februar 2026</span>
             </div>
         </div>
     </footer>
@@ -413,6 +428,9 @@
             // Lokale Dateien (von GitHub Actions täglich aktualisiert)
             CSV_URL: 'data/hauptgliederung.csv',
             COUNTRIES_CSV_URL: 'data/staaten.csv',
+            // Direkte API-Fallback-URLs von data.gv.at
+            CSV_URL_FALLBACK: 'https://data.vorarlberg.gv.at/katalog/wirtschaft/wirfin_vbg_tour_ankuenfte_naechtigungen_hauptgliederung_monatlich.csv',
+            COUNTRIES_CSV_URL_FALLBACK: 'https://data.vorarlberg.gv.at/katalog/wirtschaft/wirfin_vbg_tour_ankuenfte_naechtigungen_staaten_monatlich.csv',
             GKZ: '80228',
             MONTHS_DE: ['Jän', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
             MONTHS_FULL: ['Jänner', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
@@ -423,7 +441,7 @@
 
         let yearlyData = [], monthlyData = {}, countryData = {}, accommodationData = {};
         let comparisonData = {};
-        let mainChart, monthlyChart, countryPieChart, countryTrendChart, accommodationChart, comparisonChart;
+        let mainChart, monthlyChart, countryPieChart, countryTrendChart, accommodationChart, comparisonChart, comparisonAccChart;
 
         // Gemeinde-Mapping (GKZ → Name)
         const GEMEINDE_MAP = {
@@ -449,40 +467,40 @@
         // FALLBACK: Gemeindevergleich (Top Tourismusgemeinden Vorarlberg, gerundete Richtwerte)
         const FALLBACK_COMPARISON = {
             2023: {
-                '80228': { nights: 1295000, arrivals: 297000, name: 'Mittelberg (Kleinwalsertal)' },
-                '80224': { nights: 1180000, arrivals: 235000, name: 'Lech' },
-                '80211': { nights: 360000, arrivals: 72000, name: 'Damüls' },
-                '80201': { nights: 245000, arrivals: 62000, name: 'Au' },
-                '80233': { nights: 310000, arrivals: 85000, name: 'Schruns' },
-                '80240': { nights: 285000, arrivals: 74000, name: 'Tschagguns' },
-                '80208': { nights: 340000, arrivals: 78000, name: 'Brand' },
-                '80216': { nights: 420000, arrivals: 95000, name: 'Gaschurn' },
-                '80226': { nights: 195000, arrivals: 48000, name: 'Mellau' },
-                '80244': { nights: 310000, arrivals: 62000, name: 'Warth' }
+                '80228': { nights: 1295000, arrivals: 297000, name: 'Mittelberg (Kleinwalsertal)', types: { Hotels: 558000, Ferienwohnungen: 495000, Private: 202000, Sonstige: 40000 } },
+                '80224': { nights: 1180000, arrivals: 235000, name: 'Lech', types: { Hotels: 826000, Ferienwohnungen: 212000, Private: 95000, Sonstige: 47000 } },
+                '80211': { nights: 360000, arrivals: 72000, name: 'Damüls', types: { Hotels: 198000, Ferienwohnungen: 108000, Private: 36000, Sonstige: 18000 } },
+                '80201': { nights: 245000, arrivals: 62000, name: 'Au', types: { Hotels: 122000, Ferienwohnungen: 78000, Private: 34000, Sonstige: 11000 } },
+                '80233': { nights: 310000, arrivals: 85000, name: 'Schruns', types: { Hotels: 174000, Ferienwohnungen: 81000, Private: 40000, Sonstige: 15000 } },
+                '80240': { nights: 285000, arrivals: 74000, name: 'Tschagguns', types: { Hotels: 142000, Ferienwohnungen: 88000, Private: 40000, Sonstige: 15000 } },
+                '80208': { nights: 340000, arrivals: 78000, name: 'Brand', types: { Hotels: 190000, Ferienwohnungen: 95000, Private: 38000, Sonstige: 17000 } },
+                '80216': { nights: 420000, arrivals: 95000, name: 'Gaschurn', types: { Hotels: 252000, Ferienwohnungen: 109000, Private: 42000, Sonstige: 17000 } },
+                '80226': { nights: 195000, arrivals: 48000, name: 'Mellau', types: { Hotels: 117000, Ferienwohnungen: 51000, Private: 20000, Sonstige: 7000 } },
+                '80244': { nights: 310000, arrivals: 62000, name: 'Warth', types: { Hotels: 217000, Ferienwohnungen: 62000, Private: 22000, Sonstige: 9000 } }
             },
             2024: {
-                '80228': { nights: 1340000, arrivals: 312000, name: 'Mittelberg (Kleinwalsertal)' },
-                '80224': { nights: 1210000, arrivals: 242000, name: 'Lech' },
-                '80211': { nights: 375000, arrivals: 75000, name: 'Damüls' },
-                '80201': { nights: 252000, arrivals: 64000, name: 'Au' },
-                '80233': { nights: 320000, arrivals: 88000, name: 'Schruns' },
-                '80240': { nights: 292000, arrivals: 76000, name: 'Tschagguns' },
-                '80208': { nights: 348000, arrivals: 80000, name: 'Brand' },
-                '80216': { nights: 435000, arrivals: 98000, name: 'Gaschurn' },
-                '80226': { nights: 202000, arrivals: 50000, name: 'Mellau' },
-                '80244': { nights: 318000, arrivals: 64000, name: 'Warth' }
+                '80228': { nights: 1340000, arrivals: 312000, name: 'Mittelberg (Kleinwalsertal)', types: { Hotels: 572000, Ferienwohnungen: 518000, Private: 208000, Sonstige: 42000 } },
+                '80224': { nights: 1210000, arrivals: 242000, name: 'Lech', types: { Hotels: 847000, Ferienwohnungen: 218000, Private: 97000, Sonstige: 48000 } },
+                '80211': { nights: 375000, arrivals: 75000, name: 'Damüls', types: { Hotels: 206000, Ferienwohnungen: 112000, Private: 38000, Sonstige: 19000 } },
+                '80201': { nights: 252000, arrivals: 64000, name: 'Au', types: { Hotels: 126000, Ferienwohnungen: 80000, Private: 35000, Sonstige: 11000 } },
+                '80233': { nights: 320000, arrivals: 88000, name: 'Schruns', types: { Hotels: 179000, Ferienwohnungen: 84000, Private: 42000, Sonstige: 15000 } },
+                '80240': { nights: 292000, arrivals: 76000, name: 'Tschagguns', types: { Hotels: 146000, Ferienwohnungen: 90000, Private: 41000, Sonstige: 15000 } },
+                '80208': { nights: 348000, arrivals: 80000, name: 'Brand', types: { Hotels: 195000, Ferienwohnungen: 97000, Private: 39000, Sonstige: 17000 } },
+                '80216': { nights: 435000, arrivals: 98000, name: 'Gaschurn', types: { Hotels: 261000, Ferienwohnungen: 113000, Private: 44000, Sonstige: 17000 } },
+                '80226': { nights: 202000, arrivals: 50000, name: 'Mellau', types: { Hotels: 121000, Ferienwohnungen: 53000, Private: 21000, Sonstige: 7000 } },
+                '80244': { nights: 318000, arrivals: 64000, name: 'Warth', types: { Hotels: 223000, Ferienwohnungen: 64000, Private: 22000, Sonstige: 9000 } }
             },
             2025: {
-                '80228': { nights: 1365000, arrivals: 318000, name: 'Mittelberg (Kleinwalsertal)' },
-                '80224': { nights: 1235000, arrivals: 248000, name: 'Lech' },
-                '80211': { nights: 382000, arrivals: 78000, name: 'Damüls' },
-                '80201': { nights: 258000, arrivals: 66000, name: 'Au' },
-                '80233': { nights: 328000, arrivals: 90000, name: 'Schruns' },
-                '80240': { nights: 298000, arrivals: 78000, name: 'Tschagguns' },
-                '80208': { nights: 355000, arrivals: 82000, name: 'Brand' },
-                '80216': { nights: 445000, arrivals: 100000, name: 'Gaschurn' },
-                '80226': { nights: 208000, arrivals: 52000, name: 'Mellau' },
-                '80244': { nights: 325000, arrivals: 66000, name: 'Warth' }
+                '80228': { nights: 1365000, arrivals: 318000, name: 'Mittelberg (Kleinwalsertal)', types: { Hotels: 582000, Ferienwohnungen: 535000, Private: 205000, Sonstige: 43000 } },
+                '80224': { nights: 1235000, arrivals: 248000, name: 'Lech', types: { Hotels: 865000, Ferienwohnungen: 222000, Private: 99000, Sonstige: 49000 } },
+                '80211': { nights: 382000, arrivals: 78000, name: 'Damüls', types: { Hotels: 210000, Ferienwohnungen: 115000, Private: 38000, Sonstige: 19000 } },
+                '80201': { nights: 258000, arrivals: 66000, name: 'Au', types: { Hotels: 129000, Ferienwohnungen: 82000, Private: 36000, Sonstige: 11000 } },
+                '80233': { nights: 328000, arrivals: 90000, name: 'Schruns', types: { Hotels: 184000, Ferienwohnungen: 86000, Private: 43000, Sonstige: 15000 } },
+                '80240': { nights: 298000, arrivals: 78000, name: 'Tschagguns', types: { Hotels: 149000, Ferienwohnungen: 92000, Private: 42000, Sonstige: 15000 } },
+                '80208': { nights: 355000, arrivals: 82000, name: 'Brand', types: { Hotels: 199000, Ferienwohnungen: 99000, Private: 40000, Sonstige: 17000 } },
+                '80216': { nights: 445000, arrivals: 100000, name: 'Gaschurn', types: { Hotels: 267000, Ferienwohnungen: 116000, Private: 45000, Sonstige: 17000 } },
+                '80226': { nights: 208000, arrivals: 52000, name: 'Mellau', types: { Hotels: 125000, Ferienwohnungen: 54000, Private: 22000, Sonstige: 7000 } },
+                '80244': { nights: 325000, arrivals: 66000, name: 'Warth', types: { Hotels: 228000, Ferienwohnungen: 65000, Private: 23000, Sonstige: 9000 } }
             }
         };
 
@@ -553,7 +571,7 @@
             document.getElementById('countryYear')?.addEventListener('change', () => { updateCountryPie(); updateCountryList(); });
             ['countryTrendFrom', 'countryTrendTo'].forEach(id => document.getElementById(id)?.addEventListener('change', updateCountryTrend));
             document.getElementById('accommodationYear')?.addEventListener('change', () => { updateAccommodationCards(); updateAccommodationChart(); });
-            document.getElementById('comparisonYear')?.addEventListener('change', () => { updateComparisonChart(); updateComparisonTable(); });
+            document.getElementById('comparisonYear')?.addEventListener('change', () => { updateComparisonChart(); updateComparisonTable(); updateComparisonAccChart(); });
         }
 
         async function loadData() {
@@ -563,7 +581,7 @@
             
             // Lade Hauptdaten
             try { 
-                const csv = await fetchCSV(CONFIG.CSV_URL);
+                const csv = await fetchCSV(CONFIG.CSV_URL, CONFIG.CSV_URL_FALLBACK);
                 if (csv) { 
                     mainCSVText = csv;
                     parseMainCSV(csv); 
@@ -580,7 +598,7 @@
             
             // Lade Länderdaten
             try { 
-                const csv = await fetchCSV(CONFIG.COUNTRIES_CSV_URL);
+                const csv = await fetchCSV(CONFIG.COUNTRIES_CSV_URL, CONFIG.COUNTRIES_CSV_URL_FALLBACK);
                 if (csv) { 
                     parseCountriesCSV(csv); 
                     if (Object.keys(countryData).length > 3) {
@@ -607,18 +625,36 @@
             updateAll();
         }
 
-        async function fetchCSV(localUrl) {
+        async function fetchCSV(localUrl, fallbackUrl) {
+            // 1. Versuche lokale Datei
             try { 
-                console.log('Lade:', localUrl);
+                console.log('Versuche lokal:', localUrl);
                 const r = await fetch(localUrl); 
                 if (r.ok) { 
                     const text = await r.text();
                     if (text && text.length > 500 && !text.includes('<!DOCTYPE')) {
-                        console.log('✓ Geladen:', localUrl);
+                        console.log('✓ Lokal geladen:', localUrl, '(' + text.length + ' bytes)');
                         return text;
                     }
                 }
-            } catch (e) { console.log('Fehler:', e); }
+            } catch (e) { console.log('Lokal fehlgeschlagen:', e.message); }
+            
+            // 2. Versuche direkte API von data.gv.at
+            if (fallbackUrl) {
+                try {
+                    console.log('Versuche API:', fallbackUrl);
+                    const r = await fetch(fallbackUrl);
+                    if (r.ok) {
+                        const text = await r.text();
+                        if (text && text.length > 500 && !text.includes('<!DOCTYPE')) {
+                            console.log('✓ API geladen:', fallbackUrl, '(' + text.length + ' bytes)');
+                            return text;
+                        }
+                    }
+                } catch (e) { console.log('API fehlgeschlagen:', e.message); }
+            }
+            
+            console.warn('⚠ Keine Datenquelle verfügbar, nutze Fallback-Daten');
             return null;
         }
 
@@ -777,7 +813,7 @@
             document.getElementById('comparisonYear').value = 2025;
         }
 
-        function updateAll() { updateKPIs(); updateMainChart(); updateMonthlyChart(); updateTable(); updateHeatmap(); updateCountryPie(); updateCountryList(); updateCountryTrend(); updateAccommodationCards(); updateAccommodationChart(); updateComparisonChart(); updateComparisonTable(); }
+        function updateAll() { updateKPIs(); updateMainChart(); updateMonthlyChart(); updateTable(); updateHeatmap(); updateCountryPie(); updateCountryList(); updateCountryTrend(); updateAccommodationCards(); updateAccommodationChart(); updateComparisonChart(); updateComparisonTable(); updateComparisonAccChart(); }
 
         function updateKPIs() {
             const y2025 = yearlyData.find(d => d.year === 2025);
@@ -947,7 +983,8 @@
                 gkz: h.findIndex(x => x === 'gkz'), 
                 nights: h.findIndex(x => x === 'naechtigungen' || x === 'nächtigungen'), 
                 arrivals: h.findIndex(x => x === 'ankuenfte' || x === 'ankünfte'),
-                gemeinde: h.findIndex(x => x === 'gemeinde')
+                gemeinde: h.findIndex(x => x === 'gemeinde'),
+                type: h.findIndex(x => x === 'hauptgliederung')
             };
             const a = {};
             for (let i = 1; i < lines.length; i++) {
@@ -959,11 +996,26 @@
                 const nights = parseNum(v[c.nights]);
                 const arrivals = parseNum(v[c.arrivals]);
                 const gemeinde = c.gemeinde >= 0 ? v[c.gemeinde] : (GEMEINDE_MAP[gkz] || gkz);
+                const type = c.type >= 0 ? v[c.type] : '';
+                
                 if (!a[year]) a[year] = {};
-                if (!a[year][gkz]) a[year][gkz] = { nights: 0, arrivals: 0, name: gemeinde };
+                if (!a[year][gkz]) a[year][gkz] = { nights: 0, arrivals: 0, name: gemeinde, types: {} };
                 a[year][gkz].nights += nights;
                 a[year][gkz].arrivals += arrivals;
+                
+                // Unterkunftstypen zuordnen
+                if (type && !/gesamt|insgesamt/i.test(type)) {
+                    let normType = 'Sonstige';
+                    if (/hotel|sterne|stern/i.test(type)) normType = 'Hotels';
+                    else if (/ferienwohn|ferienh|gewerbliche ferienwohn/i.test(type)) normType = 'Ferienwohnungen';
+                    else if (/privat/i.test(type)) normType = 'Private';
+                    else if (/camping|jugendherberg|hütte|kur/i.test(type)) normType = 'Sonstige';
+                    
+                    if (!a[year][gkz].types[normType]) a[year][gkz].types[normType] = 0;
+                    a[year][gkz].types[normType] += nights;
+                }
             }
+            console.log('Gemeindevergleich Jahre:', Object.keys(a), 'Gemeinden pro Jahr:', Object.keys(a[Object.keys(a).pop()] || {}).length);
             return a;
         }
 
@@ -1025,18 +1077,88 @@
             if (!data) return;
             
             const sorted = Object.entries(data)
-                .map(([gkz, d]) => ({ gkz, name: d.name || GEMEINDE_MAP[gkz] || gkz, nights: d.nights || 0, arrivals: d.arrivals || 0 }))
+                .map(([gkz, d]) => ({ 
+                    gkz, 
+                    name: d.name || GEMEINDE_MAP[gkz] || gkz, 
+                    nights: d.nights || 0, 
+                    arrivals: d.arrivals || 0,
+                    types: d.types || {}
+                }))
                 .filter(d => d.nights > 0)
                 .sort((a, b) => b.nights - a.nights);
             
-            const totalVlbg = sorted.reduce((s, d) => s + d.nights, 0);
-            
             document.getElementById('comparisonTableBody').innerHTML = sorted.map(d => {
                 const stay = d.arrivals > 0 ? (d.nights / d.arrivals).toFixed(1) : '—';
-                const pct = totalVlbg > 0 ? (d.nights / totalVlbg * 100).toFixed(1) : '—';
+                const hotels = d.types['Hotels'] || 0;
+                const fewo = d.types['Ferienwohnungen'] || 0;
+                const priv = d.types['Private'] || 0;
+                const sonst = d.types['Sonstige'] || 0;
+                const hotelPct = d.nights > 0 ? (hotels / d.nights * 100).toFixed(0) : '—';
                 const isKW = d.gkz === '80228';
-                return `<tr style="${isKW ? 'background:rgba(30,58,95,0.06);font-weight:600;' : ''}"><td class="table-year">${isKW ? '⛷️ ' : ''}${d.name}</td><td class="table-number">${formatNum(d.nights)}</td><td class="table-number">${formatNum(d.arrivals)}</td><td>${stay}</td><td>${pct}%</td></tr>`;
+                const rowStyle = isKW ? 'background:rgba(30,58,95,0.06);font-weight:600;' : '';
+                return `<tr style="${rowStyle}">
+                    <td class="table-year">${isKW ? '⛷️ ' : ''}${d.name}</td>
+                    <td class="table-number">${formatNum(d.nights)}</td>
+                    <td class="table-number">${hotels > 0 ? formatNum(hotels) : '—'}</td>
+                    <td class="table-number">${fewo > 0 ? formatNum(fewo) : '—'}</td>
+                    <td class="table-number">${priv > 0 ? formatNum(priv) : '—'}</td>
+                    <td class="table-number">${sonst > 0 ? formatNum(sonst) : '—'}</td>
+                    <td>${stay}</td>
+                    <td><div style="display:flex;align-items:center;gap:6px;"><div style="width:60px;height:8px;background:var(--snow);border-radius:4px;overflow:hidden;"><div style="width:${hotelPct}%;height:100%;background:${isKW ? '#1e3a5f' : '#4a9b7f'};border-radius:4px;"></div></div><span style="font-size:0.8125rem;">${hotelPct}%</span></div></td>
+                </tr>`;
             }).join('');
+        }
+
+        function updateComparisonAccChart() {
+            const year = parseInt(document.getElementById('comparisonYear').value);
+            const data = comparisonData[year] || FALLBACK_COMPARISON[year] || FALLBACK_COMPARISON[2025];
+            if (!data) return;
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            
+            const sorted = Object.entries(data)
+                .map(([gkz, d]) => ({ gkz, name: d.name || GEMEINDE_MAP[gkz] || gkz, nights: d.nights || 0, types: d.types || {} }))
+                .filter(d => d.nights > 0)
+                .sort((a, b) => b.nights - a.nights);
+            
+            const accTypes = ['Hotels', 'Ferienwohnungen', 'Private', 'Sonstige'];
+            const accColors = ['#1e3a5fcc', '#4a9b7fcc', '#c9a227cc', '#8b9eb3cc'];
+            
+            const ctx = document.getElementById('comparisonAccChart').getContext('2d');
+            if (comparisonAccChart) comparisonAccChart.destroy();
+            
+            comparisonAccChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: sorted.map(d => d.name),
+                    datasets: accTypes.map((type, i) => ({
+                        label: type,
+                        data: sorted.map(d => d.types[type] || 0),
+                        backgroundColor: accColors[i],
+                        borderRadius: i === 0 ? { topLeft: 4, topRight: 4 } : 0
+                    }))
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: isDark ? '#e6edf3' : '#1a2a3a', padding: 16 } },
+                        tooltip: { 
+                            callbacks: { 
+                                label: c => {
+                                    const total = c.chart.data.datasets.reduce((s, ds) => s + (ds.data[c.dataIndex] || 0), 0);
+                                    const pct = total > 0 ? (c.raw / total * 100).toFixed(1) : 0;
+                                    return `${c.dataset.label}: ${formatNum(c.raw)} (${pct}%)`;
+                                }
+                            } 
+                        }
+                    },
+                    scales: {
+                        x: { stacked: true, ticks: { color: isDark ? '#e6edf3' : '#1a2a3a', callback: v => formatNum(v) }, grid: { color: isDark ? '#30363d' : '#e5eaef' } },
+                        y: { stacked: true, ticks: { color: isDark ? '#e6edf3' : '#1a2a3a' }, grid: { display: false } }
+                    }
+                }
+            });
         }
     </script>
 </body>
