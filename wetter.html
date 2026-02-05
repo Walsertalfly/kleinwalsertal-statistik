@@ -359,25 +359,53 @@ const C = {
 // DATA FETCHING
 // ══════════════════════════════════════════════════════════
 async function fetchWeather(season) {
+  // Cap end date to yesterday (archive API has no future data)
+  const today = new Date();
+  today.setDate(today.getDate() - 2);
+  const maxEnd = today.toISOString().split('T')[0];
+  const endDate = season.end < maxEnd ? season.end : maxEnd;
+
   const get = async (loc) => {
-    const u = `https://archive-api.open-meteo.com/v1/archive?latitude=${loc.lat}&longitude=${loc.lon}&start_date=${season.start}&end_date=${season.end}&daily=${DAILY_VARS}&timezone=Europe/Berlin&elevation=${loc.elev}`;
+    // Note: don't pass elevation param - Open-Meteo uses its own DEM
+    const u = `https://archive-api.open-meteo.com/v1/archive?latitude=${loc.lat}&longitude=${loc.lon}&start_date=${season.start}&end_date=${endDate}&daily=${DAILY_VARS}&timezone=Europe/Berlin`;
+    console.log('Fetching:', u);
     const r = await fetch(u);
-    if (!r.ok) throw new Error(r.status);
-    return r.json();
+    if (!r.ok) {
+      const body = await r.text().catch(() => '');
+      throw new Error(`HTTP ${r.status}: ${body.substring(0, 200)}`);
+    }
+    const json = await r.json();
+    if (json.error) throw new Error(json.reason || json.error);
+    return json;
   };
   try {
     const [v, m] = await Promise.all([get(LOC.valley), get(LOC.mountain)]);
     return { valley: v, mountain: m };
-  } catch (e) { console.warn(`Weather fetch failed for ${season.id}:`, e); return null; }
+  } catch (e) {
+    console.error(`Weather fetch failed for ${season.id}:`, e.message);
+    return null;
+  }
 }
 
 async function loadAll() {
-  const results = await Promise.all(SEASONS.map(async s => {
+  const statusEl = document.getElementById('status');
+  let loaded = 0;
+  
+  // Load sequentially to avoid rate limiting
+  for (const s of SEASONS) {
+    statusEl.innerHTML = `<div class="spinner"></div> Lade ${s.id}… (${loaded}/${SEASONS.length})`;
     const d = await fetchWeather(s);
-    if (d) weatherData[s.id] = d;
-  }));
-  document.getElementById('status').innerHTML =
-    `<span style="color:var(--tourism)">●</span> ${Object.keys(weatherData).length} Saisonen geladen · Open-Meteo API`;
+    if (d) {
+      weatherData[s.id] = d;
+      loaded++;
+    }
+    // Small delay to avoid rate limits
+    await new Promise(r => setTimeout(r, 300));
+  }
+  
+  statusEl.innerHTML = loaded > 0
+    ? `<span style="color:var(--tourism)">●</span> ${loaded} Saisonen geladen · Open-Meteo API`
+    : `<span style="color:var(--warn)">●</span> API-Fehler – <a href="https://archive-api.open-meteo.com/v1/archive?latitude=47.35&longitude=10.19&start_date=2024-01-01&end_date=2024-01-31&daily=snow_depth,temperature_2m_max&timezone=Europe/Berlin" target="_blank" style="color:var(--valley)">API testen</a>`;
 }
 
 // ══════════════════════════════════════════════════════════
