@@ -228,7 +228,28 @@
                             <span>🟦 Ausgewähltes Jahr</span>
                             <span style="opacity:0.6;">⬜ Vorjahr (Vergleich)</span>
                             <span>🟡 Prognose (Ø letzte 3 Jahre)</span>
-                            <span style="border-left:2px dashed var(--sunset);padding-left:8px;">⚠️ Schraffiert = Noch keine Daten</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Monatsvergleich Tabelle -->
+                <div class="card" style="margin-top: 24px;">
+                    <div class="card-header">
+                        <h3 class="card-title">📋 Monatsvergleich im Detail</h3>
+                        <div id="monthlyTableSummary" style="font-size:0.875rem;color:var(--text-sec);"></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-wrapper">
+                            <table>
+                                <thead><tr>
+                                    <th>Monat</th>
+                                    <th id="monthlyTableYearHeader">2026</th>
+                                    <th id="monthlyTablePrevHeader">2025</th>
+                                    <th>Differenz</th>
+                                    <th>Veränderung</th>
+                                    <th>Status</th>
+                                </tr></thead>
+                                <tbody id="monthlyTableBody"></tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -475,7 +496,7 @@
                 <div class="section-header">
                     <div>
                         <h2 class="section-title">🔮 Prognose 2026</h2>
-                        <p class="section-subtitle">Vergleich: 3-Jahres-Schnitt (2023–2025) vs. Langzeit-Trend (ohne COVID)</p>
+                        <p class="section-subtitle">Basierend auf 3-Jahres-Schnitt (2023–2025) und Langzeit-Trend (ohne COVID)</p>
                     </div>
                 </div>
                 <div id="forecastKPIs" class="kpi-grid" style="margin-bottom: 24px;"></div>
@@ -776,7 +797,7 @@
             }
             bedsData = JSON.parse(JSON.stringify(FALLBACK_BEDS));
             
-            setStatus(mainOK ? 'live' : 'offline', mainOK ? 'Live-Daten' : 'Offline-Daten', mainOK ? 'Land Vorarlberg OGD' : 'Fallback');
+            setStatus('ready', '', mainOK ? 'Land Vorarlberg OGD' : 'Fallback-Daten');
             populateSelectors();
             updateAll();
         }
@@ -942,24 +963,21 @@
             const meta = document.getElementById('statusMeta');
             dot.className = 'status-dot';
             const now = new Date();
-            const timeStr = now.toLocaleDateString('de-AT', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' ' + now.toLocaleTimeString('de-AT', { hour: '2-digit', minute: '2-digit' });
-            if (t === 'offline') { 
-                dot.classList.add('offline'); 
-                pill.title = 'Offline – Klick zum Neuladen\nZuletzt aktualisiert: ' + timeStr + '\nQuelle: Eingebettete Fallback-Daten'; 
-                meta.textContent = '⏱ ' + timeStr + ' · Fallback';
-                meta.style.display = 'inline';
-            }
-            else if (t === 'loading') { 
+            const timeStr = now.toLocaleDateString('de-AT', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ', ' + now.toLocaleTimeString('de-AT', { hour: '2-digit', minute: '2-digit' });
+            if (t === 'loading') { 
                 dot.classList.add('loading'); 
+                textEl.textContent = 'Lade...';
                 pill.title = 'Daten werden geladen...'; 
                 meta.style.display = 'none';
-            }
-            else { 
-                pill.title = 'Live-Daten von data.gv.at\nZuletzt aktualisiert: ' + timeStr + '\nQuelle: ' + (source || 'data.gv.at'); 
-                meta.textContent = '⏱ ' + timeStr + ' · ' + (source || 'data.gv.at');
+            } else {
+                // Immer grüner Punkt — Daten sind vorhanden und aktuell
+                dot.className = 'status-dot'; // grün (default)
+                const srcLabel = source || 'Fallback-Daten';
+                textEl.textContent = 'Daten geladen ' + timeStr;
+                meta.textContent = srcLabel;
                 meta.style.display = 'inline';
+                pill.title = 'Quelle: ' + srcLabel + '\nGeladen am: ' + timeStr + '\nDaten werden monatlich aktualisiert';
             }
-            textEl.textContent = txt; 
         }
         function retryLoad() {
             setStatus('loading', 'Lade...');
@@ -1039,14 +1057,10 @@
             // Prognose: Ø der letzten 3 verfügbaren Jahre für fehlende Monate
             const forecastValues = CONFIG.MONTHS_DE.map((_, i) => {
                 const m = i + 1;
-                if (data[m] > 0) return null; // Daten vorhanden → keine Prognose
+                if (data[m] > 0) return null;
                 const recent = [year-1, year-2, year-3].map(y => (monthlyData[y] || FALLBACK.monthly[y] || {})[m] || 0).filter(v => v > 0);
                 return recent.length > 0 ? Math.round(recent.reduce((a,b) => a+b, 0) / recent.length) : null;
             });
-            
-            // Bestimme letzten Monat mit Daten
-            let lastDataMonth = 0;
-            for (let m = 12; m >= 1; m--) { if (data[m] > 0) { lastDataMonth = m; break; } }
             
             const datasets = [
                 { 
@@ -1102,10 +1116,8 @@
                                 label: c => {
                                     if (c.raw === null) return null;
                                     if (c.raw === 0) return c.dataset.label + ': Keine Daten';
-                                    const m = c.dataIndex + 1;
                                     const isProg = c.dataset.label.includes('Prognose');
                                     let suffix = isProg ? ' (Prognose)' : '';
-                                    // Vergleich mit Vorjahr
                                     const prev = prevValues[c.dataIndex];
                                     let change = '';
                                     if (!isProg && c.raw > 0 && prev > 0) {
@@ -1123,6 +1135,73 @@
                     } 
                 }
             });
+
+            // === Monatsvergleich Tabelle ===
+            document.getElementById('monthlyTableYearHeader').textContent = year;
+            document.getElementById('monthlyTablePrevHeader').textContent = year - 1;
+            
+            let totalCur = 0, totalPrev = 0, monthsWithData = 0;
+            
+            const rows = CONFIG.MONTHS_FULL.map((name, i) => {
+                const m = i + 1;
+                const cur = data[m] || 0;
+                const prev = prevData[m] || 0;
+                const forecast = forecastValues[i];
+                const diff = cur > 0 && prev > 0 ? cur - prev : null;
+                const pct = cur > 0 && prev > 0 ? ((cur - prev) / prev * 100) : null;
+                
+                if (cur > 0) { totalCur += cur; totalPrev += prev; monthsWithData++; }
+                
+                let status, statusClass;
+                if (cur > 0) {
+                    status = '✅ Abgeschlossen';
+                    statusClass = 'badge-actual';
+                } else if (forecast) {
+                    status = '🔮 Prognose';
+                    statusClass = 'badge-estimated';
+                } else {
+                    status = '⏳ Ausstehend';
+                    statusClass = '';
+                }
+                
+                const displayVal = cur > 0 ? formatNum(cur) : (forecast ? `<span style="color:var(--gold);font-style:italic;">~${formatNum(forecast)}</span>` : '<span style="color:var(--text-muted);">—</span>');
+                const diffStr = diff !== null ? `<span class="table-change ${diff >= 0 ? 'positive' : 'negative'}">${diff >= 0 ? '+' : ''}${formatNum(diff)}</span>` : '<span style="color:var(--text-muted);">—</span>';
+                const pctStr = pct !== null ? `<span class="table-change ${pct >= 0 ? 'positive' : 'negative'}">${pct >= 0 ? '↑' : '↓'} ${Math.abs(pct).toFixed(1)}%</span>` : '<span style="color:var(--text-muted);">—</span>';
+                
+                const rowBg = cur > 0 ? '' : 'opacity:0.6;';
+                
+                return `<tr style="${rowBg}">
+                    <td style="font-weight:600;">${name}</td>
+                    <td class="table-number">${displayVal}</td>
+                    <td class="table-number">${prev > 0 ? formatNum(prev) : '<span style="color:var(--text-muted);">—</span>'}</td>
+                    <td>${diffStr}</td>
+                    <td>${pctStr}</td>
+                    <td><span class="badge ${statusClass}" style="${!statusClass ? 'background:var(--snow);color:var(--text-muted);' : ''}">${status}</span></td>
+                </tr>`;
+            });
+            
+            // Summenzeile für abgeschlossene Monate
+            const totalDiff = totalCur - totalPrev;
+            const totalPct = totalPrev > 0 ? ((totalCur - totalPrev) / totalPrev * 100) : null;
+            rows.push(`<tr style="font-weight:700;border-top:2px solid var(--border);background:var(--snow);">
+                <td>Σ Bisher (${monthsWithData} Monate)</td>
+                <td class="table-number">${formatNum(totalCur)}</td>
+                <td class="table-number">${formatNum(totalPrev)}</td>
+                <td><span class="table-change ${totalDiff >= 0 ? 'positive' : 'negative'}">${totalDiff >= 0 ? '+' : ''}${formatNum(totalDiff)}</span></td>
+                <td>${totalPct !== null ? `<span class="table-change ${totalPct >= 0 ? 'positive' : 'negative'}">${totalPct >= 0 ? '↑' : '↓'} ${Math.abs(totalPct).toFixed(1)}%</span>` : '—'}</td>
+                <td></td>
+            </tr>`);
+            
+            document.getElementById('monthlyTableBody').innerHTML = rows.join('');
+            
+            // Summary text
+            const summaryEl = document.getElementById('monthlyTableSummary');
+            if (monthsWithData > 0 && totalPct !== null) {
+                const icon = totalPct >= 0 ? '📈' : '📉';
+                summaryEl.innerHTML = `${icon} ${monthsWithData}/12 Monate abgeschlossen · <strong style="color:${totalPct >= 0 ? 'var(--accent)' : 'var(--sunset)'};">${totalPct >= 0 ? '+' : ''}${totalPct.toFixed(1)}%</strong> vs. Vorjahr`;
+            } else {
+                summaryEl.textContent = '';
+            }
         }
 
         function updateTable() {
@@ -1535,9 +1614,8 @@
             }).join('');
         }
 
-        // ===== 11. PROGNOSE-MODUL (verbessert: 3-Jahres-Schnitt + Langzeit-Trend) =====
+        // ===== 11. PROGNOSE-MODUL =====
         function updateForecast() {
-            // Filter: Nur echte Jahre (kein COVID 2020/2021), nur endgültige Daten
             const actual = yearlyData.filter(d => d.status === 'actual' && d.year >= 2016 && d.year <= 2025 && d.year !== 2020 && d.year !== 2021);
             if (actual.length < 4) return;
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -1555,36 +1633,30 @@
             }
 
             const nightsReg = linReg(actual, 'nights');
-            const arrivalsReg = linReg(actual, 'arrivals');
 
-            // 3-Jahres-Durchschnitt (2023–2025)
+            // 3-Jahres-Durchschnitt (2023–2025) mit Wachstumsrate
             const recent3 = yearlyData.filter(d => d.year >= 2023 && d.year <= 2025 && d.status === 'actual');
             const avg3N = recent3.length > 0 ? Math.round(recent3.reduce((s,d) => s + d.nights, 0) / recent3.length) : 0;
-            const avg3A = recent3.length > 0 ? Math.round(recent3.reduce((s,d) => s + d.arrivals, 0) / recent3.length) : 0;
-
-            // Wachstumsrate der letzten 3 Jahre
             const growthRate3 = recent3.length >= 2 ? (recent3[recent3.length-1].nights / recent3[0].nights - 1) / (recent3.length - 1) : 0;
-            const forecast3yr2026N = Math.round(avg3N * (1 + growthRate3));
-            const forecast3yr2026A = Math.round(avg3A * (1 + growthRate3));
+            
+            // 3-Jahres-Prognose: letzten Wert + Wachstumsrate
+            const last3val = recent3.length > 0 ? recent3[recent3.length-1].nights : avg3N;
+            const forecast3yr2026 = Math.round(last3val * (1 + growthRate3));
+            const forecast3yr2027 = Math.round(forecast3yr2026 * (1 + growthRate3));
 
-            // Langzeit-Trend
-            const forecastLT2026N = Math.round(nightsReg.predict(2026));
-            const forecastLT2026A = Math.round(arrivalsReg.predict(2026));
+            // Langzeit-Trend Prognose
+            const forecastLT2026 = Math.round(nightsReg.predict(2026));
+            const forecastLT2027 = Math.round(nightsReg.predict(2027));
 
-            // Kombinierte Prognose (gewichtet: 60% 3-Jahres, 40% Langzeit)
-            const forecast2026N = Math.round(forecast3yr2026N * 0.6 + forecastLT2026N * 0.4);
-            const forecast2026A = Math.round(forecast3yr2026A * 0.6 + forecastLT2026A * 0.4);
-            const forecast2027N = Math.round(nightsReg.predict(2027));
-
-            // KPI cards
+            // KPI cards — klar und verständlich
             const y2025 = yearlyData.find(d => d.year === 2025);
-            const pctChange = y2025 ? ((forecast2026N - y2025.nights) / y2025.nights * 100).toFixed(1) : '—';
+            const pctChange3 = y2025 ? ((forecast3yr2026 - y2025.nights) / y2025.nights * 100).toFixed(1) : '—';
             document.getElementById('forecastKPIs').innerHTML = `
                 <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;">
-                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">Prognose 2026 (kombiniert)</div>
-                    <div style="font-size:1.75rem;font-weight:700;color:var(--primary);">${formatNum(forecast2026N)}</div>
+                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">Prognose 2026 (3J-Trend)</div>
+                    <div style="font-size:1.75rem;font-weight:700;color:var(--primary);">${formatNum(forecast3yr2026)}</div>
                     <div style="font-size:0.8125rem;color:var(--text-sec);">Nächtigungen</div>
-                    <div style="font-size:0.8125rem;margin-top:8px;color:${parseFloat(pctChange) >= 0 ? 'var(--accent)' : 'var(--sunset)'}">${parseFloat(pctChange) >= 0 ? '↑' : '↓'} ${pctChange}% vs. 2025</div>
+                    <div style="font-size:0.8125rem;margin-top:8px;color:${parseFloat(pctChange3) >= 0 ? 'var(--accent)' : 'var(--sunset)'}">${parseFloat(pctChange3) >= 0 ? '↑' : '↓'} ${pctChange3}% vs. 2025</div>
                 </div>
                 <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;">
                     <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">3-Jahres-Schnitt</div>
@@ -1597,26 +1669,37 @@
                     <div style="font-size:0.8125rem;color:var(--text-sec);">ÜN pro Jahr (10J-Trend)</div>
                 </div>
                 <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;">
-                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">Ausblick 2027</div>
-                    <div style="font-size:1.75rem;font-weight:700;color:var(--text-sec);">${formatNum(forecast2027N)}</div>
-                    <div style="font-size:0.8125rem;color:var(--text-sec);">Nächtigungen (Langzeit-Trend)</div>
+                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">Langzeit-Trend 2026</div>
+                    <div style="font-size:1.75rem;font-weight:700;color:var(--text-sec);">${formatNum(forecastLT2026)}</div>
+                    <div style="font-size:0.8125rem;color:var(--text-sec);">Nächtigungen (Regression)</div>
                 </div>`;
 
-            // Chart with both trendlines
+            // --- Chart ---
             const allYears = yearlyData.filter(d => d.year >= 2016);
             const trendYears = [];
             for (let y = 2016; y <= 2027; y++) trendYears.push(y);
-            
-            // 3-Jahres gleitender Durchschnitt Linie
-            const ma3Data = trendYears.map(y => {
-                if (y <= 2027) {
-                    const vals = [y-1, y, y+1].map(yy => {
-                        const d = allYears.find(x => x.year === yy);
-                        return d && d.status === 'actual' ? d.nights : null;
-                    }).filter(v => v !== null);
-                    return vals.length >= 2 ? Math.round(vals.reduce((a,b) => a+b, 0) / vals.length) : null;
-                }
+
+            // Ist-Daten: durchgezogen bis 2025, dann gestrichelt bis 2026
+            // Wir brauchen 2 Datasets: 1 durchgezogen (bis 2025), 1 gestrichelt (2025→2026 vorläufig)
+            const solidData = trendYears.map(y => {
+                if (y > 2025) return null;
+                const d = allYears.find(x => x.year === y);
+                return d ? d.nights : null;
+            });
+            const dashedData = trendYears.map(y => {
+                if (y === 2025) { const d = allYears.find(x => x.year === 2025); return d ? d.nights : null; }
+                if (y === 2026) { const d = allYears.find(x => x.year === 2026); return d ? d.nights : null; }
                 return null;
+            });
+
+            // 3-Jahres gleitender Durchschnitt — mit Fortschreibung in die Zukunft
+            const actualMap = {};
+            allYears.filter(d => d.status === 'actual').forEach(d => actualMap[d.year] = d.nights);
+            // Für 2026/2027 nutzen wir die 3J-Prognose
+            const extendedMap = { ...actualMap, 2026: forecast3yr2026, 2027: forecast3yr2027 };
+            const ma3Data = trendYears.map(y => {
+                const vals = [y-1, y, y+1].map(yy => extendedMap[yy] || null).filter(v => v !== null);
+                return vals.length >= 2 ? Math.round(vals.reduce((a,b) => a+b, 0) / vals.length) : null;
             });
 
             const ctx = document.getElementById('forecastChart').getContext('2d');
@@ -1628,33 +1711,41 @@
                     datasets: [
                         {
                             label: 'Nächtigungen (Ist)',
-                            data: trendYears.map(y => { const d = allYears.find(x => x.year === y); return d ? d.nights : null; }),
+                            data: solidData,
                             borderColor: '#1e3a5f', backgroundColor: 'rgba(30,58,95,0.1)',
-                            pointRadius: 5, pointBackgroundColor: trendYears.map(y => y >= 2026 ? '#c9a227' : '#1e3a5f'),
-                            tension: 0.3, fill: false
+                            pointRadius: 5, pointBackgroundColor: '#1e3a5f',
+                            tension: 0.3, fill: false, borderWidth: 2.5
+                        },
+                        {
+                            label: '2026 vorläufig (laufend)',
+                            data: dashedData,
+                            borderColor: '#1e3a5f', borderDash: [6, 4],
+                            pointRadius: trendYears.map(y => y === 2026 ? 7 : 0),
+                            pointBackgroundColor: '#c9a227', pointBorderColor: '#c9a227',
+                            tension: 0.3, fill: false, borderWidth: 2
                         },
                         {
                             label: 'Langzeit-Trend (ohne COVID)',
                             data: trendYears.map(y => Math.round(nightsReg.predict(y))),
                             borderColor: '#c9a227', borderDash: [8, 4],
-                            pointRadius: trendYears.map(y => y >= 2026 ? 7 : 0),
+                            pointRadius: trendYears.map(y => y >= 2026 ? 6 : 0),
                             pointBackgroundColor: '#c9a227',
-                            tension: 0, fill: false
+                            tension: 0, fill: false, borderWidth: 1.5
                         },
                         {
-                            label: '3-Jahres-Ø (gleitend)',
+                            label: '3-Jahres-Ø (Prognose)',
                             data: ma3Data,
-                            borderColor: '#4a9b7f', borderDash: [4, 4],
-                            pointRadius: 0,
-                            tension: 0.4, fill: false, borderWidth: 2
-                        },
-                        {
-                            label: 'Prognose 2026 (kombiniert)',
-                            data: trendYears.map(y => y === 2026 ? forecast2026N : (y === 2027 ? forecast2027N : null)),
-                            borderColor: '#d4735e', backgroundColor: '#d4735e',
-                            pointRadius: trendYears.map(y => y >= 2026 ? 9 : 0),
-                            pointBackgroundColor: '#d4735e', pointStyle: 'star',
-                            showLine: false
+                            borderColor: '#4a9b7f',
+                            borderDash: trendYears.map((y, i) => null), // we handle dashing via segment
+                            pointRadius: trendYears.map(y => y >= 2026 ? 6 : 0),
+                            pointBackgroundColor: '#4a9b7f',
+                            tension: 0.4, fill: false, borderWidth: 2,
+                            segment: {
+                                borderDash: ctx2 => {
+                                    const xVal = trendYears[ctx2.p1DataIndex];
+                                    return xVal >= 2026 ? [5, 3] : undefined;
+                                }
+                            }
                         }
                     ]
                 },
