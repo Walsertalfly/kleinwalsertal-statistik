@@ -160,7 +160,11 @@
                     </div>
                 </div>
                 <div class="hero-controls">
-                    <div class="status-pill" id="statusPill" onclick="retryLoad()" style="cursor:pointer;" title="Klick zum Neuladen"><span class="status-dot loading" id="statusDot"></span><span id="statusText">Lade...</span></div>
+                    <div class="status-pill" id="statusPill" onclick="retryLoad()" style="cursor:pointer;" title="Klick zum Neuladen">
+                        <span class="status-dot loading" id="statusDot"></span>
+                        <span id="statusText">Lade...</span>
+                        <span id="statusMeta" style="font-size:0.7rem;opacity:0.7;display:none;margin-left:4px;border-left:1px solid rgba(255,255,255,0.25);padding-left:8px;"></span>
+                    </div>
                     <button class="theme-toggle" onclick="toggleTheme()" title="Theme wechseln"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
                 </div>
             </div>
@@ -203,20 +207,29 @@
                 </div>
             </section>
 
-            <!-- 2. MONATLICHE VERTEILUNG -->
+            <!-- 2. MONATLICHE VERTEILUNG MIT VORJAHRESVERGLEICH -->
             <section class="section">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">📊 Monatliche Verteilung</h3>
+                        <h3 class="card-title">📊 Monatliche Verteilung · Vorjahresvergleich</h3>
                         <div class="controls">
                             <div class="control-group">
                                 <label class="control-label">Jahr:</label>
                                 <select id="monthlyYear"></select>
                             </div>
+                            <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-sec);cursor:pointer;">
+                                <input type="checkbox" id="monthlyShowForecast" checked style="cursor:pointer;"> Prognose
+                            </label>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="chart-container"><canvas id="monthlyChart"></canvas></div>
+                        <div id="monthlyLegendInfo" style="margin-top:16px;font-size:0.8125rem;color:var(--text-sec);display:flex;gap:20px;flex-wrap:wrap;align-items:center;">
+                            <span>🟦 Ausgewähltes Jahr</span>
+                            <span style="opacity:0.6;">⬜ Vorjahr (Vergleich)</span>
+                            <span>🟡 Prognose (Ø letzte 3 Jahre)</span>
+                            <span style="border-left:2px dashed var(--sunset);padding-left:8px;">⚠️ Schraffiert = Noch keine Daten</span>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -462,12 +475,12 @@
                 <div class="section-header">
                     <div>
                         <h2 class="section-title">🔮 Prognose 2026</h2>
-                        <p class="section-subtitle">Hochrechnung basierend auf 10-Jahres-Trend (ohne COVID-Jahre)</p>
+                        <p class="section-subtitle">Vergleich: 3-Jahres-Schnitt (2023–2025) vs. Langzeit-Trend (ohne COVID)</p>
                     </div>
                 </div>
                 <div id="forecastKPIs" class="kpi-grid" style="margin-bottom: 24px;"></div>
                 <div class="card">
-                    <div class="card-header"><h3 class="card-title">Trendlinie & Prognose</h3></div>
+                    <div class="card-header"><h3 class="card-title">Trendlinien & Prognose</h3></div>
                     <div class="card-body">
                         <div class="chart-container"><canvas id="forecastChart"></canvas></div>
                     </div>
@@ -506,6 +519,15 @@
                 <div class="card" style="margin-top: 24px;">
                     <div class="card-body" style="font-size:0.875rem;color:var(--text-sec);line-height:1.7;">
                         <strong>Berechnungsgrundlage:</strong> Tagesausgaben pro Kopf im Urlaubertourismus (in entgeltlichen Unterkünften, ohne Anreise): <strong>231 € Winter</strong>, <strong>164 € Sommer</strong> (Quelle: Tourismus-Monitor Austria, Vorarlberg-Ergebnisse 2024). Die Werte sind Schätzungen und basieren auf den Nächtigungszahlen multipliziert mit den durchschnittlichen Tagesausgaben.
+                    </div>
+                </div>
+
+                <!-- Wertschöpfung nach Gemeinden -->
+                <div class="card" style="margin-top: 24px;">
+                    <div class="card-header"><h3 class="card-title">💰 Wertschöpfung nach Gemeinden</h3></div>
+                    <div class="card-body">
+                        <div id="revenueGemeindeKPIs" class="kpi-grid" style="margin-bottom:24px;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));"></div>
+                        <div class="chart-container"><canvas id="revenueGemeindeChart"></canvas></div>
                     </div>
                 </div>
             </section>
@@ -560,7 +582,7 @@
         let yearlyData = [], monthlyData = {}, countryData = {}, accommodationData = {};
         let comparisonData = {};
         let mainChart, monthlyChart, countryPieChart, countryTrendChart, accommodationChart, comparisonChart, comparisonAccChart;
-        let seasonChart, seasonShareChart, occupancyChart, forecastChart, revenuePieChart, revenueTrendChart;
+        let seasonChart, seasonShareChart, occupancyChart, forecastChart, revenuePieChart, revenueTrendChart, revenueGemeindeChart;
 
         // Wertschöpfung: Tagesausgaben pro Kopf (Quelle: TMA Vorarlberg 2024)
         const REVENUE = { winter: 231, summer: 164 }; // €/Tag
@@ -698,12 +720,13 @@
             document.querySelectorAll('.tab[data-chart]').forEach(t => t.addEventListener('click', () => { document.querySelectorAll('.tab[data-chart]').forEach(x => x.classList.remove('active')); t.classList.add('active'); updateMainChart(); }));
             ['yearFrom', 'yearTo'].forEach(id => document.getElementById(id)?.addEventListener('change', updateMainChart));
             document.getElementById('monthlyYear')?.addEventListener('change', updateMonthlyChart);
+            document.getElementById('monthlyShowForecast')?.addEventListener('change', updateMonthlyChart);
             document.getElementById('countryYear')?.addEventListener('change', () => { updateCountryPie(); updateCountryList(); });
             ['countryTrendFrom', 'countryTrendTo'].forEach(id => document.getElementById(id)?.addEventListener('change', updateCountryTrend));
             document.getElementById('accommodationYear')?.addEventListener('change', () => { updateAccommodationCards(); updateAccommodationChart(); });
             document.getElementById('comparisonYear')?.addEventListener('change', () => { updateComparisonChart(); updateComparisonTable(); updateComparisonAccChart(); });
             document.getElementById('occupancyYear')?.addEventListener('change', () => { updateOccupancy(); });
-            document.getElementById('revenueYear')?.addEventListener('change', () => { updateRevenue(); });
+            document.getElementById('revenueYear')?.addEventListener('change', () => { updateRevenue(); updateRevenueGemeinde(); });
         }
 
         async function loadData() {
@@ -753,7 +776,7 @@
             }
             bedsData = JSON.parse(JSON.stringify(FALLBACK_BEDS));
             
-            setStatus(mainOK ? 'live' : 'offline', mainOK ? 'Live-Daten' : 'Offline-Daten');
+            setStatus(mainOK ? 'live' : 'offline', mainOK ? 'Live-Daten' : 'Offline-Daten', mainOK ? 'Land Vorarlberg OGD' : 'Fallback');
             populateSelectors();
             updateAll();
         }
@@ -912,14 +935,30 @@
 
         function parseMonth(s) { if (!s) return 1; const n = parseInt(s); if (!isNaN(n) && n >= 1 && n <= 12) return n; const m = { 'jän': 1, 'jan': 1, 'feb': 2, 'mär': 3, 'mar': 3, 'apr': 4, 'mai': 5, 'jun': 6, 'jul': 7, 'aug': 8, 'sep': 9, 'okt': 10, 'nov': 11, 'dez': 12 }; return m[s.toLowerCase().substring(0, 3)] || 1; }
         function parseNum(s) { if (!s) return 0; return parseInt(s.replace(/[.\s]/g, '').replace(',', '.')) || 0; }
-        function setStatus(t, txt) { 
+        function setStatus(t, txt, source) { 
             const dot = document.getElementById('statusDot');
             const textEl = document.getElementById('statusText');
             const pill = document.getElementById('statusPill');
+            const meta = document.getElementById('statusMeta');
             dot.className = 'status-dot';
-            if (t === 'offline') { dot.classList.add('offline'); pill.title = 'Offline – Klick zum Neuladen'; }
-            else if (t === 'loading') { dot.classList.add('loading'); pill.title = 'Daten werden geladen...'; }
-            else { pill.title = 'Live-Daten von data.gv.at'; }
+            const now = new Date();
+            const timeStr = now.toLocaleDateString('de-AT', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' ' + now.toLocaleTimeString('de-AT', { hour: '2-digit', minute: '2-digit' });
+            if (t === 'offline') { 
+                dot.classList.add('offline'); 
+                pill.title = 'Offline – Klick zum Neuladen\nZuletzt aktualisiert: ' + timeStr + '\nQuelle: Eingebettete Fallback-Daten'; 
+                meta.textContent = '⏱ ' + timeStr + ' · Fallback';
+                meta.style.display = 'inline';
+            }
+            else if (t === 'loading') { 
+                dot.classList.add('loading'); 
+                pill.title = 'Daten werden geladen...'; 
+                meta.style.display = 'none';
+            }
+            else { 
+                pill.title = 'Live-Daten von data.gv.at\nZuletzt aktualisiert: ' + timeStr + '\nQuelle: ' + (source || 'data.gv.at'); 
+                meta.textContent = '⏱ ' + timeStr + ' · ' + (source || 'data.gv.at');
+                meta.style.display = 'inline';
+            }
             textEl.textContent = txt; 
         }
         function retryLoad() {
@@ -948,7 +987,7 @@
             document.getElementById('revenueYear').value = 2025;
         }
 
-        function updateAll() { updateKPIs(); updateMainChart(); updateMonthlyChart(); updateTable(); updateHeatmap(); updateCountryPie(); updateCountryList(); updateCountryTrend(); updateAccommodationCards(); updateAccommodationChart(); updateComparisonChart(); updateComparisonTable(); updateComparisonAccChart(); updateSeason(); updateOccupancy(); updateForecast(); updateRevenue(); }
+        function updateAll() { updateKPIs(); updateMainChart(); updateMonthlyChart(); updateTable(); updateHeatmap(); updateCountryPie(); updateCountryList(); updateCountryTrend(); updateAccommodationCards(); updateAccommodationChart(); updateComparisonChart(); updateComparisonTable(); updateComparisonAccChart(); updateSeason(); updateOccupancy(); updateForecast(); updateRevenue(); updateRevenueGemeinde(); }
 
         function updateKPIs() {
             const y2025 = yearlyData.find(d => d.year === 2025);
@@ -990,14 +1029,99 @@
         function updateMonthlyChart() {
             const year = parseInt(document.getElementById('monthlyYear').value);
             const data = monthlyData[year] || FALLBACK.monthly[year] || {};
+            const prevData = monthlyData[year - 1] || FALLBACK.monthly[year - 1] || {};
+            const showForecast = document.getElementById('monthlyShowForecast')?.checked ?? true;
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            
             const values = CONFIG.MONTHS_DE.map((_, i) => data[i + 1] || 0);
+            const prevValues = CONFIG.MONTHS_DE.map((_, i) => prevData[i + 1] || 0);
+            
+            // Prognose: Ø der letzten 3 verfügbaren Jahre für fehlende Monate
+            const forecastValues = CONFIG.MONTHS_DE.map((_, i) => {
+                const m = i + 1;
+                if (data[m] > 0) return null; // Daten vorhanden → keine Prognose
+                const recent = [year-1, year-2, year-3].map(y => (monthlyData[y] || FALLBACK.monthly[y] || {})[m] || 0).filter(v => v > 0);
+                return recent.length > 0 ? Math.round(recent.reduce((a,b) => a+b, 0) / recent.length) : null;
+            });
+            
+            // Bestimme letzten Monat mit Daten
+            let lastDataMonth = 0;
+            for (let m = 12; m >= 1; m--) { if (data[m] > 0) { lastDataMonth = m; break; } }
+            
+            const datasets = [
+                { 
+                    label: `${year}`, 
+                    data: values, 
+                    backgroundColor: values.map((v, i) => {
+                        if (v === 0 && forecastValues[i]) return 'transparent';
+                        return i >= 10 || i <= 2 ? 'rgba(30,58,95,0.85)' : 'rgba(74,155,127,0.75)';
+                    }),
+                    borderColor: values.map((v, i) => {
+                        if (v === 0 && !forecastValues[i]) return 'rgba(200,200,200,0.4)';
+                        return i >= 10 || i <= 2 ? '#1e3a5f' : '#4a9b7f';
+                    }),
+                    borderWidth: 1,
+                    borderRadius: 4,
+                    order: 1
+                },
+                { 
+                    label: `${year - 1} (Vorjahr)`, 
+                    data: prevValues, 
+                    backgroundColor: 'rgba(139,158,179,0.25)',
+                    borderColor: 'rgba(139,158,179,0.5)',
+                    borderWidth: 1,
+                    borderRadius: 4,
+                    order: 2
+                }
+            ];
+            
+            if (showForecast) {
+                datasets.push({
+                    label: 'Prognose (Ø 3 Jahre)',
+                    data: forecastValues,
+                    backgroundColor: 'rgba(201,162,39,0.35)',
+                    borderColor: '#c9a227',
+                    borderWidth: 2,
+                    borderDash: [4, 4],
+                    borderRadius: 4,
+                    order: 0
+                });
+            }
+            
             const ctx = document.getElementById('monthlyChart').getContext('2d');
             if (monthlyChart) monthlyChart.destroy();
             monthlyChart = new Chart(ctx, {
                 type: 'bar',
-                data: { labels: CONFIG.MONTHS_FULL, datasets: [{ label: 'Übernachtungen', data: values, backgroundColor: values.map((v, i) => v === 0 ? 'rgba(200,200,200,0.3)' : (i >= 10 || i <= 2 ? 'rgba(30,58,95,0.8)' : 'rgba(74,155,127,0.7)')), borderRadius: 4 }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.raw > 0 ? formatNum(c.raw) + ' ÜN' : 'Keine Daten' } } }, scales: { x: { ticks: { color: isDark ? '#e6edf3' : '#1a2a3a' }, grid: { display: false } }, y: { ticks: { color: isDark ? '#e6edf3' : '#1a2a3a', callback: v => formatNum(v) }, grid: { color: isDark ? '#30363d' : '#e5eaef' } } } }
+                data: { labels: CONFIG.MONTHS_FULL, datasets },
+                options: { 
+                    responsive: true, maintainAspectRatio: false, 
+                    plugins: { 
+                        legend: { labels: { color: isDark ? '#e6edf3' : '#1a2a3a' } }, 
+                        tooltip: { 
+                            callbacks: { 
+                                label: c => {
+                                    if (c.raw === null) return null;
+                                    if (c.raw === 0) return c.dataset.label + ': Keine Daten';
+                                    const m = c.dataIndex + 1;
+                                    const isProg = c.dataset.label.includes('Prognose');
+                                    let suffix = isProg ? ' (Prognose)' : '';
+                                    // Vergleich mit Vorjahr
+                                    const prev = prevValues[c.dataIndex];
+                                    let change = '';
+                                    if (!isProg && c.raw > 0 && prev > 0) {
+                                        const pct = ((c.raw - prev) / prev * 100).toFixed(1);
+                                        change = ` · ${parseFloat(pct) >= 0 ? '+' : ''}${pct}% vs. VJ`;
+                                    }
+                                    return `${c.dataset.label}: ${formatNum(c.raw)} ÜN${suffix}${change}`;
+                                }
+                            } 
+                        } 
+                    }, 
+                    scales: { 
+                        x: { ticks: { color: isDark ? '#e6edf3' : '#1a2a3a' }, grid: { display: false } }, 
+                        y: { ticks: { color: isDark ? '#e6edf3' : '#1a2a3a', callback: v => formatNum(v) }, grid: { color: isDark ? '#30363d' : '#e5eaef' } } 
+                    } 
+                }
             });
         }
 
@@ -1411,14 +1535,14 @@
             }).join('');
         }
 
-        // ===== 11. PROGNOSE-MODUL =====
+        // ===== 11. PROGNOSE-MODUL (verbessert: 3-Jahres-Schnitt + Langzeit-Trend) =====
         function updateForecast() {
             // Filter: Nur echte Jahre (kein COVID 2020/2021), nur endgültige Daten
             const actual = yearlyData.filter(d => d.status === 'actual' && d.year >= 2016 && d.year <= 2025 && d.year !== 2020 && d.year !== 2021);
             if (actual.length < 4) return;
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
 
-            // Einfache lineare Regression
+            // Lineare Regression (Langzeit-Trend)
             function linReg(data, key) {
                 const n = data.length;
                 const xs = data.map(d => d.year), ys = data.map(d => d[key]);
@@ -1432,8 +1556,24 @@
 
             const nightsReg = linReg(actual, 'nights');
             const arrivalsReg = linReg(actual, 'arrivals');
-            const forecast2026N = Math.round(nightsReg.predict(2026));
-            const forecast2026A = Math.round(arrivalsReg.predict(2026));
+
+            // 3-Jahres-Durchschnitt (2023–2025)
+            const recent3 = yearlyData.filter(d => d.year >= 2023 && d.year <= 2025 && d.status === 'actual');
+            const avg3N = recent3.length > 0 ? Math.round(recent3.reduce((s,d) => s + d.nights, 0) / recent3.length) : 0;
+            const avg3A = recent3.length > 0 ? Math.round(recent3.reduce((s,d) => s + d.arrivals, 0) / recent3.length) : 0;
+
+            // Wachstumsrate der letzten 3 Jahre
+            const growthRate3 = recent3.length >= 2 ? (recent3[recent3.length-1].nights / recent3[0].nights - 1) / (recent3.length - 1) : 0;
+            const forecast3yr2026N = Math.round(avg3N * (1 + growthRate3));
+            const forecast3yr2026A = Math.round(avg3A * (1 + growthRate3));
+
+            // Langzeit-Trend
+            const forecastLT2026N = Math.round(nightsReg.predict(2026));
+            const forecastLT2026A = Math.round(arrivalsReg.predict(2026));
+
+            // Kombinierte Prognose (gewichtet: 60% 3-Jahres, 40% Langzeit)
+            const forecast2026N = Math.round(forecast3yr2026N * 0.6 + forecastLT2026N * 0.4);
+            const forecast2026A = Math.round(forecast3yr2026A * 0.6 + forecastLT2026A * 0.4);
             const forecast2027N = Math.round(nightsReg.predict(2027));
 
             // KPI cards
@@ -1441,31 +1581,44 @@
             const pctChange = y2025 ? ((forecast2026N - y2025.nights) / y2025.nights * 100).toFixed(1) : '—';
             document.getElementById('forecastKPIs').innerHTML = `
                 <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;">
-                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">Prognose 2026</div>
+                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">Prognose 2026 (kombiniert)</div>
                     <div style="font-size:1.75rem;font-weight:700;color:var(--primary);">${formatNum(forecast2026N)}</div>
                     <div style="font-size:0.8125rem;color:var(--text-sec);">Nächtigungen</div>
                     <div style="font-size:0.8125rem;margin-top:8px;color:${parseFloat(pctChange) >= 0 ? 'var(--accent)' : 'var(--sunset)'}">${parseFloat(pctChange) >= 0 ? '↑' : '↓'} ${pctChange}% vs. 2025</div>
                 </div>
                 <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;">
-                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">Prognose 2026</div>
-                    <div style="font-size:1.75rem;font-weight:700;color:var(--accent);">${formatNum(forecast2026A)}</div>
-                    <div style="font-size:0.8125rem;color:var(--text-sec);">Ankünfte</div>
+                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">3-Jahres-Schnitt</div>
+                    <div style="font-size:1.75rem;font-weight:700;color:var(--accent);">${formatNum(avg3N)}</div>
+                    <div style="font-size:0.8125rem;color:var(--text-sec);">Ø 2023–2025 · Wachstum ${(growthRate3*100).toFixed(1)}%/J.</div>
                 </div>
                 <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;">
-                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">Trend / Jahr</div>
+                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">Langzeit-Trend / Jahr</div>
                     <div style="font-size:1.75rem;font-weight:700;color:var(--gold);">+${formatNum(Math.round(nightsReg.slope))}</div>
-                    <div style="font-size:0.8125rem;color:var(--text-sec);">ÜN pro Jahr (Trend)</div>
+                    <div style="font-size:0.8125rem;color:var(--text-sec);">ÜN pro Jahr (10J-Trend)</div>
                 </div>
                 <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;">
                     <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">Ausblick 2027</div>
                     <div style="font-size:1.75rem;font-weight:700;color:var(--text-sec);">${formatNum(forecast2027N)}</div>
-                    <div style="font-size:0.8125rem;color:var(--text-sec);">Nächtigungen (Trend)</div>
+                    <div style="font-size:0.8125rem;color:var(--text-sec);">Nächtigungen (Langzeit-Trend)</div>
                 </div>`;
 
-            // Chart with trendline
+            // Chart with both trendlines
             const allYears = yearlyData.filter(d => d.year >= 2016);
             const trendYears = [];
             for (let y = 2016; y <= 2027; y++) trendYears.push(y);
+            
+            // 3-Jahres gleitender Durchschnitt Linie
+            const ma3Data = trendYears.map(y => {
+                if (y <= 2027) {
+                    const vals = [y-1, y, y+1].map(yy => {
+                        const d = allYears.find(x => x.year === yy);
+                        return d && d.status === 'actual' ? d.nights : null;
+                    }).filter(v => v !== null);
+                    return vals.length >= 2 ? Math.round(vals.reduce((a,b) => a+b, 0) / vals.length) : null;
+                }
+                return null;
+            });
+
             const ctx = document.getElementById('forecastChart').getContext('2d');
             if (forecastChart) forecastChart.destroy();
             forecastChart = new Chart(ctx, {
@@ -1481,12 +1634,27 @@
                             tension: 0.3, fill: false
                         },
                         {
-                            label: 'Trendlinie (ohne COVID)',
+                            label: 'Langzeit-Trend (ohne COVID)',
                             data: trendYears.map(y => Math.round(nightsReg.predict(y))),
                             borderColor: '#c9a227', borderDash: [8, 4],
                             pointRadius: trendYears.map(y => y >= 2026 ? 7 : 0),
                             pointBackgroundColor: '#c9a227',
                             tension: 0, fill: false
+                        },
+                        {
+                            label: '3-Jahres-Ø (gleitend)',
+                            data: ma3Data,
+                            borderColor: '#4a9b7f', borderDash: [4, 4],
+                            pointRadius: 0,
+                            tension: 0.4, fill: false, borderWidth: 2
+                        },
+                        {
+                            label: 'Prognose 2026 (kombiniert)',
+                            data: trendYears.map(y => y === 2026 ? forecast2026N : (y === 2027 ? forecast2027N : null)),
+                            borderColor: '#d4735e', backgroundColor: '#d4735e',
+                            pointRadius: trendYears.map(y => y >= 2026 ? 9 : 0),
+                            pointBackgroundColor: '#d4735e', pointStyle: 'star',
+                            showLine: false
                         }
                     ]
                 },
@@ -1575,6 +1743,94 @@
                     { label: 'Sommer €', data: trendData.map(d => d.summer), backgroundColor: '#4a9b7fcc', borderRadius: 4 }
                 ]},
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: isDark ? '#e6edf3' : '#1a2a3a' } }, tooltip: { callbacks: { label: c => `${c.dataset.label}: ${fmtEuro(c.raw)}` } } }, scales: { x: { stacked: true, ticks: { color: isDark ? '#e6edf3' : '#1a2a3a' }, grid: { display: false } }, y: { stacked: true, ticks: { color: isDark ? '#e6edf3' : '#1a2a3a', callback: v => fmtEuro(v) }, grid: { color: isDark ? '#30363d' : '#e5eaef' } } } }
+            });
+        }
+
+        // ===== 12b. WERTSCHÖPFUNG NACH GEMEINDEN =====
+        function updateRevenueGemeinde() {
+            const year = parseInt(document.getElementById('revenueYear').value);
+            const compData = comparisonData[year] || FALLBACK_COMPARISON[year] || FALLBACK_COMPARISON[2025];
+            if (!compData) return;
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+
+            const fmtEuro = v => {
+                if (v >= 1e9) return (v / 1e9).toFixed(1) + ' Mrd. €';
+                if (v >= 1e6) return (v / 1e6).toFixed(1) + ' Mio. €';
+                if (v >= 1e3) return (v / 1e3).toFixed(0) + ' Tsd. €';
+                return formatNum(v) + ' €';
+            };
+
+            // Berechne Wertschöpfung für jede Gemeinde
+            // Vereinfacht: Gesamtnächtigungen × gewichteter Durchschnitt (da keine monatlichen Daten pro Gemeinde)
+            // Approx: 55% Winter, 45% Sommer basierend auf Saisonverteilung
+            const winterShare = 0.55, summerShare = 0.45;
+            const avgDailyRate = winterShare * REVENUE.winter + summerShare * REVENUE.summer;
+
+            const gemeindeRevenue = Object.entries(compData)
+                .map(([gkz, d]) => {
+                    const nights = d.nights || 0;
+                    const totalRev = nights * avgDailyRate;
+                    return { gkz, name: d.name || GEMEINDE_MAP[gkz] || gkz, nights, revenue: totalRev };
+                })
+                .filter(d => d.nights > 0)
+                .sort((a, b) => b.revenue - a.revenue);
+
+            const totalRevAll = gemeindeRevenue.reduce((s, d) => s + d.revenue, 0);
+
+            // KPI: Vorarlberg gesamt + Top 3
+            const kpiHtml = `
+                <div style="background:var(--surface);border:2px solid var(--primary);border-radius:var(--radius);padding:20px;">
+                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">Gesamt Vorarlberg (Top 10) · ${year}</div>
+                    <div style="font-size:1.75rem;font-weight:700;color:var(--primary);">${fmtEuro(totalRevAll)}</div>
+                    <div style="font-size:0.8125rem;color:var(--text-sec);">${gemeindeRevenue.length} Gemeinden · Ø ${fmtEuro(Math.round(avgDailyRate))}/ÜN</div>
+                </div>
+                ${gemeindeRevenue.slice(0, 3).map((d, i) => {
+                    const colors = ['#1e3a5f', '#4a9b7f', '#c9a227'];
+                    const isKW = d.gkz === '80228';
+                    return `<div style="background:var(--surface);border:1px solid ${isKW ? 'var(--primary)' : 'var(--border)'};border-radius:var(--radius);padding:20px;${isKW ? 'box-shadow:0 0 0 1px var(--primary);' : ''}">
+                        <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">${isKW ? '⛷️ ' : ''}${d.name}</div>
+                        <div style="font-size:1.5rem;font-weight:700;color:${colors[i]};">${fmtEuro(d.revenue)}</div>
+                        <div style="font-size:0.8125rem;color:var(--text-sec);">${(d.revenue / totalRevAll * 100).toFixed(1)}% Anteil · ${formatNum(d.nights)} ÜN</div>
+                    </div>`;
+                }).join('')}`;
+
+            document.getElementById('revenueGemeindeKPIs').innerHTML = kpiHtml;
+
+            // Horizontal bar chart
+            const ctx = document.getElementById('revenueGemeindeChart').getContext('2d');
+            if (revenueGemeindeChart) revenueGemeindeChart.destroy();
+            revenueGemeindeChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: gemeindeRevenue.map(d => d.name),
+                    datasets: [{
+                        label: 'Wertschöpfung €',
+                        data: gemeindeRevenue.map(d => d.revenue),
+                        backgroundColor: gemeindeRevenue.map(d => d.gkz === '80228' ? 'rgba(30,58,95,0.85)' : 'rgba(74,155,127,0.6)'),
+                        borderColor: gemeindeRevenue.map(d => d.gkz === '80228' ? '#1e3a5f' : '#4a9b7f'),
+                        borderWidth: gemeindeRevenue.map(d => d.gkz === '80228' ? 2 : 1),
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: c => {
+                                    const d = gemeindeRevenue[c.dataIndex];
+                                    const pct = (d.revenue / totalRevAll * 100).toFixed(1);
+                                    return `${fmtEuro(c.raw)} (${pct}%) · ${formatNum(d.nights)} Nächtigungen`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { ticks: { color: isDark ? '#e6edf3' : '#1a2a3a', callback: v => fmtEuro(v) }, grid: { color: isDark ? '#30363d' : '#e5eaef' } },
+                        y: { ticks: { color: isDark ? '#e6edf3' : '#1a2a3a', font: { weight: (c) => c.tick && c.tick.label && c.tick.label.includes('Kleinwalsertal') ? '700' : '400' } }, grid: { display: false } }
+                    }
+                }
             });
         }
     </script>
