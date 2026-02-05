@@ -516,44 +516,118 @@
             const lines = csv.split('\n').filter(l => l.trim());
             const d = lines[0].includes(';') ? ';' : ',';
             const h = lines[0].toLowerCase().split(d).map(x => x.trim().replace(/"/g, ''));
-            const c = { year: h.findIndex(x => /berichtsjahr|jahr/i.test(x)), month: h.findIndex(x => /^monat$/i.test(x)), gkz: h.findIndex(x => /gkz/i.test(x)), nights: h.findIndex(x => /nacht|naecht/i.test(x)), arrivals: h.findIndex(x => /ankunft|ankuenfte/i.test(x)), type: h.findIndex(x => /hauptgliederung/i.test(x)), status: h.findIndex(x => /status/i.test(x)) };
+            
+            console.log('CSV Headers:', h);
+            
+            // Finde Spaltenindizes - exakte Namen aus data.gv.at
+            const c = { 
+                year: h.findIndex(x => x === 'berichtsjahr' || x === 'tourismusjahr' || /jahr/i.test(x)), 
+                month: h.findIndex(x => x === 'monat'), 
+                gkz: h.findIndex(x => x === 'gkz'), 
+                nights: h.findIndex(x => x === 'naechtigungen' || x === 'nächtigungen'), 
+                arrivals: h.findIndex(x => x === 'ankuenfte' || x === 'ankünfte'), 
+                type: h.findIndex(x => x === 'hauptgliederung'), 
+                status: h.findIndex(x => x === 'status'),
+                gemeinde: h.findIndex(x => x === 'gemeinde')
+            };
+            
+            console.log('Column indices:', c);
+            
             const yA = {}, mA = {}, aA = {};
+            let rowCount = 0, matchCount = 0;
+            
             for (let i = 1; i < lines.length; i++) {
                 const v = lines[i].split(d).map(x => x.trim().replace(/"/g, ''));
-                if (v[c.gkz] !== CONFIG.GKZ) continue;
-                const year = parseInt(v[c.year]) || 0; if (year < 2016) continue;
-                const month = parseMonth(v[c.month]), nights = parseNum(v[c.nights]), arrivals = parseNum(v[c.arrivals]), type = c.type >= 0 ? v[c.type] : '', status = v[c.status] || '';
+                rowCount++;
+                
+                // GKZ prüfen - Kleinwalsertal = 80228
+                const gkz = c.gkz >= 0 ? v[c.gkz] : '';
+                if (gkz !== '80228' && gkz !== 80228) continue;
+                
+                matchCount++;
+                
+                const year = parseInt(v[c.year]) || 0; 
+                if (year < 2015 || year > 2030) continue;
+                
+                const month = parseMonth(v[c.month]);
+                const nights = parseNum(v[c.nights]);
+                const arrivals = parseNum(v[c.arrivals]);
+                const type = c.type >= 0 ? v[c.type] : '';
+                const status = c.status >= 0 ? v[c.status] : '';
+                
                 if (!yA[year]) yA[year] = { year, nights: 0, arrivals: 0, months: new Set(), status: 'actual' };
-                yA[year].nights += nights; yA[year].arrivals += arrivals; yA[year].months.add(month);
+                yA[year].nights += nights; 
+                yA[year].arrivals += arrivals; 
+                yA[year].months.add(month);
                 if (/vorläufig/i.test(status)) yA[year].status = 'estimated';
-                if (!mA[year]) mA[year] = {}; if (!mA[year][month]) mA[year][month] = 0; mA[year][month] += nights;
-                if (type && !/gesamt|insgesamt/i.test(type)) { if (!aA[year]) aA[year] = {}; if (!aA[year][type]) aA[year][type] = 0; aA[year][type] += nights; }
+                
+                if (!mA[year]) mA[year] = {}; 
+                if (!mA[year][month]) mA[year][month] = 0; 
+                mA[year][month] += nights;
+                
+                if (type && !/gesamt|insgesamt/i.test(type)) { 
+                    if (!aA[year]) aA[year] = {}; 
+                    if (!aA[year][type]) aA[year][type] = 0; 
+                    aA[year][type] += nights; 
+                }
             }
+            
+            console.log('Rows:', rowCount, 'Matches (GKZ 80228):', matchCount);
+            console.log('Years found:', Object.keys(yA));
+            
             yearlyData = Object.values(yA).map(x => ({ ...x, status: x.months.size < 12 ? 'estimated' : x.status })).sort((a, b) => a.year - b.year);
-            monthlyData = mA; accommodationData = aA;
+            monthlyData = mA; 
+            accommodationData = aA;
         }
 
         function parseCountriesCSV(csv) {
             const lines = csv.split('\n').filter(l => l.trim());
             const d = lines[0].includes(';') ? ';' : ',';
             const h = lines[0].toLowerCase().split(d).map(x => x.trim().replace(/"/g, ''));
-            const c = { year: h.findIndex(x => /berichtsjahr|jahr/i.test(x)), gkz: h.findIndex(x => /gkz/i.test(x)), nights: h.findIndex(x => /nacht|naecht/i.test(x)), country: h.findIndex(x => /staat|land|herkunft/i.test(x)) };
+            
+            console.log('Countries CSV Headers:', h);
+            
+            const c = { 
+                year: h.findIndex(x => x === 'berichtsjahr' || x === 'tourismusjahr' || /jahr/i.test(x)), 
+                gkz: h.findIndex(x => x === 'gkz'), 
+                nights: h.findIndex(x => x === 'naechtigungen' || x === 'nächtigungen'), 
+                country: h.findIndex(x => x === 'staat' || x === 'herkunftsland' || /staat|land|herkunft/i.test(x)) 
+            };
+            
+            console.log('Countries column indices:', c);
+            
             const a = {};
+            let matchCount = 0;
+            
             for (let i = 1; i < lines.length; i++) {
                 const v = lines[i].split(d).map(x => x.trim().replace(/"/g, ''));
-                if (v[c.gkz] !== CONFIG.GKZ) continue;
-                const year = parseInt(v[c.year]) || 0; if (year < 2016) continue;
+                const gkz = c.gkz >= 0 ? v[c.gkz] : '';
+                if (gkz !== '80228' && gkz !== 80228) continue;
+                
+                matchCount++;
+                
+                const year = parseInt(v[c.year]) || 0; 
+                if (year < 2015 || year > 2030) continue;
+                
                 const nights = parseNum(v[c.nights]);
                 let country = c.country >= 0 ? v[c.country] : 'Sonstige';
+                
+                // Normalize country names
                 if (/deutsch/i.test(country)) country = 'Deutschland';
-                else if (/öster/i.test(country)) country = 'Österreich';
-                else if (/schweiz/i.test(country)) country = 'Schweiz';
+                else if (/öster|austria/i.test(country)) country = 'Österreich';
+                else if (/schweiz|swiss/i.test(country)) country = 'Schweiz';
                 else if (/niederl|holland/i.test(country)) country = 'Niederlande';
                 else if (/belg/i.test(country)) country = 'Belgien';
                 else if (/frank/i.test(country)) country = 'Frankreich';
-                else if (/brit|uk|england/i.test(country)) country = 'Großbritannien';
-                if (!a[year]) a[year] = {}; if (!a[year][country]) a[year][country] = 0; a[year][country] += nights;
+                else if (/brit|uk|england|vereinigtes/i.test(country)) country = 'Großbritannien';
+                else if (/italien/i.test(country)) country = 'Italien';
+                
+                if (!a[year]) a[year] = {}; 
+                if (!a[year][country]) a[year][country] = 0; 
+                a[year][country] += nights;
             }
+            
+            console.log('Countries matches:', matchCount, 'Years:', Object.keys(a));
             countryData = a;
         }
 
