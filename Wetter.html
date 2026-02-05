@@ -311,7 +311,7 @@ const SEASONS = [
 
 const WINTER_MONTHS = [11, 12, 1, 2, 3, 4];
 const MONTH_LABELS = ['Nov', 'Dez', 'Jän', 'Feb', 'Mär', 'Apr'];
-const DAILY_VARS = 'snow_depth,snowfall_sum,sunshine_duration,temperature_2m_max,temperature_2m_min,precipitation_sum';
+const DAILY_VARS = 'snowfall_sum,sunshine_duration,temperature_2m_max,temperature_2m_min,precipitation_sum,rain_sum';
 
 // Tourism data (from your existing dashboard FALLBACK)
 const TOURISM = {
@@ -380,6 +380,9 @@ async function fetchWeather(season) {
   };
   try {
     const [v, m] = await Promise.all([get(LOC.valley), get(LOC.mountain)]);
+    // Simulate snow depth from snowfall + temperature
+    enrichWithSnowDepth(v);
+    enrichWithSnowDepth(m);
     return { valley: v, mountain: m };
   } catch (e) {
     console.error(`Weather fetch failed for ${season.id}:`, e.message);
@@ -411,6 +414,51 @@ async function loadAll() {
 // ══════════════════════════════════════════════════════════
 // DATA PROCESSING
 // ══════════════════════════════════════════════════════════
+
+// Simulate snow depth from daily snowfall and temperature
+// Snow accumulates when it snows, melts when temp > 2°C
+function simulateSnowDepth(daily) {
+  const n = daily.time.length;
+  const depth = new Array(n).fill(0);
+  let current = 0;
+
+  for (let i = 0; i < n; i++) {
+    const sf = daily.snowfall_sum[i] || 0;
+    const tMax = daily.temperature_2m_max[i] || 0;
+    const tMin = daily.temperature_2m_min[i] || 0;
+    const tAvg = (tMax + tMin) / 2;
+
+    // Add new snow (snowfall is in cm)
+    current += sf;
+
+    // Melt: lose snow based on how warm it is
+    if (tAvg > 0) {
+      // Degree-day melt factor: ~2-4 cm per degree above 0
+      const melt = Math.min(current, tAvg * 2.5);
+      current -= melt;
+    } else if (tMax > 2) {
+      // Partial melt on warm afternoons
+      const melt = Math.min(current, (tMax - 2) * 1.0);
+      current -= melt;
+    }
+
+    // Natural compaction: ~1% per day
+    current *= 0.99;
+
+    // Floor at 0
+    current = Math.max(0, current);
+    depth[i] = current;
+  }
+
+  return depth;
+}
+
+// Enrich API response with simulated snow depth
+function enrichWithSnowDepth(apiData) {
+  apiData.daily.snow_depth = simulateSnowDepth(apiData.daily);
+  return apiData;
+}
+
 function monthlyWeather(apiData) {
   const d = apiData.daily;
   const m = {};
