@@ -477,12 +477,13 @@ async function fetchGeoSphereSnow(season) {
     return null;
   }
 
-  // SNOWGRID-CL v2: grid timeseries endpoint
-  const baseUrl = 'https://dataset.api.hub.geosphere.at/v1/grid/historical/snowgrid_cl-v2-1d-1km';
+  // SNOWGRID-CL v2: TIMESERIES endpoint (not grid — grid needs bbox)
+  // Timeseries returns GeoJSON by default for point queries via lat_lon
+  const baseUrl = 'https://dataset.api.hub.geosphere.at/v1/timeseries/historical/snowgrid_cl-v2-1d-1km';
 
   const fetchLoc = async (loc, label) => {
-    const url = `${baseUrl}?parameters=SH&start=${season.start}T00:00&end=${endDate}T00:00&lat_lon=${loc.lat},${loc.lon}&output_format=json`;
-    log(`GeoSphere SNOWGRID ${label}: ${season.id}`, 'info');
+    const url = `${baseUrl}?parameters=SH&start=${season.start}T00:00&end=${endDate}T00:00&lat_lon=${loc.lat},${loc.lon}`;
+    log(`GeoSphere SNOWGRID ${label}: ${season.id} → ${url.substring(0, 120)}…`, 'info');
 
     // Add timeout (10 seconds)
     const controller = new AbortController();
@@ -508,7 +509,11 @@ async function fetchGeoSphereSnow(season) {
       fetchLoc(LOC.valley, 'Tal'),
       fetchLoc(LOC.mountain, 'Berg')
     ]);
-    log(`GeoSphere SNOWGRID ${season.id}: ✓ Tal + Berg geladen`, 'ok');
+    // Log response structure for debugging
+    const vKeys = Object.keys(v || {}).join(', ');
+    const vFeats = (v?.features || []).length;
+    const vTs = (v?.timestamps || []).length;
+    log(`GeoSphere SNOWGRID ${season.id}: ✓ Tal + Berg geladen (keys: ${vKeys}, features: ${vFeats}, timestamps: ${vTs})`, 'ok');
     geoSphereAvailable = true;
     return { valley: v, mountain: m };
   } catch (e) {
@@ -522,15 +527,37 @@ async function fetchGeoSphereSnow(season) {
 function parseGeoSphereSnow(geoData) {
   if (!geoData) return null;
   try {
-    // GeoSphere timeseries JSON format: { timestamps: [...], features: [{ geometry, properties: { parameters: { SH: { data: [...] } } } }] }
+    // GeoSphere timeseries GeoJSON format:
+    // { timestamps: [...], features: [{ geometry, properties: { parameters: { SH: { name, unit, data: [...] } } } }] }
     const timestamps = geoData.timestamps || [];
     const features = geoData.features || [];
-    if (!features.length || !timestamps.length) return null;
+    
+    if (!features.length || !timestamps.length) {
+      log(`GeoSphere parse: keine Features/Timestamps (features: ${features.length}, timestamps: ${timestamps.length})`, 'warn');
+      return null;
+    }
 
-    const shData = features[0]?.properties?.parameters?.SH?.data || [];
+    const params = features[0]?.properties?.parameters;
+    if (!params?.SH) {
+      log(`GeoSphere parse: kein SH Parameter gefunden. Vorhandene: ${Object.keys(params || {}).join(', ')}`, 'warn');
+      return null;
+    }
+    
+    const shParam = params.SH;
+    const shData = shParam.data || [];
+    const unit = (shParam.unit || '').toLowerCase();
+    
+    log(`GeoSphere parse: ${shData.length} Datenpunkte, Einheit: "${shParam.unit}", Beispielwert: ${shData.find(v => v > 0) || 0}`, 'info');
+    
+    // SH unit handling: GeoSphere SNOWGRID-CL SH is in cm
+    // If values seem too large (>500), they might be in mm → divide by 10
+    const maxVal = Math.max(...shData.filter(v => v != null));
+    const divisor = maxVal > 500 ? 10 : 1; // auto-detect: >500 likely mm
+    if (divisor > 1) log(`GeoSphere: Werte sehr hoch (max ${maxVal}), vermutlich mm → /10 → cm`, 'info');
+    
     return {
       time: timestamps.map(t => t.split('T')[0]),
-      snow_depth: shData.map(v => v !== null && v !== undefined ? v / 10 : 0) // mm to cm, or already cm depending on API
+      snow_depth: shData.map(v => v !== null && v !== undefined ? v / divisor : 0)
     };
   } catch (e) {
     log(`GeoSphere parse error: ${e.message}`, 'warn');
