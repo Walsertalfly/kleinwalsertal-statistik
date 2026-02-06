@@ -397,7 +397,9 @@ const SEASONS = [
 const WINTER_MONTHS = [11, 12, 1, 2, 3, 4];
 const MONTH_LABELS = ['Nov', 'Dez', 'Jän', 'Feb', 'Mär', 'Apr'];
 
-// Open-Meteo daily variables (no snow_depth – we get that from GeoSphere)
+// Open-Meteo daily variables
+// NOTE: snow_depth is HOURLY only in the Archive API — do NOT add it to daily vars!
+// Snow depth comes from GeoSphere SNOWGRID instead.
 const OM_DAILY_VARS = 'snowfall_sum,sunshine_duration,temperature_2m_max,temperature_2m_min,precipitation_sum,rain_sum';
 
 // ══════════════════════════════════════════════════════════
@@ -551,14 +553,10 @@ async function fetchOpenMeteo(season) {
     return null;
   }
 
-  // Also request snow_depth as fallback (available in ERA5-Land)
-  const dailyVars = OM_DAILY_VARS + ',snow_depth';
-
-  const get = async (loc) => {
-    const u = `https://archive-api.open-meteo.com/v1/archive?latitude=${loc.lat}&longitude=${loc.lon}&start_date=${season.start}&end_date=${endDate}&daily=${dailyVars}&timezone=Europe/Berlin`;
+  const get = async (loc, vars) => {
+    const u = `https://archive-api.open-meteo.com/v1/archive?latitude=${loc.lat}&longitude=${loc.lon}&start_date=${season.start}&end_date=${endDate}&daily=${vars}&timezone=Europe/Berlin`;
     log(`Open-Meteo ${loc.name}: ${season.id} (${season.start} → ${endDate})`, 'info');
     
-    // Add timeout (15 seconds)
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 15000);
     
@@ -580,17 +578,8 @@ async function fetchOpenMeteo(season) {
   };
 
   try {
-    const [v, m] = await Promise.all([get(LOC.valley), get(LOC.mountain)]);
+    const [v, m] = await Promise.all([get(LOC.valley, OM_DAILY_VARS), get(LOC.mountain, OM_DAILY_VARS)]);
     log(`Open-Meteo ${season.id}: ✓ Tal + Berg geladen`, 'ok');
-
-    // Check if snow_depth is available from Open-Meteo
-    const hasSnowDepth = v.daily?.snow_depth && v.daily.snow_depth.some(d => d !== null && d !== 0);
-    if (hasSnowDepth) {
-      log(`Open-Meteo ${season.id}: snow_depth vorhanden (Fallback verfügbar)`, 'ok');
-    } else {
-      log(`Open-Meteo ${season.id}: kein snow_depth – GeoSphere SNOWGRID benötigt`, 'warn');
-    }
-
     return { valley: v, mountain: m };
   } catch (e) {
     log(`Open-Meteo ${season.id}: ✗ ${e.message}`, 'err');
@@ -636,26 +625,14 @@ async function loadAll() {
       }
     }
 
-    // If GeoSphere failed, use Open-Meteo snow_depth as fallback
-    if (!snowData[s.id] && omData) {
-      const vSnow = omData.valley.daily?.snow_depth;
-      const mSnow = omData.mountain.daily?.snow_depth;
-      if (vSnow || mSnow) {
-        snowData[s.id] = {
-          valley: { time: omData.valley.daily.time, snow_depth: (vSnow || omData.valley.daily.time.map(() => 0)).map(v => (v || 0) * 100) },
-          mountain: { time: omData.mountain.daily.time, snow_depth: (mSnow || omData.mountain.daily.time.map(() => 0)).map(v => (v || 0) * 100) }
-        };
-        log(`${s.id}: Schneehöhe-Fallback via Open-Meteo ERA5 (m → cm konvertiert)`, 'warn');
-      }
-    }
-
-    // If still no snow data, simulate as last resort
+    // If GeoSphere failed, simulate snow depth as fallback
+    // (Open-Meteo snow_depth is hourly only, not available in our daily request)
     if (!snowData[s.id] && omData) {
       snowData[s.id] = {
         valley: { time: omData.valley.daily.time, snow_depth: simulateSnowDepth(omData.valley.daily) },
         mountain: { time: omData.mountain.daily.time, snow_depth: simulateSnowDepth(omData.mountain.daily) }
       };
-      log(`${s.id}: Schneehöhe simuliert (Degree-Day-Modell) – UNGENAU!`, 'err');
+      log(`${s.id}: Schneehöhe simuliert (Degree-Day-Modell) – GeoSphere für echte Daten benötigt`, 'warn');
     }
 
     await new Promise(r => setTimeout(r, 250));
