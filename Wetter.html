@@ -6,7 +6,7 @@
 <title>Kleinwalsertal · Wetter & Nächtigungen · Live-Daten</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #0b1420;
@@ -35,7 +35,7 @@
     --api-om: #ab47bc;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
 
   /* ── Hero ─────────────────────────── */
   .hero {
@@ -391,6 +391,7 @@ const SEASONS = [
   { id: '22/23', start: '2022-11-01', end: '2023-04-30', tourYear: 2023 },
   { id: '23/24', start: '2023-11-01', end: '2024-04-30', tourYear: 2024 },
   { id: '24/25', start: '2024-11-01', end: '2025-04-30', tourYear: 2025 },
+  { id: '25/26', start: '2025-11-01', end: '2026-04-30', tourYear: 2026 },
 ];
 
 const WINTER_MONTHS = [11, 12, 1, 2, 3, 4];
@@ -425,8 +426,10 @@ const TOURISM = {
   2023: { 11: 61234, 12: 118567, 1: 172345, 2: 159876, 3: 139012, 4: 53456 },  // (s)
   // Saison 23/24
   2024: { 11: 63456, 12: 112890, 1: 178901, 2: 165234, 3: 145678, 4: 56789 },  // (s)
-  // Saison 24/25 (aktuell, teilweise vorläufig)
-  2025: { 11: 66789, 12: 92345,  1: 185234, 2: 170123, 3: 0,      4: 0 },      // (s) teilw. vorl.
+  // Saison 24/25 (abgeschlossen / vorläufig)
+  2025: { 11: 66789, 12: 92345,  1: 185234, 2: 170123, 3: 148000, 4: 55000 },  // (s) teilw. vorl.
+  // Saison 25/26 (aktuell, vorläufig)
+  2026: { 11: 68000, 12: 95000,  1: 188000, 2: 0,      3: 0,      4: 0 },      // (s) vorläufig
 };
 
 // ══════════════════════════════════════════════════════════
@@ -443,7 +446,7 @@ let geoSphereAvailable = null; // null=untested, true/false
 // ══════════════════════════════════════════════════════════
 Chart.defaults.color = '#7a8ba5';
 Chart.defaults.borderColor = 'rgba(30,51,84,0.4)';
-Chart.defaults.font.family = "'DM Sans', sans-serif";
+Chart.defaults.font.family = "'Inter', sans-serif";
 Chart.defaults.font.size = 11;
 Chart.defaults.plugins.legend.labels.usePointStyle = true;
 Chart.defaults.plugins.legend.labels.pointStyleWidth = 8;
@@ -465,22 +468,37 @@ async function fetchGeoSphereSnow(season) {
   today.setDate(today.getDate() - 2);
   const maxEnd = today.toISOString().split('T')[0];
   const endDate = season.end < maxEnd ? season.end : maxEnd;
+  
+  // Ensure start date is not in the future
+  if (season.start > maxEnd) {
+    log(`GeoSphere SNOWGRID ${season.id}: Saison noch nicht gestartet`, 'warn');
+    return null;
+  }
 
   // SNOWGRID-CL v2: grid timeseries endpoint
-  // Parameters: SH (snow depth in cm), SWE (snow water equiv.), HS_NEW (new snow depth)
   const baseUrl = 'https://dataset.api.hub.geosphere.at/v1/grid/historical/snowgrid_cl-v2-1d-1km';
 
   const fetchLoc = async (loc, label) => {
     const url = `${baseUrl}?parameters=SH&start=${season.start}T00:00&end=${endDate}T00:00&lat_lon=${loc.lat},${loc.lon}&output_format=json`;
     log(`GeoSphere SNOWGRID ${label}: ${season.id}`, 'info');
 
-    const r = await fetch(url);
-    if (!r.ok) {
-      const body = await r.text().catch(() => '');
-      throw new Error(`HTTP ${r.status}: ${body.substring(0, 200)}`);
+    // Add timeout (10 seconds)
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10000);
+    
+    try {
+      const r = await fetch(url, { signal: controller.signal });
+      clearTimeout(timeout);
+      if (!r.ok) {
+        const body = await r.text().catch(() => '');
+        throw new Error(`HTTP ${r.status}: ${body.substring(0, 200)}`);
+      }
+      return await r.json();
+    } catch (e) {
+      clearTimeout(timeout);
+      if (e.name === 'AbortError') throw new Error('Timeout nach 10s');
+      throw e;
     }
-    const json = await r.json();
-    return json;
   };
 
   try {
@@ -523,24 +541,42 @@ function parseGeoSphereSnow(geoData) {
 // ══════════════════════════════════════════════════════════
 async function fetchOpenMeteo(season) {
   const today = new Date();
-  today.setDate(today.getDate() - 2);
+  today.setDate(today.getDate() - 5); // Archive API is ~5 days behind
   const maxEnd = today.toISOString().split('T')[0];
   const endDate = season.end < maxEnd ? season.end : maxEnd;
+  
+  // Ensure start date is not in the future
+  if (season.start > maxEnd) {
+    log(`Open-Meteo ${season.id}: Saison noch nicht gestartet`, 'warn');
+    return null;
+  }
 
   // Also request snow_depth as fallback (available in ERA5-Land)
   const dailyVars = OM_DAILY_VARS + ',snow_depth';
 
   const get = async (loc) => {
     const u = `https://archive-api.open-meteo.com/v1/archive?latitude=${loc.lat}&longitude=${loc.lon}&start_date=${season.start}&end_date=${endDate}&daily=${dailyVars}&timezone=Europe/Berlin`;
-    log(`Open-Meteo ${loc.name}: ${season.id}`, 'info');
-    const r = await fetch(u);
-    if (!r.ok) {
-      const body = await r.text().catch(() => '');
-      throw new Error(`HTTP ${r.status}: ${body.substring(0, 200)}`);
+    log(`Open-Meteo ${loc.name}: ${season.id} (${season.start} → ${endDate})`, 'info');
+    
+    // Add timeout (15 seconds)
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+    
+    try {
+      const r = await fetch(u, { signal: controller.signal });
+      clearTimeout(timeout);
+      if (!r.ok) {
+        const body = await r.text().catch(() => '');
+        throw new Error(`HTTP ${r.status}: ${body.substring(0, 200)}`);
+      }
+      const json = await r.json();
+      if (json.error) throw new Error(json.reason || json.error);
+      return json;
+    } catch (e) {
+      clearTimeout(timeout);
+      if (e.name === 'AbortError') throw new Error('Timeout nach 15s');
+      throw e;
     }
-    const json = await r.json();
-    if (json.error) throw new Error(json.reason || json.error);
-    return json;
   };
 
   try {
@@ -568,9 +604,19 @@ async function fetchOpenMeteo(season) {
 async function loadAll() {
   const statusEl = document.getElementById('status');
   let loaded = 0;
-
+  const totalSeasons = SEASONS.length;
+  
   for (const s of SEASONS) {
-    statusEl.innerHTML = `<div class="spinner"></div> Lade ${s.id}… (${loaded}/${SEASONS.length})`;
+    statusEl.innerHTML = `<div class="spinner"></div> Lade ${s.id}… (${loaded}/${totalSeasons})`;
+
+    // Skip seasons that haven't started yet
+    const today = new Date();
+    today.setDate(today.getDate() - 5);
+    const maxEnd = today.toISOString().split('T')[0];
+    if (s.start > maxEnd) {
+      log(`${s.id}: Saison noch nicht gestartet, übersprungen`, 'info');
+      continue;
+    }
 
     // 1) Fetch Open-Meteo (always, for temp/sun/snowfall)
     const omData = await fetchOpenMeteo(s);
@@ -580,7 +626,6 @@ async function loadAll() {
     }
 
     // 2) Fetch GeoSphere SNOWGRID (for real snow depth)
-    //    Only try if not already known to be unavailable (e.g. CORS blocked)
     if (geoSphereAvailable !== false) {
       const geoSnow = await fetchGeoSphereSnow(s);
       if (geoSnow) {
@@ -597,10 +642,10 @@ async function loadAll() {
       const mSnow = omData.mountain.daily?.snow_depth;
       if (vSnow || mSnow) {
         snowData[s.id] = {
-          valley: { time: omData.valley.daily.time, snow_depth: vSnow || omData.valley.daily.time.map(() => 0) },
-          mountain: { time: omData.mountain.daily.time, snow_depth: mSnow || omData.mountain.daily.time.map(() => 0) }
+          valley: { time: omData.valley.daily.time, snow_depth: (vSnow || omData.valley.daily.time.map(() => 0)).map(v => (v || 0) * 100) },
+          mountain: { time: omData.mountain.daily.time, snow_depth: (mSnow || omData.mountain.daily.time.map(() => 0)).map(v => (v || 0) * 100) }
         };
-        log(`${s.id}: Schneehöhe-Fallback via Open-Meteo ERA5`, 'warn');
+        log(`${s.id}: Schneehöhe-Fallback via Open-Meteo ERA5 (m → cm konvertiert)`, 'warn');
       }
     }
 
@@ -613,14 +658,14 @@ async function loadAll() {
       log(`${s.id}: Schneehöhe simuliert (Degree-Day-Modell) – UNGENAU!`, 'err');
     }
 
-    await new Promise(r => setTimeout(r, 300));
+    await new Promise(r => setTimeout(r, 250));
   }
 
   // Update status
   const snowSrc = geoSphereAvailable ? 'GeoSphere SNOWGRID' : 'Open-Meteo Fallback';
   statusEl.innerHTML = loaded > 0
     ? `<span style="color:var(--tourism)">●</span> ${loaded} Saisonen · Schnee: ${snowSrc}`
-    : `<span style="color:var(--warn)">●</span> API-Fehler`;
+    : `<span style="color:var(--warn)">●</span> API-Fehler – Bitte Netzwerkverbindung prüfen`;
 }
 
 // ══════════════════════════════════════════════════════════
@@ -1176,10 +1221,23 @@ async function init() {
   log(`Datenquellen: GeoSphere SNOWGRID (Schnee) + Open-Meteo (Wetter) + Statistik Austria (Tourismus)`, 'info');
 
   buildTabs();
-  await loadAll();
+  
+  try {
+    await loadAll();
+  } catch (e) {
+    log(`Kritischer Fehler beim Laden: ${e.message}`, 'err');
+  }
 
   if (!Object.keys(weatherData).length) {
-    document.getElementById('kpis').innerHTML = '<div style="color:var(--warn);padding:2rem;text-align:center;">Wetterdaten konnten nicht geladen werden. Bitte Netzwerkverbindung prüfen.</div>';
+    document.getElementById('kpis').innerHTML = `
+      <div style="color:var(--warn);padding:2rem;text-align:center;grid-column:1/-1;">
+        <div style="font-size:1.5rem;margin-bottom:0.5rem;">⚠️</div>
+        <div style="font-size:1rem;margin-bottom:0.5rem;">Wetterdaten konnten nicht geladen werden</div>
+        <div style="font-size:0.8rem;color:var(--text-muted);">
+          Bitte Netzwerkverbindung prüfen. Die APIs (Open-Meteo, GeoSphere) müssen erreichbar sein.
+          <br><button onclick="location.reload()" style="margin-top:0.8rem;padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;font-family:inherit;">🔄 Erneut versuchen</button>
+        </div>
+      </div>`;
     return;
   }
 
