@@ -2084,8 +2084,15 @@
                 }
             });
         }
-        // ===== ACCORDION SYSTEM =====
+        // ===== ACCORDION CONFIG =====
+        // IMPORTANT: One entry per HTML <section>, in exact DOM order!
+        // Sections: 0=Zeitverlauf, 1=MonatVerteilung, 2=AlleJahresdaten,
+        //   3=Heatmap, 4=Herkunftsländer, 5=Herkunftstrend, 6=Unterkunftsarten,
+        //   7=Gemeindevergleich, 8=WinterSommer, 9=Bettenauslastung,
+        //   10=Prognose, 11=Wertschöpfung
+        // skip:true → merge section into PREVIOUS accordion (no own header)
         const ACC_CONFIG = [
+            /* 0 — Zeitverlauf */
             { 
                 icon: '📈', title: 'Zeitverlauf', sub: 'Übernachtungen & Ankünfte seit 2016',
                 kpis: () => {
@@ -2099,6 +2106,7 @@
                 },
                 cols: 2, spark: true, open: true
             },
+            /* 1 — Monatliche Verteilung + Monatsvergleich */
             { 
                 icon: '📊', title: 'Monatsvergleich', sub: 'Aktueller Monat vs. Vorjahr · Jeden Monat aktualisiert',
                 kpis: () => {
@@ -2112,6 +2120,9 @@
                 },
                 cols: 2
             },
+            /* 2 — Alle Jahresdaten → merge into Monatsvergleich */
+            { skip: true },
+            /* 3 — Saisonale Buchungsstärke (Heatmap) */
             {
                 icon: '📅', title: 'Saisonale Buchungsstärke', sub: 'Heatmap · Übernachtungen pro Monat 2022–2026',
                 kpis: () => {
@@ -2124,6 +2135,7 @@
                 },
                 cols: 1
             },
+            /* 4 — Herkunftsländer */
             {
                 icon: '🌍', title: 'Herkunftsländer', sub: 'Woher kommen die Gäste?',
                 kpis: () => {
@@ -2139,6 +2151,9 @@
                 },
                 cols: 2
             },
+            /* 5 — Herkunftstrend 10 Jahre → merge into Herkunftsländer */
+            { skip: true },
+            /* 6 — Unterkunftsarten */
             {
                 icon: '🏨', title: 'Unterkunftsarten', sub: 'Hotels vs. Ferienwohnungen vs. Privatquartiere',
                 kpis: () => {
@@ -2152,13 +2167,13 @@
                 },
                 cols: 2
             },
+            /* 7 — Gemeindevergleich */
             {
                 icon: '🏔️', title: 'Gemeindevergleich', sub: 'Kleinwalsertal vs. andere Tourismusgemeinden',
                 kpis: () => [{ val: '#1', lab: 'Rang in Vbg', cls: '' }],
                 cols: 1
             },
-            { skip: true }, // Country Trend is inside Herkunftsländer accordion
-            { skip: true }, // Accommodation chart is inside Unterkunftsarten
+            /* 8 — Winter vs. Sommer */
             {
                 icon: '❄️☀️', title: 'Winter vs. Sommer', sub: 'Saisonvergleich · Wird der Sommer stärker?',
                 kpis: () => {
@@ -2174,6 +2189,7 @@
                 },
                 cols: 2
             },
+            /* 9 — Bettenauslastung */
             {
                 icon: '🛏️', title: 'Bettenauslastung', sub: 'Nächtigungen pro verfügbarem Bett',
                 kpis: () => {
@@ -2186,6 +2202,7 @@
                 },
                 cols: 1
             },
+            /* 10 — Prognose 2026 */
             {
                 icon: '🔮', title: 'Prognose 2026', sub: '3-Jahres-Schnitt & Langzeit-Trend',
                 kpis: () => {
@@ -2194,6 +2211,7 @@
                 },
                 cols: 1
             },
+            /* 11 — Touristische Wertschöpfung */
             {
                 icon: '💰', title: 'Touristische Wertschöpfung', sub: 'Geschätzter wirtschaftlicher Beitrag',
                 kpis: () => {
@@ -2218,14 +2236,19 @@
         function buildAccordions() {
             const sections = document.querySelectorAll('.main-content > .container > .section');
             const container = document.querySelector('.main-content > .container');
+            let lastAcc = null; // Track last created accordion for merging
             
-            let configIdx = 0;
             sections.forEach((section, i) => {
-                // Find matching config
-                while (configIdx < ACC_CONFIG.length && ACC_CONFIG[configIdx].skip) configIdx++;
-                const cfg = ACC_CONFIG[configIdx];
-                configIdx++;
+                const cfg = ACC_CONFIG[i];
                 if (!cfg) return;
+
+                // skip: true → merge this section into the previous accordion
+                if (cfg.skip) {
+                    if (lastAcc) {
+                        lastAcc.querySelector('.acc-inner').appendChild(section);
+                    }
+                    return;
+                }
 
                 const accId = 'acc-' + i;
                 const acc = document.createElement('div');
@@ -2258,6 +2281,7 @@
                 // Move section content into accordion
                 acc.querySelector('.acc-inner').appendChild(section);
                 container.appendChild(acc);
+                lastAcc = acc; // Remember for potential merge
             });
 
             // Draw sparkline for first accordion
