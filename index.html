@@ -5,22 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kleinwalsertal Tourismus Statistik | Übernachtungen, Herkunft & Trends</title>
     <meta name="description" content="Offizielle Tourismusstatistiken für Kleinwalsertal - Übernachtungen, Ankünfte, Herkunftsländer, Unterkunftsarten und Saisonanalyse. Daten vom Land Vorarlberg.">
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P2K18TDBT9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-P2K18TDBT9');
+        
+        // Custom Event Helper
+        function trackEvent(action, category, label, value) {
+            gtag('event', action, {
+                'event_category': category,
+                'event_label': label,
+                'value': value
+            });
+        }
+    </script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         :root {
             --primary: #1e3a5f; --primary-light: #2d5a87; --accent: #4a9b7f; --accent-light: #6bc4a6;
-            --gold: #c9a227; --gold-light: #e8c547; --snow: #f4f7fa; --ice: #e1e8ed;
-            --mountain: #8b9eb3; --forest: #2d5a47; --sunset: #d4735e; --bg: #f8f9fb;
-            --surface: #ffffff; --text: #1a2a3a; --text-sec: #5a6a7a; --text-muted: #94a3b8;
-            --border: #e8ecf0; --shadow-sm: 0 1px 2px rgba(30,58,95,0.03);
-            --shadow: 0 1px 3px rgba(30,58,95,0.05), 0 4px 12px rgba(30,58,95,0.06);
-            --shadow-md: 0 2px 6px rgba(30,58,95,0.06), 0 8px 24px rgba(30,58,95,0.08);
-            --shadow-lg: 0 4px 12px rgba(30,58,95,0.08), 0 16px 48px rgba(30,58,95,0.1);
-            --radius-sm: 8px; --radius: 12px;
-            --radius-lg: 16px; --transition: 0.2s ease;
+            --gold: #c9a227; --gold-light: #e8c547; --snow: #f0f4f8; --ice: #e1e8ed;
+            --mountain: #8b9eb3; --forest: #2d5a47; --sunset: #d4735e; --bg: #fafbfc;
+            --surface: #ffffff; --text: #1a2a3a; --text-sec: #5a6a7a; --text-muted: #8a9aaa;
+            --border: #e5eaef; --shadow-sm: 0 1px 2px rgba(30,58,95,0.04);
+            --shadow: 0 2px 8px rgba(30,58,95,0.08); --shadow-md: 0 4px 16px rgba(30,58,95,0.1);
+            --shadow-lg: 0 8px 32px rgba(30,58,95,0.12); --radius-sm: 8px; --radius: 12px;
+            --radius-lg: 20px; --transition: 0.2s ease;
         }
         [data-theme="dark"] {
             --bg: #0d1117; --surface: #161b22; --text: #e6edf3; --text-sec: #8b949e;
@@ -30,7 +47,7 @@
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.65; color: var(--text); background: var(--bg); min-height: 100vh; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        body { font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.6; color: var(--text); background: var(--bg); min-height: 100vh; }
         .hero { position: relative; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, var(--accent) 100%); color: white; padding: 0; overflow: hidden; }
         .hero::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 200 L0 120 Q100 80 200 100 T400 90 T600 110 T800 85 T1000 105 T1200 95 L1200 200 Z' fill='%23ffffff' opacity='0.03'/%3E%3C/svg%3E") bottom/cover no-repeat; pointer-events: none; }
         .hero-content { position: relative; max-width: 1400px; margin: 0 auto; padding: 60px 32px 80px; }
@@ -39,7 +56,7 @@
         .hero-logo { width: 56px; height: 56px; background: rgba(255,255,255,0.15); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
         .hero-logo svg { width: 32px; height: 32px; fill: white; }
         .hero-title-group h1 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
-        .hero-title-group .region { font-size: 0.9375rem; font-weight: 500; opacity: 0.85; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+        .hero-title-group .region { font-size: 1rem; font-weight: 500; opacity: 0.85; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
         .hero-controls { display: flex; gap: 12px; align-items: center; }
         .theme-toggle { width: 44px; height: 44px; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
         .theme-toggle:hover { background: rgba(255,255,255,0.2); }
@@ -53,28 +70,27 @@
         .kpi-card { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.15); border-radius: var(--radius); padding: 20px; transition: var(--transition); }
         .kpi-card:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); }
         .kpi-label { font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.8; margin-bottom: 6px; }
-        .kpi-value { font-size: 1.75rem; font-weight: 700; line-height: 1.1; margin-bottom: 4px; font-variant-numeric: tabular-nums; }
+        .kpi-value { font-size: 1.75rem; font-weight: 700; line-height: 1.1; margin-bottom: 4px; }
         .kpi-detail { font-size: 0.8125rem; opacity: 0.75; }
-        .kpi-trend { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; font-weight: 600; margin-top: 8px; padding: 3px 8px; border-radius: 100px; font-variant-numeric: tabular-nums; }
+        .kpi-trend { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; font-weight: 600; margin-top: 8px; padding: 3px 8px; border-radius: 100px; }
         .kpi-trend.up { background: rgba(74, 222, 128, 0.2); color: #4ade80; }
         .kpi-trend.down { background: rgba(248, 113, 113, 0.2); color: #f87171; }
         .container { max-width: 1400px; margin: 0 auto; padding: 0 32px; }
         .main-content { padding: 48px 0 80px; }
         .section { margin-bottom: 48px; }
         .section-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; }
-        .section-title { font-family: 'Playfair Display', Georgia, serif; font-size: 1.75rem; font-weight: 600; color: var(--text); letter-spacing: -0.02em; }
-        .section-subtitle { font-size: 0.9375rem; color: var(--text-sec); margin-top: 4px; line-height: 1.5; }
-        .card { background: var(--surface); border-radius: var(--radius-lg); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; transition: box-shadow 0.2s ease; }
-        .card:hover { box-shadow: var(--shadow-md); }
+        .section-title { font-family: 'Playfair Display', Georgia, serif; font-size: 1.75rem; font-weight: 600; color: var(--text); }
+        .section-subtitle { font-size: 0.9375rem; color: var(--text-sec); margin-top: 4px; }
+        .card { background: var(--surface); border-radius: var(--radius-lg); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; }
         .card-header { padding: 24px 28px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
-        .card-title { font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.01em; }
+        .card-title { font-size: 1.125rem; font-weight: 600; }
         .card-body { padding: 28px; }
         .controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
         .control-group { display: flex; align-items: center; gap: 8px; }
         .control-label { font-size: 0.875rem; color: var(--text-sec); font-weight: 500; }
-        select { padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); font-size: 0.875rem; font-family: inherit; transition: var(--transition); cursor: pointer; font-weight: 500; }
+        select { padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); font-size: 0.9375rem; font-family: inherit; transition: var(--transition); cursor: pointer; }
         select:hover { border-color: var(--primary-light); }
-        select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(30,58,95,0.08); }
+        select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(30,58,95,0.1); }
         .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: var(--radius-sm); font-size: 0.9375rem; font-weight: 500; font-family: inherit; cursor: pointer; transition: var(--transition); border: none; }
         .btn-secondary { background: var(--snow); color: var(--text); border: 1px solid var(--border); }
         .btn-secondary:hover { background: var(--ice); }
@@ -89,173 +105,17 @@
         @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
         .table-wrapper { overflow-x: auto; margin: -28px; padding: 28px; }
         table { width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
-        th, td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--border); }
-        th { font-weight: 600; color: var(--text-sec); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; background: var(--snow); position: sticky; top: 0; }
-        /* Zebra-Stripes for better readability */
-        tbody tr:nth-child(even) { background: color-mix(in srgb, var(--snow) 40%, transparent); }
-        tbody tr:hover { background: color-mix(in srgb, var(--primary) 5%, var(--surface)); }
-        /* Number columns: right-aligned but with padding from edge */
-        td:nth-child(n+2):not(:last-child) { text-align: right; padding-right: 28px; font-variant-numeric: tabular-nums; }
-        th:nth-child(n+2):not(:last-child) { text-align: right; padding-right: 28px; }
-        /* Last column (status) stays left */
-        td:last-child, th:last-child { text-align: left; }
+        th, td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+        th { font-weight: 600; color: var(--text-sec); font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.05em; background: var(--snow); position: sticky; top: 0; }
+        tbody tr:hover { background: var(--snow); }
         .table-year { font-weight: 600; color: var(--primary); }
-        .table-number { font-variant-numeric: tabular-nums; font-weight: 500; }
-        .table-change { display: inline-flex; align-items: center; gap: 4px; font-weight: 500; font-size: 0.8125rem; font-variant-numeric: tabular-nums; }
+        .table-number { font-variant-numeric: tabular-nums; }
+        .table-change { display: inline-flex; align-items: center; gap: 4px; font-weight: 500; font-size: 0.8125rem; }
         .table-change.positive { color: var(--accent); }
         .table-change.negative { color: var(--sunset); }
-        /* ── Accordion System ──────────────────────────── */
-        .acc {
-            border-radius: var(--radius-lg);
-            background: var(--surface);
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            margin-bottom: 12px;
-            overflow: hidden;
-            transition: box-shadow 0.25s ease, border-color 0.25s ease;
-        }
-        .acc:hover { box-shadow: var(--shadow-md); border-color: color-mix(in srgb, var(--border) 60%, var(--primary) 40%); }
-        .acc.open { box-shadow: var(--shadow-md); }
-        .acc-trigger {
-            display: grid;
-            grid-template-columns: 48px 1fr auto 36px;
-            align-items: center;
-            width: 100%;
-            padding: 20px 24px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            text-align: left;
-            font-family: inherit;
-            color: var(--text);
-            transition: background 0.2s ease;
-            position: relative;
-        }
-        .acc-trigger:hover { background: var(--snow); }
-        [data-theme="dark"] .acc-trigger:hover { background: rgba(255,255,255,0.03); }
-        .acc-icon {
-            font-size: 1.4rem;
-            line-height: 1;
-            text-align: center;
-            width: 42px;
-            height: 42px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--snow);
-            border-radius: var(--radius-sm);
-            flex-shrink: 0;
-        }
-        [data-theme="dark"] .acc-icon { background: rgba(255,255,255,0.05); }
-        .acc-info { padding: 0 20px 0 8px; min-width: 0; }
-        .acc-title {
-            font-family: 'Inter', -apple-system, sans-serif;
-            font-size: 1.05rem;
-            font-weight: 600;
-            line-height: 1.3;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            letter-spacing: -0.01em;
-        }
-        .acc-sub {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-top: 3px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-weight: 400;
-        }
-        .acc-kpis {
-            display: grid;
-            grid-template-columns: repeat(var(--acc-cols, 2), minmax(75px, auto));
-            gap: 4px 24px;
-            align-items: center;
-            justify-items: end;
-            padding-right: 12px;
-        }
-        .acc-kpi { text-align: right; white-space: nowrap; }
-        .acc-kpi-val {
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: var(--primary);
-            line-height: 1.2;
-            font-variant-numeric: tabular-nums;
-        }
-        .acc-kpi-lab {
-            font-size: 0.62rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: var(--text-muted);
-            line-height: 1.3;
-            margin-top: 1px;
-        }
-        .acc-kpi-val.green { color: var(--accent); }
-        .acc-kpi-val.gold { color: var(--gold); }
-        .acc-kpi-val.red { color: var(--sunset); }
-        .acc-chevron {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: var(--snow);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.2s;
-            color: var(--text-muted);
-        }
-        [data-theme="dark"] .acc-chevron { background: rgba(255,255,255,0.06); }
-        .acc.open .acc-chevron { transform: rotate(180deg); background: color-mix(in srgb, var(--primary) 12%, transparent); color: var(--primary); }
-        
-        /* ── Accordion Body – CRITICAL: no content leaking ── */
-        .acc-body {
-            display: grid;
-            grid-template-rows: 0fr;
-            /* Prevent any content from being visible */
-            visibility: hidden;
-            opacity: 0;
-            transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                        opacity 0.25s ease 0.05s,
-                        visibility 0s linear 0.3s;
-        }
-        .acc.open .acc-body {
-            grid-template-rows: 1fr;
-            visibility: visible;
-            opacity: 1;
-            transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                        opacity 0.25s ease 0.05s,
-                        visibility 0s linear 0s;
-        }
-        .acc-body > div {
-            overflow: hidden;
-            min-height: 0;
-        }
-        .acc-inner {
-            padding: 0 28px 28px;
-            border-top: 1px solid var(--border);
-        }
-        .acc-inner .section-header { display: none; }
-        .acc-inner .section { margin-bottom: 0; }
-        
-        .acc-spark { width: 60px; height: 26px; opacity: 0.7; }
-
-        @media (max-width: 768px) {
-            .acc-trigger { grid-template-columns: 40px 1fr auto 28px; padding: 16px 16px; }
-            .acc-title { font-size: 0.95rem; }
-            .acc-kpis { gap: 2px 14px; }
-            .acc-kpi-val { font-size: 0.9rem; }
-            .acc-info { padding: 0 12px 0 4px; }
-        }
-        @media (max-width: 480px) {
-            .acc-kpis { grid-template-columns: repeat(var(--acc-cols, 2), minmax(50px, auto)); gap: 2px 10px; }
-            .acc-trigger { padding: 14px 12px; }
-        }
-
-        .badge { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 100px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
-        .badge-actual { background: rgba(45, 90, 71, 0.08); color: var(--forest); }
-        .badge-estimated { background: rgba(201, 162, 39, 0.12); color: var(--gold); }
+        .badge { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 100px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; }
+        .badge-actual { background: rgba(45, 90, 71, 0.1); color: var(--forest); }
+        .badge-estimated { background: rgba(201, 162, 39, 0.15); color: var(--gold); }
         .heatmap-grid { display: grid; grid-template-columns: 80px repeat(12, 1fr); gap: 4px; }
         .heatmap-header { font-size: 0.75rem; font-weight: 600; color: var(--text-sec); text-align: center; padding: 8px 4px; }
         .heatmap-row-label { font-size: 0.875rem; font-weight: 600; display: flex; align-items: center; }
@@ -269,18 +129,17 @@
         .country-item:last-child { border-bottom: none; }
         .country-flag { font-size: 1.5rem; }
         .country-name { flex: 1; font-weight: 500; }
-        .country-value { font-weight: 600; color: var(--primary); font-variant-numeric: tabular-nums; }
-        .country-pct { font-size: 0.875rem; color: var(--text-sec); margin-left: 8px; font-variant-numeric: tabular-nums; }
+        .country-value { font-weight: 600; color: var(--primary); }
+        .country-pct { font-size: 0.875rem; color: var(--text-sec); margin-left: 8px; }
         .country-bar { height: 6px; background: var(--snow); border-radius: 3px; margin-top: 4px; overflow: hidden; }
         .country-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--primary), var(--primary-light)); }
         .accommodation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
-        .accommodation-card { background: var(--snow); border-radius: var(--radius); padding: 24px; text-align: center; transition: box-shadow 0.2s; border: 1px solid transparent; }
-        .accommodation-card:hover { box-shadow: var(--shadow); border-color: var(--border); }
-        .accommodation-icon { font-size: 2rem; margin-bottom: 10px; }
-        .accommodation-name { font-weight: 600; margin-bottom: 6px; font-size: 0.9375rem; }
-        .accommodation-value { font-size: 1.5rem; font-weight: 700; color: var(--primary); font-variant-numeric: tabular-nums; }
-        .accommodation-pct { font-size: 0.875rem; color: var(--text-sec); font-variant-numeric: tabular-nums; }
-        .accommodation-trend { font-size: 0.8125rem; margin-top: 8px; font-variant-numeric: tabular-nums; }
+        .accommodation-card { background: var(--snow); border-radius: var(--radius); padding: 20px; text-align: center; }
+        .accommodation-icon { font-size: 2rem; margin-bottom: 8px; }
+        .accommodation-name { font-weight: 600; margin-bottom: 4px; }
+        .accommodation-value { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+        .accommodation-pct { font-size: 0.875rem; color: var(--text-sec); }
+        .accommodation-trend { font-size: 0.8125rem; margin-top: 8px; }
         .accommodation-trend.up { color: var(--accent); }
         .accommodation-trend.down { color: var(--sunset); }
         .footer { background: var(--surface); border-top: 1px solid var(--border); padding: 40px 0; }
@@ -320,11 +179,7 @@
                     </div>
                 </div>
                 <div class="hero-controls">
-                    <div class="status-pill" id="statusPill" onclick="retryLoad()" style="cursor:pointer;" title="Klick zum Neuladen">
-                        <span class="status-dot loading" id="statusDot"></span>
-                        <span id="statusText">Lade...</span>
-                        <span id="statusMeta" style="font-size:0.7rem;opacity:0.7;display:none;margin-left:4px;border-left:1px solid rgba(255,255,255,0.25);padding-left:8px;"></span>
-                    </div>
+                    <div class="status-pill" id="statusPill" onclick="retryLoad()" style="cursor:pointer;" title="Klick zum Neuladen"><span class="status-dot loading" id="statusDot"></span><span id="statusText">Lade...</span></div>
                     <button class="theme-toggle" onclick="toggleTheme()" title="Theme wechseln"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
                 </div>
             </div>
@@ -367,50 +222,20 @@
                 </div>
             </section>
 
-            <!-- 2. MONATLICHE VERTEILUNG MIT VORJAHRESVERGLEICH -->
+            <!-- 2. MONATLICHE VERTEILUNG -->
             <section class="section">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">📊 Monatliche Verteilung · Vorjahresvergleich</h3>
+                        <h3 class="card-title">📊 Monatliche Verteilung</h3>
                         <div class="controls">
                             <div class="control-group">
                                 <label class="control-label">Jahr:</label>
                                 <select id="monthlyYear"></select>
                             </div>
-                            <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-sec);cursor:pointer;">
-                                <input type="checkbox" id="monthlyShowForecast" checked style="cursor:pointer;"> Prognose
-                            </label>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="chart-container"><canvas id="monthlyChart"></canvas></div>
-                        <div id="monthlyLegendInfo" style="margin-top:16px;font-size:0.8125rem;color:var(--text-sec);display:flex;gap:20px;flex-wrap:wrap;align-items:center;">
-                            <span>🟦 Ausgewähltes Jahr</span>
-                            <span style="opacity:0.6;">⬜ Vorjahr (Vergleich)</span>
-                            <span>🟡 Prognose (Ø letzte 3 Jahre)</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- Monatsvergleich Tabelle -->
-                <div class="card" style="margin-top: 24px;">
-                    <div class="card-header">
-                        <h3 class="card-title">📋 Monatsvergleich im Detail</h3>
-                        <div id="monthlyTableSummary" style="font-size:0.875rem;color:var(--text-sec);"></div>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-wrapper">
-                            <table>
-                                <thead><tr>
-                                    <th>Monat</th>
-                                    <th id="monthlyTableYearHeader">2026</th>
-                                    <th id="monthlyTablePrevHeader">2025</th>
-                                    <th>Differenz</th>
-                                    <th>Veränderung</th>
-                                    <th>Status</th>
-                                </tr></thead>
-                                <tbody id="monthlyTableBody"></tbody>
-                            </table>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -656,12 +481,12 @@
                 <div class="section-header">
                     <div>
                         <h2 class="section-title">🔮 Prognose 2026</h2>
-                        <p class="section-subtitle">Basierend auf 3-Jahres-Schnitt (2023–2025) und Langzeit-Trend (ohne COVID)</p>
+                        <p class="section-subtitle">Hochrechnung basierend auf 10-Jahres-Trend (ohne COVID-Jahre)</p>
                     </div>
                 </div>
                 <div id="forecastKPIs" class="kpi-grid" style="margin-bottom: 24px;"></div>
                 <div class="card">
-                    <div class="card-header"><h3 class="card-title">Trendlinien & Prognose</h3></div>
+                    <div class="card-header"><h3 class="card-title">Trendlinie & Prognose</h3></div>
                     <div class="card-body">
                         <div class="chart-container"><canvas id="forecastChart"></canvas></div>
                     </div>
@@ -702,15 +527,6 @@
                         <strong>Berechnungsgrundlage:</strong> Tagesausgaben pro Kopf im Urlaubertourismus (in entgeltlichen Unterkünften, ohne Anreise): <strong>231 € Winter</strong>, <strong>164 € Sommer</strong> (Quelle: Tourismus-Monitor Austria, Vorarlberg-Ergebnisse 2024). Die Werte sind Schätzungen und basieren auf den Nächtigungszahlen multipliziert mit den durchschnittlichen Tagesausgaben.
                     </div>
                 </div>
-
-                <!-- Wertschöpfung nach Gemeinden -->
-                <div class="card" style="margin-top: 24px;">
-                    <div class="card-header"><h3 class="card-title">💰 Wertschöpfung nach Gemeinden</h3></div>
-                    <div class="card-body">
-                        <div id="revenueGemeindeKPIs" class="kpi-grid" style="margin-bottom:24px;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));"></div>
-                        <div class="chart-container"><canvas id="revenueGemeindeChart"></canvas></div>
-                    </div>
-                </div>
             </section>
 
         </div>
@@ -739,7 +555,7 @@
             </div>
             <div class="footer-bottom">
                 <span>© 2026 · Daten: Land Vorarlberg (OGD)</span>
-                <span>Stand: 5. Februar 2026</span>
+                <span>Stand: 12. Februar 2026</span>
             </div>
         </div>
     </footer>
@@ -763,7 +579,7 @@
         let yearlyData = [], monthlyData = {}, countryData = {}, accommodationData = {};
         let comparisonData = {};
         let mainChart, monthlyChart, countryPieChart, countryTrendChart, accommodationChart, comparisonChart, comparisonAccChart;
-        let seasonChart, seasonShareChart, occupancyChart, forecastChart, revenuePieChart, revenueTrendChart, revenueGemeindeChart;
+        let seasonChart, seasonShareChart, occupancyChart, forecastChart, revenuePieChart, revenueTrendChart;
 
         // Wertschöpfung: Tagesausgaben pro Kopf (Quelle: TMA Vorarlberg 2024)
         const REVENUE = { winter: 231, summer: 164 }; // €/Tag
@@ -895,19 +711,24 @@
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
             document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
             localStorage.setItem('theme', isDark ? 'light' : 'dark');
+            trackEvent('theme_toggle', 'UI', isDark ? 'light' : 'dark');
         }
 
         function initEvents() {
-            document.querySelectorAll('.tab[data-chart]').forEach(t => t.addEventListener('click', () => { document.querySelectorAll('.tab[data-chart]').forEach(x => x.classList.remove('active')); t.classList.add('active'); updateMainChart(); }));
-            ['yearFrom', 'yearTo'].forEach(id => document.getElementById(id)?.addEventListener('change', updateMainChart));
-            document.getElementById('monthlyYear')?.addEventListener('change', updateMonthlyChart);
-            document.getElementById('monthlyShowForecast')?.addEventListener('change', updateMonthlyChart);
-            document.getElementById('countryYear')?.addEventListener('change', () => { updateCountryPie(); updateCountryList(); });
+            document.querySelectorAll('.tab[data-chart]').forEach(t => t.addEventListener('click', () => { 
+                document.querySelectorAll('.tab[data-chart]').forEach(x => x.classList.remove('active')); 
+                t.classList.add('active'); 
+                updateMainChart(); 
+                trackEvent('chart_type', 'UI', t.dataset.chart);
+            }));
+            ['yearFrom', 'yearTo'].forEach(id => document.getElementById(id)?.addEventListener('change', () => { updateMainChart(); trackEvent('year_range', 'Filter', id); }));
+            document.getElementById('monthlyYear')?.addEventListener('change', (e) => { updateMonthlyChart(); trackEvent('year_select', 'Filter', 'monthly_' + e.target.value); });
+            document.getElementById('countryYear')?.addEventListener('change', (e) => { updateCountryPie(); updateCountryList(); trackEvent('year_select', 'Filter', 'country_' + e.target.value); });
             ['countryTrendFrom', 'countryTrendTo'].forEach(id => document.getElementById(id)?.addEventListener('change', updateCountryTrend));
-            document.getElementById('accommodationYear')?.addEventListener('change', () => { updateAccommodationCards(); updateAccommodationChart(); });
-            document.getElementById('comparisonYear')?.addEventListener('change', () => { updateComparisonChart(); updateComparisonTable(); updateComparisonAccChart(); });
-            document.getElementById('occupancyYear')?.addEventListener('change', () => { updateOccupancy(); });
-            document.getElementById('revenueYear')?.addEventListener('change', () => { updateRevenue(); updateRevenueGemeinde(); });
+            document.getElementById('accommodationYear')?.addEventListener('change', (e) => { updateAccommodationCards(); updateAccommodationChart(); trackEvent('year_select', 'Filter', 'accommodation_' + e.target.value); });
+            document.getElementById('comparisonYear')?.addEventListener('change', (e) => { updateComparisonChart(); updateComparisonTable(); updateComparisonAccChart(); trackEvent('year_select', 'Filter', 'comparison_' + e.target.value); });
+            document.getElementById('occupancyYear')?.addEventListener('change', (e) => { updateOccupancy(); trackEvent('year_select', 'Filter', 'occupancy_' + e.target.value); });
+            document.getElementById('revenueYear')?.addEventListener('change', (e) => { updateRevenue(); trackEvent('year_select', 'Filter', 'revenue_' + e.target.value); });
         }
 
         async function loadData() {
@@ -957,7 +778,7 @@
             }
             bedsData = JSON.parse(JSON.stringify(FALLBACK_BEDS));
             
-            setStatus('ready', '', mainOK ? 'Land Vorarlberg OGD' : 'Fallback-Daten');
+            setStatus(mainOK ? 'live' : 'offline', mainOK ? 'Live-Daten' : 'Offline-Daten');
             populateSelectors();
             updateAll();
         }
@@ -1116,31 +937,20 @@
 
         function parseMonth(s) { if (!s) return 1; const n = parseInt(s); if (!isNaN(n) && n >= 1 && n <= 12) return n; const m = { 'jän': 1, 'jan': 1, 'feb': 2, 'mär': 3, 'mar': 3, 'apr': 4, 'mai': 5, 'jun': 6, 'jul': 7, 'aug': 8, 'sep': 9, 'okt': 10, 'nov': 11, 'dez': 12 }; return m[s.toLowerCase().substring(0, 3)] || 1; }
         function parseNum(s) { if (!s) return 0; return parseInt(s.replace(/[.\s]/g, '').replace(',', '.')) || 0; }
-        function setStatus(t, txt, source) { 
+        function setStatus(t, txt) { 
             const dot = document.getElementById('statusDot');
             const textEl = document.getElementById('statusText');
             const pill = document.getElementById('statusPill');
-            const meta = document.getElementById('statusMeta');
             dot.className = 'status-dot';
-            const now = new Date();
-            const timeStr = now.toLocaleDateString('de-AT', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ', ' + now.toLocaleTimeString('de-AT', { hour: '2-digit', minute: '2-digit' });
-            if (t === 'loading') { 
-                dot.classList.add('loading'); 
-                textEl.textContent = 'Lade...';
-                pill.title = 'Daten werden geladen...'; 
-                meta.style.display = 'none';
-            } else {
-                // Immer grüner Punkt — Daten sind vorhanden und aktuell
-                dot.className = 'status-dot'; // grün (default)
-                const srcLabel = source || 'Fallback-Daten';
-                textEl.textContent = 'Daten geladen ' + timeStr;
-                meta.textContent = srcLabel;
-                meta.style.display = 'inline';
-                pill.title = 'Quelle: ' + srcLabel + '\nGeladen am: ' + timeStr + '\nDaten werden monatlich aktualisiert';
-            }
+            if (t === 'offline') { dot.classList.add('offline'); pill.title = 'Offline – Klick zum Neuladen'; }
+            else if (t === 'loading') { dot.classList.add('loading'); pill.title = 'Daten werden geladen...'; }
+            else { pill.title = 'Live-Daten von data.gv.at'; }
+            textEl.textContent = txt;
+            if (t !== 'loading') trackEvent('data_status', 'Data', t, t === 'live' ? 1 : 0);
         }
         function retryLoad() {
             setStatus('loading', 'Lade...');
+            trackEvent('retry_load', 'UI', 'Manual Reload');
             loadData();
         }
         function formatNum(n) { return n == null ? '—' : new Intl.NumberFormat('de-AT').format(Math.round(n)); }
@@ -1165,7 +975,7 @@
             document.getElementById('revenueYear').value = 2025;
         }
 
-        function updateAll() { updateKPIs(); updateMainChart(); updateMonthlyChart(); updateTable(); updateHeatmap(); updateCountryPie(); updateCountryList(); updateCountryTrend(); updateAccommodationCards(); updateAccommodationChart(); updateComparisonChart(); updateComparisonTable(); updateComparisonAccChart(); updateSeason(); updateOccupancy(); updateForecast(); updateRevenue(); updateRevenueGemeinde(); }
+        function updateAll() { updateKPIs(); updateMainChart(); updateMonthlyChart(); updateTable(); updateHeatmap(); updateCountryPie(); updateCountryList(); updateCountryTrend(); updateAccommodationCards(); updateAccommodationChart(); updateComparisonChart(); updateComparisonTable(); updateComparisonAccChart(); updateSeason(); updateOccupancy(); updateForecast(); updateRevenue(); }
 
         function updateKPIs() {
             const y2025 = yearlyData.find(d => d.year === 2025);
@@ -1207,161 +1017,15 @@
         function updateMonthlyChart() {
             const year = parseInt(document.getElementById('monthlyYear').value);
             const data = monthlyData[year] || FALLBACK.monthly[year] || {};
-            const prevData = monthlyData[year - 1] || FALLBACK.monthly[year - 1] || {};
-            const showForecast = document.getElementById('monthlyShowForecast')?.checked ?? true;
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            
             const values = CONFIG.MONTHS_DE.map((_, i) => data[i + 1] || 0);
-            const prevValues = CONFIG.MONTHS_DE.map((_, i) => prevData[i + 1] || 0);
-            
-            // Prognose: Ø der letzten 3 verfügbaren Jahre für fehlende Monate
-            const forecastValues = CONFIG.MONTHS_DE.map((_, i) => {
-                const m = i + 1;
-                if (data[m] > 0) return null;
-                const recent = [year-1, year-2, year-3].map(y => (monthlyData[y] || FALLBACK.monthly[y] || {})[m] || 0).filter(v => v > 0);
-                return recent.length > 0 ? Math.round(recent.reduce((a,b) => a+b, 0) / recent.length) : null;
-            });
-            
-            const datasets = [
-                { 
-                    label: `${year}`, 
-                    data: values, 
-                    backgroundColor: values.map((v, i) => {
-                        if (v === 0 && forecastValues[i]) return 'transparent';
-                        return i >= 10 || i <= 2 ? 'rgba(30,58,95,0.85)' : 'rgba(74,155,127,0.75)';
-                    }),
-                    borderColor: values.map((v, i) => {
-                        if (v === 0 && !forecastValues[i]) return 'rgba(200,200,200,0.4)';
-                        return i >= 10 || i <= 2 ? '#1e3a5f' : '#4a9b7f';
-                    }),
-                    borderWidth: 1,
-                    borderRadius: 4,
-                    order: 1
-                },
-                { 
-                    label: `${year - 1} (Vorjahr)`, 
-                    data: prevValues, 
-                    backgroundColor: 'rgba(139,158,179,0.25)',
-                    borderColor: 'rgba(139,158,179,0.5)',
-                    borderWidth: 1,
-                    borderRadius: 4,
-                    order: 2
-                }
-            ];
-            
-            if (showForecast) {
-                datasets.push({
-                    label: 'Prognose (Ø 3 Jahre)',
-                    data: forecastValues,
-                    backgroundColor: 'rgba(201,162,39,0.35)',
-                    borderColor: '#c9a227',
-                    borderWidth: 2,
-                    borderDash: [4, 4],
-                    borderRadius: 4,
-                    order: 0
-                });
-            }
-            
             const ctx = document.getElementById('monthlyChart').getContext('2d');
             if (monthlyChart) monthlyChart.destroy();
             monthlyChart = new Chart(ctx, {
                 type: 'bar',
-                data: { labels: CONFIG.MONTHS_FULL, datasets },
-                options: { 
-                    responsive: true, maintainAspectRatio: false, 
-                    plugins: { 
-                        legend: { labels: { color: isDark ? '#e6edf3' : '#1a2a3a' } }, 
-                        tooltip: { 
-                            callbacks: { 
-                                label: c => {
-                                    if (c.raw === null) return null;
-                                    if (c.raw === 0) return c.dataset.label + ': Keine Daten';
-                                    const isProg = c.dataset.label.includes('Prognose');
-                                    let suffix = isProg ? ' (Prognose)' : '';
-                                    const prev = prevValues[c.dataIndex];
-                                    let change = '';
-                                    if (!isProg && c.raw > 0 && prev > 0) {
-                                        const pct = ((c.raw - prev) / prev * 100).toFixed(1);
-                                        change = ` · ${parseFloat(pct) >= 0 ? '+' : ''}${pct}% vs. VJ`;
-                                    }
-                                    return `${c.dataset.label}: ${formatNum(c.raw)} ÜN${suffix}${change}`;
-                                }
-                            } 
-                        } 
-                    }, 
-                    scales: { 
-                        x: { ticks: { color: isDark ? '#e6edf3' : '#1a2a3a' }, grid: { display: false } }, 
-                        y: { ticks: { color: isDark ? '#e6edf3' : '#1a2a3a', callback: v => formatNum(v) }, grid: { color: isDark ? '#30363d' : '#e5eaef' } } 
-                    } 
-                }
+                data: { labels: CONFIG.MONTHS_FULL, datasets: [{ label: 'Übernachtungen', data: values, backgroundColor: values.map((v, i) => v === 0 ? 'rgba(200,200,200,0.3)' : (i >= 10 || i <= 2 ? 'rgba(30,58,95,0.8)' : 'rgba(74,155,127,0.7)')), borderRadius: 4 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.raw > 0 ? formatNum(c.raw) + ' ÜN' : 'Keine Daten' } } }, scales: { x: { ticks: { color: isDark ? '#e6edf3' : '#1a2a3a' }, grid: { display: false } }, y: { ticks: { color: isDark ? '#e6edf3' : '#1a2a3a', callback: v => formatNum(v) }, grid: { color: isDark ? '#30363d' : '#e5eaef' } } } }
             });
-
-            // === Monatsvergleich Tabelle ===
-            document.getElementById('monthlyTableYearHeader').textContent = year;
-            document.getElementById('monthlyTablePrevHeader').textContent = year - 1;
-            
-            let totalCur = 0, totalPrev = 0, monthsWithData = 0;
-            
-            const rows = CONFIG.MONTHS_FULL.map((name, i) => {
-                const m = i + 1;
-                const cur = data[m] || 0;
-                const prev = prevData[m] || 0;
-                const forecast = forecastValues[i];
-                const diff = cur > 0 && prev > 0 ? cur - prev : null;
-                const pct = cur > 0 && prev > 0 ? ((cur - prev) / prev * 100) : null;
-                
-                if (cur > 0) { totalCur += cur; totalPrev += prev; monthsWithData++; }
-                
-                let status, statusClass;
-                if (cur > 0) {
-                    status = '✅ Abgeschlossen';
-                    statusClass = 'badge-actual';
-                } else if (forecast) {
-                    status = '🔮 Prognose';
-                    statusClass = 'badge-estimated';
-                } else {
-                    status = '⏳ Ausstehend';
-                    statusClass = '';
-                }
-                
-                const displayVal = cur > 0 ? formatNum(cur) : (forecast ? `<span style="color:var(--gold);font-style:italic;">~${formatNum(forecast)}</span>` : '<span style="color:var(--text-muted);">—</span>');
-                const diffStr = diff !== null ? `<span class="table-change ${diff >= 0 ? 'positive' : 'negative'}">${diff >= 0 ? '+' : ''}${formatNum(diff)}</span>` : '<span style="color:var(--text-muted);">—</span>';
-                const pctStr = pct !== null ? `<span class="table-change ${pct >= 0 ? 'positive' : 'negative'}">${pct >= 0 ? '↑' : '↓'} ${Math.abs(pct).toFixed(1)}%</span>` : '<span style="color:var(--text-muted);">—</span>';
-                
-                const rowBg = cur > 0 ? '' : 'opacity:0.6;';
-                
-                return `<tr style="${rowBg}">
-                    <td style="font-weight:600;">${name}</td>
-                    <td class="table-number">${displayVal}</td>
-                    <td class="table-number">${prev > 0 ? formatNum(prev) : '<span style="color:var(--text-muted);">—</span>'}</td>
-                    <td>${diffStr}</td>
-                    <td>${pctStr}</td>
-                    <td><span class="badge ${statusClass}" style="${!statusClass ? 'background:var(--snow);color:var(--text-muted);' : ''}">${status}</span></td>
-                </tr>`;
-            });
-            
-            // Summenzeile für abgeschlossene Monate
-            const totalDiff = totalCur - totalPrev;
-            const totalPct = totalPrev > 0 ? ((totalCur - totalPrev) / totalPrev * 100) : null;
-            rows.push(`<tr style="font-weight:700;border-top:2px solid var(--border);background:var(--snow);">
-                <td>Σ Bisher (${monthsWithData} Monate)</td>
-                <td class="table-number">${formatNum(totalCur)}</td>
-                <td class="table-number">${formatNum(totalPrev)}</td>
-                <td><span class="table-change ${totalDiff >= 0 ? 'positive' : 'negative'}">${totalDiff >= 0 ? '+' : ''}${formatNum(totalDiff)}</span></td>
-                <td>${totalPct !== null ? `<span class="table-change ${totalPct >= 0 ? 'positive' : 'negative'}">${totalPct >= 0 ? '↑' : '↓'} ${Math.abs(totalPct).toFixed(1)}%</span>` : '—'}</td>
-                <td></td>
-            </tr>`);
-            
-            document.getElementById('monthlyTableBody').innerHTML = rows.join('');
-            
-            // Summary text
-            const summaryEl = document.getElementById('monthlyTableSummary');
-            if (monthsWithData > 0 && totalPct !== null) {
-                const icon = totalPct >= 0 ? '📈' : '📉';
-                summaryEl.innerHTML = `${icon} ${monthsWithData}/12 Monate abgeschlossen · <strong style="color:${totalPct >= 0 ? 'var(--accent)' : 'var(--sunset)'};">${totalPct >= 0 ? '+' : ''}${totalPct.toFixed(1)}%</strong> vs. Vorjahr`;
-            } else {
-                summaryEl.textContent = '';
-            }
         }
 
         function updateTable() {
@@ -1469,6 +1133,7 @@
             const csv = rows.map(r => r.join(';')).join('\n');
             const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
             const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `kleinwalsertal-tourismus-2026-02-05.csv`; a.click();
+            trackEvent('csv_export', 'Download', 'Jahresdaten', yearlyData.length);
         }
 
         // --- GEMEINDEVERGLEICH ---
@@ -1521,6 +1186,7 @@
             document.querySelectorAll('[data-comp]').forEach(x => x.classList.remove('active'));
             btn.classList.add('active');
             updateComparisonChart();
+            trackEvent('comparison_metric', 'UI', btn.dataset.comp);
         }
 
         function updateComparisonChart() {
@@ -1776,11 +1442,12 @@
 
         // ===== 11. PROGNOSE-MODUL =====
         function updateForecast() {
+            // Filter: Nur echte Jahre (kein COVID 2020/2021), nur endgültige Daten
             const actual = yearlyData.filter(d => d.status === 'actual' && d.year >= 2016 && d.year <= 2025 && d.year !== 2020 && d.year !== 2021);
             if (actual.length < 4) return;
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
 
-            // Lineare Regression (Langzeit-Trend)
+            // Einfache lineare Regression
             function linReg(data, key) {
                 const n = data.length;
                 const xs = data.map(d => d.year), ys = data.map(d => d[key]);
@@ -1793,75 +1460,41 @@
             }
 
             const nightsReg = linReg(actual, 'nights');
+            const arrivalsReg = linReg(actual, 'arrivals');
+            const forecast2026N = Math.round(nightsReg.predict(2026));
+            const forecast2026A = Math.round(arrivalsReg.predict(2026));
+            const forecast2027N = Math.round(nightsReg.predict(2027));
 
-            // 3-Jahres-Durchschnitt (2023–2025) mit Wachstumsrate
-            const recent3 = yearlyData.filter(d => d.year >= 2023 && d.year <= 2025 && d.status === 'actual');
-            const avg3N = recent3.length > 0 ? Math.round(recent3.reduce((s,d) => s + d.nights, 0) / recent3.length) : 0;
-            const growthRate3 = recent3.length >= 2 ? (recent3[recent3.length-1].nights / recent3[0].nights - 1) / (recent3.length - 1) : 0;
-            
-            // 3-Jahres-Prognose: letzten Wert + Wachstumsrate
-            const last3val = recent3.length > 0 ? recent3[recent3.length-1].nights : avg3N;
-            const forecast3yr2026 = Math.round(last3val * (1 + growthRate3));
-            const forecast3yr2027 = Math.round(forecast3yr2026 * (1 + growthRate3));
-
-            // Langzeit-Trend Prognose
-            const forecastLT2026 = Math.round(nightsReg.predict(2026));
-            const forecastLT2027 = Math.round(nightsReg.predict(2027));
-
-            // KPI cards — klar und verständlich
+            // KPI cards
             const y2025 = yearlyData.find(d => d.year === 2025);
-            const pctChange3 = y2025 ? ((forecast3yr2026 - y2025.nights) / y2025.nights * 100).toFixed(1) : '—';
+            const pctChange = y2025 ? ((forecast2026N - y2025.nights) / y2025.nights * 100).toFixed(1) : '—';
             document.getElementById('forecastKPIs').innerHTML = `
                 <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;">
-                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">Prognose 2026 (3J-Trend)</div>
-                    <div style="font-size:1.75rem;font-weight:700;color:var(--primary);">${formatNum(forecast3yr2026)}</div>
+                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">Prognose 2026</div>
+                    <div style="font-size:1.75rem;font-weight:700;color:var(--primary);">${formatNum(forecast2026N)}</div>
                     <div style="font-size:0.8125rem;color:var(--text-sec);">Nächtigungen</div>
-                    <div style="font-size:0.8125rem;margin-top:8px;color:${parseFloat(pctChange3) >= 0 ? 'var(--accent)' : 'var(--sunset)'}">${parseFloat(pctChange3) >= 0 ? '↑' : '↓'} ${pctChange3}% vs. 2025</div>
+                    <div style="font-size:0.8125rem;margin-top:8px;color:${parseFloat(pctChange) >= 0 ? 'var(--accent)' : 'var(--sunset)'}">${parseFloat(pctChange) >= 0 ? '↑' : '↓'} ${pctChange}% vs. 2025</div>
                 </div>
                 <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;">
-                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">3-Jahres-Schnitt</div>
-                    <div style="font-size:1.75rem;font-weight:700;color:var(--accent);">${formatNum(avg3N)}</div>
-                    <div style="font-size:0.8125rem;color:var(--text-sec);">Ø 2023–2025 · Wachstum ${(growthRate3*100).toFixed(1)}%/J.</div>
+                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">Prognose 2026</div>
+                    <div style="font-size:1.75rem;font-weight:700;color:var(--accent);">${formatNum(forecast2026A)}</div>
+                    <div style="font-size:0.8125rem;color:var(--text-sec);">Ankünfte</div>
                 </div>
                 <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;">
-                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">Langzeit-Trend / Jahr</div>
+                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">Trend / Jahr</div>
                     <div style="font-size:1.75rem;font-weight:700;color:var(--gold);">+${formatNum(Math.round(nightsReg.slope))}</div>
-                    <div style="font-size:0.8125rem;color:var(--text-sec);">ÜN pro Jahr (10J-Trend)</div>
+                    <div style="font-size:0.8125rem;color:var(--text-sec);">ÜN pro Jahr (Trend)</div>
                 </div>
                 <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;">
-                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">Langzeit-Trend 2026</div>
-                    <div style="font-size:1.75rem;font-weight:700;color:var(--text-sec);">${formatNum(forecastLT2026)}</div>
-                    <div style="font-size:0.8125rem;color:var(--text-sec);">Nächtigungen (Regression)</div>
+                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">Ausblick 2027</div>
+                    <div style="font-size:1.75rem;font-weight:700;color:var(--text-sec);">${formatNum(forecast2027N)}</div>
+                    <div style="font-size:0.8125rem;color:var(--text-sec);">Nächtigungen (Trend)</div>
                 </div>`;
 
-            // --- Chart ---
+            // Chart with trendline
             const allYears = yearlyData.filter(d => d.year >= 2016);
             const trendYears = [];
             for (let y = 2016; y <= 2027; y++) trendYears.push(y);
-
-            // Ist-Daten: durchgezogen bis 2025, dann gestrichelt bis 2026
-            // Wir brauchen 2 Datasets: 1 durchgezogen (bis 2025), 1 gestrichelt (2025→2026 vorläufig)
-            const solidData = trendYears.map(y => {
-                if (y > 2025) return null;
-                const d = allYears.find(x => x.year === y);
-                return d ? d.nights : null;
-            });
-            const dashedData = trendYears.map(y => {
-                if (y === 2025) { const d = allYears.find(x => x.year === 2025); return d ? d.nights : null; }
-                if (y === 2026) { const d = allYears.find(x => x.year === 2026); return d ? d.nights : null; }
-                return null;
-            });
-
-            // 3-Jahres gleitender Durchschnitt — mit Fortschreibung in die Zukunft
-            const actualMap = {};
-            allYears.filter(d => d.status === 'actual').forEach(d => actualMap[d.year] = d.nights);
-            // Für 2026/2027 nutzen wir die 3J-Prognose
-            const extendedMap = { ...actualMap, 2026: forecast3yr2026, 2027: forecast3yr2027 };
-            const ma3Data = trendYears.map(y => {
-                const vals = [y-1, y, y+1].map(yy => extendedMap[yy] || null).filter(v => v !== null);
-                return vals.length >= 2 ? Math.round(vals.reduce((a,b) => a+b, 0) / vals.length) : null;
-            });
-
             const ctx = document.getElementById('forecastChart').getContext('2d');
             if (forecastChart) forecastChart.destroy();
             forecastChart = new Chart(ctx, {
@@ -1871,41 +1504,18 @@
                     datasets: [
                         {
                             label: 'Nächtigungen (Ist)',
-                            data: solidData,
+                            data: trendYears.map(y => { const d = allYears.find(x => x.year === y); return d ? d.nights : null; }),
                             borderColor: '#1e3a5f', backgroundColor: 'rgba(30,58,95,0.1)',
-                            pointRadius: 5, pointBackgroundColor: '#1e3a5f',
-                            tension: 0.3, fill: false, borderWidth: 2.5
+                            pointRadius: 5, pointBackgroundColor: trendYears.map(y => y >= 2026 ? '#c9a227' : '#1e3a5f'),
+                            tension: 0.3, fill: false
                         },
                         {
-                            label: '2026 vorläufig (laufend)',
-                            data: dashedData,
-                            borderColor: '#1e3a5f', borderDash: [6, 4],
-                            pointRadius: trendYears.map(y => y === 2026 ? 7 : 0),
-                            pointBackgroundColor: '#c9a227', pointBorderColor: '#c9a227',
-                            tension: 0.3, fill: false, borderWidth: 2
-                        },
-                        {
-                            label: 'Langzeit-Trend (ohne COVID)',
+                            label: 'Trendlinie (ohne COVID)',
                             data: trendYears.map(y => Math.round(nightsReg.predict(y))),
                             borderColor: '#c9a227', borderDash: [8, 4],
-                            pointRadius: trendYears.map(y => y >= 2026 ? 6 : 0),
+                            pointRadius: trendYears.map(y => y >= 2026 ? 7 : 0),
                             pointBackgroundColor: '#c9a227',
-                            tension: 0, fill: false, borderWidth: 1.5
-                        },
-                        {
-                            label: '3-Jahres-Ø (Prognose)',
-                            data: ma3Data,
-                            borderColor: '#4a9b7f',
-                            borderDash: trendYears.map((y, i) => null), // we handle dashing via segment
-                            pointRadius: trendYears.map(y => y >= 2026 ? 6 : 0),
-                            pointBackgroundColor: '#4a9b7f',
-                            tension: 0.4, fill: false, borderWidth: 2,
-                            segment: {
-                                borderDash: ctx2 => {
-                                    const xVal = trendYears[ctx2.p1DataIndex];
-                                    return xVal >= 2026 ? [5, 3] : undefined;
-                                }
-                            }
+                            tension: 0, fill: false
                         }
                     ]
                 },
@@ -1996,369 +1606,6 @@
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: isDark ? '#e6edf3' : '#1a2a3a' } }, tooltip: { callbacks: { label: c => `${c.dataset.label}: ${fmtEuro(c.raw)}` } } }, scales: { x: { stacked: true, ticks: { color: isDark ? '#e6edf3' : '#1a2a3a' }, grid: { display: false } }, y: { stacked: true, ticks: { color: isDark ? '#e6edf3' : '#1a2a3a', callback: v => fmtEuro(v) }, grid: { color: isDark ? '#30363d' : '#e5eaef' } } } }
             });
         }
-
-        // ===== 12b. WERTSCHÖPFUNG NACH GEMEINDEN =====
-        function updateRevenueGemeinde() {
-            const year = parseInt(document.getElementById('revenueYear').value);
-            const compData = comparisonData[year] || FALLBACK_COMPARISON[year] || FALLBACK_COMPARISON[2025];
-            if (!compData) return;
-            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-
-            const fmtEuro = v => {
-                if (v >= 1e9) return (v / 1e9).toFixed(1) + ' Mrd. €';
-                if (v >= 1e6) return (v / 1e6).toFixed(1) + ' Mio. €';
-                if (v >= 1e3) return (v / 1e3).toFixed(0) + ' Tsd. €';
-                return formatNum(v) + ' €';
-            };
-
-            // Berechne Wertschöpfung für jede Gemeinde
-            // Vereinfacht: Gesamtnächtigungen × gewichteter Durchschnitt (da keine monatlichen Daten pro Gemeinde)
-            // Approx: 55% Winter, 45% Sommer basierend auf Saisonverteilung
-            const winterShare = 0.55, summerShare = 0.45;
-            const avgDailyRate = winterShare * REVENUE.winter + summerShare * REVENUE.summer;
-
-            const gemeindeRevenue = Object.entries(compData)
-                .map(([gkz, d]) => {
-                    const nights = d.nights || 0;
-                    const totalRev = nights * avgDailyRate;
-                    return { gkz, name: d.name || GEMEINDE_MAP[gkz] || gkz, nights, revenue: totalRev };
-                })
-                .filter(d => d.nights > 0)
-                .sort((a, b) => b.revenue - a.revenue);
-
-            const totalRevAll = gemeindeRevenue.reduce((s, d) => s + d.revenue, 0);
-
-            // KPI: Vorarlberg gesamt + Top 3
-            const kpiHtml = `
-                <div style="background:var(--surface);border:2px solid var(--primary);border-radius:var(--radius);padding:20px;">
-                    <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">Gesamt Vorarlberg (Top 10) · ${year}</div>
-                    <div style="font-size:1.75rem;font-weight:700;color:var(--primary);">${fmtEuro(totalRevAll)}</div>
-                    <div style="font-size:0.8125rem;color:var(--text-sec);">${gemeindeRevenue.length} Gemeinden · Ø ${fmtEuro(Math.round(avgDailyRate))}/ÜN</div>
-                </div>
-                ${gemeindeRevenue.slice(0, 3).map((d, i) => {
-                    const colors = ['#1e3a5f', '#4a9b7f', '#c9a227'];
-                    const isKW = d.gkz === '80228';
-                    return `<div style="background:var(--surface);border:1px solid ${isKW ? 'var(--primary)' : 'var(--border)'};border-radius:var(--radius);padding:20px;${isKW ? 'box-shadow:0 0 0 1px var(--primary);' : ''}">
-                        <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">${isKW ? '⛷️ ' : ''}${d.name}</div>
-                        <div style="font-size:1.5rem;font-weight:700;color:${colors[i]};">${fmtEuro(d.revenue)}</div>
-                        <div style="font-size:0.8125rem;color:var(--text-sec);">${(d.revenue / totalRevAll * 100).toFixed(1)}% Anteil · ${formatNum(d.nights)} ÜN</div>
-                    </div>`;
-                }).join('')}`;
-
-            document.getElementById('revenueGemeindeKPIs').innerHTML = kpiHtml;
-
-            // Horizontal bar chart
-            const ctx = document.getElementById('revenueGemeindeChart').getContext('2d');
-            if (revenueGemeindeChart) revenueGemeindeChart.destroy();
-            revenueGemeindeChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: gemeindeRevenue.map(d => d.name),
-                    datasets: [{
-                        label: 'Wertschöpfung €',
-                        data: gemeindeRevenue.map(d => d.revenue),
-                        backgroundColor: gemeindeRevenue.map(d => d.gkz === '80228' ? 'rgba(30,58,95,0.85)' : 'rgba(74,155,127,0.6)'),
-                        borderColor: gemeindeRevenue.map(d => d.gkz === '80228' ? '#1e3a5f' : '#4a9b7f'),
-                        borderWidth: gemeindeRevenue.map(d => d.gkz === '80228' ? 2 : 1),
-                        borderRadius: 6
-                    }]
-                },
-                options: {
-                    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: c => {
-                                    const d = gemeindeRevenue[c.dataIndex];
-                                    const pct = (d.revenue / totalRevAll * 100).toFixed(1);
-                                    return `${fmtEuro(c.raw)} (${pct}%) · ${formatNum(d.nights)} Nächtigungen`;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: { ticks: { color: isDark ? '#e6edf3' : '#1a2a3a', callback: v => fmtEuro(v) }, grid: { color: isDark ? '#30363d' : '#e5eaef' } },
-                        y: { ticks: { color: isDark ? '#e6edf3' : '#1a2a3a', font: { weight: (c) => c.tick && c.tick.label && c.tick.label.includes('Kleinwalsertal') ? '700' : '400' } }, grid: { display: false } }
-                    }
-                }
-            });
-        }
-        // ===== ACCORDION CONFIG =====
-        // IMPORTANT: One entry per HTML <section>, in exact DOM order!
-        // Sections: 0=Zeitverlauf, 1=MonatVerteilung, 2=AlleJahresdaten,
-        //   3=Heatmap, 4=Herkunftsländer, 5=Herkunftstrend, 6=Unterkunftsarten,
-        //   7=Gemeindevergleich, 8=WinterSommer, 9=Bettenauslastung,
-        //   10=Prognose, 11=Wertschöpfung
-        // skip:true → merge section into PREVIOUS accordion (no own header)
-        const ACC_CONFIG = [
-            /* 0 — Zeitverlauf */
-            { 
-                icon: '📈', title: 'Zeitverlauf', sub: 'Übernachtungen & Ankünfte seit 2016',
-                kpis: () => {
-                    const d = yearlyData.find(y => y.year === 2025) || yearlyData[yearlyData.length - 1];
-                    const prev = yearlyData.find(y => y.year === (d ? d.year - 1 : 2024));
-                    const change = d && prev ? ((d.nights - prev.nights) / prev.nights * 100) : 0;
-                    return [
-                        { val: d ? formatNum(d.nights) : '—', lab: `ÜN ${d ? d.year : ''}`, cls: '' },
-                        { val: (change >= 0 ? '+' : '') + change.toFixed(1) + '%', lab: `vs. ${d ? d.year - 1 : ''}`, cls: change >= 0 ? 'green' : 'red' },
-                    ];
-                },
-                cols: 2, spark: true, open: true
-            },
-            /* 1 — Monatliche Verteilung + Monatsvergleich */
-            { 
-                icon: '📊', title: 'Monatsvergleich', sub: 'Aktueller Monat vs. Vorjahr · Jeden Monat aktualisiert',
-                kpis: () => {
-                    const latestYear = Math.max(...Object.keys(monthlyData).map(Number));
-                    const md = monthlyData[latestYear] || {};
-                    const count = Object.keys(md).length;
-                    return [
-                        { val: count + '/12', lab: 'Monate', cls: '' },
-                        { val: '+1.9%', lab: 'vs. Vorjahr', cls: 'green' },
-                    ];
-                },
-                cols: 2
-            },
-            /* 2 — Alle Jahresdaten → merge into Monatsvergleich */
-            { skip: true },
-            /* 3 — Saisonale Buchungsstärke (Heatmap) */
-            {
-                icon: '📅', title: 'Saisonale Buchungsstärke', sub: 'Heatmap · Übernachtungen pro Monat 2022–2026',
-                kpis: () => {
-                    const md25 = monthlyData[2025] || monthlyData[2024] || {};
-                    const best = Object.entries(md25).sort((a,b) => b[1] - a[1])[0];
-                    const monthName = best ? CONFIG.MONTHS_DE[best[0]-1] : '—';
-                    return [
-                        { val: monthName + ' ' + (best ? formatNum(best[1]) : ''), lab: 'Stärkster Monat', cls: '' },
-                    ];
-                },
-                cols: 1
-            },
-            /* 4 — Herkunftsländer */
-            {
-                icon: '🌍', title: 'Herkunftsländer', sub: 'Woher kommen die Gäste?',
-                kpis: () => {
-                    const latestYear = Math.max(...Object.keys(countryData).map(Number));
-                    const cd = countryData[latestYear] || {};
-                    const total = Object.values(cd).reduce((s,v) => s + v, 0);
-                    const de = cd['Deutschland'] || 0;
-                    const pct = total > 0 ? Math.round(de / total * 100) : 0;
-                    return [
-                        { val: 'DE', lab: 'Deutschland ' + pct + '%', cls: '' },
-                        { val: String(Object.keys(cd).length), lab: 'Herkunftsländer', cls: '' },
-                    ];
-                },
-                cols: 2
-            },
-            /* 5 — Herkunftstrend 10 Jahre → merge into Herkunftsländer */
-            { skip: true },
-            /* 6 — Unterkunftsarten */
-            {
-                icon: '🏨', title: 'Unterkunftsarten', sub: 'Hotels vs. Ferienwohnungen vs. Privatquartiere',
-                kpis: () => {
-                    const latestYear = Math.max(...Object.keys(accommodationData).map(Number));
-                    const ad = accommodationData[latestYear] || {};
-                    const total = Object.values(ad).reduce((s,v) => s + v, 0) || 1;
-                    return [
-                        { val: Math.round((ad['Hotels']||0)/total*100) + '%', lab: 'Hotels', cls: '' },
-                        { val: Math.round((ad['Ferienwohnungen']||0)/total*100) + '%', lab: 'FeWo', cls: '' },
-                    ];
-                },
-                cols: 2
-            },
-            /* 7 — Gemeindevergleich */
-            {
-                icon: '🏔️', title: 'Gemeindevergleich', sub: 'Kleinwalsertal vs. andere Tourismusgemeinden',
-                kpis: () => [{ val: '#1', lab: 'Rang in Vbg', cls: '' }],
-                cols: 1
-            },
-            /* 8 — Winter vs. Sommer */
-            {
-                icon: '❄️☀️', title: 'Winter vs. Sommer', sub: 'Saisonvergleich · Wird der Sommer stärker?',
-                kpis: () => {
-                    const latestYear = Math.max(...Object.keys(monthlyData).map(Number));
-                    const md = monthlyData[latestYear] || {};
-                    const winter = [1,2,3,4,11,12].reduce((s,m) => s + (md[m]||0), 0);
-                    const summer = [5,6,7,8,9,10].reduce((s,m) => s + (md[m]||0), 0);
-                    const total = winter + summer || 1;
-                    return [
-                        { val: Math.round(winter/total*100) + '%', lab: 'Winter', cls: '' },
-                        { val: Math.round(summer/total*100) + '%', lab: 'Sommer', cls: '' },
-                    ];
-                },
-                cols: 2
-            },
-            /* 9 — Bettenauslastung */
-            {
-                icon: '🛏️', title: 'Bettenauslastung', sub: 'Nächtigungen pro verfügbarem Bett',
-                kpis: () => {
-                    const latestYear = Math.max(...Object.keys(monthlyData).map(Number));
-                    const d = yearlyData.find(y => y.year === latestYear);
-                    const beds = bedsData[latestYear] || {};
-                    const kwBeds = beds['80228'] || 9000;
-                    const occRate = d ? (d.nights / (kwBeds * 365) * 100) : 0;
-                    return [{ val: occRate.toFixed(1) + '%', lab: 'Auslastung KWT', cls: '' }];
-                },
-                cols: 1
-            },
-            /* 10 — Prognose 2026 */
-            {
-                icon: '🔮', title: 'Prognose 2026', sub: '3-Jahres-Schnitt & Langzeit-Trend',
-                kpis: () => {
-                    const avg = yearlyData.filter(y => y.year >= 2023 && y.year <= 2025).reduce((s,y) => s + y.nights, 0) / 3;
-                    return [{ val: (avg/1e6).toFixed(2) + ' Mio.', lab: 'Prognose ÜN', cls: '' }];
-                },
-                cols: 1
-            },
-            /* 11 — Touristische Wertschöpfung */
-            {
-                icon: '💰', title: 'Touristische Wertschöpfung', sub: 'Geschätzter wirtschaftlicher Beitrag',
-                kpis: () => {
-                    const d = yearlyData.find(y => y.year === 2025) || yearlyData[yearlyData.length - 1];
-                    if (!d) return [{ val: '—', lab: '', cls: '' }];
-                    const avgRate = 0.55 * REVENUE.winter + 0.45 * REVENUE.summer;
-                    const total = d.nights * avgRate;
-                    const perDay = avgRate;
-                    return [
-                        { val: (total/1e6).toFixed(0) + ' Mio. €', lab: 'Gesamt ' + d.year, cls: '' },
-                        { val: formatNum(Math.round(perDay)) + ' €', lab: 'Pro Tag', cls: '' },
-                    ];
-                },
-                cols: 2
-            },
-        ];
-
-        function toggleAcc(id) {
-            document.getElementById(id).classList.toggle('open');
-        }
-
-        function buildAccordions() {
-            const sections = document.querySelectorAll('.main-content > .container > .section');
-            const container = document.querySelector('.main-content > .container');
-            let lastAcc = null; // Track last created accordion for merging
-            
-            sections.forEach((section, i) => {
-                const cfg = ACC_CONFIG[i];
-                if (!cfg) return;
-
-                // skip: true → merge this section into the previous accordion
-                if (cfg.skip) {
-                    if (lastAcc) {
-                        lastAcc.querySelector('.acc-inner').appendChild(section);
-                    }
-                    return;
-                }
-
-                const accId = 'acc-' + i;
-                const acc = document.createElement('div');
-                acc.className = 'acc' + (cfg.open ? ' open' : '');
-                acc.id = accId;
-
-                // Build KPIs HTML
-                const kpis = cfg.kpis();
-                const kpiHtml = kpis.map(k => 
-                    `<div class="acc-kpi"><div class="acc-kpi-val ${k.cls}">${k.val}</div><div class="acc-kpi-lab">${k.lab}</div></div>`
-                ).join('');
-
-                const sparkHtml = cfg.spark ? `<div class="acc-kpi"><canvas class="acc-spark" id="accSpark${i}"></canvas></div>` : '';
-
-                acc.innerHTML = `
-                    <button class="acc-trigger" onclick="toggleAcc('${accId}')">
-                        <span class="acc-icon">${cfg.icon}</span>
-                        <div class="acc-info">
-                            <div class="acc-title">${cfg.title}</div>
-                            <div class="acc-sub">${cfg.sub}</div>
-                        </div>
-                        <div class="acc-kpis" style="--acc-cols:${cfg.cols + (cfg.spark ? 1 : 0)}">
-                            ${kpiHtml}${sparkHtml}
-                        </div>
-                        <span class="acc-chevron"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
-                    </button>
-                    <div class="acc-body"><div class="acc-inner"></div></div>
-                `;
-
-                // Move section content into accordion
-                acc.querySelector('.acc-inner').appendChild(section);
-                container.appendChild(acc);
-                lastAcc = acc; // Remember for potential merge
-            });
-
-            // Draw sparkline for first accordion
-            drawAccSparkline();
-        }
-
-        function drawAccSparkline() {
-            const canvas = document.getElementById('accSpark0');
-            if (!canvas || !yearlyData.length) return;
-            const ctx = canvas.getContext('2d');
-            const w = canvas.width = 60 * (window.devicePixelRatio || 1);
-            const h = canvas.height = 26 * (window.devicePixelRatio || 1);
-            canvas.style.width = '60px';
-            canvas.style.height = '26px';
-            
-            const data = yearlyData.slice(-6).map(d => d.nights);
-            if (!data.length) return;
-            const min = Math.min(...data) * 0.95;
-            const max = Math.max(...data) * 1.05;
-            const range = max - min || 1;
-            
-            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            ctx.strokeStyle = isDark ? '#4a9b7f' : '#1e3a5f';
-            ctx.lineWidth = 2 * (window.devicePixelRatio || 1);
-            ctx.lineJoin = 'round';
-            ctx.lineCap = 'round';
-            ctx.beginPath();
-            
-            data.forEach((v, i) => {
-                const x = (i / (data.length - 1)) * w;
-                const y = h - ((v - min) / range) * h * 0.8 - h * 0.1;
-                i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-            });
-            ctx.stroke();
-        }
-
-        function updateAccKPIs() {
-            // Re-render KPI values in accordion headers
-            const accs = document.querySelectorAll('.acc');
-            let configIdx = 0;
-            accs.forEach((acc) => {
-                while (configIdx < ACC_CONFIG.length && ACC_CONFIG[configIdx].skip) configIdx++;
-                const cfg = ACC_CONFIG[configIdx];
-                configIdx++;
-                if (!cfg) return;
-                
-                const kpis = cfg.kpis();
-                const kpiEls = acc.querySelectorAll('.acc-kpi');
-                kpis.forEach((k, j) => {
-                    if (kpiEls[j]) {
-                        const valEl = kpiEls[j].querySelector('.acc-kpi-val');
-                        const labEl = kpiEls[j].querySelector('.acc-kpi-lab');
-                        if (valEl) { valEl.textContent = k.val; valEl.className = 'acc-kpi-val ' + (k.cls || ''); }
-                        if (labEl) labEl.textContent = k.lab;
-                    }
-                });
-            });
-            drawAccSparkline();
-        }
-
-        // Hook into existing updateAll
-        const _origUpdateAll = typeof updateAll === 'function' ? updateAll : null;
-        
-        // Rebuild after data loads
-        const _origPopulate = typeof populateSelectors === 'function' ? populateSelectors : null;
-        
-        // Init accordions after DOM is ready and data loaded
-        const _origLoadData = loadData;
-        loadData = async function() {
-            await _origLoadData();
-            // Build accordions after data is loaded
-            if (!document.querySelector('.acc')) {
-                buildAccordions();
-            } else {
-                updateAccKPIs();
-            }
-        };
     </script>
 </body>
 </html>
