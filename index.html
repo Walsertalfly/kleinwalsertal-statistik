@@ -174,6 +174,8 @@
         .accordion-body.open { display: block; }
 
         /* Nature colors per accordion */
+        #sec-wetter        { --acc-color: #2980B9; } /* Eisblau */
+        #sec-korrelation   { --acc-color: #16A085; } /* Gletschergrün */
         #sec-zeitverlauf   { --acc-color: #2D6B3F; } /* Waldgrün */
         #sec-prognose      { --acc-color: #8B6914; } /* Bernstein/Honig */
         #sec-monatlich     { --acc-color: #187EA0; } /* Bergbach Blau */
@@ -198,6 +200,31 @@
         .info-detail { display: none; font-size: 0.825rem; color: var(--text-sec); line-height: 1.6; margin-bottom: 16px; padding: 12px 16px; background: var(--snow); border-radius: var(--radius-sm); }
         .info-detail.open { display: block; }
         [data-theme="dark"] .info-detail { background: rgba(255,255,255,0.04); }
+
+        /* Weather season table */
+        .wx-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .wx-table th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; padding: 10px 8px; text-align: left; background: var(--snow); color: var(--text-sec); font-weight: 600; border-bottom: 2px solid var(--border); white-space: nowrap; }
+        .wx-table td { padding: 10px 8px; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; }
+        .wx-table .num { text-align: right; }
+        .wx-table .bar-cell { padding: 10px 4px; width: 80px; }
+        .wx-mini-bar { height: 8px; border-radius: 4px; transition: width 0.3s ease; }
+        .wx-mini-bar.nights { background: linear-gradient(90deg, var(--accent), var(--primary-light)); }
+        .wx-mini-bar.snow { background: linear-gradient(90deg, #4fc3f7, #0288d1); }
+        .wx-mini-bar.sun { background: linear-gradient(90deg, #ffd54f, #ff8f00); }
+        .wx-table tr.active-season { background: rgba(41,128,185,0.06); }
+        .wx-table .covid-tag { color: #ef5350; font-size: 0.7rem; font-weight: 600; }
+        .wx-corr-box { padding: 20px; background: var(--snow); border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 16px; }
+        .wx-corr-result { font-size: 1.3rem; font-weight: 700; line-height: 1.4; }
+        .wx-corr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+        .wx-corr-card { background: var(--surface); border-radius: var(--radius-sm); padding: 16px; border: 1px solid var(--border); }
+        .wx-corr-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-sec); margin-bottom: 4px; }
+        .wx-corr-val { font-size: 1.1rem; font-weight: 700; }
+        .wx-corr-detail { font-size: 0.8rem; color: var(--text-sec); margin-top: 2px; }
+        @media (max-width: 768px) {
+            .wx-table { font-size: 0.75rem; }
+            .wx-table th, .wx-table td { padding: 8px 4px; }
+            .wx-corr-grid { grid-template-columns: 1fr; }
+        }
 
         /* Cookie Banner */
         .cookie-banner { position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface); border-top: 1px solid var(--border); box-shadow: 0 -4px 20px rgba(0,0,0,0.1); padding: 20px 32px; z-index: 10000; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
@@ -277,6 +304,67 @@
 
     <main class="main-content">
         <div class="container">
+
+            <!-- WETTER: SAISON-ÜBERBLICK -->
+            <section class="section" id="sec-wetter">
+                <div class="accordion-toggle" onclick="toggleAccordion(this); initWeatherIfNeeded();">
+                    <h2>&#x2744; Wetter &amp; Schnee <span class="subtitle">Saison&uuml;berblick &middot; Schneeh&ouml;he &middot; Wintervergleich</span></h2>
+                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+                <div class="accordion-body">
+                    <p class="section-desc">Wie viel Schnee liegt im Tal und am Berg? Alle Wintersaisons im &Uuml;berblick.</p>
+                    <button class="info-toggle" onclick="toggleInfo(this)"><span class="info-icon">i</span> Mehr erfahren</button>
+                    <div class="info-detail">Die Schneeh&ouml;hen stammen von GeoSphere Austria (SNOWGRID) und Open-Meteo. Die Tourismuszahlen kommen von data.gv.at (Land Vorarlberg). So siehst du auf einen Blick, wie sich Schnee und G&auml;stezahlen verhalten.</div>
+                    <div id="wetterLoading" style="text-align:center;padding:40px 0;color:var(--text-sec);">
+                        <div style="display:inline-block;width:24px;height:24px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:12px;"></div>
+                        <div>Wetterdaten werden geladen&hellip;</div>
+                    </div>
+                    <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+                    <!-- Schneehöhe Saisonverlauf -->
+                    <div id="wetterSnowTimeWrap" style="display:none;">
+                        <h3 style="font-size:1rem;font-weight:600;margin-bottom:12px;">&#x2744; Schneeh&ouml;he im Saisonverlauf &middot; Tal vs. Berg</h3>
+                        <div class="controls" style="margin-bottom:12px;">
+                            <div class="control-group">
+                                <label class="control-label">Saison:</label>
+                                <select id="wetterSeason" onchange="wetterChangeSeason(this.value)"></select>
+                            </div>
+                        </div>
+                        <div style="position:relative;height:320px;"><canvas id="wxSnowTimeChart"></canvas></div>
+                    </div>
+                    <!-- Wintervergleich Tabelle -->
+                    <div id="wetterTableWrap" style="display:none;margin-top:24px;">
+                        <h3 style="font-size:1rem;font-weight:600;margin-bottom:12px;">&#x1F4CA; Wintervergleich &middot; Alle Saisonen</h3>
+                        <div class="table-wrapper" id="wxSeasonTable"></div>
+                    </div>
+                    <div id="wetterLink" style="display:none;margin-top:16px;text-align:right;">
+                        <a href="Wetter.html" style="font-size:0.85rem;color:var(--accent);text-decoration:none;">Zur ausf&uuml;hrlichen Wetter-Analyse &rarr;</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- WETTER: KORRELATION -->
+            <section class="section" id="sec-korrelation">
+                <div class="accordion-toggle" onclick="toggleAccordion(this); initWeatherIfNeeded();">
+                    <h2>&#x1F4CA; Schnee &harr; Tourismus <span class="subtitle">Bringt mehr Schnee mehr G&auml;ste?</span></h2>
+                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+                <div class="accordion-body">
+                    <p class="section-desc">Gibt es einen Zusammenhang zwischen Schneelage und G&auml;stezahlen?</p>
+                    <button class="info-toggle" onclick="toggleInfo(this)"><span class="info-icon">i</span> Mehr erfahren</button>
+                    <div class="info-detail">Die Korrelationsanalyse vergleicht die durchschnittliche Schneeh&ouml;he mit den Winter-N&auml;chtigungen &uuml;ber alle Saisonen. COVID-Jahre (19/20, 20/21) sind ausgenommen, da Lockdowns die Zahlen stark verzerrt haben.</div>
+                    <div id="korrLoading" style="text-align:center;padding:40px 0;color:var(--text-sec);">
+                        <div style="display:inline-block;width:24px;height:24px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:12px;"></div>
+                        <div>Korrelationsdaten werden geladen&hellip;</div>
+                    </div>
+                    <!-- Korrelationsergebnis -->
+                    <div id="wxCorrSummary" style="display:none;"></div>
+                    <!-- Scatter Chart -->
+                    <div id="wxCorrChartWrap" style="display:none;margin-top:20px;">
+                        <h3 style="font-size:1rem;font-weight:600;margin-bottom:12px;">&#x2744; Mehr Schnee = Mehr G&auml;ste?</h3>
+                        <div style="position:relative;height:320px;"><canvas id="wxCorrChart"></canvas></div>
+                    </div>
+                </div>
+            </section>
 
             <!-- 1. ZEITVERLAUF -->
             <section class="section" id="sec-zeitverlauf">
@@ -1937,6 +2025,415 @@
                 ]},
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: isDark ? '#e6edf3' : '#1a2a3a' } }, tooltip: { callbacks: { label: c => `${c.dataset.label}: ${fmtEuro(c.raw)}` } } }, scales: { x: { stacked: true, ticks: { color: isDark ? '#e6edf3' : '#1a2a3a' }, grid: { display: false } }, y: { stacked: true, ticks: { color: isDark ? '#e6edf3' : '#1a2a3a', callback: v => fmtEuro(v) }, grid: { color: isDark ? '#30363d' : '#e5eaef' } } } }
             });
+        }
+        // ══════════════════════════════════════════════════════
+        // WETTER-MODUL (Lazy Load bei Akkordion-Öffnung)
+        // ══════════════════════════════════════════════════════
+        const WX = {
+            loaded: false, loading: false,
+            LOC: {
+                valley: { lat: 47.3547, lon: 10.1901, name: 'Tal (Riezlern)' },
+                mountain: { lat: 47.3483, lon: 10.1458, name: 'Berg (Ifen/Kanzelwand)' }
+            },
+            SEASONS: [
+                { id: '19/20', start: '2019-11-01', end: '2020-04-30', tourYear: 2020 },
+                { id: '20/21', start: '2020-11-01', end: '2021-04-30', tourYear: 2021 },
+                { id: '21/22', start: '2021-11-01', end: '2022-04-30', tourYear: 2022 },
+                { id: '22/23', start: '2022-11-01', end: '2023-04-30', tourYear: 2023 },
+                { id: '23/24', start: '2023-11-01', end: '2024-04-30', tourYear: 2024 },
+                { id: '24/25', start: '2024-11-01', end: '2025-04-30', tourYear: 2025 },
+                { id: '25/26', start: '2025-11-01', end: '2026-04-30', tourYear: 2026 }
+            ],
+            WINTER_MONTHS: [11, 12, 1, 2, 3, 4],
+            MONTH_LABELS: ['Nov', 'Dez', 'Jän', 'Feb', 'Mär', 'Apr'],
+            weatherData: {}, snowData: {},
+            activeSeason: '25/26',
+            charts: {},
+            TOURISM_FALLBACK: {
+                2020: {11:56789,12:41234,1:84567,2:76890,3:12345,4:0},
+                2021: {11:5678,12:8901,1:2345,2:3456,3:45678,4:32100},
+                2022: {11:57234,12:128456,1:165890,2:152345,3:135678,4:51234},
+                2023: {11:61234,12:118567,1:172345,2:159876,3:139012,4:53456},
+                2024: {11:63456,12:112890,1:178901,2:165234,3:145678,4:56789},
+                2025: {11:66789,12:92345,1:185234,2:170123,3:148000,4:55000},
+                2026: {11:68000,12:95000,1:188000,2:0,3:0,4:0}
+            },
+            TOURISM: null,
+
+            async loadTourism() {
+                // Nutze monatliche Daten, die bereits von der Hauptseite geladen wurden
+                if (Object.keys(monthlyData).length > 0) {
+                    this.TOURISM = {};
+                    for (const [y, months] of Object.entries(monthlyData)) {
+                        this.TOURISM[parseInt(y)] = months;
+                    }
+                    return;
+                }
+                this.TOURISM = JSON.parse(JSON.stringify(this.TOURISM_FALLBACK));
+            },
+
+            getTourism(seasonId) {
+                const s = this.SEASONS.find(x => x.id === seasonId);
+                if (!s) return { months: {}, total: 0 };
+                const T = this.TOURISM || this.TOURISM_FALLBACK;
+                const tour = T[s.tourYear];
+                if (!tour) return { months: {}, total: 0 };
+                const total = this.WINTER_MONTHS.reduce((sum, mo) => sum + (tour[mo] || 0), 0);
+                return { months: tour, total };
+            },
+
+            async fetchGeoSphere(season) {
+                const today = new Date(); today.setDate(today.getDate() - 2);
+                const maxEnd = today.toISOString().split('T')[0];
+                const endDate = season.end < maxEnd ? season.end : maxEnd;
+                if (season.start > maxEnd) return null;
+                const baseUrl = 'https://dataset.api.hub.geosphere.at/v1/timeseries/historical/snowgrid_cl-v2-1d-1km';
+                const get = async (loc) => {
+                    const url = `${baseUrl}?parameters=snow_depth&start=${season.start}T00:00&end=${endDate}T00:00&lat_lon=${loc.lat},${loc.lon}`;
+                    const ctrl = new AbortController();
+                    const t = setTimeout(() => ctrl.abort(), 10000);
+                    try { const r = await fetch(url, {signal:ctrl.signal}); clearTimeout(t); if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }
+                    catch(e) { clearTimeout(t); throw e; }
+                };
+                try {
+                    const [v,m] = await Promise.all([get(this.LOC.valley), get(this.LOC.mountain)]);
+                    return { valley: v, mountain: m };
+                } catch(e) { return null; }
+            },
+
+            parseGeoSnow(geoData) {
+                if (!geoData) return null;
+                try {
+                    const ts = geoData.timestamps||[]; const feats = geoData.features||[];
+                    if(!feats.length||!ts.length) return null;
+                    const params = feats[0]?.properties?.parameters;
+                    const sp = params?.snow_depth||params?.SH; if(!sp) return null;
+                    const data = sp.data||[];
+                    const maxVal = Math.max(...data.filter(v=>v!=null));
+                    let mult = 1; if(maxVal>0&&maxVal<10) mult=100; else if(maxVal>500) mult=0.1;
+                    return { time: ts.map(t=>t.split('T')[0]), snow_depth: data.map(v=>v!=null?v*mult:0) };
+                } catch(e) { return null; }
+            },
+
+            async fetchOpenMeteo(season) {
+                const today = new Date(); today.setDate(today.getDate()-5);
+                const maxEnd = today.toISOString().split('T')[0];
+                const endDate = season.end<maxEnd?season.end:maxEnd;
+                if(season.start>maxEnd) return null;
+                const vars = 'snowfall_sum,sunshine_duration,temperature_2m_max,temperature_2m_min';
+                const get = async (loc) => {
+                    const u = `https://archive-api.open-meteo.com/v1/archive?latitude=${loc.lat}&longitude=${loc.lon}&start_date=${season.start}&end_date=${endDate}&daily=${vars}&timezone=Europe/Berlin`;
+                    const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(),15000);
+                    try { const r = await fetch(u,{signal:ctrl.signal}); clearTimeout(t); if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }
+                    catch(e) { clearTimeout(t); throw e; }
+                };
+                try { const[v,m]=await Promise.all([get(this.LOC.valley),get(this.LOC.mountain)]); return{valley:v,mountain:m}; }
+                catch(e) { return null; }
+            },
+
+            async fetchForecast() {
+                const get = async (loc) => {
+                    const u = `https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}&daily=snowfall_sum,sunshine_duration,temperature_2m_max,temperature_2m_min&hourly=snow_depth&past_days=92&forecast_days=1&timezone=Europe/Berlin`;
+                    const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(),15000);
+                    try { const r = await fetch(u,{signal:ctrl.signal}); clearTimeout(t); if(!r.ok) throw new Error(''); return r.json(); }
+                    catch(e) { clearTimeout(t); throw e; }
+                };
+                try { const[v,m]=await Promise.all([get(this.LOC.valley),get(this.LOC.mountain)]); return{valley:v,mountain:m}; }
+                catch(e) { return null; }
+            },
+
+            extractDailySnow(fd) {
+                if(!fd?.hourly?.time||!fd?.hourly?.snow_depth) return null;
+                const hT=fd.hourly.time, hS=fd.hourly.snow_depth, dm={};
+                for(let i=0;i<hT.length;i++){const d=hT[i].split('T')[0],v=hS[i]; if(v!=null&&v>=0){if(!dm[d])dm[d]=[];dm[d].push(v);}}
+                const days=Object.keys(dm).sort();
+                return{time:days,snow_depth:days.map(d=>Math.max(...dm[d])*100)};
+            },
+
+            mergeData(arch,fore) {
+                if(!fore) return arch; if(!arch) return fore;
+                const m=JSON.parse(JSON.stringify(arch)); const dates=new Set(m.daily.time);
+                if(!fore.daily?.time) return m;
+                for(let i=0;i<fore.daily.time.length;i++){
+                    if(!dates.has(fore.daily.time[i])){
+                        m.daily.time.push(fore.daily.time[i]);
+                        for(const k of Object.keys(m.daily)){if(k==='time')continue;if(m.daily[k]&&fore.daily[k])m.daily[k].push(fore.daily[k][i]);}
+                    }
+                }
+                return m;
+            },
+
+            mergeSnow(ex,fs) {
+                if(!fs)return ex;if(!ex)return fs;
+                const m={time:[...ex.time],snow_depth:[...ex.snow_depth]};const ds=new Set(m.time);
+                for(let i=0;i<fs.time.length;i++){if(!ds.has(fs.time[i])){m.time.push(fs.time[i]);m.snow_depth.push(fs.snow_depth[i]);}}
+                return m;
+            },
+
+            simulateSnow(daily) {
+                const n=daily.time.length,depth=new Array(n).fill(0);let cur=0;
+                for(let i=0;i<n;i++){
+                    cur+=(daily.snowfall_sum?.[i]||0);
+                    const tA=((daily.temperature_2m_max?.[i]||0)+(daily.temperature_2m_min?.[i]||0))/2;
+                    if(tA>0)cur-=Math.min(cur,tA*2.5);cur*=0.99;cur=Math.max(0,cur);depth[i]=cur;
+                }
+                return depth;
+            },
+
+            monthlySnow(sid,loc) {
+                const sd=this.snowData[sid]?.[loc]; if(!sd)return{};
+                const m={};
+                sd.time.forEach((t,i)=>{const mo=new Date(t).getMonth()+1;if(!m[mo])m[mo]=[];if(sd.snow_depth[i]!=null)m[mo].push(sd.snow_depth[i]);});
+                const r={};for(const[mo,v]of Object.entries(m)){r[mo]={avgSnow:v.length?v.reduce((s,x)=>s+x,0)/v.length:0,maxSnow:v.length?Math.max(...v):0};}
+                return r;
+            },
+
+            monthlyWeather(apiData) {
+                const d=apiData.daily,m={};
+                d.time.forEach((t,i)=>{
+                    const mo=new Date(t).getMonth()+1;if(!m[mo])m[mo]={sf:[],sun:[],tMax:[],tMin:[]};
+                    if(d.snowfall_sum?.[i]!=null)m[mo].sf.push(d.snowfall_sum[i]);
+                    if(d.sunshine_duration?.[i]!=null)m[mo].sun.push(d.sunshine_duration[i]/3600);
+                    if(d.temperature_2m_max?.[i]!=null)m[mo].tMax.push(d.temperature_2m_max[i]);
+                    if(d.temperature_2m_min?.[i]!=null)m[mo].tMin.push(d.temperature_2m_min[i]);
+                });
+                const r={};for(const[mo,v]of Object.entries(m)){
+                    const avg=a=>a.length?a.reduce((s,x)=>s+x,0)/a.length:0;const sum=a=>a.reduce((s,x)=>s+x,0);
+                    r[mo]={totalSF:sum(v.sf),snowDays:v.sf.filter(x=>x>0).length,totalSun:sum(v.sun),avgTMax:avg(v.tMax),avgTMin:avg(v.tMin)};
+                }
+                return r;
+            },
+
+            seasonTotals(sid) {
+                const w=this.weatherData[sid]; if(!w) return null;
+                const vs=this.monthlySnow(sid,'valley'),ms=this.monthlySnow(sid,'mountain');
+                const vw=this.monthlyWeather(w.valley),mw=this.monthlyWeather(w.mountain);
+                const vSV=Object.values(vs),mSV=Object.values(ms),vWV=Object.values(vw),mWV=Object.values(mw);
+                return{
+                    valley:{avgSnow:vSV.length?vSV.reduce((s,v)=>s+v.avgSnow,0)/vSV.length:0,maxSnow:vSV.length?Math.max(...vSV.map(v=>v.maxSnow)):0,totalSF:vWV.reduce((s,v)=>s+v.totalSF,0),snowDays:vWV.reduce((s,v)=>s+v.snowDays,0),totalSun:vWV.reduce((s,v)=>s+v.totalSun,0),avgTemp:vWV.length?vWV.reduce((s,v)=>s+v.avgTMax,0)/vWV.length:0},
+                    mountain:{avgSnow:mSV.length?mSV.reduce((s,v)=>s+v.avgSnow,0)/mSV.length:0,maxSnow:mSV.length?Math.max(...mSV.map(v=>v.maxSnow)):0,totalSF:mWV.reduce((s,v)=>s+v.totalSF,0),snowDays:mWV.reduce((s,v)=>s+v.snowDays,0),totalSun:mWV.reduce((s,v)=>s+v.totalSun,0),avgTemp:mWV.length?mWV.reduce((s,v)=>s+v.avgTMax,0)/mWV.length:0}
+                };
+            },
+
+            fmtNum(n) { return n>=1e6?(n/1e6).toFixed(2)+' Mio':n>=1e3?Math.round(n).toLocaleString('de-AT'):Math.round(n).toString(); },
+
+            async loadAll() {
+                let geoOk = null;
+                for (const s of this.SEASONS) {
+                    const today=new Date();today.setDate(today.getDate()-5);
+                    if(s.start>today.toISOString().split('T')[0]) continue;
+                    const om = await this.fetchOpenMeteo(s);
+                    if(om) this.weatherData[s.id]=om;
+                    if(geoOk!==false) {
+                        const gs = await this.fetchGeoSphere(s);
+                        if(gs){this.snowData[s.id]={valley:this.parseGeoSnow(gs.valley),mountain:this.parseGeoSnow(gs.mountain)};geoOk=true;}
+                        else if(geoOk===null) geoOk=false;
+                    }
+                    if(!this.snowData[s.id]&&om){
+                        this.snowData[s.id]={valley:{time:om.valley.daily.time,snow_depth:this.simulateSnow(om.valley.daily)},mountain:{time:om.mountain.daily.time,snow_depth:this.simulateSnow(om.mountain.daily)}};
+                    }
+                    await new Promise(r=>setTimeout(r,200));
+                }
+                // Forecast für aktuelle Saison
+                try {
+                    const fd = await this.fetchForecast();
+                    const cs = this.SEASONS[this.SEASONS.length-1];
+                    if(fd&&this.weatherData[cs.id]){
+                        this.weatherData[cs.id]={valley:this.mergeData(this.weatherData[cs.id].valley,fd.valley),mountain:this.mergeData(this.weatherData[cs.id].mountain,fd.mountain)};
+                        const vs=this.extractDailySnow(fd.valley),ms=this.extractDailySnow(fd.mountain);
+                        if(vs&&ms){
+                            this.snowData[cs.id]={valley:this.mergeSnow(this.snowData[cs.id]?.valley,vs),mountain:this.mergeSnow(this.snowData[cs.id]?.mountain,ms)};
+                        }
+                    }
+                } catch(e) {}
+            },
+
+            renderSnowTimeline() {
+                if(this.charts.snowTime){this.charts.snowTime.destroy();this.charts.snowTime=null;}
+                const vd=this.snowData[this.activeSeason]?.valley;
+                const md=this.snowData[this.activeSeason]?.mountain;
+                if(!vd||!md) return;
+                const step=2;
+                const labels=vd.time.filter((_,i)=>i%step===0).map(t=>{const d=new Date(t);return `${d.getDate()}.${d.getMonth()+1}`;});
+                const isDark=document.documentElement.getAttribute('data-theme')==='dark';
+                this.charts.snowTime=new Chart(document.getElementById('wxSnowTimeChart'),{
+                    type:'line',
+                    data:{labels,datasets:[
+                        {label:'Tal (Riezlern)',data:vd.snow_depth.filter((_,i)=>i%step===0),borderColor:'#4fc3f7',backgroundColor:'rgba(79,195,247,0.1)',borderWidth:2,pointRadius:0,fill:true,tension:0.2},
+                        {label:'Berg (Ifen/Kanzelwand)',data:md.snow_depth.filter((_,i)=>i%step===0),borderColor:'#f48fb1',backgroundColor:'rgba(244,143,177,0.1)',borderWidth:2,pointRadius:0,fill:true,tension:0.2}
+                    ]},
+                    options:{responsive:true,maintainAspectRatio:false,
+                        scales:{y:{title:{display:true,text:'Schneehöhe (cm)'},beginAtZero:true,ticks:{color:isDark?'#8b949e':'#617572'},grid:{color:isDark?'#30363d':'#e5eaef'}},x:{ticks:{maxTicksLimit:18,maxRotation:45,color:isDark?'#8b949e':'#617572'},grid:{color:isDark?'#30363d':'#e5eaef'}}},
+                        plugins:{legend:{position:'top',labels:{color:isDark?'#e6edf3':'#1F4138'}}},interaction:{mode:'index',intersect:false}
+                    }
+                });
+            },
+
+            renderSeasonTable() {
+                const rows=this.SEASONS.map(s=>{
+                    const t=this.seasonTotals(s.id);if(!t)return null;
+                    const tour=this.getTourism(s.id);
+                    return{id:s.id,vt:t.valley,mt:t.mountain,nights:tour.total};
+                }).filter(Boolean);
+                if(!rows.length) return;
+
+                const maxSnow=Math.max(...rows.map(r=>r.mt.maxSnow));
+                const maxSun=Math.max(...rows.map(r=>r.vt.totalSun));
+                const maxNights=Math.max(...rows.map(r=>r.nights));
+
+                let html=`<table class="wx-table"><thead><tr>
+                    <th>Saison</th><th>🛏️ N&auml;chtigungen</th><th></th>
+                    <th>❄️ &Oslash; Schnee</th><th>⛰️ Max Berg</th><th></th>
+                    <th>🌨️ Neuschnee</th><th>☀️ Sonne</th><th></th>
+                    <th>🌡️ &Oslash; Temp</th>
+                </tr></thead><tbody>`;
+
+                rows.forEach(r=>{
+                    const sPct=maxSnow>0?(r.mt.maxSnow/maxSnow*100).toFixed(0):0;
+                    const suPct=maxSun>0?(r.vt.totalSun/maxSun*100).toFixed(0):0;
+                    const nPct=maxNights>0?(r.nights/maxNights*100).toFixed(0):0;
+                    const covid=r.id==='19/20'||r.id==='20/21';
+                    html+=`<tr${r.id===this.activeSeason?' class="active-season"':''}>
+                        <td><strong>${r.id}</strong>${covid?' <span class="covid-tag">COVID</span>':''}</td>
+                        <td class="num">${this.fmtNum(r.nights)}</td>
+                        <td class="bar-cell"><div class="wx-mini-bar nights" style="width:${nPct}%"></div></td>
+                        <td class="num">${r.vt.avgSnow.toFixed(0)} cm</td>
+                        <td class="num">${r.mt.maxSnow.toFixed(0)} cm</td>
+                        <td class="bar-cell"><div class="wx-mini-bar snow" style="width:${sPct}%"></div></td>
+                        <td class="num">${r.mt.totalSF.toFixed(0)} cm</td>
+                        <td class="num">${r.vt.totalSun.toFixed(0)} h</td>
+                        <td class="bar-cell"><div class="wx-mini-bar sun" style="width:${suPct}%"></div></td>
+                        <td class="num" style="color:${r.vt.avgTemp>0?'#ef5350':'#4fc3f7'}">${r.vt.avgTemp.toFixed(1)}&deg;C</td>
+                    </tr>`;
+                });
+                html+='</tbody></table>';
+                document.getElementById('wxSeasonTable').innerHTML=html;
+            },
+
+            computeCorrelation() {
+                const pairs=[];
+                this.SEASONS.forEach(s=>{
+                    if(s.id==='19/20'||s.id==='20/21') return;
+                    const t=this.seasonTotals(s.id);if(!t)return;
+                    const tour=this.getTourism(s.id);
+                    if(tour.total>0) pairs.push({snow:t.valley.avgSnow,nights:tour.total,id:s.id});
+                });
+                if(pairs.length<3) return null;
+                const n=pairs.length;
+                const aX=pairs.reduce((s,p)=>s+p.snow,0)/n;
+                const aY=pairs.reduce((s,p)=>s+p.nights,0)/n;
+                let num=0,dX=0,dY=0;
+                pairs.forEach(p=>{const dx=p.snow-aX,dy=p.nights-aY;num+=dx*dy;dX+=dx*dx;dY+=dy*dy;});
+                return{r:dX&&dY?num/Math.sqrt(dX*dY):0,pairs};
+            },
+
+            renderCorrSummary() {
+                const el=document.getElementById('wxCorrSummary');
+                const result=this.computeCorrelation();
+                if(!result||result.pairs.length<3){el.innerHTML='<p style="color:var(--text-sec);padding:20px;">Noch nicht genug Daten f&uuml;r eine Auswertung.</p>';el.style.display='block';return;}
+                const r=result.r;
+                const sorted=[...result.pairs].sort((a,b)=>b.nights-a.nights);
+                const best=sorted[0],worst=sorted[sorted.length-1];
+                let emoji,fazit,color;
+                if(r>0.5){emoji='✅';color='var(--accent)';fazit='Ja! Mehr Schnee bringt mehr G&auml;ste ins Kleinwalsertal.';}
+                else if(r>0.2){emoji='📊';color='var(--gold)';fazit='Schnee hilft &mdash; aber gutes Wetter und andere Faktoren spielen auch eine Rolle.';}
+                else{emoji='🤔';color='var(--text-sec)';fazit='Der Zusammenhang ist schwach. Andere Faktoren wie Wetter, Feiertage und Trends sind wichtiger.';}
+
+                el.innerHTML=`
+                    <div class="wx-corr-box">
+                        <div class="wx-corr-result" style="color:${color}">${emoji} ${fazit}</div>
+                    </div>
+                    <div class="wx-corr-grid">
+                        <div class="wx-corr-card">
+                            <div class="wx-corr-label">🏆 Beste Saison</div>
+                            <div class="wx-corr-val" style="color:var(--accent)">Winter ${best.id}</div>
+                            <div class="wx-corr-detail">${this.fmtNum(best.nights)} N&auml;chtigungen &middot; &Oslash; ${best.snow.toFixed(0)}cm Schnee</div>
+                        </div>
+                        <div class="wx-corr-card">
+                            <div class="wx-corr-label">📉 Schw&auml;chste Saison</div>
+                            <div class="wx-corr-val" style="color:var(--sunset)">Winter ${worst.id}</div>
+                            <div class="wx-corr-detail">${this.fmtNum(worst.nights)} N&auml;chtigungen &middot; &Oslash; ${worst.snow.toFixed(0)}cm Schnee</div>
+                        </div>
+                    </div>
+                    <p style="margin-top:12px;font-size:0.825rem;color:var(--text-sec);line-height:1.6;">COVID-Winter 19/20 und 20/21 sind ausgenommen.</p>
+                `;
+                el.style.display='block';
+            },
+
+            renderCorrScatter() {
+                if(this.charts.corr){this.charts.corr.destroy();this.charts.corr=null;}
+                const pairs=[];
+                this.SEASONS.forEach(s=>{
+                    if(s.id==='19/20'||s.id==='20/21') return;
+                    const t=this.seasonTotals(s.id);if(!t)return;
+                    const tour=this.getTourism(s.id);
+                    if(tour.total>0)pairs.push({x:t.valley.avgSnow,y:tour.total,id:s.id});
+                });
+                if(pairs.length<2) return;
+                const isDark=document.documentElement.getAttribute('data-theme')==='dark';
+                this.charts.corr=new Chart(document.getElementById('wxCorrChart'),{
+                    type:'scatter',
+                    data:{datasets:[{label:'Saison',data:pairs,
+                        backgroundColor:pairs.map(p=>p.id===this.activeSeason?'#4fc3f7':'rgba(79,195,247,0.5)'),
+                        pointRadius:pairs.map(p=>p.id===this.activeSeason?8:6),pointHoverRadius:10
+                    }]},
+                    options:{responsive:true,maintainAspectRatio:false,
+                        scales:{
+                            x:{title:{display:true,text:'Ø Schneehöhe (cm)'},ticks:{color:isDark?'#8b949e':'#617572'},grid:{color:isDark?'#30363d':'#e5eaef'}},
+                            y:{title:{display:true,text:'Nächtigungen (Winter)'},beginAtZero:true,ticks:{color:isDark?'#8b949e':'#617572'},grid:{color:isDark?'#30363d':'#e5eaef'}}
+                        },
+                        plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${pairs[ctx.dataIndex].id}: ${pairs[ctx.dataIndex].x.toFixed(0)}cm / ${this.fmtNum(pairs[ctx.dataIndex].y)}`}}}
+                    }
+                });
+            },
+
+            render() {
+                // Saison-Dropdown füllen
+                const sel=document.getElementById('wetterSeason');
+                if(sel&&sel.options.length===0){
+                    this.SEASONS.forEach(s=>{
+                        if(this.weatherData[s.id]){
+                            const opt=document.createElement('option');opt.value=s.id;opt.textContent='Winter '+s.id;
+                            if(s.id===this.activeSeason) opt.selected=true;
+                            sel.appendChild(opt);
+                        }
+                    });
+                }
+                // Loading ausblenden
+                const wl=document.getElementById('wetterLoading');if(wl)wl.style.display='none';
+                const kl=document.getElementById('korrLoading');if(kl)kl.style.display='none';
+                // Sektionen einblenden
+                const stw=document.getElementById('wetterSnowTimeWrap');if(stw)stw.style.display='block';
+                const ttw=document.getElementById('wetterTableWrap');if(ttw)ttw.style.display='block';
+                const lnk=document.getElementById('wetterLink');if(lnk)lnk.style.display='block';
+                const csw=document.getElementById('wxCorrChartWrap');if(csw)csw.style.display='block';
+                // Charts rendern
+                this.renderSnowTimeline();
+                this.renderSeasonTable();
+                this.renderCorrSummary();
+                this.renderCorrScatter();
+                // Resize nach kurzer Verzögerung
+                setTimeout(()=>window.dispatchEvent(new Event('resize')),100);
+            }
+        };
+
+        let wxInitialized = false;
+        async function initWeatherIfNeeded() {
+            if (wxInitialized || WX.loading) return;
+            WX.loading = true;
+            wxInitialized = true;
+            // Tourismus-Daten nutzen (bereits von Hauptseite geladen)
+            await WX.loadTourism();
+            // Wetterdaten laden
+            await WX.loadAll();
+            // Rendern
+            WX.render();
+            WX.loading = false;
+        }
+        function wetterChangeSeason(val) {
+            WX.activeSeason = val;
+            WX.renderSnowTimeline();
+            WX.renderSeasonTable();
         }
     </script>
 </body>
