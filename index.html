@@ -612,7 +612,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <span>&copy; 2026 Claudio Scheiwiller &middot; Daten: Land Vorarlberg (OGD)</span>
+                <span>Daten: Land Vorarlberg (OGD)</span>
                 <span id="footerDate">Stand: Februar 2026</span>
             </div>
         </div>
@@ -886,7 +886,25 @@
             }
             bedsData = JSON.parse(JSON.stringify(FALLBACK_BEDS));
             
-            setStatus(mainOK ? 'live' : 'offline', mainOK ? 'Live-Daten' : 'Offline-Daten');
+            // Lade letztes Update-Datum
+            let lastUpdate = '';
+            try {
+                const res = await fetch('data/last-update.txt');
+                if (res.ok) {
+                    const txt = await res.text();
+                    const match = txt.match(/(\d{4}-\d{2}-\d{2})/);
+                    if (match) {
+                        const d = new Date(match[1]);
+                        lastUpdate = d.toLocaleDateString('de-AT', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                    }
+                }
+            } catch(e) { console.log('last-update.txt nicht geladen:', e); }
+
+            if (mainOK) {
+                setStatus('live', lastUpdate ? 'Daten vom ' + lastUpdate : 'Live-Daten');
+            } else {
+                setStatus('offline', 'Offline-Daten');
+            }
             populateSelectors();
             updateAll();
         }
@@ -1045,14 +1063,14 @@
 
         function parseMonth(s) { if (!s) return 1; const n = parseInt(s); if (!isNaN(n) && n >= 1 && n <= 12) return n; const m = { 'jän': 1, 'jan': 1, 'feb': 2, 'mär': 3, 'mar': 3, 'apr': 4, 'mai': 5, 'jun': 6, 'jul': 7, 'aug': 8, 'sep': 9, 'okt': 10, 'nov': 11, 'dez': 12 }; return m[s.toLowerCase().substring(0, 3)] || 1; }
         function parseNum(s) { if (!s) return 0; return parseInt(s.replace(/[.\s]/g, '').replace(',', '.')) || 0; }
-        function setStatus(t, txt) { 
+        function setStatus(t, txt) {
             const dot = document.getElementById('statusDot');
             const textEl = document.getElementById('statusText');
             const pill = document.getElementById('statusPill');
             dot.className = 'status-dot';
             if (t === 'offline') { dot.classList.add('offline'); pill.title = 'Offline – Klick zum Neuladen'; }
             else if (t === 'loading') { dot.classList.add('loading'); pill.title = 'Daten werden geladen...'; }
-            else { pill.title = 'Live-Daten von data.gv.at'; }
+            else { pill.title = 'Daten von data.gv.at – täglich aktualisiert'; }
             textEl.textContent = txt;
             if (t !== 'loading') trackEvent('data_status', 'Data', t, t === 'live' ? 1 : 0);
         }
