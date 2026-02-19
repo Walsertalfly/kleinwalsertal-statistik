@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impressum | Kleinwalsertal Tourismus Statistik</title>
+    <meta name="robots" content="noindex, follow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e3a5f; --accent: #4a9b7f; --bg: #fafbfc;
+            --surface: #ffffff; --text: #1a2a3a; --text-sec: #5a6a7a;
+            --border: #e5eaef; --radius: 12px; --radius-lg: 20px;
+            --shadow: 0 2px 8px rgba(30,58,95,0.08);
+        }
+        [data-theme="dark"] {
+            --bg: #0d1117; --surface: #161b22; --text: #e6edf3;
+            --text-sec: #8b949e; --border: #30363d;
+            --shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'DM Sans', sans-serif; line-height: 1.8; color: var(--text); background: var(--bg); min-height: 100vh; }
+        .container { max-width: 800px; margin: 0 auto; padding: 60px 32px; }
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; font-weight: 500; margin-bottom: 32px; transition: 0.2s; }
+        .back-link:hover { color: var(--primary); }
+        h1 { font-family: 'Playfair Display', Georgia, serif; font-size: 2.5rem; margin-bottom: 32px; color: var(--primary); }
+        h2 { font-size: 1.25rem; font-weight: 600; margin: 32px 0 12px; color: var(--text); }
+        p, ul { margin-bottom: 16px; color: var(--text-sec); }
+        ul { padding-left: 24px; }
+        a { color: var(--accent); }
+        .card { background: var(--surface); border-radius: var(--radius-lg); box-shadow: var(--shadow); border: 1px solid var(--border); padding: 40px; }
+        @media (max-width: 768px) { .container { padding: 32px 16px; } h1 { font-size: 2rem; } .card { padding: 24px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">&larr; Zur&uuml;ck zur Statistik</a>
+        <div class="card">
+            <h1>Impressum</h1>
+
+            <h2>Angaben gem&auml;&szlig; &sect; 25 MedienG und &sect; 5 ECG</h2>
+            <p>
+                <strong>Claudio Scheiwiller</strong><br>
+                Sch&ouml;ntalweg 10<br>
+                6992 Hirschegg<br>
+                &Ouml;sterreich
+            </p>
+
+            <h2>Kontakt</h2>
+            <p>
+                E-Mail: <a href="mailto:walserfly@gmail.com">walserfly@gmail.com</a>
+            </p>
+
+            <h2>Inhaltlich verantwortlich</h2>
+            <p>Claudio Scheiwiller (Anschrift wie oben)</p>
+
+            <h2>Haftungsausschluss</h2>
+
+            <h2>Haftung f&uuml;r Inhalte</h2>
+            <p>Die Inhalte dieser Webseite wurden mit gr&ouml;&szlig;ter Sorgfalt erstellt. F&uuml;r die Richtigkeit, Vollst&auml;ndigkeit und Aktualit&auml;t der Inhalte kann jedoch keine Gew&auml;hr &uuml;bernommen werden. Die dargestellten Statistiken basieren auf Open Government Data des Landes Vorarlberg und werden ohne Gew&auml;hrleistung bereitgestellt.</p>
+
+            <h2>Haftung f&uuml;r Links</h2>
+            <p>Diese Webseite enth&auml;lt Links zu externen Webseiten Dritter, auf deren Inhalte kein Einfluss besteht. F&uuml;r die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber verantwortlich.</p>
+
+            <h2>Urheberrecht</h2>
+            <p>Die Tourismusdaten stammen vom Land Vorarlberg und sind unter der <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">Creative Commons Namensnennung 4.0 International Lizenz (CC BY 4.0)</a> ver&ouml;ffentlicht. Die grafische Aufbereitung und das Layout dieser Webseite sind urheberrechtlich gesch&uuml;tzt.</p>
+
+            <h2>Datenquellen</h2>
+            <ul>
+                <li><a href="https://www.data.gv.at/katalog/dataset/land-vorarlberg_tourismusstatistik" target="_blank" rel="noopener">data.gv.at &ndash; Tourismusstatistik Land Vorarlberg</a></li>
+                <li><a href="https://vorarlberg.at/-/wirtschaft-tourismus-verkehr" target="_blank" rel="noopener">Land Vorarlberg &ndash; Wirtschaft, Tourismus &amp; Verkehr</a></li>
+            </ul>
+
+            <p style="margin-top:40px;font-size:0.875rem;color:var(--text-sec);">Stand: Februar 2026</p>
+        </div>
+    </div>
+</body>
+</html>

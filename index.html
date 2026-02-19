@@ -6,23 +6,33 @@
     <title>Kleinwalsertal Tourismus Statistik | Übernachtungen, Herkunft & Trends</title>
     <meta name="description" content="Offizielle Tourismusstatistiken für Kleinwalsertal - Übernachtungen, Ankünfte, Herkunftsländer, Unterkunftsarten und Saisonanalyse. Daten vom Land Vorarlberg.">
     
-    <!-- Google Analytics 4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P2K18TDBT9"></script>
+    <!-- Google Analytics 4 - nur laden wenn Einwilligung erteilt -->
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-P2K18TDBT9');
-        
-        // Custom Event Helper
         function trackEvent(action, category, label, value) {
-            gtag('event', action, {
-                'event_category': category,
-                'event_label': label,
-                'value': value
-            });
+            if (localStorage.getItem('cookie-consent') === 'accepted') {
+                gtag('event', action, { 'event_category': category, 'event_label': label, 'value': value });
+            }
         }
+        function loadGA() {
+            if (document.getElementById('ga-script')) return;
+            var s = document.createElement('script');
+            s.id = 'ga-script';
+            s.async = true;
+            s.src = 'https://www.googletagmanager.com/gtag/js?id=G-P2K18TDBT9';
+            document.head.appendChild(s);
+            gtag('js', new Date());
+            gtag('config', 'G-P2K18TDBT9', { anonymize_ip: true });
+        }
+        if (localStorage.getItem('cookie-consent') === 'accepted') { loadGA(); }
     </script>
+    <meta name="author" content="Claudio Scheiwiller">
+    <meta property="og:title" content="Kleinwalsertal Tourismus Statistik">
+    <meta property="og:description" content="Live-Dashboard mit Übernachtungen, Ankünften, Herkunftsländern und Trends im Kleinwalsertal.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kleinwalsertal-statistik.at">
+    <link rel="canonical" href="https://kleinwalsertal-statistik.at">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -152,18 +162,64 @@
         .footer-links a { color: var(--text); text-decoration: none; font-size: 0.9375rem; transition: var(--transition); }
         .footer-links a:hover { color: var(--primary); }
         .footer-bottom { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; font-size: 0.875rem; color: var(--text-sec); }
-        @media (max-width: 768px) { 
-            .hero-content { padding: 40px 20px 60px; } 
-            .hero-title-group h1 { font-size: 1.75rem; } 
-            .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } 
-            .kpi-card { padding: 16px; } 
-            .kpi-value { font-size: 1.5rem; } 
-            .container { padding: 0 16px; } 
-            .card-body { padding: 20px; } 
+        /* Accordion */
+        .accordion-toggle { display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; padding: 20px 28px; background: var(--surface); border-radius: var(--radius-lg); box-shadow: var(--shadow); border: 1px solid var(--border); transition: var(--transition); margin-bottom: 4px; }
+        .accordion-toggle:hover { box-shadow: var(--shadow-md); }
+        .accordion-toggle h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 1.25rem; font-weight: 600; color: var(--text); margin: 0; display: flex; align-items: center; gap: 10px; }
+        .accordion-toggle .subtitle { font-size: 0.85rem; color: var(--text-sec); font-family: 'DM Sans', sans-serif; font-weight: 400; margin-left: 8px; }
+        .accordion-chevron { width: 24px; height: 24px; transition: transform 0.3s ease; flex-shrink: 0; color: var(--text-sec); }
+        .accordion-toggle.open .accordion-chevron { transform: rotate(180deg); }
+        .accordion-toggle.open { border-radius: var(--radius-lg) var(--radius-lg) 0 0; margin-bottom: 0; border-bottom: none; }
+        .accordion-body { display: none; background: var(--surface); border: 1px solid var(--border); border-top: none; border-radius: 0 0 var(--radius-lg) var(--radius-lg); box-shadow: var(--shadow); padding: 28px; margin-bottom: 16px; }
+        .accordion-body.open { display: block; }
+
+        /* Cookie Banner */
+        .cookie-banner { position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface); border-top: 1px solid var(--border); box-shadow: 0 -4px 20px rgba(0,0,0,0.1); padding: 20px 32px; z-index: 10000; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+        .cookie-banner.hidden { display: none; }
+        .cookie-text { flex: 1; min-width: 280px; font-size: 0.9rem; color: var(--text-sec); line-height: 1.5; }
+        .cookie-text a { color: var(--accent); }
+        .cookie-buttons { display: flex; gap: 10px; flex-shrink: 0; }
+        .cookie-btn { padding: 10px 20px; border-radius: var(--radius-sm); font-size: 0.9rem; font-weight: 600; font-family: inherit; cursor: pointer; border: none; transition: var(--transition); }
+        .cookie-btn-accept { background: var(--accent); color: white; }
+        .cookie-btn-accept:hover { background: var(--forest); }
+        .cookie-btn-reject { background: var(--snow); color: var(--text); border: 1px solid var(--border); }
+        .cookie-btn-reject:hover { background: var(--ice); }
+
+        /* Ad Space */
+        .ad-space { background: linear-gradient(135deg, var(--snow) 0%, var(--ice) 100%); border: 2px dashed var(--border); border-radius: var(--radius-lg); padding: 40px; text-align: center; margin: 32px 0; transition: var(--transition); }
+        .ad-space:hover { border-color: var(--accent); }
+        .ad-space-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 12px; }
+        .ad-space-title { font-size: 1.25rem; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+        .ad-space-desc { font-size: 0.9rem; color: var(--text-sec); margin-bottom: 16px; }
+        .ad-space-cta { display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; background: var(--primary); color: white; border-radius: var(--radius-sm); text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: var(--transition); }
+        .ad-space-cta:hover { background: var(--primary-light); }
+        [data-theme="dark"] .ad-space { background: linear-gradient(135deg, #161b22 0%, #1c2333 100%); }
+
+        /* Navigation TOC */
+        .toc { background: var(--surface); border-radius: var(--radius-lg); box-shadow: var(--shadow); border: 1px solid var(--border); padding: 24px 28px; margin-bottom: 32px; }
+        .toc-title { font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-sec); margin-bottom: 16px; }
+        .toc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+        .toc-link { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: var(--radius-sm); color: var(--text); text-decoration: none; font-size: 0.9rem; transition: var(--transition); }
+        .toc-link:hover { background: var(--snow); color: var(--primary); }
+
+        @media (max-width: 768px) {
+            .hero-content { padding: 40px 20px 60px; }
+            .hero-title-group h1 { font-size: 1.75rem; }
+            .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .kpi-card { padding: 16px; }
+            .kpi-value { font-size: 1.5rem; }
+            .container { padding: 0 16px; }
+            .card-body { padding: 20px; }
             .section-title { font-size: 1.5rem; }
             .heatmap-grid { grid-template-columns: 50px repeat(12, 1fr); gap: 2px; }
             .heatmap-header { font-size: 0.6rem; padding: 4px 2px; }
             .heatmap-cell { min-height: 30px; border-radius: 4px; }
+            .accordion-toggle { padding: 16px 20px; }
+            .accordion-toggle h2 { font-size: 1.1rem; }
+            .accordion-toggle .subtitle { display: none; }
+            .accordion-body { padding: 20px; }
+            .cookie-banner { flex-direction: column; text-align: center; }
+            .toc-grid { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
@@ -188,63 +244,96 @@
                 <div class="kpi-card"><div class="kpi-label">Ankünfte 2025</div><div class="kpi-value" id="kpiArrivals">—</div><div class="kpi-trend" id="kpiArrivalsTrend"></div></div>
                 <div class="kpi-card"><div class="kpi-label">Ø Aufenthalt</div><div class="kpi-value" id="kpiStay">—</div><div class="kpi-detail">Nächte</div></div>
                 <div class="kpi-card"><div class="kpi-label">Top Herkunft</div><div class="kpi-value" id="kpiTopCountry">🇩🇪</div><div class="kpi-detail" id="kpiTopCountryPct">—</div></div>
-                <div class="kpi-card"><div class="kpi-label">Jänner 2026</div><div class="kpi-value" id="kpi2026">—</div><div class="kpi-detail">vorläufig</div></div>
+                <div class="kpi-card"><div class="kpi-label">Jänner 2026</div><div class="kpi-value" id="kpi2026">—</div><div class="kpi-detail" id="kpi2026detail">vorl&auml;ufig &middot; nur 1 Monat</div></div>
             </div>
         </div>
     </header>
 
     <main class="main-content">
         <div class="container">
-            
+
+            <!-- Schnellnavigation -->
+            <nav class="toc">
+                <div class="toc-title">Schnellnavigation</div>
+                <div class="toc-grid">
+                    <a href="#sec-zeitverlauf" class="toc-link" onclick="openAccordion('sec-zeitverlauf')">&#x1F4C8; Zeitverlauf</a>
+                    <a href="#sec-monatlich" class="toc-link" onclick="openAccordion('sec-monatlich')">&#x1F4CA; Monate</a>
+                    <a href="#sec-jahresdaten" class="toc-link" onclick="openAccordion('sec-jahresdaten')">&#x1F4CB; Jahresdaten</a>
+                    <a href="#sec-heatmap" class="toc-link" onclick="openAccordion('sec-heatmap')">&#x1F4C5; Heatmap</a>
+                    <a href="#sec-herkunft" class="toc-link" onclick="openAccordion('sec-herkunft')">&#x1F30D; Herkunft</a>
+                    <a href="#sec-herkunftstrend" class="toc-link" onclick="openAccordion('sec-herkunftstrend')">&#x1F4C8; L&auml;nder-Trend</a>
+                    <a href="#sec-unterkunft" class="toc-link" onclick="openAccordion('sec-unterkunft')">&#x1F3E8; Unterk&uuml;nfte</a>
+                    <a href="#sec-gemeinde" class="toc-link" onclick="openAccordion('sec-gemeinde')">&#x1F3D4; Gemeinden</a>
+                    <a href="#sec-saison" class="toc-link" onclick="openAccordion('sec-saison')">&#x2744; Saisons</a>
+                    <a href="#sec-betten" class="toc-link" onclick="openAccordion('sec-betten')">&#x1F6CF; Betten</a>
+                    <a href="#sec-prognose" class="toc-link" onclick="openAccordion('sec-prognose')">&#x1F52E; Prognose</a>
+                    <a href="#sec-wertschoepfung" class="toc-link" onclick="openAccordion('sec-wertschoepfung')">&#x1F4B0; Wertsch&ouml;pfung</a>
+                </div>
+            </nav>
+
+            <!-- WERBEPLATZ oben -->
+            <div class="ad-space" id="ad-top">
+                <div class="ad-space-label">Werbung</div>
+                <div class="ad-space-title">Ihr Unternehmen hier pr&auml;sentieren</div>
+                <div class="ad-space-desc">Erreichen Sie Tourismus-Interessierte im Kleinwalsertal. Premium-Werbeplatz auf der meistbesuchten Statistik-Seite der Region.</div>
+                <a href="mailto:walserfly@gmail.com?subject=Werbung%20auf%20kleinwalsertal-statistik.at" class="ad-space-cta">Werbeplatz anfragen</a>
+            </div>
+
             <!-- 1. ZEITVERLAUF -->
-            <section class="section">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">📈 Kleinwalsertal im Zeitverlauf</h3>
-                        <div class="controls">
-                            <div class="tabs">
-                                <button class="tab active" data-chart="line">Linie</button>
-                                <button class="tab" data-chart="bar">Balken</button>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label">Von:</label>
-                                <select id="yearFrom"></select>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label">Bis:</label>
-                                <select id="yearTo"></select>
-                            </div>
+            <section class="section" id="sec-zeitverlauf">
+                <div class="accordion-toggle open" onclick="toggleAccordion(this)">
+                    <h2>&#x1F4C8; Zeitverlauf <span class="subtitle">&Uuml;bernachtungen &amp; Ank&uuml;nfte</span></h2>
+                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+                <div class="accordion-body open">
+                    <div class="controls" style="margin-bottom:16px;">
+                        <div class="tabs">
+                            <button class="tab active" data-chart="line">Linie</button>
+                            <button class="tab" data-chart="bar">Balken</button>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Von:</label>
+                            <select id="yearFrom"></select>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Bis:</label>
+                            <select id="yearTo"></select>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="chart-container"><canvas id="mainChart"></canvas></div>
-                    </div>
+                    <div class="chart-container"><canvas id="mainChart"></canvas></div>
                 </div>
             </section>
 
             <!-- 2. MONATLICHE VERTEILUNG -->
-            <section class="section">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">📊 Monatliche Verteilung</h3>
-                        <div class="controls">
-                            <div class="control-group">
-                                <label class="control-label">Jahr:</label>
-                                <select id="monthlyYear"></select>
-                            </div>
+            <section class="section" id="sec-monatlich">
+                <div class="accordion-toggle open" onclick="toggleAccordion(this)">
+                    <h2>&#x1F4CA; Monatliche Verteilung <span class="subtitle">Saisonale Muster</span></h2>
+                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+                <div class="accordion-body open">
+                    <div class="controls" style="margin-bottom:16px;">
+                        <div class="control-group">
+                            <label class="control-label">Jahr:</label>
+                            <select id="monthlyYear"></select>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="chart-container"><canvas id="monthlyChart"></canvas></div>
-                    </div>
+                    <div class="chart-container"><canvas id="monthlyChart"></canvas></div>
                 </div>
             </section>
 
             <!-- 3. ALLE JAHRESDATEN -->
-            <section class="section">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">📋 Alle Jahresdaten</h3>
+            <section class="section" id="sec-jahresdaten">
+                <div class="accordion-toggle open" onclick="toggleAccordion(this)">
+                    <h2>&#x1F4CB; Alle Jahresdaten <span class="subtitle">Tabelle mit CSV-Export</span></h2>
+                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+                <div class="accordion-body open">
+                    <div style="text-align:right;margin-bottom:12px;">
+                        <button class="btn btn-secondary" onclick="exportCSV()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            CSV Export
+                        </button>
+                    </div>
                         <button class="btn btn-secondary" onclick="exportCSV()">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                             CSV Export
@@ -261,273 +350,287 @@
                 </div>
             </section>
 
-            <!-- 4. HEATMAP (5 Jahre) -->
-            <section class="section">
-                <div class="section-header">
-                    <div>
-                        <h2 class="section-title">📅 Saisonale Buchungsstärke</h2>
-                        <p class="section-subtitle">Übernachtungen pro Monat · 2022–2026</p>
-                    </div>
+            <!-- 4. HEATMAP -->
+            <section class="section" id="sec-heatmap">
+                <div class="accordion-toggle" onclick="toggleAccordion(this)">
+                    <h2>&#x1F4C5; Saisonale Buchungsst&auml;rke <span class="subtitle">Heatmap 2022&ndash;2026</span></h2>
+                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
                 </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div id="heatmapContainer"></div>
-                        <div class="heatmap-legend">
-                            <span style="font-size:0.85rem;color:var(--text-sec);margin-right:8px;">Nebensaison</span>
-                            <div class="heatmap-legend-color" style="background:#dbeafe;"></div>
-                            <div class="heatmap-legend-color" style="background:#93c5fd;"></div>
-                            <div class="heatmap-legend-color" style="background:#3b82f6;"></div>
-                            <div class="heatmap-legend-color" style="background:#1d4ed8;"></div>
-                            <div class="heatmap-legend-color" style="background:#1e3a5f;"></div>
-                            <span style="font-size:0.85rem;color:var(--text-sec);margin-left:8px;">Hochsaison</span>
-                        </div>
+                <div class="accordion-body">
+                    <div id="heatmapContainer"></div>
+                    <div class="heatmap-legend">
+                        <span style="font-size:0.85rem;color:var(--text-sec);margin-right:8px;">Nebensaison</span>
+                        <div class="heatmap-legend-color" style="background:#dbeafe;"></div>
+                        <div class="heatmap-legend-color" style="background:#93c5fd;"></div>
+                        <div class="heatmap-legend-color" style="background:#3b82f6;"></div>
+                        <div class="heatmap-legend-color" style="background:#1d4ed8;"></div>
+                        <div class="heatmap-legend-color" style="background:#1e3a5f;"></div>
+                        <span style="font-size:0.85rem;color:var(--text-sec);margin-left:8px;">Hochsaison</span>
                     </div>
                 </div>
             </section>
 
             <!-- 5. HERKUNFTSLÄNDER -->
-            <section class="section">
-                <div class="section-header">
-                    <div>
-                        <h2 class="section-title">🌍 Woher kommen die Gäste?</h2>
-                        <p class="section-subtitle">Herkunftsländer der Übernachtungsgäste</p>
-                    </div>
-                    <div class="controls">
+            <section class="section" id="sec-herkunft">
+                <div class="accordion-toggle" onclick="toggleAccordion(this)">
+                    <h2>&#x1F30D; Woher kommen die G&auml;ste? <span class="subtitle">Herkunftsl&auml;nder</span></h2>
+                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+                <div class="accordion-body">
+                    <div class="controls" style="margin-bottom:16px;">
                         <div class="control-group">
                             <label class="control-label">Jahr:</label>
                             <select id="countryYear"></select>
                         </div>
                     </div>
-                </div>
-                <div class="grid-2">
-                    <div class="card">
-                        <div class="card-header"><h3 class="card-title">Verteilung nach Ländern</h3></div>
-                        <div class="card-body">
-                            <div class="chart-container chart-container-sm"><canvas id="countryPieChart"></canvas></div>
+                    <div class="grid-2">
+                        <div class="card">
+                            <div class="card-header"><h3 class="card-title">Verteilung nach L&auml;ndern</h3></div>
+                            <div class="card-body">
+                                <div class="chart-container chart-container-sm"><canvas id="countryPieChart"></canvas></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header"><h3 class="card-title">Top Herkunftsländer</h3></div>
-                        <div class="card-body">
-                            <div id="countryList"></div>
+                        <div class="card">
+                            <div class="card-header"><h3 class="card-title">Top Herkunftsl&auml;nder</h3></div>
+                            <div class="card-body">
+                                <div id="countryList"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- 6. HERKUNFTSTREND (10 Jahre) -->
-            <section class="section">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">📈 Entwicklung der Herkunftsmärkte · 10 Jahre</h3>
-                        <div class="controls">
-                            <div class="control-group">
-                                <label class="control-label">Von:</label>
-                                <select id="countryTrendFrom"></select>
-                            </div>
-                            <div class="control-group">
-                                <label class="control-label">Bis:</label>
-                                <select id="countryTrendTo"></select>
-                            </div>
+            <!-- WERBEPLATZ Mitte -->
+            <div class="ad-space" id="ad-mid">
+                <div class="ad-space-label">Werbung</div>
+                <div class="ad-space-title">Werbeplatz verf&uuml;gbar</div>
+                <div class="ad-space-desc">Platzieren Sie Ihre Werbung direkt vor Tourismus-Entscheidern und Interessierten.</div>
+                <a href="mailto:walserfly@gmail.com?subject=Werbung%20auf%20kleinwalsertal-statistik.at" class="ad-space-cta">Werbeplatz anfragen</a>
+            </div>
+
+            <!-- 6. HERKUNFTSTREND -->
+            <section class="section" id="sec-herkunftstrend">
+                <div class="accordion-toggle" onclick="toggleAccordion(this)">
+                    <h2>&#x1F4C8; Herkunftsm&auml;rkte im Trend <span class="subtitle">10-Jahres-Entwicklung</span></h2>
+                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+                <div class="accordion-body">
+                    <div class="controls" style="margin-bottom:16px;">
+                        <div class="control-group">
+                            <label class="control-label">Von:</label>
+                            <select id="countryTrendFrom"></select>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Bis:</label>
+                            <select id="countryTrendTo"></select>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="chart-container"><canvas id="countryTrendChart"></canvas></div>
-                    </div>
+                    <div class="chart-container"><canvas id="countryTrendChart"></canvas></div>
                 </div>
             </section>
 
             <!-- 7. UNTERKUNFTSARTEN -->
-            <section class="section">
-                <div class="section-header">
-                    <div>
-                        <h2 class="section-title">🏨 Unterkunftsarten</h2>
-                        <p class="section-subtitle">Hotels vs. Ferienwohnungen vs. Privatquartiere</p>
-                    </div>
-                    <div class="controls">
+            <section class="section" id="sec-unterkunft">
+                <div class="accordion-toggle" onclick="toggleAccordion(this)">
+                    <h2>&#x1F3E8; Unterkunftsarten <span class="subtitle">Hotels, Ferienwohnungen, Privat</span></h2>
+                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+                <div class="accordion-body">
+                    <div class="controls" style="margin-bottom:16px;">
                         <div class="control-group">
                             <label class="control-label">Jahr:</label>
                             <select id="accommodationYear"></select>
                         </div>
                     </div>
-                </div>
-                <div id="accommodationCards" class="accommodation-grid"></div>
-                <div class="card" style="margin-top: 24px;">
-                    <div class="card-header"><h3 class="card-title">Entwicklung nach Unterkunftsart</h3></div>
-                    <div class="card-body">
-                        <div class="chart-container"><canvas id="accommodationChart"></canvas></div>
+                    <div id="accommodationCards" class="accommodation-grid"></div>
+                    <div class="card" style="margin-top: 24px;">
+                        <div class="card-header"><h3 class="card-title">Entwicklung nach Unterkunftsart</h3></div>
+                        <div class="card-body">
+                            <div class="chart-container"><canvas id="accommodationChart"></canvas></div>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- 8. GEMEINDEVERGLEICH VORARLBERG -->
-            <section class="section">
-                <div class="section-header">
-                    <div>
-                        <h2 class="section-title">🏔️ Gemeindevergleich Vorarlberg</h2>
-                        <p class="section-subtitle">Kleinwalsertal im Vergleich zu anderen Tourismusgemeinden</p>
-                    </div>
-                    <div class="controls">
+            <!-- 8. GEMEINDEVERGLEICH -->
+            <section class="section" id="sec-gemeinde">
+                <div class="accordion-toggle" onclick="toggleAccordion(this)">
+                    <h2>&#x1F3D4; Gemeindevergleich Vorarlberg <span class="subtitle">Kleinwalsertal vs. andere</span></h2>
+                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+                <div class="accordion-body">
+                    <div class="controls" style="margin-bottom:16px;">
                         <div class="control-group">
                             <label class="control-label">Jahr:</label>
                             <select id="comparisonYear"></select>
                         </div>
                         <div class="tabs">
-                            <button class="tab active" data-comp="nights" onclick="switchCompTab(this)">Nächtigungen</button>
-                            <button class="tab" data-comp="arrivals" onclick="switchCompTab(this)">Ankünfte</button>
+                            <button class="tab active" data-comp="nights" onclick="switchCompTab(this)">N&auml;chtigungen</button>
+                            <button class="tab" data-comp="arrivals" onclick="switchCompTab(this)">Ank&uuml;nfte</button>
                         </div>
                     </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="chart-container"><canvas id="comparisonChart"></canvas></div>
-                    </div>
-                </div>
-                <div class="card" style="margin-top: 24px;">
-                    <div class="card-header"><h3 class="card-title">Detailvergleich nach Unterkunftsart</h3></div>
-                    <div class="card-body">
-                        <div class="table-wrapper">
-                            <table>
-                                <thead><tr>
-                                    <th>Gemeinde</th>
-                                    <th>Gesamt ÜN</th>
-                                    <th>🏨 Hotels</th>
-                                    <th>🏠 FeWo</th>
-                                    <th>🏡 Privat</th>
-                                    <th>🏕️ Sonst.</th>
-                                    <th>Ø Aufenth.</th>
-                                    <th>Hotel-Anteil</th>
-                                </tr></thead>
-                                <tbody id="comparisonTableBody"></tbody>
-                            </table>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="chart-container"><canvas id="comparisonChart"></canvas></div>
                         </div>
                     </div>
-                </div>
-                <div class="card" style="margin-top: 24px;">
-                    <div class="card-header"><h3 class="card-title">Unterkunfts-Mix im Vergleich</h3></div>
-                    <div class="card-body">
-                        <div class="chart-container"><canvas id="comparisonAccChart"></canvas></div>
+                    <div class="card" style="margin-top: 24px;">
+                        <div class="card-header"><h3 class="card-title">Detailvergleich nach Unterkunftsart</h3></div>
+                        <div class="card-body">
+                            <div class="table-wrapper">
+                                <table>
+                                    <thead><tr>
+                                        <th>Gemeinde</th>
+                                        <th>Gesamt &Uuml;N</th>
+                                        <th>Hotels</th>
+                                        <th>FeWo</th>
+                                        <th>Privat</th>
+                                        <th>Sonst.</th>
+                                        <th>&Oslash; Aufenth.</th>
+                                        <th>Hotel-Anteil</th>
+                                    </tr></thead>
+                                    <tbody id="comparisonTableBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card" style="margin-top: 24px;">
+                        <div class="card-header"><h3 class="card-title">Unterkunfts-Mix im Vergleich</h3></div>
+                        <div class="card-body">
+                            <div class="chart-container"><canvas id="comparisonAccChart"></canvas></div>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- 9. WINTER VS. SOMMER SAISONVERGLEICH -->
-            <section class="section">
-                <div class="section-header">
-                    <div>
-                        <h2 class="section-title">❄️☀️ Winter vs. Sommer</h2>
-                        <p class="section-subtitle">Saisonvergleich · Wird der Sommer stärker?</p>
-                    </div>
+            <!-- 9. WINTER VS. SOMMER -->
+            <section class="section" id="sec-saison">
+                <div class="accordion-toggle" onclick="toggleAccordion(this)">
+                    <h2>&#x2744; Winter vs. Sommer <span class="subtitle">Wird der Sommer st&auml;rker?</span></h2>
+                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
                 </div>
-                <div class="grid-2">
-                    <div class="card">
-                        <div class="card-header"><h3 class="card-title">Saisonverteilung im Zeitverlauf</h3></div>
-                        <div class="card-body">
-                            <div class="chart-container"><canvas id="seasonChart"></canvas></div>
+                <div class="accordion-body">
+                    <div class="grid-2">
+                        <div class="card">
+                            <div class="card-header"><h3 class="card-title">Saisonverteilung im Zeitverlauf</h3></div>
+                            <div class="card-body">
+                                <div class="chart-container"><canvas id="seasonChart"></canvas></div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header"><h3 class="card-title">Sommer-Anteil (Trend)</h3></div>
+                            <div class="card-body">
+                                <div class="chart-container"><canvas id="seasonShareChart"></canvas></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-header"><h3 class="card-title">Sommer-Anteil (Trend)</h3></div>
+                    <div class="card" style="margin-top: 24px;">
                         <div class="card-body">
-                            <div class="chart-container"><canvas id="seasonShareChart"></canvas></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card" style="margin-top: 24px;">
-                    <div class="card-body">
-                        <div class="table-wrapper">
-                            <table>
-                                <thead><tr><th>Jahr</th><th>Winter (Nov–Apr)</th><th>Sommer (Mai–Okt)</th><th>Winter-Anteil</th><th>Sommer-Anteil</th><th>Veränderung Sommer</th></tr></thead>
-                                <tbody id="seasonTableBody"></tbody>
-                            </table>
+                            <div class="table-wrapper">
+                                <table>
+                                    <thead><tr><th>Jahr</th><th>Winter (Nov&ndash;Apr)</th><th>Sommer (Mai&ndash;Okt)</th><th>Winter-Anteil</th><th>Sommer-Anteil</th><th>Ver&auml;nderung Sommer</th></tr></thead>
+                                    <tbody id="seasonTableBody"></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
             <!-- 10. BETTENAUSLASTUNG -->
-            <section class="section">
-                <div class="section-header">
-                    <div>
-                        <h2 class="section-title">🛏️ Bettenauslastung</h2>
-                        <p class="section-subtitle">Nächtigungen pro verfügbarem Bett · Gemeindevergleich</p>
-                    </div>
-                    <div class="controls">
+            <section class="section" id="sec-betten">
+                <div class="accordion-toggle" onclick="toggleAccordion(this)">
+                    <h2>&#x1F6CF; Bettenauslastung <span class="subtitle">N&auml;chtigungen pro Bett</span></h2>
+                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+                <div class="accordion-body">
+                    <div class="controls" style="margin-bottom:16px;">
                         <div class="control-group">
                             <label class="control-label">Jahr:</label>
                             <select id="occupancyYear"></select>
                         </div>
                     </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="chart-container"><canvas id="occupancyChart"></canvas></div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="chart-container"><canvas id="occupancyChart"></canvas></div>
+                        </div>
                     </div>
-                </div>
-                <div class="card" style="margin-top: 24px;">
-                    <div class="card-body">
-                        <div class="table-wrapper">
-                            <table>
-                                <thead><tr><th>Gemeinde</th><th>Betten</th><th>Nächtigungen</th><th>Auslastung</th><th>ÜN pro Bett</th></tr></thead>
-                                <tbody id="occupancyTableBody"></tbody>
-                            </table>
+                    <div class="card" style="margin-top: 24px;">
+                        <div class="card-body">
+                            <div class="table-wrapper">
+                                <table>
+                                    <thead><tr><th>Gemeinde</th><th>Betten</th><th>N&auml;chtigungen</th><th>Auslastung</th><th>&Uuml;N pro Bett</th></tr></thead>
+                                    <tbody id="occupancyTableBody"></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- 11. PROGNOSE-MODUL -->
-            <section class="section">
-                <div class="section-header">
-                    <div>
-                        <h2 class="section-title">🔮 Prognose 2026</h2>
-                        <p class="section-subtitle">Hochrechnung basierend auf 10-Jahres-Trend (ohne COVID-Jahre)</p>
-                    </div>
+            <!-- 11. PROGNOSE -->
+            <section class="section" id="sec-prognose">
+                <div class="accordion-toggle" onclick="toggleAccordion(this)">
+                    <h2>&#x1F52E; Prognose 2026 <span class="subtitle">Hochrechnung (ohne COVID-Jahre)</span></h2>
+                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
                 </div>
-                <div id="forecastKPIs" class="kpi-grid" style="margin-bottom: 24px;"></div>
-                <div class="card">
-                    <div class="card-header"><h3 class="card-title">Trendlinie & Prognose</h3></div>
-                    <div class="card-body">
-                        <div class="chart-container"><canvas id="forecastChart"></canvas></div>
+                <div class="accordion-body">
+                    <p style="background:rgba(201,162,39,0.1);border:1px solid rgba(201,162,39,0.3);border-radius:var(--radius-sm);padding:12px 16px;margin-bottom:20px;font-size:0.9rem;color:var(--text-sec);">
+                        <strong>Hinweis:</strong> F&uuml;r 2026 liegen bisher nur Daten f&uuml;r J&auml;nner vor. Die Prognose basiert auf dem 10-Jahres-Trend (ohne COVID-Jahre 2020/2021) und zeigt die erwartete Jahresentwicklung.
+                    </p>
+                    <div id="forecastKPIs" class="kpi-grid" style="margin-bottom: 24px;"></div>
+                    <div class="card">
+                        <div class="card-header"><h3 class="card-title">Trendlinie &amp; Prognose</h3></div>
+                        <div class="card-body">
+                            <div class="chart-container"><canvas id="forecastChart"></canvas></div>
+                        </div>
                     </div>
                 </div>
             </section>
 
             <!-- 12. WERTSCHÖPFUNGSRECHNER -->
-            <section class="section">
-                <div class="section-header">
-                    <div>
-                        <h2 class="section-title">💰 Touristische Wertschöpfung</h2>
-                        <p class="section-subtitle">Geschätzter wirtschaftlicher Beitrag des Tourismus · Quelle: Vorarlberg Tourismus GmbH</p>
-                    </div>
-                    <div class="controls">
+            <section class="section" id="sec-wertschoepfung">
+                <div class="accordion-toggle" onclick="toggleAccordion(this)">
+                    <h2>&#x1F4B0; Touristische Wertsch&ouml;pfung <span class="subtitle">Wirtschaftlicher Beitrag</span></h2>
+                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+                <div class="accordion-body">
+                    <div class="controls" style="margin-bottom:16px;">
                         <div class="control-group">
                             <label class="control-label">Jahr:</label>
                             <select id="revenueYear"></select>
                         </div>
                     </div>
-                </div>
-                <div id="revenueKPIs" class="kpi-grid" style="margin-bottom: 24px;"></div>
-                <div class="grid-2">
-                    <div class="card">
-                        <div class="card-header"><h3 class="card-title">Wertschöpfung pro Saison</h3></div>
-                        <div class="card-body">
-                            <div class="chart-container chart-container-sm"><canvas id="revenuePieChart"></canvas></div>
+                    <div id="revenueKPIs" class="kpi-grid" style="margin-bottom: 24px;"></div>
+                    <div class="grid-2">
+                        <div class="card">
+                            <div class="card-header"><h3 class="card-title">Wertsch&ouml;pfung pro Saison</h3></div>
+                            <div class="card-body">
+                                <div class="chart-container chart-container-sm"><canvas id="revenuePieChart"></canvas></div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header"><h3 class="card-title">Wertsch&ouml;pfung im Zeitverlauf</h3></div>
+                            <div class="card-body">
+                                <div class="chart-container chart-container-sm"><canvas id="revenueTrendChart"></canvas></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-header"><h3 class="card-title">Wertschöpfung im Zeitverlauf</h3></div>
-                        <div class="card-body">
-                            <div class="chart-container chart-container-sm"><canvas id="revenueTrendChart"></canvas></div>
+                    <div class="card" style="margin-top: 24px;">
+                        <div class="card-body" style="font-size:0.875rem;color:var(--text-sec);line-height:1.7;">
+                            <strong>Berechnungsgrundlage:</strong> Tagesausgaben pro Kopf im Urlaubertourismus (in entgeltlichen Unterk&uuml;nften, ohne Anreise): <strong>231 &euro; Winter</strong>, <strong>164 &euro; Sommer</strong> (Quelle: Tourismus-Monitor Austria, Vorarlberg-Ergebnisse 2024). Die Werte sind Sch&auml;tzungen und basieren auf den N&auml;chtigungszahlen multipliziert mit den durchschnittlichen Tagesausgaben.
                         </div>
-                    </div>
-                </div>
-                <div class="card" style="margin-top: 24px;">
-                    <div class="card-body" style="font-size:0.875rem;color:var(--text-sec);line-height:1.7;">
-                        <strong>Berechnungsgrundlage:</strong> Tagesausgaben pro Kopf im Urlaubertourismus (in entgeltlichen Unterkünften, ohne Anreise): <strong>231 € Winter</strong>, <strong>164 € Sommer</strong> (Quelle: Tourismus-Monitor Austria, Vorarlberg-Ergebnisse 2024). Die Werte sind Schätzungen und basieren auf den Nächtigungszahlen multipliziert mit den durchschnittlichen Tagesausgaben.
                     </div>
                 </div>
             </section>
+
+            <!-- WERBEPLATZ unten -->
+            <div class="ad-space" id="ad-bottom">
+                <div class="ad-space-label">Werbung</div>
+                <div class="ad-space-title">Werben Sie auf kleinwalsertal-statistik.at</div>
+                <div class="ad-space-desc">Ihre Marke vor der richtigen Zielgruppe. Kontaktieren Sie uns f&uuml;r individuelle Werbem&ouml;glichkeiten.</div>
+                <a href="mailto:walserfly@gmail.com?subject=Werbung%20auf%20kleinwalsertal-statistik.at" class="ad-space-cta">Werbeplatz anfragen</a>
+            </div>
 
         </div>
     </main>
@@ -537,28 +640,43 @@
             <div class="footer-content">
                 <div class="footer-brand">
                     <h3>Kleinwalsertal Tourismus Statistik</h3>
-                    <p>Offizielle Tourismusdaten der Gemeinde Mittelberg, bereitgestellt vom Land Vorarlberg als Open Government Data.</p>
+                    <p>Tourismusdaten der Gemeinde Mittelberg, bereitgestellt vom Land Vorarlberg als Open Government Data.</p>
                 </div>
                 <div class="footer-section">
                     <h4>Datenquellen</h4>
                     <ul class="footer-links">
-                        <li><a href="https://www.data.gv.at/katalog/dataset/land-vorarlberg_tourismusstatistik" target="_blank">data.gv.at</a></li>
-                        <li><a href="https://vorarlberg.at/-/wirtschaft-tourismus-verkehr" target="_blank">Land Vorarlberg</a></li>
+                        <li><a href="https://www.data.gv.at/katalog/dataset/land-vorarlberg_tourismusstatistik" target="_blank" rel="noopener">data.gv.at</a></li>
+                        <li><a href="https://vorarlberg.at/-/wirtschaft-tourismus-verkehr" target="_blank" rel="noopener">Land Vorarlberg</a></li>
+                        <li><a href="Wetter.html">Wetter &amp; Schnee</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h4>Rechtliches</h4>
                     <ul class="footer-links">
-                        <li><a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0 Lizenz</a></li>
+                        <li><a href="impressum.html">Impressum</a></li>
+                        <li><a href="datenschutz.html">Datenschutz</a></li>
+                        <li><a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0 Lizenz</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <span>© 2026 · Daten: Land Vorarlberg (OGD)</span>
-                <span>Stand: 12. Februar 2026</span>
+                <span>&copy; 2026 Claudio Scheiwiller &middot; Daten: Land Vorarlberg (OGD)</span>
+                <span id="footerDate">Stand: Februar 2026</span>
             </div>
         </div>
     </footer>
+
+    <!-- Cookie Banner -->
+    <div class="cookie-banner" id="cookieBanner">
+        <div class="cookie-text">
+            Diese Webseite verwendet Cookies f&uuml;r die Analyse mit Google Analytics. Technisch notwendige Cookies (Theme-Einstellung) werden immer gesetzt.
+            <a href="datenschutz.html">Mehr erfahren</a>
+        </div>
+        <div class="cookie-buttons">
+            <button class="cookie-btn cookie-btn-reject" onclick="handleCookies('rejected')">Nur notwendige</button>
+            <button class="cookie-btn cookie-btn-accept" onclick="handleCookies('accepted')">Alle akzeptieren</button>
+        </div>
+    </div>
 
     <script>
         const CONFIG = {
@@ -701,7 +819,45 @@
             }
         };
 
-        document.addEventListener('DOMContentLoaded', () => { initTheme(); initEvents(); loadData(); });
+        // Accordion functions
+        function toggleAccordion(el) {
+            const body = el.nextElementSibling;
+            const isOpen = el.classList.contains('open');
+            el.classList.toggle('open');
+            body.classList.toggle('open');
+            if (!isOpen) {
+                // Trigger chart resize after opening
+                setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 50);
+            }
+            trackEvent('accordion_toggle', 'UI', el.querySelector('h2')?.textContent?.trim()?.substring(0, 30));
+        }
+        function openAccordion(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (!section) return;
+            const toggle = section.querySelector('.accordion-toggle');
+            const body = section.querySelector('.accordion-body');
+            if (toggle && body && !toggle.classList.contains('open')) {
+                toggle.classList.add('open');
+                body.classList.add('open');
+                setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 50);
+            }
+        }
+
+        // Cookie Banner
+        function handleCookies(choice) {
+            localStorage.setItem('cookie-consent', choice);
+            document.getElementById('cookieBanner').classList.add('hidden');
+            if (choice === 'accepted') { loadGA(); }
+            trackEvent('cookie_consent', 'Privacy', choice);
+        }
+        function initCookieBanner() {
+            const consent = localStorage.getItem('cookie-consent');
+            if (consent) {
+                document.getElementById('cookieBanner').classList.add('hidden');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => { initTheme(); initCookieBanner(); initEvents(); loadData(); });
 
         function initTheme() {
             const saved = localStorage.getItem('theme');
@@ -962,9 +1118,12 @@
                 const el = document.getElementById(id); if (!el) return;
                 el.innerHTML = ''; for (let y = max; y >= min; y--) el.innerHTML += `<option value="${y}">${y}</option>`;
             });
-            // Defaults: 10 Jahre
-            document.getElementById('yearFrom').value = Math.max(min, max - 10);
-            document.getElementById('yearTo').value = max;
+            // Defaults: 10 Jahre, Zeitverlauf endet bei letztem vollen Jahr
+            var lastFullYear = max;
+            var y2026entry = yearlyData.find(function(d) { return d.year === max && d.status === 'estimated'; });
+            if (y2026entry) lastFullYear = max - 1;
+            document.getElementById('yearFrom').value = Math.max(min, lastFullYear - 10);
+            document.getElementById('yearTo').value = lastFullYear;
             document.getElementById('countryTrendFrom').value = Math.max(min, 2016);
             document.getElementById('countryTrendTo').value = 2025;
             document.getElementById('monthlyYear').value = 2025;
@@ -992,7 +1151,22 @@
             }
             const cD = countryData[2025] || FALLBACK.countries[2025];
             if (cD) { const sorted = Object.entries(cD).sort((a, b) => b[1] - a[1]); const top = sorted[0]; if (top) { document.getElementById('kpiTopCountry').textContent = CONFIG.COUNTRY_FLAGS[top[0]] || '🌍'; const total = sorted.reduce((s, [, v]) => s + v, 0); document.getElementById('kpiTopCountryPct').textContent = `${top[0]} ${(top[1] / total * 100).toFixed(0)}%`; } }
-            if (y2026) document.getElementById('kpi2026').textContent = formatNum(y2026.nights);
+            if (y2026) {
+                document.getElementById('kpi2026').textContent = formatNum(y2026.nights);
+                // Show monthly context for partial year
+                var m2026 = monthlyData[2026] || FALLBACK.monthly[2026] || {};
+                var monthCount = Object.keys(m2026).length;
+                var monthNames = Object.keys(m2026).map(function(k) { return CONFIG.MONTHS_DE[parseInt(k)-1]; }).join(', ');
+                document.getElementById('kpi2026detail').textContent = 'vorl\u00e4ufig \u00b7 ' + (monthCount === 1 ? 'nur ' + monthNames : monthCount + ' Monate');
+                // Compare with same month previous year
+                var m2025 = monthlyData[2025] || FALLBACK.monthly[2025] || {};
+                var sum2026 = Object.values(m2026).reduce(function(a,b){return a+b;},0);
+                var sum2025same = Object.keys(m2026).reduce(function(s,k){return s+(m2025[k]||0);},0);
+                if (sum2025same > 0) {
+                    var pctVsLast = ((sum2026 - sum2025same) / sum2025same * 100).toFixed(1);
+                    document.getElementById('kpi2026detail').textContent += ' \u00b7 ' + (parseFloat(pctVsLast) >= 0 ? '+' : '') + pctVsLast + '% vs. Vorjahr';
+                }
+            }
         }
 
         function setTrend(id, change) { const el = document.getElementById(id); if (!el) return; const pos = parseFloat(change) >= 0; el.className = 'kpi-trend ' + (pos ? 'up' : 'down'); el.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="${pos ? 'M18 15l-6-6-6 6' : 'M6 9l6 6 6-6'}"/></svg>${pos ? '+' : ''}${change}%`; }
