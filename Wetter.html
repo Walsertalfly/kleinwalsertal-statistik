@@ -610,6 +610,122 @@ async function fetchOpenMeteo(season) {
 }
 
 // ══════════════════════════════════════════════════════════
+// DATA FETCHING: Open-Meteo FORECAST API (aktuelle Daten!)
+// Für die laufende Saison: bis gestern, inkl. snow_depth (hourly)
+// ══════════════════════════════════════════════════════════
+async function fetchOpenMeteoForecast(season) {
+  // Forecast API liefert Daten bis gestern (mit past_days)
+  const get = async (loc) => {
+    // past_days=92 gibt 3 Monate zurück, forecast_days=0 = keine Zukunft
+    const dailyVars = OM_DAILY_VARS;
+    const hourlyVars = 'snow_depth';
+    const u = `https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}&daily=${dailyVars}&hourly=${hourlyVars}&past_days=92&forecast_days=1&timezone=Europe/Berlin`;
+    log(`Open-Meteo Forecast ${loc.name}: aktuell (past_days=92)`, 'info');
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+
+    try {
+      const r = await fetch(u, { signal: controller.signal });
+      clearTimeout(timeout);
+      if (!r.ok) {
+        const body = await r.text().catch(() => '');
+        throw new Error(`HTTP ${r.status}: ${body.substring(0, 200)}`);
+      }
+      const json = await r.json();
+      if (json.error) throw new Error(json.reason || json.error);
+      return json;
+    } catch (e) {
+      clearTimeout(timeout);
+      if (e.name === 'AbortError') throw new Error('Timeout nach 15s');
+      throw e;
+    }
+  };
+
+  try {
+    const [v, m] = await Promise.all([get(LOC.valley), get(LOC.mountain)]);
+    log(`Open-Meteo Forecast: ✓ Tal + Berg geladen (bis gestern)`, 'ok');
+    return { valley: v, mountain: m };
+  } catch (e) {
+    log(`Open-Meteo Forecast: ✗ ${e.message}`, 'warn');
+    return null;
+  }
+}
+
+// Extrahiere tägliche Schneehöhe aus stündlichen Forecast-Daten (max pro Tag)
+function extractDailySnowDepth(forecastData) {
+  if (!forecastData?.hourly?.time || !forecastData?.hourly?.snow_depth) return null;
+  const hourlyTime = forecastData.hourly.time;
+  const hourlySnow = forecastData.hourly.snow_depth;
+
+  // Gruppiere nach Tag, nimm Maximum
+  const dayMap = {};
+  for (let i = 0; i < hourlyTime.length; i++) {
+    const day = hourlyTime[i].split('T')[0];
+    const val = hourlySnow[i];
+    if (val != null && val >= 0) {
+      if (!dayMap[day]) dayMap[day] = [];
+      dayMap[day].push(val);
+    }
+  }
+
+  const days = Object.keys(dayMap).sort();
+  return {
+    time: days,
+    snow_depth: days.map(d => {
+      const vals = dayMap[d];
+      const maxVal = Math.max(...vals);
+      return maxVal * 100; // Open-Meteo snow_depth ist in Metern → cm
+    })
+  };
+}
+
+// Merge Archive-Daten mit Forecast-Daten (Forecast füllt fehlende/neuere Tage auf)
+function mergeWeatherData(archiveData, forecastData) {
+  if (!forecastData) return archiveData;
+  if (!archiveData) return forecastData;
+
+  // Merge daily arrays: nimm archiveData als Basis, hänge neuere Tage aus forecast an
+  const merged = JSON.parse(JSON.stringify(archiveData));
+  const archiveDates = new Set(merged.daily.time);
+  const forecastDaily = forecastData.daily;
+
+  if (!forecastDaily?.time) return merged;
+
+  for (let i = 0; i < forecastDaily.time.length; i++) {
+    const date = forecastDaily.time[i];
+    if (!archiveDates.has(date)) {
+      // Neuer Tag aus Forecast — anhängen
+      merged.daily.time.push(date);
+      for (const key of Object.keys(merged.daily)) {
+        if (key === 'time') continue;
+        if (merged.daily[key] && forecastDaily[key]) {
+          merged.daily[key].push(forecastDaily[key][i]);
+        }
+      }
+    }
+  }
+  return merged;
+}
+
+// Merge Snow-Depth Zeitreihen
+function mergeSnowData(existing, forecastSnow) {
+  if (!forecastSnow) return existing;
+  if (!existing) return forecastSnow;
+
+  const merged = { time: [...existing.time], snow_depth: [...existing.snow_depth] };
+  const existingDates = new Set(merged.time);
+
+  for (let i = 0; i < forecastSnow.time.length; i++) {
+    if (!existingDates.has(forecastSnow.time[i])) {
+      merged.time.push(forecastSnow.time[i]);
+      merged.snow_depth.push(forecastSnow.snow_depth[i]);
+    }
+  }
+  return merged;
+}
+
+// ══════════════════════════════════════════════════════════
 // LOAD ALL
 // ══════════════════════════════════════════════════════════
 async function loadAll() {
@@ -648,16 +764,51 @@ async function loadAll() {
     }
 
     // If GeoSphere failed, simulate snow depth as fallback
-    // (Open-Meteo snow_depth is hourly only, not available in our daily request)
     if (!snowData[s.id] && omData) {
       snowData[s.id] = {
         valley: { time: omData.valley.daily.time, snow_depth: simulateSnowDepth(omData.valley.daily) },
         mountain: { time: omData.mountain.daily.time, snow_depth: simulateSnowDepth(omData.mountain.daily) }
       };
-      log(`${s.id}: Schneehöhe simuliert (Degree-Day-Modell) – GeoSphere für echte Daten benötigt`, 'warn');
+      log(`${s.id}: Schneehöhe simuliert (Degree-Day-Modell)`, 'warn');
     }
 
     await new Promise(r => setTimeout(r, 250));
+  }
+
+  // 3) Für die aktuelle Saison: Forecast API nachladen (hat Daten bis gestern!)
+  const currentSeason = SEASONS[SEASONS.length - 1];
+  try {
+    statusEl.innerHTML = `<div class="spinner"></div> Lade aktuelle Daten…`;
+    const forecastData = await fetchOpenMeteoForecast(currentSeason);
+    if (forecastData) {
+      // Merge Wetterdaten (Archive + Forecast für neuere Tage)
+      if (weatherData[currentSeason.id]) {
+        weatherData[currentSeason.id] = {
+          valley: mergeWeatherData(weatherData[currentSeason.id].valley, forecastData.valley),
+          mountain: mergeWeatherData(weatherData[currentSeason.id].mountain, forecastData.mountain)
+        };
+        log(`${currentSeason.id}: Wetterdaten mit Forecast aktualisiert (bis gestern)`, 'ok');
+      }
+
+      // Schneehöhe aus Forecast-Hourly-Daten extrahieren
+      const vSnowForecast = extractDailySnowDepth(forecastData.valley);
+      const mSnowForecast = extractDailySnowDepth(forecastData.mountain);
+
+      if (vSnowForecast && mSnowForecast) {
+        if (snowData[currentSeason.id]) {
+          // Merge: bestehende Daten + neuere Tage aus Forecast
+          snowData[currentSeason.id] = {
+            valley: mergeSnowData(snowData[currentSeason.id].valley, vSnowForecast),
+            mountain: mergeSnowData(snowData[currentSeason.id].mountain, mSnowForecast)
+          };
+        } else {
+          snowData[currentSeason.id] = { valley: vSnowForecast, mountain: mSnowForecast };
+        }
+        log(`${currentSeason.id}: Schneehöhe aus Forecast aktualisiert (bis gestern)`, 'ok');
+      }
+    }
+  } catch (e) {
+    log(`Forecast-Nachladen fehlgeschlagen: ${e.message}`, 'warn');
   }
 
   // Update status + Ampel
@@ -665,8 +816,9 @@ async function loadAll() {
     ? `<span style="color:var(--tourism)">●</span> ${loaded} Saisonen geladen`
     : `<span style="color:var(--warn)">●</span> Fehler beim Laden`;
 
-  // Ampel: Schneehöhe
-  updateAmpel('Snow', geoSphereAvailable ? 'green' : (loaded > 0 ? 'yellow' : 'red'));
+  // Ampel: Schneehöhe (grün wenn GeoSphere ODER Forecast snow_depth vorhanden)
+  const hasSnowData = Object.keys(snowData).length > 0;
+  updateAmpel('Snow', geoSphereAvailable ? 'green' : (hasSnowData ? 'green' : 'red'));
   // Ampel: Wetter
   updateAmpel('Wetter', loaded > 0 ? 'green' : 'red');
   // Ampel: Tourismus (set after tourism load)
