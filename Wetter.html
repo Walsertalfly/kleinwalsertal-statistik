@@ -404,35 +404,76 @@ const OM_DAILY_VARS = 'snowfall_sum,sunshine_duration,temperature_2m_max,tempera
 
 // ══════════════════════════════════════════════════════════
 // TOURISM DATA — Statistik Austria, Gemeinde Mittelberg
-// Quelle: STATcube / Beherbergungsstatistik
+// Quelle: Land Vorarlberg Open Government Data (data.gv.at)
 // ══════════════════════════════════════════════════════════
-// WICHTIG: Diese Daten MÜSSEN manuell aus Statistik Austria
-// aktualisiert werden (Open Data nur auf Bundesland-Ebene).
-// Für Gemeinde-Level: STATcube Abo oder manuelle Recherche.
+// Echte Gemeinde-Daten werden von data.gv.at geladen (gleiche Quelle wie Hauptseite)
+// Fallback: Geschaetzte Werte falls API nicht erreichbar
 //
 // Format: { year: { month: overnights } }
-// Nov+Dez gehören zum Vorjahres-Tourismusjahr,
-// Jan-Apr zum angegebenen Jahr
-//
-// Datenstand: Jänner 2026
-// TODO: Update mit echten Werten aus STATcube/Statistik Austria
-// Markierung: (v) = verifiziert, (s) = Schätzung basierend auf Vorarlberg-Trend
-const TOURISM = {
-  // Saison 19/20: COVID-Lockdown ab März 2020
-  2020: { 11: 56789, 12: 41234, 1: 84567, 2: 76890, 3: 12345, 4: 0 },    // (s) COVID
-  // Saison 20/21: COVID – Beherbergungsverbot Winter
-  2021: { 11: 5678,  12: 8901,  1: 2345,  2: 3456,  3: 45678, 4: 32100 }, // (s) COVID
-  // Saison 21/22: Erholung
-  2022: { 11: 57234, 12: 128456, 1: 165890, 2: 152345, 3: 135678, 4: 51234 },  // (s)
-  // Saison 22/23
-  2023: { 11: 61234, 12: 118567, 1: 172345, 2: 159876, 3: 139012, 4: 53456 },  // (s)
-  // Saison 23/24
-  2024: { 11: 63456, 12: 112890, 1: 178901, 2: 165234, 3: 145678, 4: 56789 },  // (s)
-  // Saison 24/25 (abgeschlossen / vorläufig)
-  2025: { 11: 66789, 12: 92345,  1: 185234, 2: 170123, 3: 148000, 4: 55000 },  // (s) teilw. vorl.
-  // Saison 25/26 (aktuell, vorläufig)
-  2026: { 11: 68000, 12: 95000,  1: 188000, 2: 0,      3: 0,      4: 0 },      // (s) vorläufig
+const TOURISM_FALLBACK = {
+  2020: { 11: 56789, 12: 41234, 1: 84567, 2: 76890, 3: 12345, 4: 0 },
+  2021: { 11: 5678,  12: 8901,  1: 2345,  2: 3456,  3: 45678, 4: 32100 },
+  2022: { 11: 57234, 12: 128456, 1: 165890, 2: 152345, 3: 135678, 4: 51234 },
+  2023: { 11: 61234, 12: 118567, 1: 172345, 2: 159876, 3: 139012, 4: 53456 },
+  2024: { 11: 63456, 12: 112890, 1: 178901, 2: 165234, 3: 145678, 4: 56789 },
+  2025: { 11: 66789, 12: 92345,  1: 185234, 2: 170123, 3: 148000, 4: 55000 },
+  2026: { 11: 68000, 12: 95000,  1: 188000, 2: 0,      3: 0,      4: 0 },
 };
+let TOURISM = JSON.parse(JSON.stringify(TOURISM_FALLBACK));
+let tourismDataSource = 'fallback'; // 'live' or 'fallback'
+
+// Lade echte Tourismus-Daten von data.gv.at (gleiche Quelle wie Hauptseite)
+async function loadTourismFromCSV() {
+  const urls = [
+    'data/hauptgliederung.csv',
+    'https://data.vorarlberg.gv.at/katalog/wirtschaft/wirfin_vbg_tour_ankuenfte_naechtigungen_hauptgliederung_monatlich.csv'
+  ];
+  for (const url of urls) {
+    try {
+      const r = await fetch(url);
+      if (!r.ok) continue;
+      const text = await r.text();
+      if (!text || text.length < 500 || text.includes('<!DOCTYPE')) continue;
+
+      const lines = text.split('\n').filter(l => l.trim());
+      const delim = lines[0].includes(';') ? ';' : ',';
+      const headers = lines[0].toLowerCase().split(delim).map(x => x.trim().replace(/"/g, ''));
+      const ci = {
+        year: headers.findIndex(x => x === 'berichtsjahr' || /jahr/i.test(x)),
+        month: headers.findIndex(x => x === 'monat'),
+        gkz: headers.findIndex(x => x === 'gkz'),
+        nights: headers.findIndex(x => x === 'naechtigungen' || x === 'nächtigungen')
+      };
+      if (ci.year < 0 || ci.month < 0 || ci.nights < 0) continue;
+
+      const result = {};
+      for (let i = 1; i < lines.length; i++) {
+        const v = lines[i].split(delim).map(x => x.trim().replace(/"/g, ''));
+        const gkz = ci.gkz >= 0 ? v[ci.gkz] : '';
+        if (gkz !== '80228') continue;
+        const year = parseInt(v[ci.year]) || 0;
+        if (year < 2018 || year > 2030) continue;
+        const month = parseInt(v[ci.month]) || 0;
+        if (month < 1 || month > 12) continue;
+        const nights = parseInt((v[ci.nights] || '0').replace(/[.\s]/g, '').replace(',', '.')) || 0;
+        if (!result[year]) result[year] = {};
+        if (!result[year][month]) result[year][month] = 0;
+        result[year][month] += nights;
+      }
+
+      if (Object.keys(result).length >= 3) {
+        TOURISM = result;
+        tourismDataSource = 'live';
+        log('Tourismus-Daten LIVE von data.gv.at geladen (' + Object.keys(result).length + ' Jahre)', 'info');
+        return true;
+      }
+    } catch (e) {
+      log('Tourismus CSV Fehler: ' + e.message, 'warn');
+    }
+  }
+  log('Tourismus: Verwende Fallback-Daten', 'warn');
+  return false;
+}
 
 // ══════════════════════════════════════════════════════════
 // STATE
@@ -1223,10 +1264,13 @@ function render() {
 // ══════════════════════════════════════════════════════════
 async function init() {
   log('Dashboard-Start: Kleinwalsertal Wetter & Tourismus', 'info');
-  log(`Datenquellen: GeoSphere SNOWGRID (Schnee) + Open-Meteo (Wetter) + Statistik Austria (Tourismus)`, 'info');
+  log(`Datenquellen: GeoSphere SNOWGRID (Schnee) + Open-Meteo (Wetter) + data.gv.at (Tourismus)`, 'info');
+
+  // Echte Tourismus-Daten von data.gv.at laden
+  await loadTourismFromCSV();
 
   buildTabs();
-  
+
   try {
     await loadAll();
   } catch (e) {
