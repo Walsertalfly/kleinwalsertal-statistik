@@ -310,8 +310,7 @@
                             <select id="monthlyYear"></select>
                         </div>
                     </div>
-                    <div class="chart-container"><canvas id="monthlyChart"></canvas></div>
-                    <div id="monthlyComparison" style="margin-top:24px;"></div>
+                    <div id="monthlyComparison"></div>
                 </div>
             </section>
 
@@ -649,7 +648,7 @@
 
         let yearlyData = [], monthlyData = {}, countryData = {}, accommodationData = {};
         let comparisonData = {};
-        let mainChart, monthlyChart, countryPieChart, countryTrendChart, accommodationChart, comparisonChart, comparisonAccChart;
+        let mainChart, countryPieChart, countryTrendChart, accommodationChart, comparisonChart, comparisonAccChart;
         let seasonChart, seasonShareChart, occupancyChart, forecastChart, revenuePieChart, revenueTrendChart;
 
         // Wertschöpfung: Tagesausgaben pro Kopf (Quelle: TMA Vorarlberg 2024)
@@ -1162,70 +1161,6 @@
 
         function updateMonthlyChart() {
             const year = parseInt(document.getElementById('monthlyYear').value);
-            const data = monthlyData[year] || FALLBACK.monthly[year] || {};
-            const prevData = monthlyData[year - 1] || FALLBACK.monthly[year - 1] || {};
-            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            const values = CONFIG.MONTHS_DE.map((_, i) => data[i + 1] || 0);
-            const prevValues = CONFIG.MONTHS_DE.map((_, i) => prevData[i + 1] || 0);
-
-            // Prognose: Wo aktuelle Daten fehlen, Vorjahreswerte als gestrichelte Prognose
-            const forecastValues = CONFIG.MONTHS_DE.map((_, i) => {
-                const m = i + 1;
-                if (data[m] && data[m] > 0) return null; // Echte Daten vorhanden
-                return prevData[m] || null; // Vorjahreswert als Prognose
-            });
-
-            const ctx = document.getElementById('monthlyChart').getContext('2d');
-            if (monthlyChart) monthlyChart.destroy();
-            monthlyChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: CONFIG.MONTHS_FULL,
-                    datasets: [
-                        {
-                            label: year + ' (Ist)',
-                            data: values,
-                            backgroundColor: values.map((v, i) => v === 0 ? 'rgba(200,200,200,0.15)' : (i >= 10 || i <= 2 ? 'rgba(30,58,95,0.8)' : 'rgba(74,155,127,0.7)')),
-                            borderRadius: 4,
-                            order: 1
-                        },
-                        {
-                            label: (year - 1) + ' (Vorjahr)',
-                            data: prevValues,
-                            type: 'line',
-                            borderColor: '#B35C00',
-                            backgroundColor: 'transparent',
-                            borderWidth: 2,
-                            borderDash: [6, 3],
-                            pointRadius: 3,
-                            pointBackgroundColor: '#B35C00',
-                            tension: 0.3,
-                            order: 0
-                        },
-                        {
-                            label: 'Prognose (Vorjahresbasis)',
-                            data: forecastValues,
-                            backgroundColor: 'rgba(201,162,39,0.25)',
-                            borderColor: 'rgba(201,162,39,0.6)',
-                            borderWidth: 1,
-                            borderDash: [4, 4],
-                            borderRadius: 4,
-                            order: 2
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: {
-                        legend: { labels: { color: isDark ? '#e6edf3' : '#1a2a3a', padding: 16 } },
-                        tooltip: { callbacks: { label: c => c.raw != null && c.raw > 0 ? c.dataset.label + ': ' + formatNum(c.raw) + ' \u00dcN' : null } }
-                    },
-                    scales: {
-                        x: { ticks: { color: isDark ? '#e6edf3' : '#1a2a3a' }, grid: { display: false } },
-                        y: { ticks: { color: isDark ? '#e6edf3' : '#1a2a3a', callback: v => formatNum(v) }, grid: { color: isDark ? '#30363d' : '#e5eaef' } }
-                    }
-                }
-            });
             updateMonthlyComparison(year);
         }
 
@@ -1234,13 +1169,16 @@
             if (!el) return;
             const data = monthlyData[year] || FALLBACK.monthly[year] || {};
             const prev = monthlyData[year - 1] || FALLBACK.monthly[year - 1] || {};
-            // 3-Jahres-Schnitt: year-1, year-2, year-3
             const y1 = monthlyData[year - 1] || FALLBACK.monthly[year - 1] || {};
             const y2 = monthlyData[year - 2] || FALLBACK.monthly[year - 2] || {};
             const y3 = monthlyData[year - 3] || FALLBACK.monthly[year - 3] || {};
 
+            // Tage pro Monat (Schaltjahr wird ignoriert, genug genau)
+            const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
             let rows = '';
-            let totalCurr = 0, totalPrev = 0, totalAvg3 = 0;
+            let totalCurr = 0, totalPrev = 0, totalAvg3 = 0, totalPrognose = 0;
+            let totalDaysCurr = 0, totalDaysPrev = 0;
             let hasAnyData = false;
 
             for (let m = 1; m <= 12; m++) {
@@ -1248,28 +1186,54 @@
                 const prvVal = prev[m] || 0;
                 const avg3vals = [y1[m] || 0, y2[m] || 0, y3[m] || 0].filter(v => v > 0);
                 const avg3 = avg3vals.length > 0 ? avg3vals.reduce((a, b) => a + b, 0) / avg3vals.length : 0;
+                const days = daysInMonth[m - 1];
+                const isPrognose = (curr === 0 && prvVal > 0);
 
-                if (curr === 0 && prvVal === 0) continue;
+                if (curr === 0 && prvVal === 0 && avg3 === 0) continue;
                 hasAnyData = true;
+
+                // Prognose: Vorjahreswert verwenden wenn aktuelles Jahr noch keine Daten hat
+                const displayVal = isPrognose ? prvVal : curr;
+                const progLabel = isPrognose ? ' *' : '';
+
                 totalCurr += curr;
                 totalPrev += prvVal;
                 totalAvg3 += avg3;
+                if (isPrognose) totalPrognose += prvVal;
 
-                const pctVJ = prvVal > 0 ? ((curr - prvVal) / prvVal * 100) : null;
-                const pct3J = avg3 > 0 ? ((curr - avg3) / avg3 * 100) : null;
+                // Differenz in absoluten Zahlen und pro Tag
+                const diffVJ = (curr > 0 && prvVal > 0) ? curr - prvVal : null;
+                const diffPerDay = diffVJ !== null ? Math.round(diffVJ / days) : null;
+                const pctVJ = (curr > 0 && prvVal > 0) ? ((curr - prvVal) / prvVal * 100) : null;
+                const pct3J = (curr > 0 && avg3 > 0) ? ((curr - avg3) / avg3 * 100) : null;
+
+                if (curr > 0) { totalDaysCurr += days; }
+                if (prvVal > 0) { totalDaysPrev += days; }
 
                 const fmtPct = (p) => {
-                    if (p === null || curr === 0) return '<span style="color:var(--text-muted)">—</span>';
+                    if (p === null) return '<span style="color:var(--text-muted)">—</span>';
                     const pos = p >= 0;
                     const col = pos ? 'var(--accent)' : 'var(--sunset)';
                     return `<span style="color:${col};font-weight:600">${pos ? '+' : ''}${p.toFixed(1)}%</span>`;
                 };
+                const fmtDiff = (d) => {
+                    if (d === null) return '<span style="color:var(--text-muted)">—</span>';
+                    const pos = d >= 0;
+                    const col = pos ? 'var(--accent)' : 'var(--sunset)';
+                    return `<span style="color:${col};font-weight:600">${pos ? '+' : ''}${formatNum(d)}</span>`;
+                };
 
-                rows += `<tr>
-                    <td style="font-weight:600">${CONFIG.MONTHS_FULL[m - 1]}</td>
-                    <td style="text-align:right;font-variant-numeric:tabular-nums">${curr > 0 ? formatNum(curr) : '—'}</td>
+                const valStyle = isPrognose
+                    ? 'text-align:right;font-variant-numeric:tabular-nums;color:var(--text-muted);font-style:italic'
+                    : 'text-align:right;font-variant-numeric:tabular-nums';
+
+                rows += `<tr${isPrognose ? ' style="opacity:0.65"' : ''}>
+                    <td style="font-weight:600">${CONFIG.MONTHS_FULL[m - 1]}${progLabel}</td>
+                    <td style="${valStyle}">${isPrognose ? '(' + formatNum(prvVal) + ')' : (curr > 0 ? formatNum(curr) : '—')}</td>
                     <td style="text-align:right;font-variant-numeric:tabular-nums">${prvVal > 0 ? formatNum(prvVal) : '—'}</td>
                     <td style="text-align:center">${fmtPct(pctVJ)}</td>
+                    <td style="text-align:center">${fmtDiff(diffVJ)}</td>
+                    <td style="text-align:center">${fmtDiff(diffPerDay)}</td>
                     <td style="text-align:right;font-variant-numeric:tabular-nums">${avg3 > 0 ? formatNum(Math.round(avg3)) : '—'}</td>
                     <td style="text-align:center">${fmtPct(pct3J)}</td>
                 </tr>`;
@@ -1280,12 +1244,24 @@
             // Summenzeile
             const totalPctVJ = totalPrev > 0 ? ((totalCurr - totalPrev) / totalPrev * 100) : null;
             const totalPct3J = totalAvg3 > 0 ? ((totalCurr - totalAvg3) / totalAvg3 * 100) : null;
-            const fmtPctTotal = (p) => {
+            const totalDiffVJ = (totalCurr > 0 && totalPrev > 0) ? totalCurr - totalPrev : null;
+            const totalDiffPerDay = (totalDiffVJ !== null && totalDaysCurr > 0) ? Math.round(totalDiffVJ / totalDaysCurr) : null;
+            const fmtPctB = (p) => {
                 if (p === null) return '—';
                 const pos = p >= 0;
                 const col = pos ? 'var(--accent)' : 'var(--sunset)';
                 return `<span style="color:${col};font-weight:700">${pos ? '+' : ''}${p.toFixed(1)}%</span>`;
             };
+            const fmtDiffB = (d) => {
+                if (d === null) return '—';
+                const pos = d >= 0;
+                const col = pos ? 'var(--accent)' : 'var(--sunset)';
+                return `<span style="color:${col};font-weight:700">${pos ? '+' : ''}${formatNum(d)}</span>`;
+            };
+
+            const prognoseHint = totalPrognose > 0
+                ? `<p style="margin-top:12px;font-size:0.8rem;color:var(--text-muted);">* Prognose = Vorjahreswert, da ${year} noch keine Daten vorliegen. Werte in Klammern.</p>`
+                : '';
 
             el.innerHTML = `
                 <div class="table-wrapper">
@@ -1294,22 +1270,27 @@
                         <th style="text-align:left">Monat</th>
                         <th style="text-align:right">${year}</th>
                         <th style="text-align:right">${year - 1}</th>
-                        <th style="text-align:center">% Vorjahr</th>
-                        <th style="text-align:right">Ø ${year-3}–${year-1}</th>
-                        <th style="text-align:center">% Ø 3 Jahre</th>
+                        <th style="text-align:center">%</th>
+                        <th style="text-align:center">+/−</th>
+                        <th style="text-align:center">pro Tag</th>
+                        <th style="text-align:right">&Oslash; ${year-3}&ndash;${year-1}</th>
+                        <th style="text-align:center">% &Oslash;</th>
                     </tr></thead>
                     <tbody>${rows}
                     <tr style="border-top:2px solid var(--border);font-weight:700">
                         <td>Gesamt</td>
                         <td style="text-align:right">${formatNum(totalCurr)}</td>
                         <td style="text-align:right">${formatNum(totalPrev)}</td>
-                        <td style="text-align:center">${fmtPctTotal(totalPctVJ)}</td>
+                        <td style="text-align:center">${fmtPctB(totalPctVJ)}</td>
+                        <td style="text-align:center">${fmtDiffB(totalDiffVJ)}</td>
+                        <td style="text-align:center">${fmtDiffB(totalDiffPerDay)}</td>
                         <td style="text-align:right">${formatNum(Math.round(totalAvg3))}</td>
-                        <td style="text-align:center">${fmtPctTotal(totalPct3J)}</td>
+                        <td style="text-align:center">${fmtPctB(totalPct3J)}</td>
                     </tr>
                     </tbody>
                 </table>
                 </div>
+                ${prognoseHint}
             `;
         }
 
