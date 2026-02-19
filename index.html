@@ -212,32 +212,42 @@
         .wx-mini-bar.sun { background: linear-gradient(90deg, #ffd54f, #ff8f00); }
         .wx-table tr.active-season { background: rgba(41,128,185,0.06); }
         .wx-table .covid-tag { color: #ef5350; font-size: 0.7rem; font-weight: 600; }
-        .wx-corr-box { padding: 20px; background: var(--snow); border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 16px; }
-        .wx-corr-result { font-size: 1.3rem; font-weight: 700; line-height: 1.4; }
-        .wx-corr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
-        .wx-corr-card { background: var(--surface); border-radius: var(--radius-sm); padding: 16px; border: 1px solid var(--border); }
-        .wx-corr-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-sec); margin-bottom: 4px; }
-        .wx-corr-val { font-size: 1.1rem; font-weight: 700; }
-        .wx-corr-detail { font-size: 0.8rem; color: var(--text-sec); margin-top: 2px; }
-        /* Visual Snow vs. Overnights comparison */
-        .wx-visual { display: flex; flex-direction: column; gap: 10px; }
-        .wx-visual-row { display: grid; grid-template-columns: 70px 1fr 1fr; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
-        .wx-visual-row:last-child { border-bottom: none; }
-        .wx-visual-row.covid { opacity: 0.45; }
-        .wx-visual-season { font-weight: 700; font-size: 0.9rem; }
-        .wx-visual-bar-wrap { display: flex; flex-direction: column; gap: 3px; }
-        .wx-visual-bar { height: 22px; border-radius: 6px; display: flex; align-items: center; padding: 0 8px; font-size: 0.7rem; font-weight: 600; color: white; white-space: nowrap; transition: width 0.5s ease; min-width: 20px; }
-        .wx-visual-bar.snow-bar { background: linear-gradient(90deg, #4fc3f7, #0288d1); }
-        .wx-visual-bar.nights-bar { background: linear-gradient(90deg, #81c784, #388e3c); }
-        .wx-visual-label { font-size: 0.7rem; color: var(--text-sec); margin-bottom: 2px; }
-        .wx-visual-header { display: grid; grid-template-columns: 70px 1fr 1fr; gap: 8px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-sec); padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+        /* Correlation Visual */
+        .wx-verdict { text-align: center; padding: 24px 20px; background: var(--snow); border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 20px; }
+        .wx-verdict-emoji { font-size: 2.5rem; margin-bottom: 8px; }
+        .wx-verdict-text { font-family: 'Playfair Display', Georgia, serif; font-weight: 700; font-size: 1.3rem; line-height: 1.3; margin-bottom: 6px; }
+        .wx-verdict-sub { font-size: 0.85rem; color: var(--text-sec); max-width: 500px; margin: 0 auto; line-height: 1.5; }
+        /* Barometer gauge */
+        .wx-barometer { margin: 16px 0 20px; }
+        .wx-barometer-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-sec); margin-bottom: 6px; text-align: center; }
+        .wx-barometer-track { position: relative; height: 24px; border-radius: 12px; overflow: hidden; background: linear-gradient(90deg, #ef5350 0%, #ffa726 25%, #ffd54f 50%, #81c784 75%, #4caf50 100%); opacity: 0.2; }
+        .wx-barometer-fill { position: absolute; top: 0; left: 0; height: 100%; border-radius: 12px; background: linear-gradient(90deg, #ef5350 0%, #ffa726 25%, #ffd54f 50%, #81c784 75%, #4caf50 100%); transition: width 1s ease; }
+        .wx-barometer-needle { position: absolute; top: -4px; width: 3px; height: 32px; background: var(--text); border-radius: 2px; transform: translateX(-50%); transition: left 1s ease; z-index: 2; }
+        .wx-barometer-labels { display: flex; justify-content: space-between; font-size: 0.65rem; color: var(--text-sec); margin-top: 4px; }
+        /* Ranking bars */
+        .wx-rank-row { display: grid; grid-template-columns: 65px 1fr; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
+        .wx-rank-row:last-child { border-bottom: none; }
+        .wx-rank-row.covid { opacity: 0.35; }
+        .wx-rank-season { font-weight: 700; font-size: 0.85rem; }
+        .wx-rank-bars { display: flex; flex-direction: column; gap: 3px; }
+        .wx-rank-bar-wrap { display: flex; align-items: center; gap: 6px; }
+        .wx-rank-icon { font-size: 0.7rem; width: 18px; text-align: center; flex-shrink: 0; }
+        .wx-rank-bar { height: 18px; border-radius: 5px; display: flex; align-items: center; padding: 0 7px; font-size: 0.65rem; font-weight: 600; color: white; transition: width 0.6s ease; min-width: 20px; }
+        .wx-rank-bar.snow { background: linear-gradient(90deg, #4fc3f7, #0288d1); }
+        .wx-rank-bar.nights { background: linear-gradient(90deg, #81c784, #388e3c); }
+        /* Best/Worst cards */
+        .wx-corr-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+        .wx-corr-card-item { background: var(--snow); border-radius: var(--radius-sm); padding: 14px; border: 1px solid var(--border); text-align: center; }
+        .wx-corr-card-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-sec); margin-bottom: 4px; }
+        .wx-corr-card-season { font-size: 1.1rem; font-weight: 700; margin-bottom: 2px; }
+        .wx-corr-card-detail { font-size: 0.75rem; color: var(--text-sec); }
         @media (max-width: 768px) {
             .wx-table { font-size: 0.75rem; }
             .wx-table th, .wx-table td { padding: 8px 4px; }
-            .wx-corr-grid { grid-template-columns: 1fr; }
-            .wx-visual-row { grid-template-columns: 55px 1fr 1fr; }
-            .wx-visual-header { grid-template-columns: 55px 1fr 1fr; }
-            .wx-visual-bar { height: 18px; font-size: 0.65rem; }
+            .wx-corr-cards { grid-template-columns: 1fr; }
+            .wx-rank-row { grid-template-columns: 55px 1fr; }
+            .wx-rank-bar { height: 15px; font-size: 0.6rem; }
+            .wx-verdict-text { font-size: 1.1rem; }
         }
 
         /* Cookie Banner */
@@ -336,14 +346,14 @@
                     </div>
                     <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
 
-                    <!-- 1) Visueller Vergleich: Schnee vs. Nächtigungen pro Saison -->
-                    <div id="wxVisualCompareWrap" style="display:none;">
-                        <h3 style="font-size:1rem;font-weight:600;margin-bottom:16px;">&#x2744; Schnee vs. N&auml;chtigungen &ndash; Saisonvergleich</h3>
+                    <!-- 1) Visuelles Ergebnis: Barometer + Verdict -->
+                    <div id="wxCorrSummary" style="display:none;"></div>
+
+                    <!-- 2) Visueller Vergleich: Schnee vs. Nächtigungen pro Saison -->
+                    <div id="wxVisualCompareWrap" style="display:none;margin-top:20px;">
+                        <h3 style="font-size:1rem;font-weight:600;margin-bottom:12px;">&#x2744;&#x1F6CF; Schnee &amp; G&auml;ste im Direktvergleich</h3>
                         <div id="wxVisualCompare"></div>
                     </div>
-
-                    <!-- 2) Korrelationsergebnis -->
-                    <div id="wxCorrSummary" style="display:none;margin-top:24px;"></div>
 
                     <!-- 3) Schneehöhe Saisonverlauf -->
                     <div id="wetterSnowTimeWrap" style="display:none;margin-top:24px;">
@@ -2341,30 +2351,61 @@
                 const result=this.computeCorrelation();
                 if(!result||result.pairs.length<3){el.innerHTML='<p style="color:var(--text-sec);padding:20px;">Noch nicht genug Daten f&uuml;r eine Auswertung.</p>';el.style.display='block';return;}
                 const r=result.r;
+                const gaugePct=Math.max(0,Math.min(100,(r+1)/2*100));
                 const sorted=[...result.pairs].sort((a,b)=>b.nights-a.nights);
                 const best=sorted[0],worst=sorted[sorted.length-1];
-                let emoji,fazit,color;
-                if(r>0.5){emoji='✅';color='var(--accent)';fazit='Ja! Mehr Schnee bringt mehr G&auml;ste ins Kleinwalsertal.';}
-                else if(r>0.2){emoji='📊';color='var(--gold)';fazit='Schnee hilft &mdash; aber gutes Wetter und andere Faktoren spielen auch eine Rolle.';}
-                else{emoji='🤔';color='var(--text-sec)';fazit='Der Zusammenhang ist schwach. Andere Faktoren wie Wetter, Feiertage und Trends sind wichtiger.';}
+
+                let emoji,verdictMain,verdictSub,color;
+                if(r>0.5){
+                    emoji='✅';color='var(--accent)';
+                    verdictMain='Ja &mdash; mehr Schnee bringt deutlich mehr G&auml;ste!';
+                    verdictSub='Winter mit viel Schnee haben klar mehr &Uuml;bernachtungen. Schnee ist ein wichtiger Faktor f&uuml;r den Tourismus.';
+                } else if(r>0.2){
+                    emoji='📊';color='var(--gold)';
+                    verdictMain='Schnee hilft &mdash; ist aber nicht alles';
+                    verdictSub='Es gibt einen Zusammenhang, aber auch Wetter, Ferien und Trends spielen eine Rolle.';
+                } else if(r>-0.2){
+                    emoji='🤔';color='var(--text-sec)';
+                    verdictMain='Kein klarer Zusammenhang';
+                    verdictSub='Schneeh&ouml;he und &Uuml;bernachtungen zeigen keinen starken Zusammenhang.';
+                } else {
+                    emoji='😮';color='var(--sunset)';
+                    verdictMain='&Uuml;berraschend &mdash; mehr Schnee, weniger G&auml;ste?';
+                    verdictSub='Das Ergebnis deutet auf einen negativen Zusammenhang hin.';
+                }
 
                 el.innerHTML=`
-                    <div class="wx-corr-box">
-                        <div class="wx-corr-result" style="color:${color}">${emoji} ${fazit}</div>
+                    <div class="wx-verdict">
+                        <div class="wx-verdict-emoji">${emoji}</div>
+                        <div class="wx-verdict-text" style="color:${color}">${verdictMain}</div>
+                        <div class="wx-verdict-sub">${verdictSub}</div>
                     </div>
-                    <div class="wx-corr-grid">
-                        <div class="wx-corr-card">
-                            <div class="wx-corr-label">🏆 Beste Saison</div>
-                            <div class="wx-corr-val" style="color:var(--accent)">Winter ${best.id}</div>
-                            <div class="wx-corr-detail">${this.fmtNum(best.nights)} N&auml;chtigungen &middot; &Oslash; ${best.snow.toFixed(0)}cm Schnee</div>
+                    <div class="wx-barometer">
+                        <div class="wx-barometer-label">Schnee-Tourismus-Barometer</div>
+                        <div style="position:relative;height:24px;border-radius:12px;overflow:visible;">
+                            <div class="wx-barometer-track"></div>
+                            <div class="wx-barometer-fill" style="width:${gaugePct}%"></div>
+                            <div class="wx-barometer-needle" style="left:${gaugePct}%"></div>
                         </div>
-                        <div class="wx-corr-card">
-                            <div class="wx-corr-label">📉 Schw&auml;chste Saison</div>
-                            <div class="wx-corr-val" style="color:var(--sunset)">Winter ${worst.id}</div>
-                            <div class="wx-corr-detail">${this.fmtNum(worst.nights)} N&auml;chtigungen &middot; &Oslash; ${worst.snow.toFixed(0)}cm Schnee</div>
+                        <div class="wx-barometer-labels">
+                            <span>&#x274C; Kein Zusammenhang</span>
+                            <span>&#x2796; Schwach</span>
+                            <span>&#x2705; Stark</span>
                         </div>
                     </div>
-                    <p style="margin-top:12px;font-size:0.825rem;color:var(--text-sec);line-height:1.6;">COVID-Winter 19/20 und 20/21 sind ausgenommen.</p>
+                    <div class="wx-corr-cards">
+                        <div class="wx-corr-card-item">
+                            <div class="wx-corr-card-label">&#x1F3C6; Beste Saison</div>
+                            <div class="wx-corr-card-season" style="color:var(--accent)">Winter ${best.id}</div>
+                            <div class="wx-corr-card-detail">${this.fmtNum(best.nights)} N&auml;chtigungen<br>&Oslash; ${best.snow.toFixed(0)} cm Schnee</div>
+                        </div>
+                        <div class="wx-corr-card-item">
+                            <div class="wx-corr-card-label">&#x1F4C9; Schw&auml;chste Saison</div>
+                            <div class="wx-corr-card-season" style="color:var(--sunset)">Winter ${worst.id}</div>
+                            <div class="wx-corr-card-detail">${this.fmtNum(worst.nights)} N&auml;chtigungen<br>&Oslash; ${worst.snow.toFixed(0)} cm Schnee</div>
+                        </div>
+                    </div>
+                    <p style="margin-top:10px;font-size:0.75rem;color:var(--text-sec);text-align:center;">COVID-Winter 19/20 und 20/21 sind aus der Berechnung ausgenommen.</p>
                 `;
                 el.style.display='block';
             },
@@ -2399,33 +2440,31 @@
             renderVisualCompare() {
                 const el=document.getElementById('wxVisualCompare');
                 if(!el) return;
-                // Sammle Daten pro Saison
                 const rows=[];
                 this.SEASONS.forEach(s=>{
                     const t=this.seasonTotals(s.id);if(!t)return;
                     const tour=this.getTourism(s.id);
                     const covid=s.id==='19/20'||s.id==='20/21';
-                    rows.push({id:s.id,snow:t.valley.avgSnow,maxSnow:t.mountain.maxSnow,nights:tour.total,covid});
+                    rows.push({id:s.id,snow:t.valley.avgSnow,nights:tour.total,covid});
                 });
                 if(!rows.length){el.innerHTML='<p style="color:var(--text-sec);">Keine Daten verf&uuml;gbar.</p>';return;}
 
                 const maxSnow=Math.max(...rows.map(r=>r.snow));
                 const maxNights=Math.max(...rows.map(r=>r.nights));
 
-                let html=`<div class="wx-visual">`;
-                html+=`<div class="wx-visual-header"><div>Saison</div><div>❄️ &Oslash; Schneeh&ouml;he Tal</div><div>🛏️ N&auml;chtigungen Winter</div></div>`;
-
+                let html='';
                 rows.forEach(r=>{
                     const snowPct=maxSnow>0?Math.round(r.snow/maxSnow*100):0;
                     const nightPct=maxNights>0?Math.round(r.nights/maxNights*100):0;
-                    html+=`<div class="wx-visual-row${r.covid?' covid':''}">
-                        <div class="wx-visual-season">${r.id}${r.covid?'<br><span style="font-size:0.6rem;color:var(--sunset);font-weight:400;">COVID</span>':''}</div>
-                        <div><div class="wx-visual-bar snow-bar" style="width:${snowPct}%">${r.snow.toFixed(0)} cm</div></div>
-                        <div><div class="wx-visual-bar nights-bar" style="width:${nightPct}%">${this.fmtNum(r.nights)}</div></div>
+                    html+=`<div class="wx-rank-row${r.covid?' covid':''}">
+                        <div class="wx-rank-season">${r.id}${r.covid?'<br><span style="font-size:0.6rem;color:var(--sunset);font-weight:400;">COVID</span>':''}</div>
+                        <div class="wx-rank-bars">
+                            <div class="wx-rank-bar-wrap"><div class="wx-rank-icon">&#x2744;</div><div class="wx-rank-bar snow" style="width:${snowPct}%">${r.snow.toFixed(0)} cm</div></div>
+                            <div class="wx-rank-bar-wrap"><div class="wx-rank-icon">&#x1F6CF;</div><div class="wx-rank-bar nights" style="width:${nightPct}%">${this.fmtNum(r.nights)}</div></div>
+                        </div>
                     </div>`;
                 });
-                html+=`</div>`;
-                html+=`<p style="margin-top:12px;font-size:0.8rem;color:var(--text-sec);">Je l&auml;nger der blaue Balken (Schnee), desto l&auml;nger sollte auch der gr&uuml;ne Balken (G&auml;ste) sein &ndash; wenn Schnee wirklich mehr G&auml;ste bringt.</p>`;
+                html+=`<p style="margin-top:10px;font-size:0.75rem;color:var(--text-sec);">Wenn Schnee G&auml;ste bringt, sollten blaue und gr&uuml;ne Balken &auml;hnlich lang sein.</p>`;
                 el.innerHTML=html;
             },
 
