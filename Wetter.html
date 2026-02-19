@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kleinwalsertal · Wetter & Nächtigungen · Live-Daten</title>
+<title>Wetter & Tourismus · Kleinwalsertal</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
@@ -75,23 +75,25 @@
   .dot-m { background: var(--mountain); }
   .dot-t { background: var(--tourism); }
 
-  /* ── Data Sources Banner ───────────── */
-  .sources-bar {
+  /* ── Ampel (Traffic Light) ──────────── */
+  .ampel-bar {
     max-width: 1280px; margin: 1rem auto 0; padding: 0 2rem;
     display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center;
   }
-  .src-tag {
-    display: inline-flex; align-items: center; gap: 5px;
-    font-size: 0.72rem; padding: 4px 10px; border-radius: 6px;
-    border: 1px solid; font-weight: 500;
+  .ampel {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.82rem; padding: 8px 16px; border-radius: 10px;
+    background: var(--card); border: 1px solid var(--border);
+    color: var(--text-muted); font-weight: 500;
   }
-  .src-geo { border-color: rgba(38,198,218,0.3); background: rgba(38,198,218,0.08); color: var(--api-geo); }
-  .src-om { border-color: rgba(171,71,188,0.3); background: rgba(171,71,188,0.08); color: var(--api-om); }
-  .src-stat { border-color: rgba(129,199,132,0.3); background: rgba(129,199,132,0.08); color: var(--tourism); }
-  .src-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
-  .src-dot-geo { background: var(--api-geo); }
-  .src-dot-om { background: var(--api-om); }
-  .src-dot-stat { background: var(--tourism); }
+  .ampel-dot {
+    width: 10px; height: 10px; border-radius: 50%; display: inline-block;
+    flex-shrink: 0;
+  }
+  .ampel-green { background: #4ade80; box-shadow: 0 0 6px rgba(74,222,128,0.4); }
+  .ampel-yellow { background: #fbbf24; box-shadow: 0 0 6px rgba(251,191,36,0.4); }
+  .ampel-red { background: #ef4444; box-shadow: 0 0 6px rgba(239,68,68,0.4); }
+  .ampel-gray { background: #6b7280; }
 
   /* ── Controls ─────────────────────── */
   .ctrl-bar {
@@ -144,8 +146,6 @@
   .b-v { background: var(--valley-bg); color: var(--valley); }
   .b-m { background: var(--mountain-bg); color: var(--mountain); }
   .b-t { background: var(--tourism-bg); color: var(--tourism); }
-  .b-geo { background: rgba(38,198,218,0.1); color: var(--api-geo); }
-  .b-om { background: rgba(171,71,188,0.1); color: var(--api-om); }
 
   /* ── KPIs ─────────────────────────── */
   .kpis {
@@ -180,19 +180,15 @@
 
   /* ── Correlation highlight ──────── */
   .corr-box {
-    display: flex; align-items: center; gap: 1.2rem;
     background: linear-gradient(135deg, rgba(79,195,247,0.06), rgba(129,199,132,0.06));
     border: 1px solid rgba(79,195,247,0.15);
-    border-radius: 12px; padding: 1.2rem 1.5rem;
+    border-radius: 12px; padding: 1.5rem;
     margin-top: 1rem;
   }
   .corr-r {
     font-family: 'Playfair Display', serif;
-    font-size: 2.5rem; font-weight: 900; line-height: 1;
-    min-width: 100px; text-align: center;
+    font-weight: 900; line-height: 1.3;
   }
-  .corr-text { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
-  .corr-text strong { color: var(--text); }
 
   /* ── Season table ────────────────── */
   .stable { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
@@ -212,34 +208,7 @@
   .bar-sun { background: linear-gradient(90deg, var(--sun), #ff8f00); }
   .bar-nights { background: linear-gradient(90deg, var(--tourism), var(--tourism2)); }
 
-  /* ── Data source note ────────────── */
-  .data-note {
-    max-width: 1280px; margin: 0 auto; padding: 0 2rem 2rem;
-    font-size: 0.75rem; color: var(--text-dim); line-height: 1.6;
-  }
-  .data-note a { color: var(--valley); text-decoration: none; }
-  .data-note a:hover { text-decoration: underline; }
 
-  /* ── Log panel ────────────────────── */
-  .log-toggle {
-    background: var(--card); border: 1px solid var(--border); border-radius: 8px;
-    padding: 8px 14px; color: var(--text-muted); font-family: inherit;
-    font-size: 0.78rem; cursor: pointer; transition: all 0.2s;
-  }
-  .log-toggle:hover { border-color: var(--border-light); color: var(--text); }
-  .log-panel {
-    display: none; max-width: 1280px; margin: 0.5rem auto 0; padding: 0 2rem;
-  }
-  .log-panel.open { display: block; }
-  .log-box {
-    background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
-    padding: 1rem; font-family: 'Courier New', monospace; font-size: 0.72rem;
-    color: var(--text-dim); max-height: 300px; overflow-y: auto; line-height: 1.6;
-  }
-  .log-ok { color: var(--tourism); }
-  .log-warn { color: var(--sun); }
-  .log-err { color: var(--warn); }
-  .log-info { color: var(--valley); }
 
   /* ── Responsive ──────────────────── */
   @media (max-width: 800px) {
@@ -257,25 +226,21 @@
 
 <div class="hero">
   <div class="hero-inner">
-    <h1>Wetter · Nächtigungen · Kleinwalsertal</h1>
+    <h1>Wetter &amp; Tourismus · Kleinwalsertal</h1>
     <div class="hero-sub">
       <span class="tag"><span class="dot dot-v"></span> Tal · Riezlern 1.086m</span>
       <span class="tag"><span class="dot dot-m"></span> Berg · Ifen / Kanzelwand ~2.000m</span>
-      <span class="tag"><span class="dot dot-t"></span> Übernachtungen · Gemeinde Mittelberg</span>
+      <span class="tag"><span class="dot dot-t"></span> Übernachtungen</span>
     </div>
   </div>
 </div>
 
-<div class="sources-bar">
-  <span class="src-tag src-geo"><span class="src-dot src-dot-geo"></span> GeoSphere Austria SNOWGRID · Schneehöhe 1km</span>
-  <span class="src-tag src-om"><span class="src-dot src-dot-om"></span> Open-Meteo ERA5 · Temperatur / Neuschnee / Sonne</span>
-  <span class="src-tag src-stat"><span class="src-dot src-dot-stat"></span> Statistik Austria · Nächtigungen</span>
-  <button class="log-toggle" onclick="toggleLog()">📋 API-Log</button>
+<div class="ampel-bar">
+  <span class="ampel" id="ampelSnow"><span class="ampel-dot ampel-gray" id="ampelDotSnow"></span> Schneehöhe</span>
+  <span class="ampel" id="ampelWetter"><span class="ampel-dot ampel-gray" id="ampelDotWetter"></span> Wetter</span>
+  <span class="ampel" id="ampelTourismus"><span class="ampel-dot ampel-gray" id="ampelDotTourismus"></span> Nächtigungen</span>
 </div>
 
-<div class="log-panel" id="logPanel">
-  <div class="log-box" id="logBox"></div>
-</div>
 
 <div class="ctrl-bar">
   <div class="tabs" id="tabs"></div>
@@ -294,7 +259,6 @@
   <div class="card full">
     <div class="card-h">
       <span class="card-t">❄️ Schneehöhe vs. 🛏️ Nächtigungen · Monatlich</span>
-      <span class="badge b-geo">SNOWGRID</span>
     </div>
     <div class="ch tall"><canvas id="dualChart"></canvas></div>
   </div>
@@ -302,39 +266,24 @@
   <div class="card full">
     <div class="card-h">
       <span class="card-t">Schneehöhe im Saisonverlauf · Tal vs. Berg</span>
-      <span class="badge b-geo">SNOWGRID 1km</span>
     </div>
     <div class="ch tall"><canvas id="snowTimeChart"></canvas></div>
   </div>
 
+  <div class="card full" id="corrSummary"></div>
+
   <div class="card">
     <div class="card-h">
-      <span class="card-t">Korrelation · Schnee ↔ Nächtigungen</span>
+      <span class="card-t">❄️ Mehr Schnee = Mehr Gäste?</span>
     </div>
     <div class="ch"><canvas id="corrChart"></canvas></div>
   </div>
 
   <div class="card">
     <div class="card-h">
-      <span class="card-t">Sonnenstunden ↔ Nächtigungen</span>
+      <span class="card-t">☀️ Mehr Sonne = Mehr Gäste?</span>
     </div>
     <div class="ch"><canvas id="sunCorrChart"></canvas></div>
-  </div>
-
-  <div class="card">
-    <div class="card-h">
-      <span class="card-t">Neuschnee pro Monat</span>
-      <span class="badge b-om">Open-Meteo</span>
-    </div>
-    <div class="ch"><canvas id="snowfallChart"></canvas></div>
-  </div>
-
-  <div class="card">
-    <div class="card-h">
-      <span class="card-t">Temperaturverlauf</span>
-      <span class="badge b-om">Open-Meteo</span>
-    </div>
-    <div class="ch"><canvas id="tempChart"></canvas></div>
   </div>
 
   <div class="card full">
@@ -344,36 +293,37 @@
     <div id="seasonTable"></div>
   </div>
 
-  <div class="card full" id="corrSummary"></div>
+  <div class="card">
+    <div class="card-h">
+      <span class="card-t">🌨️ Neuschnee pro Monat</span>
+    </div>
+    <div class="ch"><canvas id="snowfallChart"></canvas></div>
+  </div>
+
+  <div class="card">
+    <div class="card-h">
+      <span class="card-t">🌡️ Temperaturverlauf</span>
+    </div>
+    <div class="ch"><canvas id="tempChart"></canvas></div>
+  </div>
 </div>
 
-<div class="data-note">
-  <strong>Datenquellen:</strong>
-  Schneehöhe: <a href="https://data.hub.geosphere.at/dataset/snowgrid_cl-v2-1d-1km" target="_blank">GeoSphere Austria SNOWGRID-CL v2</a> (1km Raster, CC BY 4.0) ·
-  Temperatur, Neuschnee, Sonnenstunden: <a href="https://open-meteo.com/en/docs/historical-weather-api" target="_blank">Open-Meteo Historical Archive API</a> (ERA5/ERA5-Land, CC BY 4.0) ·
-  Nächtigungen: <a href="https://www.statistik.at/statistiken/tourismus-und-verkehr/tourismus/beherbergung/ankuenfte-naechtigungen" target="_blank">Statistik Austria Beherbergungsstatistik</a>, Gemeinde Mittelberg (monatlich auf Bundeslandebene via Open Data; Gemeindedaten manuell verifiziert aus STATcube).<br>
-  <em>Schneehöhen-Daten zeigen modellierte Werte auf 1km-Gitter. Abweichungen zu Punkt-Messungen sind möglich. Tourismus-Daten beziehen sich auf die politische Gemeinde Mittelberg (= Kleinwalsertal).</em>
-</div>
 
 <script>
 // ══════════════════════════════════════════════════════════
 // LOGGING
 // ══════════════════════════════════════════════════════════
-const logLines = [];
 function log(msg, type = 'info') {
   const ts = new Date().toLocaleTimeString('de-AT');
-  logLines.push({ ts, msg, type });
-  const box = document.getElementById('logBox');
-  if (box) {
-    box.innerHTML = logLines.map(l =>
-      `<div class="log-${l.type}">[${l.ts}] ${l.msg}</div>`
-    ).join('');
-    box.scrollTop = box.scrollHeight;
-  }
   console[type === 'err' ? 'error' : type === 'warn' ? 'warn' : 'log'](`[${ts}] ${msg}`);
 }
-function toggleLog() {
-  document.getElementById('logPanel').classList.toggle('open');
+
+// Ampel (Traffic Light) update
+function updateAmpel(id, status) {
+  // status: 'green', 'yellow', 'red', 'gray'
+  const dot = document.getElementById('ampelDot' + id);
+  if (!dot) return;
+  dot.className = 'ampel-dot ampel-' + status;
 }
 
 // ══════════════════════════════════════════════════════════
@@ -591,15 +541,18 @@ function parseGeoSphereSnow(geoData) {
 
     log(`GeoSphere parse: ${snowData.length} Datenpunkte, Einheit: "${snowParam.unit}", Beispielwert: ${snowData.find(v => v > 0) || 0}`, 'info');
 
-    // Unit handling: GeoSphere SNOWGRID-CL snow_depth is in cm
-    // If values seem too large (>500), they might be in mm - divide by 10
+    // Unit handling: GeoSphere SNOWGRID-CL snow_depth is in METERS
+    // We need cm for display → multiply by 100
+    // Auto-detect: if max value < 10 it's likely meters, if > 100 already cm
     const maxVal = Math.max(...snowData.filter(v => v != null));
-    const divisor = maxVal > 500 ? 10 : 1; // auto-detect: >500 likely mm
-    if (divisor > 1) log(`GeoSphere: Werte sehr hoch (max ${maxVal}), vermutlich mm -> /10 -> cm`, 'info');
+    let multiplier = 1;
+    if (maxVal > 0 && maxVal < 10) { multiplier = 100; } // meters → cm
+    else if (maxVal > 500) { multiplier = 0.1; } // mm → cm
+    if (multiplier !== 1) log(`GeoSphere: max=${maxVal.toFixed(3)}, Einheit vermutlich ${multiplier === 100 ? 'Meter' : 'mm'} → ×${multiplier} → cm`, 'info');
 
     return {
       time: timestamps.map(t => t.split('T')[0]),
-      snow_depth: snowData.map(v => v !== null && v !== undefined ? v / divisor : 0)
+      snow_depth: snowData.map(v => v !== null && v !== undefined ? v * multiplier : 0)
     };
   } catch (e) {
     log(`GeoSphere parse error: ${e.message}`, 'warn');
@@ -707,11 +660,17 @@ async function loadAll() {
     await new Promise(r => setTimeout(r, 250));
   }
 
-  // Update status
-  const snowSrc = geoSphereAvailable ? 'GeoSphere SNOWGRID' : 'Open-Meteo Fallback';
+  // Update status + Ampel
   statusEl.innerHTML = loaded > 0
-    ? `<span style="color:var(--tourism)">●</span> ${loaded} Saisonen · Schnee: ${snowSrc}`
-    : `<span style="color:var(--warn)">●</span> API-Fehler – Bitte Netzwerkverbindung prüfen`;
+    ? `<span style="color:var(--tourism)">●</span> ${loaded} Saisonen geladen`
+    : `<span style="color:var(--warn)">●</span> Fehler beim Laden`;
+
+  // Ampel: Schneehöhe
+  updateAmpel('Snow', geoSphereAvailable ? 'green' : (loaded > 0 ? 'yellow' : 'red'));
+  // Ampel: Wetter
+  updateAmpel('Wetter', loaded > 0 ? 'green' : 'red');
+  // Ampel: Tourismus (set after tourism load)
+  updateAmpel('Tourismus', tourismDataSource === 'live' ? 'green' : 'yellow');
 }
 
 // ══════════════════════════════════════════════════════════
@@ -1017,8 +976,8 @@ function renderCorrScatter() {
     options: {
       responsive: true, maintainAspectRatio: false,
       scales: {
-        x: { title: { display: true, text: 'Ø Schneehöhe Tal (cm)' } },
-        y: { title: { display: true, text: 'Nächtigungen' }, beginAtZero: true }
+        x: { title: { display: true, text: 'Durchschnittliche Schneehöhe (cm)' } },
+        y: { title: { display: true, text: 'Übernachtungen im Winter' }, beginAtZero: true }
       },
       plugins: {
         legend: { display: false },
@@ -1059,8 +1018,8 @@ function renderSunCorr() {
     options: {
       responsive: true, maintainAspectRatio: false,
       scales: {
-        x: { title: { display: true, text: 'Sonnenstunden' } },
-        y: { title: { display: true, text: 'Nächtigungen' }, beginAtZero: true }
+        x: { title: { display: true, text: 'Sonnenstunden im Winter' } },
+        y: { title: { display: true, text: 'Übernachtungen im Winter' }, beginAtZero: true }
       },
       plugins: {
         legend: { display: false },
@@ -1210,36 +1169,52 @@ function renderCorrSummary() {
   const el = document.getElementById('corrSummary');
 
   if (!result || result.pairs.length < 3) {
-    el.innerHTML = '<div class="card-h"><span class="card-t">Korrelationsanalyse</span></div><p style="color:var(--text-muted);font-size:0.9rem;">Nicht genug Daten (COVID-Saisons ausgeschlossen)</p>';
+    el.innerHTML = '<div class="card-h"><span class="card-t">Ergebnis</span></div><p style="color:var(--text-muted);font-size:0.9rem;">Noch nicht genug Daten für eine Auswertung.</p>';
     return;
   }
 
   const r = result.r;
   const rAbs = Math.abs(r);
-  let strength, color;
-  if (rAbs > 0.7) { strength = 'starke'; color = 'var(--tourism)'; }
-  else if (rAbs > 0.4) { strength = 'moderate'; color = 'var(--sun)'; }
-  else { strength = 'schwache'; color = 'var(--text-muted)'; }
 
-  const direction = r > 0 ? 'positive' : 'negative';
+  // Find best and worst seasons
+  const sorted = [...result.pairs].sort((a, b) => b.nights - a.nights);
+  const best = sorted[0];
+  const worst = sorted[sorted.length - 1];
+
+  let emoji, fazit, color;
+  if (r > 0.5) {
+    emoji = '✅'; color = 'var(--tourism)';
+    fazit = 'Ja! Mehr Schnee bringt mehr Gäste ins Kleinwalsertal.';
+  } else if (r > 0.2) {
+    emoji = '📊'; color = 'var(--sun)';
+    fazit = 'Schnee hilft — aber gutes Wetter und andere Faktoren spielen auch eine Rolle.';
+  } else {
+    emoji = '🤔'; color = 'var(--text-muted)';
+    fazit = 'Der Zusammenhang ist schwach. Andere Faktoren wie Wetter, Feiertage und Trends sind wichtiger.';
+  }
 
   el.innerHTML = `
     <div class="card-h">
-      <span class="card-t">📊 Korrelationsanalyse · Schneehöhe ↔ Nächtigungen</span>
-      <span class="badge b-t">COVID-Saisons ausgenommen</span>
+      <span class="card-t">${emoji} Ergebnis: Bringt Schnee mehr Gäste?</span>
     </div>
     <div class="corr-box">
-      <div class="corr-r" style="color:${color}">r = ${r.toFixed(2)}</div>
-      <div class="corr-text">
-        Es besteht eine <strong>${strength} ${direction} Korrelation</strong> zwischen der durchschnittlichen Schneehöhe im Tal
-        und den Winter-Nächtigungen (ohne COVID-Saisons 19/20 & 20/21).
-        ${r > 0.4 ? '<br>➜ <strong>Mehr Schnee → tendenziell mehr Gäste.</strong> Die Schneesicherheit bleibt ein wichtiger Faktor für den Wintertourismus im Kleinwalsertal.'
-          : '<br>➜ Der Zusammenhang ist allerdings nicht stark genug um Schneehöhe als alleinigen Treiber für Buchungen zu sehen. Andere Faktoren (Feiertage, Wirtschaft, Marketing) spielen eine erhebliche Rolle.'}
-        <br><span style="font-size:0.78rem;color:var(--text-dim)">Basierend auf ${result.pairs.length} Saisonen · Pearson-Korrelationskoeffizient ·
-        Schneedaten: ${geoSphereAvailable ? 'GeoSphere SNOWGRID 1km' : 'Open-Meteo ERA5'} ·
-        Nächtigungen: Statistik Austria</span>
+      <div class="corr-r" style="color:${color};font-size:2rem;">${fazit.split('.')[0]}.</div>
+    </div>
+    <div style="margin-top:1rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+      <div style="background:var(--bg2);border-radius:10px;padding:1rem;border:1px solid var(--border);">
+        <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;">🏆 Beste Saison</div>
+        <div style="font-size:1.3rem;font-weight:700;color:var(--tourism);margin:0.3rem 0;">Winter ${best.id}</div>
+        <div style="font-size:0.85rem;color:var(--text-muted);">${fmtNum(best.nights)} Nächtigungen · Ø ${best.snow.toFixed(0)}cm Schnee</div>
+      </div>
+      <div style="background:var(--bg2);border-radius:10px;padding:1rem;border:1px solid var(--border);">
+        <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;">📉 Schwächste Saison</div>
+        <div style="font-size:1.3rem;font-weight:700;color:var(--warn);margin:0.3rem 0;">Winter ${worst.id}</div>
+        <div style="font-size:0.85rem;color:var(--text-muted);">${fmtNum(worst.nights)} Nächtigungen · Ø ${worst.snow.toFixed(0)}cm Schnee</div>
       </div>
     </div>
+    <p style="margin-top:1rem;font-size:0.85rem;color:var(--text-muted);line-height:1.6;">
+      ${fazit} Die COVID-Winter 19/20 und 20/21 sind aus der Auswertung ausgenommen, da Lockdowns die Zahlen stark verzerrt haben.
+    </p>
   `;
 }
 
@@ -1293,11 +1268,7 @@ async function init() {
   if (!weatherData[activeSeason]) activeSeason = Object.keys(weatherData).pop();
 
   // Log summary
-  log(`══════════════════════════════════════`, 'info');
-  log(`Schneehöhe-Quelle: ${geoSphereAvailable ? '✓ GeoSphere SNOWGRID (1km, modelliert)' : '⚠ Open-Meteo ERA5 Fallback / Simulation'}`, geoSphereAvailable ? 'ok' : 'warn');
-  log(`Wetterdaten: ✓ Open-Meteo Archive API (ERA5-Land)`, 'ok');
-  log(`Tourismus: Statistik Austria – BITTE VERIFIZIEREN (manuelle Daten)`, 'warn');
-  log(`══════════════════════════════════════`, 'info');
+  log(`Daten geladen: Schnee=${geoSphereAvailable ? 'OK' : 'Fallback'}, Wetter=OK, Tourismus=${tourismDataSource}`, 'ok');
 
   render();
 }
