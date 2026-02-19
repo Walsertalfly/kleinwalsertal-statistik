@@ -482,7 +482,7 @@ async function fetchGeoSphereSnow(season) {
   const baseUrl = 'https://dataset.api.hub.geosphere.at/v1/timeseries/historical/snowgrid_cl-v2-1d-1km';
 
   const fetchLoc = async (loc, label) => {
-    const url = `${baseUrl}?parameters=SH&start=${season.start}T00:00&end=${endDate}T00:00&lat_lon=${loc.lat},${loc.lon}`;
+    const url = `${baseUrl}?parameters=snow_depth&start=${season.start}T00:00&end=${endDate}T00:00&lat_lon=${loc.lat},${loc.lon}`;
     log(`GeoSphere SNOWGRID ${label}: ${season.id} → ${url.substring(0, 120)}…`, 'info');
 
     // Add timeout (10 seconds)
@@ -528,36 +528,37 @@ function parseGeoSphereSnow(geoData) {
   if (!geoData) return null;
   try {
     // GeoSphere timeseries GeoJSON format:
-    // { timestamps: [...], features: [{ geometry, properties: { parameters: { SH: { name, unit, data: [...] } } } }] }
+    // { timestamps: [...], features: [{ geometry, properties: { parameters: { snow_depth: { name, unit, data: [...] } } } }] }
     const timestamps = geoData.timestamps || [];
     const features = geoData.features || [];
-    
+
     if (!features.length || !timestamps.length) {
       log(`GeoSphere parse: keine Features/Timestamps (features: ${features.length}, timestamps: ${timestamps.length})`, 'warn');
       return null;
     }
 
     const params = features[0]?.properties?.parameters;
-    if (!params?.SH) {
-      log(`GeoSphere parse: kein SH Parameter gefunden. Vorhandene: ${Object.keys(params || {}).join(', ')}`, 'warn');
+    // Support both old 'SH' and correct 'snow_depth' parameter name
+    const snowParam = params?.snow_depth || params?.SH;
+    if (!snowParam) {
+      log(`GeoSphere parse: kein snow_depth Parameter gefunden. Vorhandene: ${Object.keys(params || {}).join(', ')}`, 'warn');
       return null;
     }
-    
-    const shParam = params.SH;
-    const shData = shParam.data || [];
-    const unit = (shParam.unit || '').toLowerCase();
-    
-    log(`GeoSphere parse: ${shData.length} Datenpunkte, Einheit: "${shParam.unit}", Beispielwert: ${shData.find(v => v > 0) || 0}`, 'info');
-    
-    // SH unit handling: GeoSphere SNOWGRID-CL SH is in cm
-    // If values seem too large (>500), they might be in mm → divide by 10
-    const maxVal = Math.max(...shData.filter(v => v != null));
+
+    const snowData = snowParam.data || [];
+    const unit = (snowParam.unit || '').toLowerCase();
+
+    log(`GeoSphere parse: ${snowData.length} Datenpunkte, Einheit: "${snowParam.unit}", Beispielwert: ${snowData.find(v => v > 0) || 0}`, 'info');
+
+    // Unit handling: GeoSphere SNOWGRID-CL snow_depth is in cm
+    // If values seem too large (>500), they might be in mm - divide by 10
+    const maxVal = Math.max(...snowData.filter(v => v != null));
     const divisor = maxVal > 500 ? 10 : 1; // auto-detect: >500 likely mm
-    if (divisor > 1) log(`GeoSphere: Werte sehr hoch (max ${maxVal}), vermutlich mm → /10 → cm`, 'info');
-    
+    if (divisor > 1) log(`GeoSphere: Werte sehr hoch (max ${maxVal}), vermutlich mm -> /10 -> cm`, 'info');
+
     return {
       time: timestamps.map(t => t.split('T')[0]),
-      snow_depth: shData.map(v => v !== null && v !== undefined ? v / divisor : 0)
+      snow_depth: snowData.map(v => v !== null && v !== undefined ? v / divisor : 0)
     };
   } catch (e) {
     log(`GeoSphere parse error: ${e.message}`, 'warn');

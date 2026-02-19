@@ -40,13 +40,13 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         :root {
-            --primary: #1e3a5f; --primary-light: #2d5a87; --accent: #4a9b7f; --accent-light: #6bc4a6;
-            --gold: #c9a227; --gold-light: #e8c547; --snow: #f0f4f8; --ice: #e1e8ed;
-            --mountain: #8b9eb3; --forest: #2d5a47; --sunset: #d4735e; --bg: #fafbfc;
-            --surface: #ffffff; --text: #1a2a3a; --text-sec: #5a6a7a; --text-muted: #8a9aaa;
-            --border: #e5eaef; --shadow-sm: 0 1px 2px rgba(30,58,95,0.04);
-            --shadow: 0 2px 8px rgba(30,58,95,0.08); --shadow-md: 0 4px 16px rgba(30,58,95,0.1);
-            --shadow-lg: 0 8px 32px rgba(30,58,95,0.12); --radius-sm: 8px; --radius: 12px;
+            --primary: #1F4138; --primary-light: #448332; --accent: #448332; --accent-light: #4E9539;
+            --gold: #FDC500; --gold-light: #FFD740; --snow: #F4F5F5; --ice: #E6E6E6;
+            --mountain: #A6B3AF; --forest: #1F4138; --sunset: #B35C00; --winter: #187EA0; --bg: #FAFBFB;
+            --surface: #ffffff; --text: #1F4138; --text-sec: #617572; --text-muted: #A6B3AF;
+            --border: #E6E6E6; --shadow-sm: 0 1px 2px rgba(31,65,56,0.04);
+            --shadow: 0 2px 8px rgba(31,65,56,0.08); --shadow-md: 0 4px 16px rgba(31,65,56,0.1);
+            --shadow-lg: 0 8px 32px rgba(31,65,56,0.12); --radius-sm: 8px; --radius: 12px;
             --radius-lg: 20px; --transition: 0.2s ease;
         }
         [data-theme="dark"] {
@@ -58,7 +58,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body { font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.6; color: var(--text); background: var(--bg); min-height: 100vh; }
-        .hero { position: relative; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, var(--accent) 100%); color: white; padding: 0; overflow: hidden; }
+        .hero { position: relative; background: linear-gradient(135deg, #1F4138 0%, #2D6B3F 50%, #448332 100%); color: white; padding: 0; overflow: hidden; }
         .hero::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 200 L0 120 Q100 80 200 100 T400 90 T600 110 T800 85 T1000 105 T1200 95 L1200 200 Z' fill='%23ffffff' opacity='0.03'/%3E%3C/svg%3E") bottom/cover no-repeat; pointer-events: none; }
         .hero-content { position: relative; max-width: 1400px; margin: 0 auto; padding: 60px 32px 80px; }
         .hero-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; flex-wrap: wrap; gap: 20px; }
@@ -83,8 +83,8 @@
         .kpi-value { font-size: 1.75rem; font-weight: 700; line-height: 1.1; margin-bottom: 4px; }
         .kpi-detail { font-size: 0.8125rem; opacity: 0.75; }
         .kpi-trend { display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem; font-weight: 600; margin-top: 8px; padding: 3px 8px; border-radius: 100px; }
-        .kpi-trend.up { background: rgba(74, 222, 128, 0.2); color: #4ade80; }
-        .kpi-trend.down { background: rgba(248, 113, 113, 0.2); color: #f87171; }
+        .kpi-trend.up { background: rgba(68,131,50,0.2); color: #448332; }
+        .kpi-trend.down { background: rgba(199,14,14,0.2); color: #C70E0E; }
         .container { max-width: 1400px; margin: 0 auto; padding: 0 32px; }
         .main-content { padding: 48px 0 80px; }
         .section { margin-bottom: 48px; }
@@ -180,8 +180,8 @@
         .cookie-text a { color: var(--accent); }
         .cookie-buttons { display: flex; gap: 10px; flex-shrink: 0; }
         .cookie-btn { padding: 10px 20px; border-radius: var(--radius-sm); font-size: 0.9rem; font-weight: 600; font-family: inherit; cursor: pointer; border: none; transition: var(--transition); }
-        .cookie-btn-accept { background: var(--accent); color: white; }
-        .cookie-btn-accept:hover { background: var(--forest); }
+        .cookie-btn-accept { background: #448332; color: white; }
+        .cookie-btn-accept:hover { background: #3A742C; }
         .cookie-btn-reject { background: var(--snow); color: var(--text); border: 1px solid var(--border); }
         .cookie-btn-reject:hover { background: var(--ice); }
 
@@ -230,8 +230,8 @@
                 <div class="hero-brand">
                     <div class="hero-logo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 12h3v8h6v-6h2v6h6v-8h3L12 2zm0 2.8L18.2 11H17v8h-4v-6H11v6H7v-8H5.8L12 4.8z"/></svg></div>
                     <div class="hero-title-group">
-                        <h1>Tourismus Statistik</h1>
-                        <div class="region">Kleinwalsertal · Gemeinde Mittelberg</div>
+                        <h1>Tourismus&shy;zahlen Kleinwalsertal</h1>
+                        <div class="region">&Uuml;bernachtungen &middot; G&auml;ste &middot; Trends &ndash; alle Daten auf einen Blick</div>
                     </div>
                 </div>
                 <div class="hero-controls">
@@ -375,7 +375,7 @@
                         <div class="heatmap-legend-color" style="background:#93c5fd;"></div>
                         <div class="heatmap-legend-color" style="background:#3b82f6;"></div>
                         <div class="heatmap-legend-color" style="background:#1d4ed8;"></div>
-                        <div class="heatmap-legend-color" style="background:#1e3a5f;"></div>
+                        <div class="heatmap-legend-color" style="background:#1F4138;"></div>
                         <span style="font-size:0.85rem;color:var(--text-sec);margin-left:8px;">Hochsaison</span>
                     </div>
                 </div>
@@ -642,8 +642,8 @@
             MONTHS_DE: ['Jän', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
             MONTHS_FULL: ['Jänner', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
             COUNTRY_FLAGS: { 'Deutschland': '🇩🇪', 'Österreich': '🇦🇹', 'Schweiz': '🇨🇭', 'Niederlande': '🇳🇱', 'Belgien': '🇧🇪', 'Frankreich': '🇫🇷', 'Großbritannien': '🇬🇧', 'Italien': '🇮🇹', 'Sonstige': '🌐' },
-            COUNTRY_COLORS: ['#1e3a5f', '#c9a227', '#4a9b7f', '#d4735e', '#8b5cf6', '#ec4899', '#06b6d4', '#f59e0b'],
-            ACCOMMODATION_TYPES: { 'Hotels': { icon: '🏨', color: '#1e3a5f' }, 'Ferienwohnungen': { icon: '🏠', color: '#4a9b7f' }, 'Private': { icon: '🏡', color: '#c9a227' }, 'Sonstige': { icon: '🏕️', color: '#8b9eb3' } }
+            COUNTRY_COLORS: ['#1F4138', '#448332', '#187EA0', '#B35C00', '#677D0C', '#ED697D', '#FDC500', '#A6B3AF'],
+            ACCOMMODATION_TYPES: { 'Hotels': { icon: '🏨', color: '#1F4138' }, 'Ferienwohnungen': { icon: '🏠', color: '#448332' }, 'Private': { icon: '🏡', color: '#B35C00' }, 'Sonstige': { icon: '🏕️', color: '#8b9eb3' } }
         };
 
         let yearlyData = [], monthlyData = {}, countryData = {}, accommodationData = {};
@@ -1133,8 +1133,8 @@
             mainChart = new Chart(ctx, {
                 type,
                 data: { labels: filtered.map(d => d.year), datasets: [
-                    { label: 'Übernachtungen', data: filtered.map(d => d.nights), borderColor: '#1e3a5f', backgroundColor: type === 'bar' ? filtered.map(d => d.status === 'estimated' ? 'rgba(201,162,39,0.7)' : 'rgba(30,58,95,0.7)') : 'rgba(30,58,95,0.1)', tension: 0.3, fill: type === 'line', pointBackgroundColor: filtered.map(d => d.status === 'estimated' ? '#c9a227' : '#1e3a5f'), pointRadius: 5 },
-                    { label: 'Ankünfte', data: filtered.map(d => d.arrivals), borderColor: '#4a9b7f', backgroundColor: type === 'bar' ? 'rgba(74,155,127,0.5)' : 'rgba(74,155,127,0.1)', tension: 0.3, fill: type === 'line', yAxisID: 'y1', pointRadius: 5 }
+                    { label: 'Übernachtungen', data: filtered.map(d => d.nights), borderColor: '#1F4138', backgroundColor: type === 'bar' ? filtered.map(d => d.status === 'estimated' ? 'rgba(201,162,39,0.7)' : 'rgba(30,58,95,0.7)') : 'rgba(30,58,95,0.1)', tension: 0.3, fill: type === 'line', pointBackgroundColor: filtered.map(d => d.status === 'estimated' ? '#B35C00' : '#1F4138'), pointRadius: 5 },
+                    { label: 'Ankünfte', data: filtered.map(d => d.arrivals), borderColor: '#448332', backgroundColor: type === 'bar' ? 'rgba(74,155,127,0.5)' : 'rgba(74,155,127,0.1)', tension: 0.3, fill: type === 'line', yAxisID: 'y1', pointRadius: 5 }
                 ] },
                 options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, plugins: { legend: { labels: { color: isDark ? '#e6edf3' : '#1a2a3a' } }, tooltip: { callbacks: { label: c => `${c.dataset.label}: ${formatNum(c.raw)}` } } }, scales: { x: { ticks: { color: isDark ? '#e6edf3' : '#1a2a3a' }, grid: { color: isDark ? '#30363d' : '#e5eaef' } }, y: { position: 'left', ticks: { color: isDark ? '#e6edf3' : '#1a2a3a', callback: v => formatNum(v) }, grid: { color: isDark ? '#30363d' : '#e5eaef' }, title: { display: true, text: 'Übernachtungen', color: isDark ? '#e6edf3' : '#1a2a3a' } }, y1: { position: 'right', ticks: { color: isDark ? '#e6edf3' : '#1a2a3a', callback: v => formatNum(v) }, grid: { drawOnChartArea: false }, title: { display: true, text: 'Ankünfte', color: isDark ? '#e6edf3' : '#1a2a3a' } } } }
             });
@@ -1173,12 +1173,12 @@
                             label: (year - 1) + ' (Vorjahr)',
                             data: prevValues,
                             type: 'line',
-                            borderColor: '#c9a227',
+                            borderColor: '#B35C00',
                             backgroundColor: 'transparent',
                             borderWidth: 2,
                             borderDash: [6, 3],
                             pointRadius: 3,
-                            pointBackgroundColor: '#c9a227',
+                            pointBackgroundColor: '#B35C00',
                             tension: 0.3,
                             order: 0
                         },
@@ -1224,7 +1224,7 @@
             let allVals = [];
             years.forEach(y => { const d = monthlyData[y] || FALLBACK.monthly[y] || {}; Object.values(d).forEach(v => { if (v > 0) allVals.push(v); }); });
             const minV = Math.min(...allVals), maxV = Math.max(...allVals);
-            const colors = ['#dbeafe', '#93c5fd', '#3b82f6', '#1d4ed8', '#1e3a5f'];
+            const colors = ['#dbeafe', '#93c5fd', '#3b82f6', '#1d4ed8', '#1F4138'];
             const getColor = v => { if (!v) return '#f1f5f9'; const p = (v - minV) / (maxV - minV); return colors[Math.min(Math.floor(p * colors.length), colors.length - 1)]; };
             let html = '<div class="heatmap-grid"><div></div>';
             CONFIG.MONTHS_DE.forEach(m => html += `<div class="heatmap-header">${m}</div>`);
@@ -1394,7 +1394,7 @@
                         label: metric === 'nights' ? 'Nächtigungen' : 'Ankünfte',
                         data: sorted.map(d => d.value),
                         backgroundColor: sorted.map((d, i) => d.gkz === '80228' ? 'rgba(30,58,95,0.85)' : 'rgba(74,155,127,0.6)'),
-                        borderColor: sorted.map((d, i) => d.gkz === '80228' ? '#1e3a5f' : '#4a9b7f'),
+                        borderColor: sorted.map((d, i) => d.gkz === '80228' ? '#1F4138' : '#448332'),
                         borderWidth: sorted.map((d, i) => d.gkz === '80228' ? 2 : 1),
                         borderRadius: 6
                     }]
@@ -1448,7 +1448,7 @@
                     <td class="table-number">${priv > 0 ? formatNum(priv) : '—'}</td>
                     <td class="table-number">${sonst > 0 ? formatNum(sonst) : '—'}</td>
                     <td>${stay}</td>
-                    <td><div style="display:flex;align-items:center;gap:6px;"><div style="width:60px;height:8px;background:var(--snow);border-radius:4px;overflow:hidden;"><div style="width:${hotelPct}%;height:100%;background:${isKW ? '#1e3a5f' : '#4a9b7f'};border-radius:4px;"></div></div><span style="font-size:0.8125rem;">${hotelPct}%</span></div></td>
+                    <td><div style="display:flex;align-items:center;gap:6px;"><div style="width:60px;height:8px;background:var(--snow);border-radius:4px;overflow:hidden;"><div style="width:${hotelPct}%;height:100%;background:${isKW ? '#1F4138' : '#448332'};border-radius:4px;"></div></div><span style="font-size:0.8125rem;">${hotelPct}%</span></div></td>
                 </tr>`;
             }).join('');
         }
@@ -1465,7 +1465,7 @@
                 .sort((a, b) => b.nights - a.nights);
             
             const accTypes = ['Hotels', 'Ferienwohnungen', 'Private', 'Sonstige'];
-            const accColors = ['#1e3a5fcc', '#4a9b7fcc', '#c9a227cc', '#8b9eb3cc'];
+            const accColors = ['#1F4138cc', '#448332cc', '#B35C00cc', '#8b9eb3cc'];
             
             const ctx = document.getElementById('comparisonAccChart').getContext('2d');
             if (comparisonAccChart) comparisonAccChart.destroy();
@@ -1530,8 +1530,8 @@
             seasonChart = new Chart(ctx1, {
                 type: 'bar',
                 data: { labels: data.map(d => d.year), datasets: [
-                    { label: '❄️ Winter (Nov–Apr)', data: data.map(d => d.winter), backgroundColor: '#1e3a5fcc', borderRadius: 4 },
-                    { label: '☀️ Sommer (Mai–Okt)', data: data.map(d => d.summer), backgroundColor: '#4a9b7fcc', borderRadius: 4 }
+                    { label: '❄️ Winter (Nov–Apr)', data: data.map(d => d.winter), backgroundColor: '#1F4138cc', borderRadius: 4 },
+                    { label: '☀️ Sommer (Mai–Okt)', data: data.map(d => d.summer), backgroundColor: '#448332cc', borderRadius: 4 }
                 ]},
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: txtCol } }, tooltip: { callbacks: { label: c => `${c.dataset.label}: ${formatNum(c.raw)}` } } }, scales: { x: { stacked: true, ticks: { color: txtCol }, grid: { display: false } }, y: { stacked: true, ticks: { color: txtCol, callback: v => formatNum(v) }, grid: { color: gridCol } } } }
             });
@@ -1545,8 +1545,8 @@
                 data: { labels: data.map(d => d.year), datasets: [{
                     label: 'Sommer-Anteil %',
                     data: summerPcts,
-                    borderColor: '#4a9b7f', backgroundColor: 'rgba(74,155,127,0.15)',
-                    fill: true, tension: 0.3, pointRadius: 6, pointBackgroundColor: '#4a9b7f'
+                    borderColor: '#448332', backgroundColor: 'rgba(74,155,127,0.15)',
+                    fill: true, tension: 0.3, pointRadius: 6, pointBackgroundColor: '#448332'
                 }]},
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => `Sommer-Anteil: ${c.raw.toFixed(1)}%` } } }, scales: { x: { ticks: { color: txtCol }, grid: { display: false } }, y: { min: 25, max: 55, ticks: { color: txtCol, callback: v => v + '%' }, grid: { color: gridCol } } } }
             });
@@ -1591,7 +1591,7 @@
                     datasets: [{
                         label: 'Bettenauslastung %',
                         data: items.map(d => d.occupancy),
-                        backgroundColor: items.map(d => d.gkz === '80228' ? '#1e3a5fcc' : d.occupancy > 40 ? '#4a9b7fcc' : '#c9a227cc'),
+                        backgroundColor: items.map(d => d.gkz === '80228' ? '#1F4138cc' : d.occupancy > 40 ? '#448332cc' : '#B35C00cc'),
                         borderRadius: 6
                     }]
                 },
@@ -1685,16 +1685,16 @@
                         {
                             label: 'Nächtigungen (Ist)',
                             data: trendYears.map(y => { const d = allYears.find(x => x.year === y); return d ? d.nights : null; }),
-                            borderColor: '#1e3a5f', backgroundColor: 'rgba(30,58,95,0.1)',
-                            pointRadius: 5, pointBackgroundColor: trendYears.map(y => y >= 2026 ? '#c9a227' : '#1e3a5f'),
+                            borderColor: '#1F4138', backgroundColor: 'rgba(30,58,95,0.1)',
+                            pointRadius: 5, pointBackgroundColor: trendYears.map(y => y >= 2026 ? '#B35C00' : '#1F4138'),
                             tension: 0.3, fill: false
                         },
                         {
                             label: 'Trendlinie (ohne COVID)',
                             data: trendYears.map(y => Math.round(nightsReg.predict(y))),
-                            borderColor: '#c9a227', borderDash: [8, 4],
+                            borderColor: '#B35C00', borderDash: [8, 4],
                             pointRadius: trendYears.map(y => y >= 2026 ? 7 : 0),
-                            pointBackgroundColor: '#c9a227',
+                            pointBackgroundColor: '#B35C00',
                             tension: 0, fill: false
                         }
                     ]
@@ -1744,12 +1744,12 @@
                 </div>
                 <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;">
                     <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">❄️ Winter</div>
-                    <div style="font-size:1.75rem;font-weight:700;color:#1e3a5f;">${fmtEuro(winterRev)}</div>
+                    <div style="font-size:1.75rem;font-weight:700;color:#1F4138;">${fmtEuro(winterRev)}</div>
                     <div style="font-size:0.8125rem;color:var(--text-sec);">${formatNum(winterNights)} ÜN × ${REVENUE.winter} €</div>
                 </div>
                 <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;">
                     <div style="font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-sec);margin-bottom:6px;">☀️ Sommer</div>
-                    <div style="font-size:1.75rem;font-weight:700;color:#4a9b7f;">${fmtEuro(summerRev)}</div>
+                    <div style="font-size:1.75rem;font-weight:700;color:#448332;">${fmtEuro(summerRev)}</div>
                     <div style="font-size:0.8125rem;color:var(--text-sec);">${formatNum(summerNights)} ÜN × ${REVENUE.summer} €</div>
                 </div>
                 <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;">
@@ -1763,7 +1763,7 @@
             if (revenuePieChart) revenuePieChart.destroy();
             revenuePieChart = new Chart(ctx1, {
                 type: 'doughnut',
-                data: { labels: ['Winter', 'Sommer'], datasets: [{ data: [winterRev, summerRev], backgroundColor: ['#1e3a5fcc', '#4a9b7fcc'], borderWidth: 3, borderColor: isDark ? '#161b22' : '#fff' }] },
+                data: { labels: ['Winter', 'Sommer'], datasets: [{ data: [winterRev, summerRev], backgroundColor: ['#1F4138cc', '#448332cc'], borderWidth: 3, borderColor: isDark ? '#161b22' : '#fff' }] },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: isDark ? '#e6edf3' : '#1a2a3a' } }, tooltip: { callbacks: { label: c => `${c.label}: ${fmtEuro(c.raw)} (${(c.raw / totalRev * 100).toFixed(1)}%)` } } } }
             });
 
@@ -1780,8 +1780,8 @@
             revenueTrendChart = new Chart(ctx2, {
                 type: 'bar',
                 data: { labels: trendData.map(d => d.year), datasets: [
-                    { label: 'Winter €', data: trendData.map(d => d.winter), backgroundColor: '#1e3a5fcc', borderRadius: 4 },
-                    { label: 'Sommer €', data: trendData.map(d => d.summer), backgroundColor: '#4a9b7fcc', borderRadius: 4 }
+                    { label: 'Winter €', data: trendData.map(d => d.winter), backgroundColor: '#1F4138cc', borderRadius: 4 },
+                    { label: 'Sommer €', data: trendData.map(d => d.summer), backgroundColor: '#448332cc', borderRadius: 4 }
                 ]},
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: isDark ? '#e6edf3' : '#1a2a3a' } }, tooltip: { callbacks: { label: c => `${c.dataset.label}: ${fmtEuro(c.raw)}` } } }, scales: { x: { stacked: true, ticks: { color: isDark ? '#e6edf3' : '#1a2a3a' }, grid: { display: false } }, y: { stacked: true, ticks: { color: isDark ? '#e6edf3' : '#1a2a3a', callback: v => fmtEuro(v) }, grid: { color: isDark ? '#30363d' : '#e5eaef' } } } }
             });
