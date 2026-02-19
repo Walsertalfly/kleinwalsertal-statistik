@@ -29,7 +29,7 @@
     </script>
     <meta name="author" content="Claudio Scheiwiller">
     <meta property="og:title" content="Kleinwalsertal Tourismus Statistik">
-    <meta property="og:description" content="Live-Dashboard mit Übernachtungen, Ankünften, Herkunftsländern und Trends im Kleinwalsertal.">
+    <meta property="og:description" content="Tourismusdaten für jedermann – einfach und verständlich. Übernachtungen, Ankünfte, Herkunftsländer und Trends im Kleinwalsertal.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://kleinwalsertal-statistik.at">
     <link rel="canonical" href="https://kleinwalsertal-statistik.at">
@@ -87,7 +87,7 @@
         .kpi-trend.down { background: rgba(255,100,100,0.25); color: #ffcccc; }
         .container { max-width: 1400px; margin: 0 auto; padding: 0 32px; }
         .main-content { padding: 48px 0 80px; }
-        .section { margin-bottom: 48px; }
+        .section { margin-bottom: 12px; }
         .section-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; }
         .section-title { font-family: 'Playfair Display', Georgia, serif; font-size: 1.75rem; font-weight: 600; color: var(--text); }
         .section-subtitle { font-size: 0.9375rem; color: var(--text-sec); margin-top: 4px; }
@@ -163,15 +163,41 @@
         .footer-links a:hover { color: var(--primary); }
         .footer-bottom { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; font-size: 0.875rem; color: var(--text-sec); }
         /* Accordion */
-        .accordion-toggle { display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; padding: 20px 28px; background: var(--surface); border-radius: var(--radius-lg); box-shadow: var(--shadow); border: 1px solid var(--border); transition: var(--transition); margin-bottom: 4px; }
+        .accordion-toggle { display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; padding: 16px 24px; background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); transition: var(--transition); margin-bottom: 4px; border-left: 5px solid var(--acc-color, var(--primary)); }
         .accordion-toggle:hover { box-shadow: var(--shadow-md); }
-        .accordion-toggle h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 1.25rem; font-weight: 600; color: var(--text); margin: 0; display: flex; align-items: center; gap: 10px; }
+        .accordion-toggle h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 1.15rem; font-weight: 600; color: var(--text); margin: 0; display: flex; align-items: center; gap: 10px; }
         .accordion-toggle .subtitle { font-size: 0.85rem; color: var(--text-sec); font-family: 'DM Sans', sans-serif; font-weight: 400; margin-left: 8px; }
         .accordion-chevron { width: 24px; height: 24px; transition: transform 0.3s ease; flex-shrink: 0; color: var(--text-sec); }
         .accordion-toggle.open .accordion-chevron { transform: rotate(180deg); }
-        .accordion-toggle.open { border-radius: var(--radius-lg) var(--radius-lg) 0 0; margin-bottom: 0; border-bottom: none; }
-        .accordion-body { display: none; background: var(--surface); border: 1px solid var(--border); border-top: none; border-radius: 0 0 var(--radius-lg) var(--radius-lg); box-shadow: var(--shadow); padding: 28px; margin-bottom: 16px; }
+        .accordion-toggle.open { border-radius: var(--radius) var(--radius) 0 0; margin-bottom: 0; border-bottom: none; }
+        .accordion-body { display: none; background: var(--surface); border: 1px solid var(--border); border-top: none; border-radius: 0 0 var(--radius) var(--radius); box-shadow: var(--shadow); padding: 28px; margin-bottom: 0; border-left: 5px solid var(--acc-color, var(--primary)); }
         .accordion-body.open { display: block; }
+
+        /* Nature colors per accordion */
+        #sec-zeitverlauf   { --acc-color: #2D6B3F; } /* Waldgrün */
+        #sec-prognose      { --acc-color: #8B6914; } /* Bernstein/Honig */
+        #sec-monatlich     { --acc-color: #187EA0; } /* Bergbach Blau */
+        #sec-jahresdaten   { --acc-color: #5B7553; } /* Moosgrün */
+        #sec-betten        { --acc-color: #8B5E3C; } /* Holz/Erde */
+        #sec-heatmap       { --acc-color: #B35C00; } /* Herbstlaub */
+        #sec-herkunft      { --acc-color: #3B6D8C; } /* Himmelblau */
+        #sec-herkunftstrend { --acc-color: #6B4E71; } /* Alpenrose */
+        #sec-unterkunft    { --acc-color: #556B2F; } /* Tannengrün */
+        #sec-gemeinde      { --acc-color: #6B7D8D; } /* Felsengrau */
+        #sec-saison        { --acc-color: #1F4F6E; } /* Winterblau */
+        #sec-wertschoepfung { --acc-color: #7A6330; } /* Goldbraun */
+
+        /* Section description */
+        .section-desc { font-size: 0.9rem; color: var(--text-sec); line-height: 1.6; margin-bottom: 20px; padding: 12px 16px; background: rgba(31,65,56,0.03); border-radius: var(--radius-sm); border-left: 3px solid var(--acc-color, var(--primary)); }
+        [data-theme="dark"] .section-desc { background: rgba(255,255,255,0.03); }
+
+        /* Info Button */
+        .info-toggle { display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--text-muted); cursor: pointer; border: none; background: none; font-family: inherit; padding: 4px 8px; border-radius: var(--radius-sm); transition: var(--transition); margin-bottom: 12px; }
+        .info-toggle:hover { color: var(--text-sec); background: var(--snow); }
+        .info-toggle .info-icon { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid currentColor; font-size: 0.7rem; font-weight: 700; font-style: italic; }
+        .info-detail { display: none; font-size: 0.825rem; color: var(--text-sec); line-height: 1.6; margin-bottom: 16px; padding: 12px 16px; background: var(--snow); border-radius: var(--radius-sm); }
+        .info-detail.open { display: block; }
+        [data-theme="dark"] .info-detail { background: rgba(255,255,255,0.04); }
 
         /* Cookie Banner */
         .cookie-banner { position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface); border-top: 1px solid var(--border); box-shadow: 0 -4px 20px rgba(0,0,0,0.1); padding: 20px 32px; z-index: 10000; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
@@ -231,7 +257,7 @@
                     <div class="hero-logo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 12h3v8h6v-6h2v6h6v-8h3L12 2zm0 2.8L18.2 11H17v8h-4v-6H11v6H7v-8H5.8L12 4.8z"/></svg></div>
                     <div class="hero-title-group">
                         <h1>Tourismus&shy;zahlen Kleinwalsertal</h1>
-                        <div class="region">&Uuml;bernachtungen &middot; G&auml;ste &middot; Trends &ndash; alle Daten auf einen Blick</div>
+                        <div class="region">Tourismusdaten f&uuml;r jedermann &ndash; einfach &amp; verst&auml;ndlich</div>
                     </div>
                 </div>
                 <div class="hero-controls">
@@ -254,11 +280,14 @@
 
             <!-- 1. ZEITVERLAUF -->
             <section class="section" id="sec-zeitverlauf">
-                <div class="accordion-toggle open" onclick="toggleAccordion(this)">
+                <div class="accordion-toggle" onclick="toggleAccordion(this)">
                     <h2>&#x1F4C8; Zeitverlauf <span class="subtitle">&Uuml;bernachtungen &amp; Ank&uuml;nfte</span></h2>
                     <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
                 </div>
-                <div class="accordion-body open">
+                <div class="accordion-body">
+                    <p class="section-desc">Wie haben sich die &Uuml;bernachtungen und G&auml;steank&uuml;nfte &uuml;ber die Jahre ver&auml;ndert?</p>
+                    <button class="info-toggle" onclick="toggleInfo(this)"><span class="info-icon">i</span> Mehr erfahren</button>
+                    <div class="info-detail">Hier siehst du die Gesamtentwicklung der Tourismuszahlen im Kleinwalsertal. Du kannst zwischen Linien- und Balkenansicht wechseln und den Zeitraum frei w&auml;hlen. Starke Einbr&uuml;che 2020/21 sind auf COVID zur&uuml;ckzuf&uuml;hren.</div>
                     <div class="controls" style="margin-bottom:16px;">
                         <div class="tabs">
                             <button class="tab active" data-chart="line">Linie</button>
@@ -279,11 +308,14 @@
 
             <!-- 2. PROGNOSE -->
             <section class="section" id="sec-prognose">
-                <div class="accordion-toggle open" onclick="toggleAccordion(this)">
+                <div class="accordion-toggle" onclick="toggleAccordion(this)">
                     <h2>&#x1F52E; Prognose 2026 <span class="subtitle">Hochrechnung (ohne COVID-Jahre)</span></h2>
                     <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
                 </div>
-                <div class="accordion-body open">
+                <div class="accordion-body">
+                    <p class="section-desc">Wohin geht die Reise? Sch&auml;tzung f&uuml;r 2026 auf Basis des 10-Jahres-Trends.</p>
+                    <button class="info-toggle" onclick="toggleInfo(this)"><span class="info-icon">i</span> Mehr erfahren</button>
+                    <div class="info-detail">Die Prognose nutzt den langfristigen Trend der letzten 10 Jahre &ndash; ohne die COVID-Ausnah­mejahre 2020/21. So entsteht ein realistisches Bild der erwarteten Entwicklung.</div>
                     <p style="background:rgba(201,162,39,0.1);border:1px solid rgba(201,162,39,0.3);border-radius:var(--radius-sm);padding:12px 16px;margin-bottom:20px;font-size:0.9rem;color:var(--text-sec);">
                         <strong>Hinweis:</strong> F&uuml;r 2026 liegen bisher nur Daten f&uuml;r J&auml;nner vor. Die Prognose basiert auf dem 10-Jahres-Trend (ohne COVID-Jahre 2020/2021) und zeigt die erwartete Jahresentwicklung.
                     </p>
@@ -299,11 +331,14 @@
 
             <!-- 3. MONATLICHE VERTEILUNG -->
             <section class="section" id="sec-monatlich">
-                <div class="accordion-toggle open" onclick="toggleAccordion(this)">
+                <div class="accordion-toggle" onclick="toggleAccordion(this)">
                     <h2>&#x1F4CA; Monatliche Verteilung <span class="subtitle">Vergleich mit Vorjahr &amp; 3-Jahres-Schnitt</span></h2>
                     <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
                 </div>
-                <div class="accordion-body open">
+                <div class="accordion-body">
+                    <p class="section-desc">Welche Monate laufen besser oder schlechter als im Vorjahr?</p>
+                    <button class="info-toggle" onclick="toggleInfo(this)"><span class="info-icon">i</span> Mehr erfahren</button>
+                    <div class="info-detail">Die Tabelle zeigt f&uuml;r jeden Monat die &Uuml;bernachtungen im Vergleich zum Vorjahr und zum 3-Jahres-Durchschnitt. Gr&uuml;n = besser, Rot = schlechter. Monate ohne Daten zeigen eine Prognose basierend auf dem Vorjahr.</div>
                     <div class="controls" style="margin-bottom:16px;">
                         <div class="control-group">
                             <label class="control-label">Jahr:</label>
@@ -316,11 +351,14 @@
 
             <!-- 4. ALLE JAHRESDATEN -->
             <section class="section" id="sec-jahresdaten">
-                <div class="accordion-toggle open" onclick="toggleAccordion(this)">
+                <div class="accordion-toggle" onclick="toggleAccordion(this)">
                     <h2>&#x1F4CB; Alle Jahresdaten <span class="subtitle">&Uuml;bersicht</span></h2>
                     <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
                 </div>
-                <div class="accordion-body open">
+                <div class="accordion-body">
+                    <p class="section-desc">Alle Jahre auf einen Blick &ndash; &Uuml;bernachtungen, Ank&uuml;nfte und Aufenthaltsdauer.</p>
+                    <button class="info-toggle" onclick="toggleInfo(this)"><span class="info-icon">i</span> Mehr erfahren</button>
+                    <div class="info-detail">Die Tabelle listet s&auml;mtliche Jahresdaten mit der prozentualen Ver&auml;nderung zum Vorjahr. &laquo;Vorl&auml;ufig&raquo; bedeutet, dass noch nicht alle Monatsdaten vorliegen.</div>
                     <div class="table-wrapper">
                         <table>
                             <thead><tr><th>Jahr</th><th>&Uuml;bernachtungen</th><th>Ank&uuml;nfte</th><th>&Oslash; Aufenthalt</th><th>Ver&auml;nderung</th><th>Status</th></tr></thead>
@@ -337,6 +375,9 @@
                     <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
                 </div>
                 <div class="accordion-body">
+                    <p class="section-desc">Wie gut sind die Betten im Tal ausgelastet?</p>
+                    <button class="info-toggle" onclick="toggleInfo(this)"><span class="info-icon">i</span> Mehr erfahren</button>
+                    <div class="info-detail">Die Bettenauslastung zeigt, wie viele N&auml;chtigungen pro verf&uuml;gbarem Bett erzielt werden. Zum Vergleich werden auch andere Vorarlberger Gemeinden dargestellt.</div>
                     <div class="controls" style="margin-bottom:16px;">
                         <div class="control-group">
                             <label class="control-label">Jahr:</label>
@@ -368,6 +409,9 @@
                     <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
                 </div>
                 <div class="accordion-body">
+                    <p class="section-desc">Wann ist Hochsaison, wann Nebensaison? Die Farben zeigen es auf einen Blick.</p>
+                    <button class="info-toggle" onclick="toggleInfo(this)"><span class="info-icon">i</span> Mehr erfahren</button>
+                    <div class="info-detail">Je dunkler das Feld, desto mehr &Uuml;bernachtungen gab es in diesem Monat. So erkennst du sofort, welche Monate besonders stark oder schwach sind &ndash; ideal um Saisonmuster zu erkennen.</div>
                     <div id="heatmapContainer"></div>
                     <div class="heatmap-legend">
                         <span style="font-size:0.85rem;color:var(--text-sec);margin-right:8px;">Nebensaison</span>
@@ -388,6 +432,9 @@
                     <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
                 </div>
                 <div class="accordion-body">
+                    <p class="section-desc">Aus welchen L&auml;ndern reisen die meisten G&auml;ste ins Kleinwalsertal?</p>
+                    <button class="info-toggle" onclick="toggleInfo(this)"><span class="info-icon">i</span> Mehr erfahren</button>
+                    <div class="info-detail">Deutschland ist seit jeher der wichtigste Herkunftsmarkt. Das Tortendiagramm zeigt die Verteilung, die Liste die genauen Zahlen pro Land.</div>
                     <div class="controls" style="margin-bottom:16px;">
                         <div class="control-group">
                             <label class="control-label">Jahr:</label>
@@ -418,6 +465,9 @@
                     <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
                 </div>
                 <div class="accordion-body">
+                    <p class="section-desc">Wie entwickeln sich die einzelnen Herkunftsm&auml;rkte &uuml;ber die Jahre?</p>
+                    <button class="info-toggle" onclick="toggleInfo(this)"><span class="info-icon">i</span> Mehr erfahren</button>
+                    <div class="info-detail">Jede Linie zeigt die Entwicklung eines Herkunftslandes. So siehst du, welche M&auml;rkte wachsen (z.B. Niederlande) und welche r&uuml;ckl&auml;ufig sind.</div>
                     <div class="controls" style="margin-bottom:16px;">
                         <div class="control-group">
                             <label class="control-label">Von:</label>
@@ -439,6 +489,9 @@
                     <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
                 </div>
                 <div class="accordion-body">
+                    <p class="section-desc">Wo &uuml;bernachten die G&auml;ste &ndash; Hotel, Ferienwohnung oder privat?</p>
+                    <button class="info-toggle" onclick="toggleInfo(this)"><span class="info-icon">i</span> Mehr erfahren</button>
+                    <div class="info-detail">Das Kleinwalsertal hat einen hohen Anteil an Ferienwohnungen. Hier siehst du die Verteilung und Entwicklung der verschiedenen Unterkunftsarten im Zeitverlauf.</div>
                     <div class="controls" style="margin-bottom:16px;">
                         <div class="control-group">
                             <label class="control-label">Jahr:</label>
@@ -462,6 +515,9 @@
                     <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
                 </div>
                 <div class="accordion-body">
+                    <p class="section-desc">Wie steht das Kleinwalsertal im Vergleich zu anderen Vorarlberger Tourismusgemeinden da?</p>
+                    <button class="info-toggle" onclick="toggleInfo(this)"><span class="info-icon">i</span> Mehr erfahren</button>
+                    <div class="info-detail">Verglichen werden die Top-Tourismusgemeinden Vorarlbergs &ndash; darunter Lech, Dam&uuml;ls, Brand und weitere. So siehst du, wo das Kleinwalsertal im Ranking steht.</div>
                     <div class="controls" style="margin-bottom:16px;">
                         <div class="control-group">
                             <label class="control-label">Jahr:</label>
@@ -513,6 +569,9 @@
                     <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
                 </div>
                 <div class="accordion-body">
+                    <p class="section-desc">Winter bleibt Hauptsaison &ndash; aber holt der Sommer auf?</p>
+                    <button class="info-toggle" onclick="toggleInfo(this)"><span class="info-icon">i</span> Mehr erfahren</button>
+                    <div class="info-detail">Winter = November bis April, Sommer = Mai bis Oktober. Hier siehst du, wie sich das Verh&auml;ltnis zwischen den Saisons &uuml;ber die Jahre ver&auml;ndert &ndash; und ob der Sommertourismus w&auml;chst.</div>
                     <div class="grid-2">
                         <div class="card">
                             <div class="card-header"><h3 class="card-title">Saisonverteilung im Zeitverlauf</h3></div>
@@ -547,6 +606,9 @@
                     <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
                 </div>
                 <div class="accordion-body">
+                    <p class="section-desc">Was bringt der Tourismus dem Tal wirtschaftlich? Eine Sch&auml;tzung in Euro.</p>
+                    <button class="info-toggle" onclick="toggleInfo(this)"><span class="info-icon">i</span> Mehr erfahren</button>
+                    <div class="info-detail">Die Berechnung basiert auf den durchschnittlichen Tagesausgaben pro Gast (Quelle: Tourismus-Monitor Austria). Winter-G&auml;ste geben im Schnitt 231&nbsp;&euro;/Tag aus, Sommer-G&auml;ste 164&nbsp;&euro;/Tag.</div>
                     <div class="controls" style="margin-bottom:16px;">
                         <div class="control-group">
                             <label class="control-label">Jahr:</label>
@@ -782,6 +844,10 @@
                 setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 50);
             }
             trackEvent('accordion_toggle', 'UI', el.querySelector('h2')?.textContent?.trim()?.substring(0, 30));
+        }
+        function toggleInfo(btn) {
+            const detail = btn.nextElementSibling;
+            if (detail) detail.classList.toggle('open');
         }
         function openAccordion(sectionId) {
             const section = document.getElementById(sectionId);
