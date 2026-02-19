@@ -252,33 +252,6 @@
     <main class="main-content">
         <div class="container">
 
-            <!-- Schnellnavigation -->
-            <nav class="toc">
-                <div class="toc-title">Schnellnavigation</div>
-                <div class="toc-grid">
-                    <a href="#sec-zeitverlauf" class="toc-link" onclick="openAccordion('sec-zeitverlauf')">&#x1F4C8; Zeitverlauf</a>
-                    <a href="#sec-monatlich" class="toc-link" onclick="openAccordion('sec-monatlich')">&#x1F4CA; Monate</a>
-                    <a href="#sec-jahresdaten" class="toc-link" onclick="openAccordion('sec-jahresdaten')">&#x1F4CB; Jahresdaten</a>
-                    <a href="#sec-heatmap" class="toc-link" onclick="openAccordion('sec-heatmap')">&#x1F4C5; Heatmap</a>
-                    <a href="#sec-herkunft" class="toc-link" onclick="openAccordion('sec-herkunft')">&#x1F30D; Herkunft</a>
-                    <a href="#sec-herkunftstrend" class="toc-link" onclick="openAccordion('sec-herkunftstrend')">&#x1F4C8; L&auml;nder-Trend</a>
-                    <a href="#sec-unterkunft" class="toc-link" onclick="openAccordion('sec-unterkunft')">&#x1F3E8; Unterk&uuml;nfte</a>
-                    <a href="#sec-gemeinde" class="toc-link" onclick="openAccordion('sec-gemeinde')">&#x1F3D4; Gemeinden</a>
-                    <a href="#sec-saison" class="toc-link" onclick="openAccordion('sec-saison')">&#x2744; Saisons</a>
-                    <a href="#sec-betten" class="toc-link" onclick="openAccordion('sec-betten')">&#x1F6CF; Betten</a>
-                    <a href="#sec-prognose" class="toc-link" onclick="openAccordion('sec-prognose')">&#x1F52E; Prognose</a>
-                    <a href="#sec-wertschoepfung" class="toc-link" onclick="openAccordion('sec-wertschoepfung')">&#x1F4B0; Wertsch&ouml;pfung</a>
-                </div>
-            </nav>
-
-            <!-- WERBEPLATZ oben -->
-            <div class="ad-space" id="ad-top">
-                <div class="ad-space-label">Werbung</div>
-                <div class="ad-space-title">Ihr Unternehmen hier pr&auml;sentieren</div>
-                <div class="ad-space-desc">Erreichen Sie Tourismus-Interessierte im Kleinwalsertal. Premium-Werbeplatz auf der meistbesuchten Statistik-Seite der Region.</div>
-                <a href="mailto:walserfly@gmail.com?subject=Werbung%20auf%20kleinwalsertal-statistik.at" class="ad-space-cta">Werbeplatz anfragen</a>
-            </div>
-
             <!-- 1. ZEITVERLAUF -->
             <section class="section" id="sec-zeitverlauf">
                 <div class="accordion-toggle open" onclick="toggleAccordion(this)">
@@ -304,7 +277,27 @@
                 </div>
             </section>
 
-            <!-- 2. MONATLICHE VERTEILUNG -->
+            <!-- 2. PROGNOSE -->
+            <section class="section" id="sec-prognose">
+                <div class="accordion-toggle open" onclick="toggleAccordion(this)">
+                    <h2>&#x1F52E; Prognose 2026 <span class="subtitle">Hochrechnung (ohne COVID-Jahre)</span></h2>
+                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+                <div class="accordion-body open">
+                    <p style="background:rgba(201,162,39,0.1);border:1px solid rgba(201,162,39,0.3);border-radius:var(--radius-sm);padding:12px 16px;margin-bottom:20px;font-size:0.9rem;color:var(--text-sec);">
+                        <strong>Hinweis:</strong> F&uuml;r 2026 liegen bisher nur Daten f&uuml;r J&auml;nner vor. Die Prognose basiert auf dem 10-Jahres-Trend (ohne COVID-Jahre 2020/2021) und zeigt die erwartete Jahresentwicklung.
+                    </p>
+                    <div id="forecastKPIs" class="kpi-grid" style="margin-bottom: 24px;"></div>
+                    <div class="card">
+                        <div class="card-header"><h3 class="card-title">Trendlinie &amp; Prognose</h3></div>
+                        <div class="card-body">
+                            <div class="chart-container"><canvas id="forecastChart"></canvas></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. MONATLICHE VERTEILUNG -->
             <section class="section" id="sec-monatlich">
                 <div class="accordion-toggle open" onclick="toggleAccordion(this)">
                     <h2>&#x1F4CA; Monatliche Verteilung <span class="subtitle">Saisonale Muster</span></h2>
@@ -321,36 +314,54 @@
                 </div>
             </section>
 
-            <!-- 3. ALLE JAHRESDATEN -->
+            <!-- 4. ALLE JAHRESDATEN -->
             <section class="section" id="sec-jahresdaten">
                 <div class="accordion-toggle open" onclick="toggleAccordion(this)">
-                    <h2>&#x1F4CB; Alle Jahresdaten <span class="subtitle">Tabelle mit CSV-Export</span></h2>
+                    <h2>&#x1F4CB; Alle Jahresdaten <span class="subtitle">&Uuml;bersicht</span></h2>
                     <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
                 </div>
                 <div class="accordion-body open">
-                    <div style="text-align:right;margin-bottom:12px;">
-                        <button class="btn btn-secondary" onclick="exportCSV()">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                            CSV Export
-                        </button>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead><tr><th>Jahr</th><th>&Uuml;bernachtungen</th><th>Ank&uuml;nfte</th><th>&Oslash; Aufenthalt</th><th>Ver&auml;nderung</th><th>Status</th></tr></thead>
+                            <tbody id="tableBody"></tbody>
+                        </table>
                     </div>
-                        <button class="btn btn-secondary" onclick="exportCSV()">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                            CSV Export
-                        </button>
+                </div>
+            </section>
+
+            <!-- 5. BETTENAUSLASTUNG -->
+            <section class="section" id="sec-betten">
+                <div class="accordion-toggle" onclick="toggleAccordion(this)">
+                    <h2>&#x1F6CF; Bettenauslastung <span class="subtitle">N&auml;chtigungen pro Bett</span></h2>
+                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+                <div class="accordion-body">
+                    <div class="controls" style="margin-bottom:16px;">
+                        <div class="control-group">
+                            <label class="control-label">Jahr:</label>
+                            <select id="occupancyYear"></select>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div class="table-wrapper">
-                            <table>
-                                <thead><tr><th>Jahr</th><th>Übernachtungen</th><th>Ankünfte</th><th>Ø Aufenthalt</th><th>Veränderung</th><th>Status</th></tr></thead>
-                                <tbody id="tableBody"></tbody>
-                            </table>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="chart-container"><canvas id="occupancyChart"></canvas></div>
+                        </div>
+                    </div>
+                    <div class="card" style="margin-top: 24px;">
+                        <div class="card-body">
+                            <div class="table-wrapper">
+                                <table>
+                                    <thead><tr><th>Gemeinde</th><th>Betten</th><th>N&auml;chtigungen</th><th>Auslastung</th><th>&Uuml;N pro Bett</th></tr></thead>
+                                    <tbody id="occupancyTableBody"></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- 4. HEATMAP -->
+            <!-- 6. HEATMAP -->
             <section class="section" id="sec-heatmap">
                 <div class="accordion-toggle" onclick="toggleAccordion(this)">
                     <h2>&#x1F4C5; Saisonale Buchungsst&auml;rke <span class="subtitle">Heatmap 2022&ndash;2026</span></h2>
@@ -399,14 +410,6 @@
                     </div>
                 </div>
             </section>
-
-            <!-- WERBEPLATZ Mitte -->
-            <div class="ad-space" id="ad-mid">
-                <div class="ad-space-label">Werbung</div>
-                <div class="ad-space-title">Werbeplatz verf&uuml;gbar</div>
-                <div class="ad-space-desc">Platzieren Sie Ihre Werbung direkt vor Tourismus-Entscheidern und Interessierten.</div>
-                <a href="mailto:walserfly@gmail.com?subject=Werbung%20auf%20kleinwalsertal-statistik.at" class="ad-space-cta">Werbeplatz anfragen</a>
-            </div>
 
             <!-- 6. HERKUNFTSTREND -->
             <section class="section" id="sec-herkunftstrend">
@@ -537,58 +540,7 @@
                 </div>
             </section>
 
-            <!-- 10. BETTENAUSLASTUNG -->
-            <section class="section" id="sec-betten">
-                <div class="accordion-toggle" onclick="toggleAccordion(this)">
-                    <h2>&#x1F6CF; Bettenauslastung <span class="subtitle">N&auml;chtigungen pro Bett</span></h2>
-                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-                </div>
-                <div class="accordion-body">
-                    <div class="controls" style="margin-bottom:16px;">
-                        <div class="control-group">
-                            <label class="control-label">Jahr:</label>
-                            <select id="occupancyYear"></select>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="chart-container"><canvas id="occupancyChart"></canvas></div>
-                        </div>
-                    </div>
-                    <div class="card" style="margin-top: 24px;">
-                        <div class="card-body">
-                            <div class="table-wrapper">
-                                <table>
-                                    <thead><tr><th>Gemeinde</th><th>Betten</th><th>N&auml;chtigungen</th><th>Auslastung</th><th>&Uuml;N pro Bett</th></tr></thead>
-                                    <tbody id="occupancyTableBody"></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 11. PROGNOSE -->
-            <section class="section" id="sec-prognose">
-                <div class="accordion-toggle" onclick="toggleAccordion(this)">
-                    <h2>&#x1F52E; Prognose 2026 <span class="subtitle">Hochrechnung (ohne COVID-Jahre)</span></h2>
-                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-                </div>
-                <div class="accordion-body">
-                    <p style="background:rgba(201,162,39,0.1);border:1px solid rgba(201,162,39,0.3);border-radius:var(--radius-sm);padding:12px 16px;margin-bottom:20px;font-size:0.9rem;color:var(--text-sec);">
-                        <strong>Hinweis:</strong> F&uuml;r 2026 liegen bisher nur Daten f&uuml;r J&auml;nner vor. Die Prognose basiert auf dem 10-Jahres-Trend (ohne COVID-Jahre 2020/2021) und zeigt die erwartete Jahresentwicklung.
-                    </p>
-                    <div id="forecastKPIs" class="kpi-grid" style="margin-bottom: 24px;"></div>
-                    <div class="card">
-                        <div class="card-header"><h3 class="card-title">Trendlinie &amp; Prognose</h3></div>
-                        <div class="card-body">
-                            <div class="chart-container"><canvas id="forecastChart"></canvas></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 12. WERTSCHÖPFUNGSRECHNER -->
+            <!-- WERTSCHÖPFUNGSRECHNER -->
             <section class="section" id="sec-wertschoepfung">
                 <div class="accordion-toggle" onclick="toggleAccordion(this)">
                     <h2>&#x1F4B0; Touristische Wertsch&ouml;pfung <span class="subtitle">Wirtschaftlicher Beitrag</span></h2>
@@ -1126,7 +1078,7 @@
             document.getElementById('yearTo').value = lastFullYear;
             document.getElementById('countryTrendFrom').value = Math.max(min, 2016);
             document.getElementById('countryTrendTo').value = 2025;
-            document.getElementById('monthlyYear').value = 2025;
+            document.getElementById('monthlyYear').value = Math.max(...years);
             document.getElementById('countryYear').value = 2025;
             document.getElementById('accommodationYear').value = 2025;
             document.getElementById('comparisonYear').value = 2025;
@@ -1191,14 +1143,68 @@
         function updateMonthlyChart() {
             const year = parseInt(document.getElementById('monthlyYear').value);
             const data = monthlyData[year] || FALLBACK.monthly[year] || {};
+            const prevData = monthlyData[year - 1] || FALLBACK.monthly[year - 1] || {};
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
             const values = CONFIG.MONTHS_DE.map((_, i) => data[i + 1] || 0);
+            const prevValues = CONFIG.MONTHS_DE.map((_, i) => prevData[i + 1] || 0);
+
+            // Prognose: Wo aktuelle Daten fehlen, Vorjahreswerte als gestrichelte Prognose
+            const forecastValues = CONFIG.MONTHS_DE.map((_, i) => {
+                const m = i + 1;
+                if (data[m] && data[m] > 0) return null; // Echte Daten vorhanden
+                return prevData[m] || null; // Vorjahreswert als Prognose
+            });
+
             const ctx = document.getElementById('monthlyChart').getContext('2d');
             if (monthlyChart) monthlyChart.destroy();
             monthlyChart = new Chart(ctx, {
                 type: 'bar',
-                data: { labels: CONFIG.MONTHS_FULL, datasets: [{ label: 'Übernachtungen', data: values, backgroundColor: values.map((v, i) => v === 0 ? 'rgba(200,200,200,0.3)' : (i >= 10 || i <= 2 ? 'rgba(30,58,95,0.8)' : 'rgba(74,155,127,0.7)')), borderRadius: 4 }] },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.raw > 0 ? formatNum(c.raw) + ' ÜN' : 'Keine Daten' } } }, scales: { x: { ticks: { color: isDark ? '#e6edf3' : '#1a2a3a' }, grid: { display: false } }, y: { ticks: { color: isDark ? '#e6edf3' : '#1a2a3a', callback: v => formatNum(v) }, grid: { color: isDark ? '#30363d' : '#e5eaef' } } } }
+                data: {
+                    labels: CONFIG.MONTHS_FULL,
+                    datasets: [
+                        {
+                            label: year + ' (Ist)',
+                            data: values,
+                            backgroundColor: values.map((v, i) => v === 0 ? 'rgba(200,200,200,0.15)' : (i >= 10 || i <= 2 ? 'rgba(30,58,95,0.8)' : 'rgba(74,155,127,0.7)')),
+                            borderRadius: 4,
+                            order: 1
+                        },
+                        {
+                            label: (year - 1) + ' (Vorjahr)',
+                            data: prevValues,
+                            type: 'line',
+                            borderColor: '#c9a227',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            borderDash: [6, 3],
+                            pointRadius: 3,
+                            pointBackgroundColor: '#c9a227',
+                            tension: 0.3,
+                            order: 0
+                        },
+                        {
+                            label: 'Prognose (Vorjahresbasis)',
+                            data: forecastValues,
+                            backgroundColor: 'rgba(201,162,39,0.25)',
+                            borderColor: 'rgba(201,162,39,0.6)',
+                            borderWidth: 1,
+                            borderDash: [4, 4],
+                            borderRadius: 4,
+                            order: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: isDark ? '#e6edf3' : '#1a2a3a', padding: 16 } },
+                        tooltip: { callbacks: { label: c => c.raw != null && c.raw > 0 ? c.dataset.label + ': ' + formatNum(c.raw) + ' \u00dcN' : null } }
+                    },
+                    scales: {
+                        x: { ticks: { color: isDark ? '#e6edf3' : '#1a2a3a' }, grid: { display: false } },
+                        y: { ticks: { color: isDark ? '#e6edf3' : '#1a2a3a', callback: v => formatNum(v) }, grid: { color: isDark ? '#30363d' : '#e5eaef' } }
+                    }
+                }
             });
         }
 
