@@ -364,13 +364,7 @@
                         <div style="position:relative;height:320px;"><canvas id="wxSnowTimeChart"></canvas></div>
                     </div>
 
-                    <!-- 4) Scatter Chart -->
-                    <div id="wxCorrChartWrap" style="display:none;margin-top:24px;">
-                        <h3 style="font-size:1rem;font-weight:600;margin-bottom:12px;">&#x1F4CA; Zusammenhang Schnee &harr; G&auml;ste</h3>
-                        <div style="position:relative;height:300px;"><canvas id="wxCorrChart"></canvas></div>
-                    </div>
-
-                    <!-- 5) Wintervergleich Tabelle -->
+                    <!-- 4) Wintervergleich Tabelle -->
                     <div id="wetterTableWrap" style="display:none;margin-top:24px;">
                         <h3 style="font-size:1rem;font-weight:600;margin-bottom:12px;">&#x1F4CB; Wintervergleich &middot; Alle Saisonen</h3>
                         <div class="table-wrapper" id="wxSeasonTable"></div>
@@ -776,10 +770,6 @@
                         <li><a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0 Lizenz</a></li>
                     </ul>
                 </div>
-            </div>
-            <div class="footer-bottom">
-                <span>Daten: Land Vorarlberg (OGD)</span>
-                <span id="footerDate">Stand: Februar 2026</span>
             </div>
         </div>
     </footer>
@@ -2444,32 +2434,6 @@
                 el.style.display='block';
             },
 
-            renderCorrScatter() {
-                if(this.charts.corr){this.charts.corr.destroy();this.charts.corr=null;}
-                const pairs=[];
-                this.SEASONS.filter(s=>this.isComplete(s)).forEach(s=>{
-                    const t=this.seasonTotals(s.id);if(!t)return;
-                    const tour=this.getTourism(s.id);
-                    if(tour.total>0)pairs.push({x:t.valley.avgSnow,y:tour.total,id:s.id});
-                });
-                if(pairs.length<2) return;
-                const isDark=document.documentElement.getAttribute('data-theme')==='dark';
-                this.charts.corr=new Chart(document.getElementById('wxCorrChart'),{
-                    type:'scatter',
-                    data:{datasets:[{label:'Saison',data:pairs,
-                        backgroundColor:pairs.map(p=>p.id===this.activeSeason?'#4fc3f7':'rgba(79,195,247,0.5)'),
-                        pointRadius:pairs.map(p=>p.id===this.activeSeason?8:6),pointHoverRadius:10
-                    }]},
-                    options:{responsive:true,maintainAspectRatio:false,
-                        scales:{
-                            x:{title:{display:true,text:'Ø Schneehöhe (cm)'},ticks:{color:isDark?'#8b949e':'#617572'},grid:{color:isDark?'#30363d':'#e5eaef'}},
-                            y:{title:{display:true,text:'Nächtigungen (Winter)'},beginAtZero:true,ticks:{color:isDark?'#8b949e':'#617572'},grid:{color:isDark?'#30363d':'#e5eaef'}}
-                        },
-                        plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${pairs[ctx.dataIndex].id}: ${pairs[ctx.dataIndex].x.toFixed(0)}cm / ${this.fmtNum(pairs[ctx.dataIndex].y)}`}}}
-                    }
-                });
-            },
-
             renderVisualCompare() {
                 const el=document.getElementById('wxVisualCompare');
                 if(!el) return;
@@ -2519,12 +2483,10 @@
                 const stw=document.getElementById('wetterSnowTimeWrap');if(stw)stw.style.display='block';
                 const ttw=document.getElementById('wetterTableWrap');if(ttw)ttw.style.display='block';
                 const lnk=document.getElementById('wetterLink');if(lnk)lnk.style.display='block';
-                const csw=document.getElementById('wxCorrChartWrap');if(csw)csw.style.display='block';
                 // Charts rendern
                 this.renderVisualCompare();
                 this.renderCorrSummary();
                 this.renderSnowTimeline();
-                this.renderCorrScatter();
                 this.renderSeasonTable();
                 // Resize nach kurzer Verzögerung
                 setTimeout(()=>window.dispatchEvent(new Event('resize')),100);

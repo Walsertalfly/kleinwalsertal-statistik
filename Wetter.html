@@ -343,19 +343,6 @@
     <div style="padding:1.4rem;" id="corrRanking"></div>
   </div>
 
-  <div class="card">
-    <div class="card-h">
-      <span class="card-t">❄️ Schnee → G&auml;ste (Scatter)</span>
-    </div>
-    <div class="ch"><canvas id="corrChart"></canvas></div>
-  </div>
-
-  <div class="card">
-    <div class="card-h">
-      <span class="card-t">☀️ Sonne → G&auml;ste (Scatter)</span>
-    </div>
-    <div class="ch"><canvas id="sunCorrChart"></canvas></div>
-  </div>
 
   <div class="card full">
     <div class="card-h">
@@ -1172,89 +1159,6 @@ function renderSnowTimeline() {
   });
 }
 
-// Correlation scatter: Snow vs Overnights
-function renderCorrScatter() {
-  kill('corr');
-  const pairs = [];
-  SEASONS.filter(isSeasonComplete).forEach(s => {
-    const totals = seasonTotals(s.id);
-    if (!totals) return;
-    const tour = getTourismForSeason(s.id);
-    if (tour.total > 0) pairs.push({ x: totals.valley.avgSnow, y: tour.total, id: s.id });
-  });
-
-  if (pairs.length < 2) return;
-
-  charts.corr = new Chart(document.getElementById('corrChart'), {
-    type: 'scatter',
-    data: {
-      datasets: [{
-        label: 'Saison',
-        data: pairs,
-        backgroundColor: pairs.map(p => p.id === activeSeason ? C.valley : 'rgba(79,195,247,0.5)'),
-        pointRadius: pairs.map(p => p.id === activeSeason ? 8 : 6),
-        pointHoverRadius: 10,
-      }]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      scales: {
-        x: { title: { display: true, text: 'Durchschnittliche Schneehöhe (cm)' } },
-        y: { title: { display: true, text: 'Übernachtungen im Winter' }, beginAtZero: true }
-      },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            label: ctx => `${pairs[ctx.dataIndex].id}: ${pairs[ctx.dataIndex].x.toFixed(0)}cm / ${fmtNum(pairs[ctx.dataIndex].y)}`
-          }
-        }
-      }
-    }
-  });
-}
-
-// Sun vs Overnights
-function renderSunCorr() {
-  kill('sunCorr');
-  const pairs = [];
-  SEASONS.filter(isSeasonComplete).forEach(s => {
-    const totals = seasonTotals(s.id);
-    if (!totals) return;
-    const tour = getTourismForSeason(s.id);
-    if (tour.total > 0) pairs.push({ x: totals.valley.totalSun, y: tour.total, id: s.id });
-  });
-
-  if (pairs.length < 2) return;
-
-  charts.sunCorr = new Chart(document.getElementById('sunCorrChart'), {
-    type: 'scatter',
-    data: {
-      datasets: [{
-        label: 'Saison',
-        data: pairs,
-        backgroundColor: pairs.map(p => p.id === activeSeason ? C.sun : 'rgba(255,213,79,0.5)'),
-        pointRadius: pairs.map(p => p.id === activeSeason ? 8 : 6),
-      }]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      scales: {
-        x: { title: { display: true, text: 'Sonnenstunden im Winter' } },
-        y: { title: { display: true, text: 'Übernachtungen im Winter' }, beginAtZero: true }
-      },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            label: ctx => `${pairs[ctx.dataIndex].id}: ${pairs[ctx.dataIndex].x.toFixed(0)}h / ${fmtNum(pairs[ctx.dataIndex].y)}`
-          }
-        }
-      }
-    }
-  });
-}
-
 // Snowfall bars
 function renderSnowfall() {
   kill('snowfall');
@@ -1580,8 +1484,6 @@ function render() {
   renderKPIs();
   renderDualChart();
   renderSnowTimeline();
-  renderCorrScatter();
-  renderSunCorr();
   renderSnowfall();
   renderTemp();
   renderSeasonTable();
