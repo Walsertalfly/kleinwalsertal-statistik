@@ -211,7 +211,6 @@
         .wx-mini-bar.snow { background: linear-gradient(90deg, #4fc3f7, #0288d1); }
         .wx-mini-bar.sun { background: linear-gradient(90deg, #ffd54f, #ff8f00); }
         .wx-table tr.active-season { background: rgba(41,128,185,0.06); }
-        .wx-table .covid-tag { color: #ef5350; font-size: 0.7rem; font-weight: 600; }
         /* Correlation Visual */
         .wx-verdict { text-align: center; padding: 24px 20px; background: var(--snow); border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 20px; }
         .wx-verdict-emoji { font-size: 2.5rem; margin-bottom: 8px; }
@@ -227,7 +226,6 @@
         /* Ranking bars */
         .wx-rank-row { display: grid; grid-template-columns: 65px 1fr; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
         .wx-rank-row:last-child { border-bottom: none; }
-        .wx-rank-row.covid { opacity: 0.35; }
         .wx-rank-season { font-weight: 700; font-size: 0.85rem; }
         .wx-rank-bars { display: flex; flex-direction: column; gap: 3px; }
         .wx-rank-bar-wrap { display: flex; align-items: center; gap: 6px; }
@@ -338,7 +336,7 @@
                 <div class="accordion-body">
                     <p class="section-desc">Schneelage, Wetter und Tourismus im Vergleich &ndash; bringt mehr Schnee wirklich mehr G&auml;ste?</p>
                     <button class="info-toggle" onclick="toggleInfo(this)"><span class="info-icon">i</span> Mehr erfahren</button>
-                    <div class="info-detail">Schneeh&ouml;hen stammen von GeoSphere Austria und Open-Meteo, Tourismuszahlen von data.gv.at. COVID-Winter (19/20, 20/21) sind in der Korrelation ausgenommen, da Lockdowns die Zahlen verzerrt haben.</div>
+                    <div class="info-detail">Schneeh&ouml;hen stammen von GeoSphere Austria und Open-Meteo, Tourismuszahlen von data.gv.at (Land Vorarlberg).</div>
 
                     <div id="wetterLoading" style="text-align:center;padding:40px 0;color:var(--text-sec);">
                         <div style="display:inline-block;width:24px;height:24px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:12px;"></div>
@@ -2054,6 +2052,7 @@
                 valley: { lat: 47.3547, lon: 10.1901, name: 'Tal (Riezlern)' },
                 mountain: { lat: 47.3483, lon: 10.1458, name: 'Berg (Ifen/Kanzelwand)' }
             },
+            COVID_IDS: new Set(['19/20', '20/21']),
             SEASONS: [
                 { id: '19/20', start: '2019-11-01', end: '2020-04-30', tourYear: 2020 },
                 { id: '20/21', start: '2020-11-01', end: '2021-04-30', tourYear: 2021 },
@@ -2289,7 +2288,7 @@
             },
 
             renderSeasonTable() {
-                const rows=this.SEASONS.map(s=>{
+                const rows=this.SEASONS.filter(s=>!this.COVID_IDS.has(s.id)).map(s=>{
                     const t=this.seasonTotals(s.id);if(!t)return null;
                     const tour=this.getTourism(s.id);
                     return{id:s.id,vt:t.valley,mt:t.mountain,nights:tour.total};
@@ -2311,9 +2310,8 @@
                     const sPct=maxSnow>0?(r.mt.maxSnow/maxSnow*100).toFixed(0):0;
                     const suPct=maxSun>0?(r.vt.totalSun/maxSun*100).toFixed(0):0;
                     const nPct=maxNights>0?(r.nights/maxNights*100).toFixed(0):0;
-                    const covid=r.id==='19/20'||r.id==='20/21';
                     html+=`<tr${r.id===this.activeSeason?' class="active-season"':''}>
-                        <td><strong>${r.id}</strong>${covid?' <span class="covid-tag">COVID</span>':''}</td>
+                        <td><strong>${r.id}</strong></td>
                         <td class="num">${this.fmtNum(r.nights)}</td>
                         <td class="bar-cell"><div class="wx-mini-bar nights" style="width:${nPct}%"></div></td>
                         <td class="num">${r.vt.avgSnow.toFixed(0)} cm</td>
@@ -2405,7 +2403,7 @@
                             <div class="wx-corr-card-detail">${this.fmtNum(worst.nights)} N&auml;chtigungen<br>&Oslash; ${worst.snow.toFixed(0)} cm Schnee</div>
                         </div>
                     </div>
-                    <p style="margin-top:10px;font-size:0.75rem;color:var(--text-sec);text-align:center;">COVID-Winter 19/20 und 20/21 sind aus der Berechnung ausgenommen.</p>
+                    <p style="margin-top:10px;font-size:0.75rem;color:var(--text-sec);text-align:center;">Daten: GeoSphere Austria, Open-Meteo, data.gv.at.</p>
                 `;
                 el.style.display='block';
             },
@@ -2441,11 +2439,10 @@
                 const el=document.getElementById('wxVisualCompare');
                 if(!el) return;
                 const rows=[];
-                this.SEASONS.forEach(s=>{
+                this.SEASONS.filter(s=>!this.COVID_IDS.has(s.id)).forEach(s=>{
                     const t=this.seasonTotals(s.id);if(!t)return;
                     const tour=this.getTourism(s.id);
-                    const covid=s.id==='19/20'||s.id==='20/21';
-                    rows.push({id:s.id,snow:t.valley.avgSnow,nights:tour.total,covid});
+                    rows.push({id:s.id,snow:t.valley.avgSnow,nights:tour.total});
                 });
                 if(!rows.length){el.innerHTML='<p style="color:var(--text-sec);">Keine Daten verf&uuml;gbar.</p>';return;}
 
@@ -2456,8 +2453,8 @@
                 rows.forEach(r=>{
                     const snowPct=maxSnow>0?Math.round(r.snow/maxSnow*100):0;
                     const nightPct=maxNights>0?Math.round(r.nights/maxNights*100):0;
-                    html+=`<div class="wx-rank-row${r.covid?' covid':''}">
-                        <div class="wx-rank-season">${r.id}${r.covid?'<br><span style="font-size:0.6rem;color:var(--sunset);font-weight:400;">COVID</span>':''}</div>
+                    html+=`<div class="wx-rank-row">
+                        <div class="wx-rank-season">${r.id}</div>
                         <div class="wx-rank-bars">
                             <div class="wx-rank-bar-wrap"><div class="wx-rank-icon">&#x2744;</div><div class="wx-rank-bar snow" style="width:${snowPct}%">${r.snow.toFixed(0)} cm</div></div>
                             <div class="wx-rank-bar-wrap"><div class="wx-rank-icon">&#x1F6CF;</div><div class="wx-rank-bar nights" style="width:${nightPct}%">${this.fmtNum(r.nights)}</div></div>
@@ -2472,7 +2469,7 @@
                 // Saison-Dropdown füllen
                 const sel=document.getElementById('wetterSeason');
                 if(sel&&sel.options.length===0){
-                    this.SEASONS.forEach(s=>{
+                    this.SEASONS.filter(s=>!this.COVID_IDS.has(s.id)).forEach(s=>{
                         if(this.weatherData[s.id]){
                             const opt=document.createElement('option');opt.value=s.id;opt.textContent='Winter '+s.id;
                             if(s.id===this.activeSeason) opt.selected=true;

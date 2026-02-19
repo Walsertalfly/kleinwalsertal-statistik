@@ -227,7 +227,6 @@
     border-bottom: 1px solid rgba(30,51,84,0.3);
   }
   .corr-rank-row:last-child { border-bottom: none; }
-  .corr-rank-row.covid-row { opacity: 0.35; }
   .corr-rank-season {
     font-weight: 700; font-size: 0.9rem; white-space: nowrap;
   }
@@ -406,6 +405,7 @@ const LOC = {
   mountain: { lat: 47.3483, lon: 10.1458, elev: 2000, name: 'Berg (Ifen/Kanzelwand)' },
 };
 
+const COVID_IDS = new Set(['19/20', '20/21']);
 const SEASONS = [
   { id: '19/20', start: '2019-11-01', end: '2020-04-30', tourYear: 2020 },
   { id: '20/21', start: '2020-11-01', end: '2021-04-30', tourYear: 2021 },
@@ -1030,7 +1030,7 @@ function fmtNum(n) {
 // ══════════════════════════════════════════════════════════
 function buildTabs() {
   const el = document.getElementById('tabs');
-  SEASONS.forEach(s => {
+  SEASONS.filter(s => !COVID_IDS.has(s.id)).forEach(s => {
     const b = document.createElement('button');
     b.className = 'tab' + (s.id === activeSeason ? ' active' : '');
     b.textContent = s.id;
@@ -1313,7 +1313,7 @@ function renderTemp() {
 // SEASON COMPARISON TABLE
 // ══════════════════════════════════════════════════════════
 function renderSeasonTable() {
-  const rows = SEASONS.map(s => {
+  const rows = SEASONS.filter(s => !COVID_IDS.has(s.id)).map(s => {
     const totals = seasonTotals(s.id);
     if (!totals) return null;
     const tour = getTourismForSeason(s.id);
@@ -1341,10 +1341,9 @@ function renderSeasonTable() {
     const snowPct = maxSnow > 0 ? (r.mt.maxSnow / maxSnow * 100).toFixed(0) : 0;
     const sunPct = maxSun > 0 ? (r.vt.totalSun / maxSun * 100).toFixed(0) : 0;
     const nightPct = maxNights > 0 ? (r.nights / maxNights * 100).toFixed(0) : 0;
-    const isCovid = r.id === '19/20' || r.id === '20/21';
 
     html += `<tr${r.id === activeSeason ? ' style="background:rgba(79,195,247,0.06)"' : ''}>
-      <td><strong>${r.id}</strong>${isCovid ? ' <span style="color:var(--warn);font-size:0.7rem">COVID</span>' : ''}</td>
+      <td><strong>${r.id}</strong></td>
       <td class="num">${fmtNum(r.nights)}</td>
       <td class="bar-cell"><div class="mini-bar bar-nights" style="width:${nightPct}%"></div></td>
       <td class="num">${r.vt.avgSnow.toFixed(0)} cm</td>
@@ -1468,13 +1467,13 @@ function renderCorrSummary() {
         </div>
         <div class="corr-card-item">
           <div class="corr-card-label">&#x1F4C9; Schw&auml;chste Saison</div>
-          <div class="corr-card-season" style="color:var(--warn)">${worst.id === '19/20' || worst.id === '20/21' ? 'Winter ' + worst.id + ' (COVID)' : 'Winter ' + worst.id}</div>
+          <div class="corr-card-season" style="color:var(--warn)">Winter ${worst.id}</div>
           <div class="corr-card-detail">${fmtNum(worst.nights)} &Uuml;bernachtungen<br>&Oslash; ${worst.snow.toFixed(0)} cm Schnee</div>
         </div>
       </div>
 
       <p style="margin-top:1.2rem;font-size:0.8rem;color:var(--text-dim);line-height:1.5;text-align:center;">
-        COVID-Winter 19/20 und 20/21 sind aus der Berechnung ausgenommen. Daten: GeoSphere Austria, Open-Meteo, data.gv.at.
+        Daten: GeoSphere Austria, Open-Meteo, data.gv.at.
       </p>
     </div>
   `;
@@ -1486,14 +1485,13 @@ function renderCorrRanking() {
   const card = document.getElementById('corrRankingCard');
   if (!el || !card) return;
 
-  // Collect all season data
+  // Collect all season data (ohne COVID)
   const rows = [];
-  SEASONS.forEach(s => {
+  SEASONS.filter(s => !COVID_IDS.has(s.id)).forEach(s => {
     const totals = seasonTotals(s.id);
     if (!totals) return;
     const tour = getTourismForSeason(s.id);
-    const covid = s.id === '19/20' || s.id === '20/21';
-    rows.push({ id: s.id, snow: totals.valley.avgSnow, nights: tour.total, covid });
+    rows.push({ id: s.id, snow: totals.valley.avgSnow, nights: tour.total });
   });
 
   if (!rows.length) return;
@@ -1506,8 +1504,8 @@ function renderCorrRanking() {
   rows.forEach(r => {
     const snowPct = maxSnow > 0 ? Math.round(r.snow / maxSnow * 100) : 0;
     const nightPct = maxNights > 0 ? Math.round(r.nights / maxNights * 100) : 0;
-    html += `<div class="corr-rank-row${r.covid ? ' covid-row' : ''}">
-      <div class="corr-rank-season">${r.id}${r.covid ? '<br><span style="font-size:0.6rem;color:var(--warn);">COVID</span>' : ''}</div>
+    html += `<div class="corr-rank-row">
+      <div class="corr-rank-season">${r.id}</div>
       <div class="corr-rank-bars">
         <div class="corr-rank-bar-wrap">
           <div class="corr-rank-icon">&#x2744;</div>
