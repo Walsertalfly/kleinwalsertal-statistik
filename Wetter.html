@@ -1430,16 +1430,16 @@ function renderCorrSummary() {
   if (Math.abs(snowR) > 0.5 || Math.abs(sunR) > 0.5) {
     const stronger = snowStronger ? 'Schnee' : 'Sonnenstunden';
     emoji = '✅'; color = 'var(--tourism)';
-    verdictMain = `${stronger} hat einen starken Einfluss auf die G&auml;stezahlen!`;
-    verdictSub = `Der Faktor ${stronger} zeigt eine klare Korrelation mit den &Uuml;bernachtungen.`;
+    verdictMain = `${stronger} beeinflusst die G&auml;stezahlen deutlich!`;
+    verdictSub = `Mehr ${snowStronger ? 'Schnee' : 'Sonne'} = mehr G&auml;ste. Das Wetter spielt eine wichtige Rolle f&uuml;r den Wintertourismus.`;
   } else if (Math.abs(snowR) > 0.2 || Math.abs(sunR) > 0.2) {
     emoji = '📊'; color = 'var(--sun)';
-    verdictMain = 'Wetter beeinflusst den Tourismus &mdash; aber nicht allein';
-    verdictSub = 'Sowohl Schnee als auch Sonne zeigen einen messbaren, aber nicht dominierenden Einfluss.';
+    verdictMain = 'Das Wetter spielt eine Rolle &mdash; aber nicht die einzige';
+    verdictSub = 'Schnee und Sonne beeinflussen die G&auml;stezahlen messbar, aber andere Faktoren (Events, Ferien, Trends) wirken ebenfalls mit.';
   } else {
     emoji = '🤔'; color = 'var(--text-muted)';
-    verdictMain = 'Kein klarer Wetter-Einfluss nachweisbar';
-    verdictSub = 'Weder Schnee noch Sonne korrelieren stark mit den G&auml;stezahlen. Andere Faktoren dominieren.';
+    verdictMain = 'Kein klarer Wetter-Einfluss erkennbar';
+    verdictSub = 'Die G&auml;stezahlen h&auml;ngen hier kaum vom Wetter ab. Andere Faktoren wie Buchungstrends oder Ferienzeiten scheinen wichtiger zu sein.';
   }
 
   // Datentabelle: Saison | Schnee | Sonne | Nächtigungen
@@ -1504,10 +1504,22 @@ function renderCorrSummary() {
 
       ${tableHtml}
 
-      <div style="margin-top:1rem;padding:1rem;background:var(--bg2);border-radius:10px;border:1px solid var(--border);font-size:0.78rem;color:var(--text-muted);line-height:1.6;">
-        <strong style="color:var(--text);">Methodik:</strong> Pearson-Korrelation (r) zwischen Wetterfaktor und Winter&uuml;bernachtungen.
-        r = 1 bedeutet perfekter Zusammenhang, r = 0 kein Zusammenhang, r = &minus;1 gegenl&auml;ufig.
-        Basis: ${n} abgeschlossene Saisonen (21/22 bis 24/25). Die laufende Saison 25/26 ist ausgenommen, da noch nicht alle Monate vorliegen.
+      <div style="margin-top:1.5rem;padding:1.2rem 1.4rem;background:var(--bg2);border-radius:12px;border:1px solid var(--border);font-size:0.82rem;color:var(--text-muted);line-height:1.8;">
+        <strong style="color:var(--text);font-size:0.9rem;">&#x1F4D6; So liest du diese Analyse</strong>
+        <p style="margin:10px 0 0;">
+          Wir vergleichen f&uuml;r jede abgeschlossene Wintersaison zwei Dinge: <strong style="color:var(--valley);">das Wetter</strong> (Schneeh&ouml;he bzw. Sonnenstunden) und die <strong style="color:var(--tourism);">Anzahl der &Uuml;bernachtungen</strong>.
+        </p>
+        <p style="margin:8px 0 0;">
+          Der <strong style="color:var(--text);">Korrelationswert r</strong> zeigt, ob es einen Zusammenhang gibt:
+        </p>
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:8px 0 0;font-size:0.78rem;">
+          <span style="font-weight:700;color:var(--tourism);">r nahe +1</span><span>= Starker Zusammenhang &mdash; mehr Schnee/Sonne, mehr G&auml;ste</span>
+          <span style="font-weight:700;">r nahe 0</span><span>= Kein Zusammenhang &mdash; das Wetter spielt kaum eine Rolle</span>
+          <span style="font-weight:700;color:var(--warn);">r nahe &minus;1</span><span>= Gegenl&auml;ufig &mdash; mehr Schnee/Sonne, weniger G&auml;ste</span>
+        </div>
+        <p style="margin:10px 0 0;font-size:0.76rem;opacity:0.8;">
+          Basis: <strong>${n} abgeschlossene Wintersaisonen</strong> (Nov&ndash;Apr). Die laufende Saison 25/26 wird nicht ber&uuml;cksichtigt, da noch nicht alle Monate vorliegen. Je mehr Saisonen verf&uuml;gbar sind, desto zuverl&auml;ssiger das Ergebnis.
+        </p>
       </div>
     </div>
   `;

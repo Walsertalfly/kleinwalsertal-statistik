@@ -2368,15 +2368,15 @@
                     const stronger=snowStronger?'Schnee':'Sonnenstunden';
                     emoji='✅';color='var(--accent)';
                     verdictMain=`${stronger} beeinflusst die G&auml;stezahlen deutlich!`;
-                    verdictSub=`Der Faktor ${stronger} zeigt eine klare Korrelation mit den &Uuml;bernachtungen.`;
+                    verdictSub=`Mehr ${snowStronger?'Schnee':'Sonne'} = mehr G&auml;ste. Das Wetter spielt eine wichtige Rolle f&uuml;r den Wintertourismus.`;
                 } else if(Math.abs(snowR)>0.2||Math.abs(sunR)>0.2){
                     emoji='📊';color='var(--gold)';
-                    verdictMain='Wetter beeinflusst den Tourismus &mdash; aber nicht allein';
-                    verdictSub='Schnee und Sonne zeigen einen messbaren, aber nicht dominierenden Einfluss.';
+                    verdictMain='Das Wetter spielt eine Rolle &mdash; aber nicht die einzige';
+                    verdictSub='Schnee und Sonne beeinflussen die G&auml;stezahlen messbar, aber andere Faktoren (Events, Ferien, Trends) wirken ebenfalls mit.';
                 } else {
                     emoji='🤔';color='var(--text-sec)';
-                    verdictMain='Kein klarer Wetter-Einfluss nachweisbar';
-                    verdictSub='Weder Schnee noch Sonne korrelieren stark mit den G&auml;stezahlen.';
+                    verdictMain='Kein klarer Wetter-Einfluss erkennbar';
+                    verdictSub='Die G&auml;stezahlen h&auml;ngen hier kaum vom Wetter ab. Andere Faktoren wie Buchungstrends oder Ferienzeiten scheinen wichtiger.';
                 }
 
                 el.innerHTML=`
@@ -2417,8 +2417,28 @@
                             <div class="wx-corr-card-detail">${this.fmtNum(worst.nights)} N&auml;chtigungen<br>&Oslash; ${worst.snow.toFixed(0)} cm &middot; ${worst.sun.toFixed(0)} h &#x2600;</div>
                         </div>
                     </div>
-                    <div style="margin-top:12px;padding:10px;background:var(--snow);border-radius:var(--radius-sm);border:1px solid var(--border);font-size:0.72rem;color:var(--text-sec);line-height:1.5;">
-                        <strong style="color:var(--text);">Methodik:</strong> Pearson r &uuml;ber ${n} abgeschlossene Saisonen. Laufende Saison 25/26 ausgenommen.
+                    <table style="width:100%;border-collapse:collapse;font-size:0.72rem;margin-top:12px;">
+                        <thead><tr style="border-bottom:1px solid var(--border);">
+                            <th style="text-align:left;padding:5px 6px;color:var(--text-sec);font-weight:500;">Saison</th>
+                            <th style="text-align:right;padding:5px 6px;color:var(--winter);font-weight:500;">&#x2744; Schnee</th>
+                            <th style="text-align:right;padding:5px 6px;color:var(--gold);font-weight:500;">&#x2600; Sonne</th>
+                            <th style="text-align:right;padding:5px 6px;color:var(--accent);font-weight:500;">&#x1F6CF; N&auml;chtigungen</th>
+                        </tr></thead><tbody>
+                        ${pairs.map(p=>`<tr style="border-bottom:1px solid var(--border-light,rgba(0,0,0,0.06));">
+                            <td style="padding:4px 6px;font-weight:600;">${p.id}</td>
+                            <td style="padding:4px 6px;text-align:right;">${p.snow.toFixed(0)} cm</td>
+                            <td style="padding:4px 6px;text-align:right;">${p.sun.toFixed(0)} h</td>
+                            <td style="padding:4px 6px;text-align:right;">${this.fmtNum(p.nights)}</td>
+                        </tr>`).join('')}
+                        </tbody></table>
+                    <div style="margin-top:12px;padding:10px 12px;background:var(--snow);border-radius:var(--radius-sm);border:1px solid var(--border);font-size:0.72rem;color:var(--text-sec);line-height:1.7;">
+                        <strong style="color:var(--text);">&#x1F4D6; So liest du diese Analyse</strong><br>
+                        Wir vergleichen f&uuml;r jede abgeschlossene Wintersaison das <strong style="color:var(--winter);">Wetter</strong> (Schneeh&ouml;he, Sonne) mit den <strong style="color:var(--accent);">&Uuml;bernachtungen</strong>.
+                        Der <strong>Wert r</strong> zeigt den Zusammenhang:<br>
+                        <span style="color:var(--accent);font-weight:600;">r nahe +1</span> = starker Zusammenhang &middot;
+                        <span style="font-weight:600;">r nahe 0</span> = kein Zusammenhang &middot;
+                        <span style="color:var(--sunset);font-weight:600;">r nahe &minus;1</span> = gegenl&auml;ufig<br>
+                        <span style="opacity:0.75;">Basis: ${n} abgeschlossene Saisonen (Nov&ndash;Apr). Saison 25/26 ausgenommen, da noch laufend.</span>
                     </div>
                 `;
                 el.style.display='block';
