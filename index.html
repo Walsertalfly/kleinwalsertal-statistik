@@ -175,7 +175,6 @@
 
         /* Nature colors per accordion */
         #sec-wetter        { --acc-color: #2980B9; } /* Eisblau */
-        #sec-korrelation   { --acc-color: #16A085; } /* Gletschergrün */
         #sec-zeitverlauf   { --acc-color: #2D6B3F; } /* Waldgrün */
         #sec-prognose      { --acc-color: #8B6914; } /* Bernstein/Honig */
         #sec-monatlich     { --acc-color: #187EA0; } /* Bergbach Blau */
@@ -220,10 +219,25 @@
         .wx-corr-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-sec); margin-bottom: 4px; }
         .wx-corr-val { font-size: 1.1rem; font-weight: 700; }
         .wx-corr-detail { font-size: 0.8rem; color: var(--text-sec); margin-top: 2px; }
+        /* Visual Snow vs. Overnights comparison */
+        .wx-visual { display: flex; flex-direction: column; gap: 10px; }
+        .wx-visual-row { display: grid; grid-template-columns: 70px 1fr 1fr; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
+        .wx-visual-row:last-child { border-bottom: none; }
+        .wx-visual-row.covid { opacity: 0.45; }
+        .wx-visual-season { font-weight: 700; font-size: 0.9rem; }
+        .wx-visual-bar-wrap { display: flex; flex-direction: column; gap: 3px; }
+        .wx-visual-bar { height: 22px; border-radius: 6px; display: flex; align-items: center; padding: 0 8px; font-size: 0.7rem; font-weight: 600; color: white; white-space: nowrap; transition: width 0.5s ease; min-width: 20px; }
+        .wx-visual-bar.snow-bar { background: linear-gradient(90deg, #4fc3f7, #0288d1); }
+        .wx-visual-bar.nights-bar { background: linear-gradient(90deg, #81c784, #388e3c); }
+        .wx-visual-label { font-size: 0.7rem; color: var(--text-sec); margin-bottom: 2px; }
+        .wx-visual-header { display: grid; grid-template-columns: 70px 1fr 1fr; gap: 8px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-sec); padding-bottom: 8px; border-bottom: 2px solid var(--border); }
         @media (max-width: 768px) {
             .wx-table { font-size: 0.75rem; }
             .wx-table th, .wx-table td { padding: 8px 4px; }
             .wx-corr-grid { grid-template-columns: 1fr; }
+            .wx-visual-row { grid-template-columns: 55px 1fr 1fr; }
+            .wx-visual-header { grid-template-columns: 55px 1fr 1fr; }
+            .wx-visual-bar { height: 18px; font-size: 0.65rem; }
         }
 
         /* Cookie Banner */
@@ -305,24 +319,35 @@
     <main class="main-content">
         <div class="container">
 
-            <!-- WETTER: SAISON-ÜBERBLICK -->
+            <!-- WETTER & SCHNEE (kombiniert mit Korrelation) -->
             <section class="section" id="sec-wetter">
                 <div class="accordion-toggle" onclick="toggleAccordion(this); initWeatherIfNeeded();">
-                    <h2>&#x2744; Wetter &amp; Schnee <span class="subtitle">Saison&uuml;berblick &middot; Schneeh&ouml;he &middot; Wintervergleich</span></h2>
+                    <h2>&#x2744; Wetter &amp; Schnee <span class="subtitle">Schneeh&ouml;he &middot; Wintervergleich &middot; Mehr Schnee = mehr G&auml;ste?</span></h2>
                     <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
                 </div>
                 <div class="accordion-body">
-                    <p class="section-desc">Wie viel Schnee liegt im Tal und am Berg? Alle Wintersaisons im &Uuml;berblick.</p>
+                    <p class="section-desc">Schneelage, Wetter und Tourismus im Vergleich &ndash; bringt mehr Schnee wirklich mehr G&auml;ste?</p>
                     <button class="info-toggle" onclick="toggleInfo(this)"><span class="info-icon">i</span> Mehr erfahren</button>
-                    <div class="info-detail">Die Schneeh&ouml;hen stammen von GeoSphere Austria (SNOWGRID) und Open-Meteo. Die Tourismuszahlen kommen von data.gv.at (Land Vorarlberg). So siehst du auf einen Blick, wie sich Schnee und G&auml;stezahlen verhalten.</div>
+                    <div class="info-detail">Schneeh&ouml;hen stammen von GeoSphere Austria und Open-Meteo, Tourismuszahlen von data.gv.at. COVID-Winter (19/20, 20/21) sind in der Korrelation ausgenommen, da Lockdowns die Zahlen verzerrt haben.</div>
+
                     <div id="wetterLoading" style="text-align:center;padding:40px 0;color:var(--text-sec);">
                         <div style="display:inline-block;width:24px;height:24px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:12px;"></div>
                         <div>Wetterdaten werden geladen&hellip;</div>
                     </div>
                     <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
-                    <!-- Schneehöhe Saisonverlauf -->
-                    <div id="wetterSnowTimeWrap" style="display:none;">
-                        <h3 style="font-size:1rem;font-weight:600;margin-bottom:12px;">&#x2744; Schneeh&ouml;he im Saisonverlauf &middot; Tal vs. Berg</h3>
+
+                    <!-- 1) Visueller Vergleich: Schnee vs. Nächtigungen pro Saison -->
+                    <div id="wxVisualCompareWrap" style="display:none;">
+                        <h3 style="font-size:1rem;font-weight:600;margin-bottom:16px;">&#x2744; Schnee vs. N&auml;chtigungen &ndash; Saisonvergleich</h3>
+                        <div id="wxVisualCompare"></div>
+                    </div>
+
+                    <!-- 2) Korrelationsergebnis -->
+                    <div id="wxCorrSummary" style="display:none;margin-top:24px;"></div>
+
+                    <!-- 3) Schneehöhe Saisonverlauf -->
+                    <div id="wetterSnowTimeWrap" style="display:none;margin-top:24px;">
+                        <h3 style="font-size:1rem;font-weight:600;margin-bottom:12px;">&#x1F4C8; Schneeh&ouml;he im Saisonverlauf &middot; Tal vs. Berg</h3>
                         <div class="controls" style="margin-bottom:12px;">
                             <div class="control-group">
                                 <label class="control-label">Saison:</label>
@@ -331,37 +356,21 @@
                         </div>
                         <div style="position:relative;height:320px;"><canvas id="wxSnowTimeChart"></canvas></div>
                     </div>
-                    <!-- Wintervergleich Tabelle -->
+
+                    <!-- 4) Scatter Chart -->
+                    <div id="wxCorrChartWrap" style="display:none;margin-top:24px;">
+                        <h3 style="font-size:1rem;font-weight:600;margin-bottom:12px;">&#x1F4CA; Zusammenhang Schnee &harr; G&auml;ste</h3>
+                        <div style="position:relative;height:300px;"><canvas id="wxCorrChart"></canvas></div>
+                    </div>
+
+                    <!-- 5) Wintervergleich Tabelle -->
                     <div id="wetterTableWrap" style="display:none;margin-top:24px;">
-                        <h3 style="font-size:1rem;font-weight:600;margin-bottom:12px;">&#x1F4CA; Wintervergleich &middot; Alle Saisonen</h3>
+                        <h3 style="font-size:1rem;font-weight:600;margin-bottom:12px;">&#x1F4CB; Wintervergleich &middot; Alle Saisonen</h3>
                         <div class="table-wrapper" id="wxSeasonTable"></div>
                     </div>
+
                     <div id="wetterLink" style="display:none;margin-top:16px;text-align:right;">
                         <a href="Wetter.html" style="font-size:0.85rem;color:var(--accent);text-decoration:none;">Zur ausf&uuml;hrlichen Wetter-Analyse &rarr;</a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- WETTER: KORRELATION -->
-            <section class="section" id="sec-korrelation">
-                <div class="accordion-toggle" onclick="toggleAccordion(this); initWeatherIfNeeded();">
-                    <h2>&#x1F4CA; Schnee &harr; Tourismus <span class="subtitle">Bringt mehr Schnee mehr G&auml;ste?</span></h2>
-                    <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-                </div>
-                <div class="accordion-body">
-                    <p class="section-desc">Gibt es einen Zusammenhang zwischen Schneelage und G&auml;stezahlen?</p>
-                    <button class="info-toggle" onclick="toggleInfo(this)"><span class="info-icon">i</span> Mehr erfahren</button>
-                    <div class="info-detail">Die Korrelationsanalyse vergleicht die durchschnittliche Schneeh&ouml;he mit den Winter-N&auml;chtigungen &uuml;ber alle Saisonen. COVID-Jahre (19/20, 20/21) sind ausgenommen, da Lockdowns die Zahlen stark verzerrt haben.</div>
-                    <div id="korrLoading" style="text-align:center;padding:40px 0;color:var(--text-sec);">
-                        <div style="display:inline-block;width:24px;height:24px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:12px;"></div>
-                        <div>Korrelationsdaten werden geladen&hellip;</div>
-                    </div>
-                    <!-- Korrelationsergebnis -->
-                    <div id="wxCorrSummary" style="display:none;"></div>
-                    <!-- Scatter Chart -->
-                    <div id="wxCorrChartWrap" style="display:none;margin-top:20px;">
-                        <h3 style="font-size:1rem;font-weight:600;margin-bottom:12px;">&#x2744; Mehr Schnee = Mehr G&auml;ste?</h3>
-                        <div style="position:relative;height:320px;"><canvas id="wxCorrChart"></canvas></div>
                     </div>
                 </div>
             </section>
@@ -2387,6 +2396,39 @@
                 });
             },
 
+            renderVisualCompare() {
+                const el=document.getElementById('wxVisualCompare');
+                if(!el) return;
+                // Sammle Daten pro Saison
+                const rows=[];
+                this.SEASONS.forEach(s=>{
+                    const t=this.seasonTotals(s.id);if(!t)return;
+                    const tour=this.getTourism(s.id);
+                    const covid=s.id==='19/20'||s.id==='20/21';
+                    rows.push({id:s.id,snow:t.valley.avgSnow,maxSnow:t.mountain.maxSnow,nights:tour.total,covid});
+                });
+                if(!rows.length){el.innerHTML='<p style="color:var(--text-sec);">Keine Daten verf&uuml;gbar.</p>';return;}
+
+                const maxSnow=Math.max(...rows.map(r=>r.snow));
+                const maxNights=Math.max(...rows.map(r=>r.nights));
+
+                let html=`<div class="wx-visual">`;
+                html+=`<div class="wx-visual-header"><div>Saison</div><div>❄️ &Oslash; Schneeh&ouml;he Tal</div><div>🛏️ N&auml;chtigungen Winter</div></div>`;
+
+                rows.forEach(r=>{
+                    const snowPct=maxSnow>0?Math.round(r.snow/maxSnow*100):0;
+                    const nightPct=maxNights>0?Math.round(r.nights/maxNights*100):0;
+                    html+=`<div class="wx-visual-row${r.covid?' covid':''}">
+                        <div class="wx-visual-season">${r.id}${r.covid?'<br><span style="font-size:0.6rem;color:var(--sunset);font-weight:400;">COVID</span>':''}</div>
+                        <div><div class="wx-visual-bar snow-bar" style="width:${snowPct}%">${r.snow.toFixed(0)} cm</div></div>
+                        <div><div class="wx-visual-bar nights-bar" style="width:${nightPct}%">${this.fmtNum(r.nights)}</div></div>
+                    </div>`;
+                });
+                html+=`</div>`;
+                html+=`<p style="margin-top:12px;font-size:0.8rem;color:var(--text-sec);">Je l&auml;nger der blaue Balken (Schnee), desto l&auml;nger sollte auch der gr&uuml;ne Balken (G&auml;ste) sein &ndash; wenn Schnee wirklich mehr G&auml;ste bringt.</p>`;
+                el.innerHTML=html;
+            },
+
             render() {
                 // Saison-Dropdown füllen
                 const sel=document.getElementById('wetterSeason');
@@ -2401,17 +2443,18 @@
                 }
                 // Loading ausblenden
                 const wl=document.getElementById('wetterLoading');if(wl)wl.style.display='none';
-                const kl=document.getElementById('korrLoading');if(kl)kl.style.display='none';
                 // Sektionen einblenden
+                const vcw=document.getElementById('wxVisualCompareWrap');if(vcw)vcw.style.display='block';
                 const stw=document.getElementById('wetterSnowTimeWrap');if(stw)stw.style.display='block';
                 const ttw=document.getElementById('wetterTableWrap');if(ttw)ttw.style.display='block';
                 const lnk=document.getElementById('wetterLink');if(lnk)lnk.style.display='block';
                 const csw=document.getElementById('wxCorrChartWrap');if(csw)csw.style.display='block';
                 // Charts rendern
-                this.renderSnowTimeline();
-                this.renderSeasonTable();
+                this.renderVisualCompare();
                 this.renderCorrSummary();
+                this.renderSnowTimeline();
                 this.renderCorrScatter();
+                this.renderSeasonTable();
                 // Resize nach kurzer Verzögerung
                 setTimeout(()=>window.dispatchEvent(new Event('resize')),100);
             }
