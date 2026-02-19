@@ -1176,8 +1176,7 @@ function renderSnowTimeline() {
 function renderCorrScatter() {
   kill('corr');
   const pairs = [];
-  SEASONS.forEach(s => {
-    if (s.id === '19/20' || s.id === '20/21') return;
+  SEASONS.filter(isSeasonComplete).forEach(s => {
     const totals = seasonTotals(s.id);
     if (!totals) return;
     const tour = getTourismForSeason(s.id);
@@ -1219,8 +1218,7 @@ function renderCorrScatter() {
 function renderSunCorr() {
   kill('sunCorr');
   const pairs = [];
-  SEASONS.forEach(s => {
-    if (s.id === '19/20' || s.id === '20/21') return;
+  SEASONS.filter(isSeasonComplete).forEach(s => {
     const totals = seasonTotals(s.id);
     if (!totals) return;
     const tour = getTourismForSeason(s.id);
@@ -1313,7 +1311,7 @@ function renderTemp() {
 // SEASON COMPARISON TABLE
 // ══════════════════════════════════════════════════════════
 function renderSeasonTable() {
-  const rows = SEASONS.filter(s => !COVID_IDS.has(s.id)).map(s => {
+  const rows = SEASONS.filter(isSeasonComplete).map(s => {
     const totals = seasonTotals(s.id);
     if (!totals) return null;
     const tour = getTourismForSeason(s.id);
@@ -1363,79 +1361,104 @@ function renderSeasonTable() {
 // ══════════════════════════════════════════════════════════
 // CORRELATION ANALYSIS
 // ══════════════════════════════════════════════════════════
-function computeCorrelation() {
+// Nur abgeschlossene Saisonen (end < heute) und kein COVID
+function isSeasonComplete(s) {
+  return !COVID_IDS.has(s.id) && new Date(s.end) < new Date();
+}
+
+function pearson(arr, keyX, keyY) {
+  const n = arr.length;
+  if (n < 3) return { r: 0, n: 0 };
+  const aX = arr.reduce((s,p) => s + p[keyX], 0) / n;
+  const aY = arr.reduce((s,p) => s + p[keyY], 0) / n;
+  let num = 0, dX = 0, dY = 0;
+  arr.forEach(p => { const dx = p[keyX] - aX, dy = p[keyY] - aY; num += dx * dy; dX += dx * dx; dY += dy * dy; });
+  return { r: dX && dY ? num / Math.sqrt(dX * dY) : 0, n };
+}
+
+function computeCorrelations() {
   const pairs = [];
-  SEASONS.forEach(s => {
-    if (s.id === '19/20' || s.id === '20/21') return;
+  SEASONS.filter(isSeasonComplete).forEach(s => {
     const totals = seasonTotals(s.id);
     if (!totals) return;
     const tour = getTourismForSeason(s.id);
-    if (tour.total > 0) pairs.push({ snow: totals.valley.avgSnow, nights: tour.total, id: s.id });
+    if (tour.total > 0) pairs.push({ snow: totals.valley.avgSnow, sun: totals.valley.totalSun, nights: tour.total, id: s.id });
   });
 
   if (pairs.length < 3) return null;
 
-  const n = pairs.length;
-  const avgX = pairs.reduce((s,p) => s + p.snow, 0) / n;
-  const avgY = pairs.reduce((s,p) => s + p.nights, 0) / n;
-  let num = 0, denX = 0, denY = 0;
-  pairs.forEach(p => {
-    const dx = p.snow - avgX, dy = p.nights - avgY;
-    num += dx * dy; denX += dx * dx; denY += dy * dy;
-  });
-  const r = denX && denY ? num / Math.sqrt(denX * denY) : 0;
-  return { r, pairs };
+  const snowCorr = pearson(pairs, 'snow', 'nights');
+  const sunCorr = pearson(pairs, 'sun', 'nights');
+  return { snowR: snowCorr.r, sunR: sunCorr.r, n: pairs.length, pairs };
+}
+
+// Legacy wrapper
+function computeCorrelation() {
+  const result = computeCorrelations();
+  if (!result) return null;
+  return { r: result.snowR, pairs: result.pairs };
+}
+
+function rLabel(r) {
+  const a = Math.abs(r);
+  if (a > 0.7) return 'stark';
+  if (a > 0.4) return 'moderat';
+  if (a > 0.2) return 'schwach';
+  return 'kein';
 }
 
 function renderCorrSummary() {
-  const result = computeCorrelation();
+  const result = computeCorrelations();
   const el = document.getElementById('corrSummary');
 
   if (!result || result.pairs.length < 3) {
-    el.innerHTML = '<div class="card-h"><span class="card-t">Ergebnis</span></div><p style="color:var(--text-muted);font-size:0.9rem;padding:1.4rem;">Noch nicht genug Daten f&uuml;r eine Auswertung.</p>';
+    el.innerHTML = '<div class="card-h"><span class="card-t">Ergebnis</span></div><p style="color:var(--text-muted);font-size:0.9rem;padding:1.4rem;">Noch nicht genug abgeschlossene Saisonen f&uuml;r eine Auswertung.</p>';
     return;
   }
 
-  const r = result.r;
-  // Gauge position: map r from -1..+1 to 0..100%
-  const gaugePct = Math.max(0, Math.min(100, (r + 1) / 2 * 100));
+  const { snowR, sunR, n, pairs } = result;
+  const snowPct = Math.max(0, Math.min(100, (snowR + 1) / 2 * 100));
+  const sunPct = Math.max(0, Math.min(100, (sunR + 1) / 2 * 100));
 
-  // Sort by nights for best/worst
-  const sorted = [...result.pairs].sort((a, b) => b.nights - a.nights);
-  const best = sorted[0];
-  const worst = sorted[sorted.length - 1];
+  const sorted = [...pairs].sort((a, b) => b.nights - a.nights);
+  const best = sorted[0], worst = sorted[sorted.length - 1];
 
-  // Sort by snow for snow ranking
-  const bySnow = [...result.pairs].sort((a, b) => b.snow - a.snow);
-  const snowBest = bySnow[0];
-
-  // Do both rankings agree? (more snow = more guests?)
-  const snowRank = bySnow.map(p => p.id);
-  const nightRank = sorted.map(p => p.id);
-  const topSnowAlsoTopNights = snowRank[0] === nightRank[0];
-
+  // Welcher Faktor ist st&auml;rker?
+  const snowStronger = Math.abs(snowR) >= Math.abs(sunR);
   let emoji, verdictMain, verdictSub, color;
-  if (r > 0.5) {
-    emoji = '✅';
-    color = 'var(--tourism)';
-    verdictMain = 'Ja &mdash; mehr Schnee bringt deutlich mehr G&auml;ste!';
-    verdictSub = 'Winter mit viel Schnee haben klar mehr &Uuml;bernachtungen. Schnee ist ein wichtiger Faktor f&uuml;r den Tourismus im Kleinwalsertal.';
-  } else if (r > 0.2) {
-    emoji = '📊';
-    color = 'var(--sun)';
-    verdictMain = 'Schnee hilft &mdash; ist aber nicht alles';
-    verdictSub = 'Es gibt einen Zusammenhang zwischen Schnee und G&auml;stezahlen, aber auch andere Faktoren wie Wetter, Ferien und Trends spielen eine Rolle.';
-  } else if (r > -0.2) {
-    emoji = '🤔';
-    color = 'var(--text-muted)';
-    verdictMain = 'Kein klarer Zusammenhang';
-    verdictSub = 'Schneeh&ouml;he und &Uuml;bernachtungen zeigen keinen starken Zusammenhang. Andere Faktoren sind entscheidender.';
+
+  if (Math.abs(snowR) > 0.5 || Math.abs(sunR) > 0.5) {
+    const stronger = snowStronger ? 'Schnee' : 'Sonnenstunden';
+    emoji = '✅'; color = 'var(--tourism)';
+    verdictMain = `${stronger} hat einen starken Einfluss auf die G&auml;stezahlen!`;
+    verdictSub = `Der Faktor ${stronger} zeigt eine klare Korrelation mit den &Uuml;bernachtungen.`;
+  } else if (Math.abs(snowR) > 0.2 || Math.abs(sunR) > 0.2) {
+    emoji = '📊'; color = 'var(--sun)';
+    verdictMain = 'Wetter beeinflusst den Tourismus &mdash; aber nicht allein';
+    verdictSub = 'Sowohl Schnee als auch Sonne zeigen einen messbaren, aber nicht dominierenden Einfluss.';
   } else {
-    emoji = '😮';
-    color = 'var(--warn)';
-    verdictMain = '&Uuml;berraschend &mdash; mehr Schnee, weniger G&auml;ste?';
-    verdictSub = 'Das Ergebnis deutet auf einen negativen Zusammenhang hin. M&ouml;glicherweise schreckt zu viel Schnee Reisende ab.';
+    emoji = '🤔'; color = 'var(--text-muted)';
+    verdictMain = 'Kein klarer Wetter-Einfluss nachweisbar';
+    verdictSub = 'Weder Schnee noch Sonne korrelieren stark mit den G&auml;stezahlen. Andere Faktoren dominieren.';
   }
+
+  // Datentabelle: Saison | Schnee | Sonne | Nächtigungen
+  let tableHtml = `<table style="width:100%;border-collapse:collapse;font-size:0.78rem;margin-top:1rem;">
+    <thead><tr style="border-bottom:1px solid var(--border);">
+      <th style="text-align:left;padding:6px 8px;color:var(--text-muted);font-weight:500;">Saison</th>
+      <th style="text-align:right;padding:6px 8px;color:var(--valley);font-weight:500;">&#x2744; &Oslash; Schnee</th>
+      <th style="text-align:right;padding:6px 8px;color:var(--sun);font-weight:500;">&#x2600; Sonne</th>
+      <th style="text-align:right;padding:6px 8px;color:var(--tourism);font-weight:500;">&#x1F6CF; N&auml;chtigungen</th>
+    </tr></thead><tbody>`;
+  pairs.forEach(p => {
+    tableHtml += `<tr style="border-bottom:1px solid rgba(30,51,84,0.2);">
+      <td style="padding:5px 8px;font-weight:600;">${p.id}</td>
+      <td style="padding:5px 8px;text-align:right;">${p.snow.toFixed(0)} cm</td>
+      <td style="padding:5px 8px;text-align:right;">${p.sun.toFixed(0)} h</td>
+      <td style="padding:5px 8px;text-align:right;">${fmtNum(p.nights)}</td>
+    </tr>`;
+  });
+  tableHtml += '</tbody></table>';
 
   el.innerHTML = `
     <div style="padding:1.4rem;">
@@ -1445,17 +1468,24 @@ function renderCorrSummary() {
         <div class="corr-verdict-sub">${verdictSub}</div>
       </div>
 
-      <div class="corr-barometer">
-        <div class="corr-barometer-label">Schnee-Tourismus-Barometer</div>
-        <div style="position:relative;height:32px;border-radius:16px;overflow:visible;">
-          <div class="corr-barometer-track"></div>
-          <div class="corr-barometer-fill" style="width:${gaugePct}%"></div>
-          <div class="corr-barometer-needle" style="left:${gaugePct}%"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0;">
+        <div class="corr-barometer">
+          <div class="corr-barometer-label">&#x2744; Schnee &harr; G&auml;ste</div>
+          <div style="position:relative;height:28px;border-radius:14px;overflow:visible;">
+            <div class="corr-barometer-track"></div>
+            <div class="corr-barometer-fill" style="width:${snowPct}%"></div>
+            <div class="corr-barometer-needle" style="left:${snowPct}%"></div>
+          </div>
+          <div style="text-align:center;margin-top:6px;font-size:0.85rem;font-weight:700;color:var(--valley);">r = ${snowR.toFixed(2)} <span style="font-weight:400;color:var(--text-muted);">(${rLabel(snowR)})</span></div>
         </div>
-        <div class="corr-barometer-labels">
-          <span>&#x274C; Kein Zusammenhang</span>
-          <span>&#x2796; Schwach</span>
-          <span>&#x2705; Stark</span>
+        <div class="corr-barometer">
+          <div class="corr-barometer-label">&#x2600; Sonne &harr; G&auml;ste</div>
+          <div style="position:relative;height:28px;border-radius:14px;overflow:visible;">
+            <div class="corr-barometer-track"></div>
+            <div class="corr-barometer-fill" style="width:${sunPct}%"></div>
+            <div class="corr-barometer-needle" style="left:${sunPct}%"></div>
+          </div>
+          <div style="text-align:center;margin-top:6px;font-size:0.85rem;font-weight:700;color:var(--sun);">r = ${sunR.toFixed(2)} <span style="font-weight:400;color:var(--text-muted);">(${rLabel(sunR)})</span></div>
         </div>
       </div>
 
@@ -1463,18 +1493,22 @@ function renderCorrSummary() {
         <div class="corr-card-item">
           <div class="corr-card-label">&#x1F3C6; Beste Saison</div>
           <div class="corr-card-season" style="color:var(--tourism)">Winter ${best.id}</div>
-          <div class="corr-card-detail">${fmtNum(best.nights)} &Uuml;bernachtungen<br>&Oslash; ${best.snow.toFixed(0)} cm Schnee</div>
+          <div class="corr-card-detail">${fmtNum(best.nights)} N&auml;chtigungen<br>&Oslash; ${best.snow.toFixed(0)} cm &middot; ${best.sun.toFixed(0)} h Sonne</div>
         </div>
         <div class="corr-card-item">
           <div class="corr-card-label">&#x1F4C9; Schw&auml;chste Saison</div>
           <div class="corr-card-season" style="color:var(--warn)">Winter ${worst.id}</div>
-          <div class="corr-card-detail">${fmtNum(worst.nights)} &Uuml;bernachtungen<br>&Oslash; ${worst.snow.toFixed(0)} cm Schnee</div>
+          <div class="corr-card-detail">${fmtNum(worst.nights)} N&auml;chtigungen<br>&Oslash; ${worst.snow.toFixed(0)} cm &middot; ${worst.sun.toFixed(0)} h Sonne</div>
         </div>
       </div>
 
-      <p style="margin-top:1.2rem;font-size:0.8rem;color:var(--text-dim);line-height:1.5;text-align:center;">
-        Daten: GeoSphere Austria, Open-Meteo, data.gv.at.
-      </p>
+      ${tableHtml}
+
+      <div style="margin-top:1rem;padding:1rem;background:var(--bg2);border-radius:10px;border:1px solid var(--border);font-size:0.78rem;color:var(--text-muted);line-height:1.6;">
+        <strong style="color:var(--text);">Methodik:</strong> Pearson-Korrelation (r) zwischen Wetterfaktor und Winter&uuml;bernachtungen.
+        r = 1 bedeutet perfekter Zusammenhang, r = 0 kein Zusammenhang, r = &minus;1 gegenl&auml;ufig.
+        Basis: ${n} abgeschlossene Saisonen (21/22 bis 24/25). Die laufende Saison 25/26 ist ausgenommen, da noch nicht alle Monate vorliegen.
+      </div>
     </div>
   `;
 }
@@ -1485,9 +1519,9 @@ function renderCorrRanking() {
   const card = document.getElementById('corrRankingCard');
   if (!el || !card) return;
 
-  // Collect all season data (ohne COVID)
+  // Nur abgeschlossene Saisonen (kein COVID, keine laufende)
   const rows = [];
-  SEASONS.filter(s => !COVID_IDS.has(s.id)).forEach(s => {
+  SEASONS.filter(isSeasonComplete).forEach(s => {
     const totals = seasonTotals(s.id);
     if (!totals) return;
     const tour = getTourismForSeason(s.id);

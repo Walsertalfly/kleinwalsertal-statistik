@@ -2289,7 +2289,7 @@
             },
 
             renderSeasonTable() {
-                const rows=this.SEASONS.filter(s=>!this.COVID_IDS.has(s.id)).map(s=>{
+                const rows=this.SEASONS.filter(s=>this.isComplete(s)).map(s=>{
                     const t=this.seasonTotals(s.id);if(!t)return null;
                     const tour=this.getTourism(s.id);
                     return{id:s.id,vt:t.valley,mt:t.mountain,nights:tour.total};
@@ -2328,49 +2328,55 @@
                 document.getElementById('wxSeasonTable').innerHTML=html;
             },
 
-            computeCorrelation() {
+            isComplete(s) {
+                return !this.COVID_IDS.has(s.id) && new Date(s.end) < new Date();
+            },
+            pearson(arr,kx,ky) {
+                const n=arr.length;if(n<3)return{r:0,n:0};
+                const ax=arr.reduce((s,p)=>s+p[kx],0)/n,ay=arr.reduce((s,p)=>s+p[ky],0)/n;
+                let num=0,dx2=0,dy2=0;
+                arr.forEach(p=>{const dx=p[kx]-ax,dy=p[ky]-ay;num+=dx*dy;dx2+=dx*dx;dy2+=dy*dy;});
+                return{r:dx2&&dy2?num/Math.sqrt(dx2*dy2):0,n};
+            },
+            rLabel(r) { const a=Math.abs(r);return a>0.7?'stark':a>0.4?'moderat':a>0.2?'schwach':'kein'; },
+            computeCorrelations() {
                 const pairs=[];
-                this.SEASONS.forEach(s=>{
-                    if(s.id==='19/20'||s.id==='20/21') return;
+                this.SEASONS.filter(s=>this.isComplete(s)).forEach(s=>{
                     const t=this.seasonTotals(s.id);if(!t)return;
                     const tour=this.getTourism(s.id);
-                    if(tour.total>0) pairs.push({snow:t.valley.avgSnow,nights:tour.total,id:s.id});
+                    if(tour.total>0) pairs.push({snow:t.valley.avgSnow,sun:t.valley.totalSun,nights:tour.total,id:s.id});
                 });
                 if(pairs.length<3) return null;
-                const n=pairs.length;
-                const aX=pairs.reduce((s,p)=>s+p.snow,0)/n;
-                const aY=pairs.reduce((s,p)=>s+p.nights,0)/n;
-                let num=0,dX=0,dY=0;
-                pairs.forEach(p=>{const dx=p.snow-aX,dy=p.nights-aY;num+=dx*dy;dX+=dx*dx;dY+=dy*dy;});
-                return{r:dX&&dY?num/Math.sqrt(dX*dY):0,pairs};
+                const snowC=this.pearson(pairs,'snow','nights');
+                const sunC=this.pearson(pairs,'sun','nights');
+                return{snowR:snowC.r,sunR:sunC.r,n:pairs.length,pairs};
             },
 
             renderCorrSummary() {
                 const el=document.getElementById('wxCorrSummary');
-                const result=this.computeCorrelation();
-                if(!result||result.pairs.length<3){el.innerHTML='<p style="color:var(--text-sec);padding:20px;">Noch nicht genug Daten f&uuml;r eine Auswertung.</p>';el.style.display='block';return;}
-                const r=result.r;
-                const gaugePct=Math.max(0,Math.min(100,(r+1)/2*100));
-                const sorted=[...result.pairs].sort((a,b)=>b.nights-a.nights);
+                const result=this.computeCorrelations();
+                if(!result||result.pairs.length<3){el.innerHTML='<p style="color:var(--text-sec);padding:20px;">Noch nicht genug abgeschlossene Saisonen.</p>';el.style.display='block';return;}
+                const{snowR,sunR,n,pairs}=result;
+                const snowPct=Math.max(0,Math.min(100,(snowR+1)/2*100));
+                const sunPct=Math.max(0,Math.min(100,(sunR+1)/2*100));
+                const sorted=[...pairs].sort((a,b)=>b.nights-a.nights);
                 const best=sorted[0],worst=sorted[sorted.length-1];
 
+                const snowStronger=Math.abs(snowR)>=Math.abs(sunR);
                 let emoji,verdictMain,verdictSub,color;
-                if(r>0.5){
+                if(Math.abs(snowR)>0.5||Math.abs(sunR)>0.5){
+                    const stronger=snowStronger?'Schnee':'Sonnenstunden';
                     emoji='✅';color='var(--accent)';
-                    verdictMain='Ja &mdash; mehr Schnee bringt deutlich mehr G&auml;ste!';
-                    verdictSub='Winter mit viel Schnee haben klar mehr &Uuml;bernachtungen. Schnee ist ein wichtiger Faktor f&uuml;r den Tourismus.';
-                } else if(r>0.2){
+                    verdictMain=`${stronger} beeinflusst die G&auml;stezahlen deutlich!`;
+                    verdictSub=`Der Faktor ${stronger} zeigt eine klare Korrelation mit den &Uuml;bernachtungen.`;
+                } else if(Math.abs(snowR)>0.2||Math.abs(sunR)>0.2){
                     emoji='📊';color='var(--gold)';
-                    verdictMain='Schnee hilft &mdash; ist aber nicht alles';
-                    verdictSub='Es gibt einen Zusammenhang, aber auch Wetter, Ferien und Trends spielen eine Rolle.';
-                } else if(r>-0.2){
-                    emoji='🤔';color='var(--text-sec)';
-                    verdictMain='Kein klarer Zusammenhang';
-                    verdictSub='Schneeh&ouml;he und &Uuml;bernachtungen zeigen keinen starken Zusammenhang.';
+                    verdictMain='Wetter beeinflusst den Tourismus &mdash; aber nicht allein';
+                    verdictSub='Schnee und Sonne zeigen einen messbaren, aber nicht dominierenden Einfluss.';
                 } else {
-                    emoji='😮';color='var(--sunset)';
-                    verdictMain='&Uuml;berraschend &mdash; mehr Schnee, weniger G&auml;ste?';
-                    verdictSub='Das Ergebnis deutet auf einen negativen Zusammenhang hin.';
+                    emoji='🤔';color='var(--text-sec)';
+                    verdictMain='Kein klarer Wetter-Einfluss nachweisbar';
+                    verdictSub='Weder Schnee noch Sonne korrelieren stark mit den G&auml;stezahlen.';
                 }
 
                 el.innerHTML=`
@@ -2379,32 +2385,41 @@
                         <div class="wx-verdict-text" style="color:${color}">${verdictMain}</div>
                         <div class="wx-verdict-sub">${verdictSub}</div>
                     </div>
-                    <div class="wx-barometer">
-                        <div class="wx-barometer-label">Schnee-Tourismus-Barometer</div>
-                        <div style="position:relative;height:24px;border-radius:12px;overflow:visible;">
-                            <div class="wx-barometer-track"></div>
-                            <div class="wx-barometer-fill" style="width:${gaugePct}%"></div>
-                            <div class="wx-barometer-needle" style="left:${gaugePct}%"></div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0;">
+                        <div class="wx-barometer">
+                            <div class="wx-barometer-label">&#x2744; Schnee &harr; G&auml;ste</div>
+                            <div style="position:relative;height:20px;border-radius:10px;overflow:visible;">
+                                <div class="wx-barometer-track"></div>
+                                <div class="wx-barometer-fill" style="width:${snowPct}%"></div>
+                                <div class="wx-barometer-needle" style="left:${snowPct}%"></div>
+                            </div>
+                            <div style="text-align:center;margin-top:4px;font-size:0.8rem;font-weight:700;color:var(--winter);">r = ${snowR.toFixed(2)} <span style="font-weight:400;color:var(--text-sec);">(${this.rLabel(snowR)})</span></div>
                         </div>
-                        <div class="wx-barometer-labels">
-                            <span>&#x274C; Kein Zusammenhang</span>
-                            <span>&#x2796; Schwach</span>
-                            <span>&#x2705; Stark</span>
+                        <div class="wx-barometer">
+                            <div class="wx-barometer-label">&#x2600; Sonne &harr; G&auml;ste</div>
+                            <div style="position:relative;height:20px;border-radius:10px;overflow:visible;">
+                                <div class="wx-barometer-track"></div>
+                                <div class="wx-barometer-fill" style="width:${sunPct}%"></div>
+                                <div class="wx-barometer-needle" style="left:${sunPct}%"></div>
+                            </div>
+                            <div style="text-align:center;margin-top:4px;font-size:0.8rem;font-weight:700;color:var(--gold);">r = ${sunR.toFixed(2)} <span style="font-weight:400;color:var(--text-sec);">(${this.rLabel(sunR)})</span></div>
                         </div>
                     </div>
                     <div class="wx-corr-cards">
                         <div class="wx-corr-card-item">
                             <div class="wx-corr-card-label">&#x1F3C6; Beste Saison</div>
                             <div class="wx-corr-card-season" style="color:var(--accent)">Winter ${best.id}</div>
-                            <div class="wx-corr-card-detail">${this.fmtNum(best.nights)} N&auml;chtigungen<br>&Oslash; ${best.snow.toFixed(0)} cm Schnee</div>
+                            <div class="wx-corr-card-detail">${this.fmtNum(best.nights)} N&auml;chtigungen<br>&Oslash; ${best.snow.toFixed(0)} cm &middot; ${best.sun.toFixed(0)} h &#x2600;</div>
                         </div>
                         <div class="wx-corr-card-item">
                             <div class="wx-corr-card-label">&#x1F4C9; Schw&auml;chste Saison</div>
                             <div class="wx-corr-card-season" style="color:var(--sunset)">Winter ${worst.id}</div>
-                            <div class="wx-corr-card-detail">${this.fmtNum(worst.nights)} N&auml;chtigungen<br>&Oslash; ${worst.snow.toFixed(0)} cm Schnee</div>
+                            <div class="wx-corr-card-detail">${this.fmtNum(worst.nights)} N&auml;chtigungen<br>&Oslash; ${worst.snow.toFixed(0)} cm &middot; ${worst.sun.toFixed(0)} h &#x2600;</div>
                         </div>
                     </div>
-                    <p style="margin-top:10px;font-size:0.75rem;color:var(--text-sec);text-align:center;">Daten: GeoSphere Austria, Open-Meteo, data.gv.at.</p>
+                    <div style="margin-top:12px;padding:10px;background:var(--snow);border-radius:var(--radius-sm);border:1px solid var(--border);font-size:0.72rem;color:var(--text-sec);line-height:1.5;">
+                        <strong style="color:var(--text);">Methodik:</strong> Pearson r &uuml;ber ${n} abgeschlossene Saisonen. Laufende Saison 25/26 ausgenommen.
+                    </div>
                 `;
                 el.style.display='block';
             },
@@ -2412,8 +2427,7 @@
             renderCorrScatter() {
                 if(this.charts.corr){this.charts.corr.destroy();this.charts.corr=null;}
                 const pairs=[];
-                this.SEASONS.forEach(s=>{
-                    if(s.id==='19/20'||s.id==='20/21') return;
+                this.SEASONS.filter(s=>this.isComplete(s)).forEach(s=>{
                     const t=this.seasonTotals(s.id);if(!t)return;
                     const tour=this.getTourism(s.id);
                     if(tour.total>0)pairs.push({x:t.valley.avgSnow,y:tour.total,id:s.id});
@@ -2440,7 +2454,7 @@
                 const el=document.getElementById('wxVisualCompare');
                 if(!el) return;
                 const rows=[];
-                this.SEASONS.filter(s=>!this.COVID_IDS.has(s.id)).forEach(s=>{
+                this.SEASONS.filter(s=>this.isComplete(s)).forEach(s=>{
                     const t=this.seasonTotals(s.id);if(!t)return;
                     const tour=this.getTourism(s.id);
                     rows.push({id:s.id,snow:t.valley.avgSnow,nights:tour.total});
