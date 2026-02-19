@@ -329,14 +329,13 @@
 
             <!-- WETTER & SCHNEE (kombiniert mit Korrelation) -->
             <section class="section" id="sec-wetter">
-                <div class="accordion-toggle" onclick="toggleAccordion(this); initWeatherIfNeeded();">
+                <div class="accordion-toggle" onclick="toggleAccordion(this);">
                     <h2>&#x2744; Wetter &amp; Schnee <span class="subtitle">Schneeh&ouml;he &middot; Wintervergleich &middot; Mehr Schnee = mehr G&auml;ste?</span></h2>
                     <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
                 </div>
                 <div class="accordion-body">
-                    <p class="section-desc">Schneelage, Wetter und Tourismus im Vergleich &ndash; bringt mehr Schnee wirklich mehr G&auml;ste?</p>
                     <button class="info-toggle" onclick="toggleInfo(this)"><span class="info-icon">i</span> Mehr erfahren</button>
-                    <div class="info-detail">Schneeh&ouml;hen stammen von GeoSphere Austria und Open-Meteo, Tourismuszahlen von data.gv.at (Land Vorarlberg).</div>
+                    <div class="info-detail">Verglichen werden die durchschnittlichen Schneeh&ouml;hen im Tal (Riezlern, 1.086m) mit den Winter&uuml;bernachtungen pro Saison (Nov&ndash;Apr). Der Pearson-Korrelationskoeffizient misst, ob schneereiche Winter auch mehr G&auml;ste bringen. Daten ab Saison 21/22 &ndash; je mehr Saisonen, desto aussagekr&auml;ftiger das Ergebnis.</div>
 
                     <div id="wetterLoading" style="text-align:center;padding:40px 0;color:var(--text-sec);">
                         <div style="display:inline-block;width:24px;height:24px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:12px;"></div>
@@ -1079,6 +1078,8 @@
             }
             populateSelectors();
             updateAll();
+            // Wetterdaten sofort im Hintergrund laden
+            initWeatherIfNeeded();
         }
 
         async function fetchCSV(localUrl, fallbackUrl) {
