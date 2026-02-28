@@ -58,8 +58,8 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body { font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.6; color: var(--text); background: var(--bg); min-height: 100vh; }
-        .hero { position: relative; background: linear-gradient(135deg, #1F4138 0%, #2D6B3F 50%, #448332 100%); color: white; padding: 0; overflow: hidden; }
-        .hero::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 200 L0 120 Q100 80 200 100 T400 90 T600 110 T800 85 T1000 105 T1200 95 L1200 200 Z' fill='%23ffffff' opacity='0.03'/%3E%3C/svg%3E") bottom/cover no-repeat; pointer-events: none; }
+        .hero { position: relative; background: url('hero-bg.jpg') center/cover no-repeat; color: white; padding: 0; overflow: hidden; min-height: 420px; }
+        .hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(15,30,25,0.55) 0%, rgba(15,30,25,0.7) 60%, rgba(15,30,25,0.85) 100%); pointer-events: none; }
         .hero-content { position: relative; max-width: 1400px; margin: 0 auto; padding: 60px 32px 80px; }
         .hero-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; flex-wrap: wrap; gap: 20px; }
         .hero-brand { display: flex; align-items: center; gap: 16px; }
@@ -200,6 +200,20 @@
         .info-detail.open { display: block; }
         [data-theme="dark"] .info-detail { background: rgba(255,255,255,0.04); }
 
+        /* Summary / Zusammenfassung */
+        .summary-section { padding: 48px 0 32px; }
+        .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 24px; }
+        .summary-card { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); padding: 24px; border-left: 4px solid var(--primary); transition: var(--transition); }
+        .summary-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+        .summary-card-icon { font-size: 1.5rem; margin-bottom: 8px; }
+        .summary-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 8px; color: var(--text); }
+        .summary-card p { font-size: 0.9rem; color: var(--text-sec); line-height: 1.6; }
+        .summary-card .summary-highlight { font-size: 1.35rem; font-weight: 700; color: var(--primary); display: block; margin: 6px 0; }
+        .summary-card.trend-up { border-left-color: var(--accent); }
+        .summary-card.trend-down { border-left-color: var(--sunset); }
+        .summary-card.trend-neutral { border-left-color: var(--winter); }
+        .summary-intro { font-size: 1.05rem; color: var(--text-sec); line-height: 1.7; max-width: 900px; }
+
         /* Weather season table */
         .wx-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
         .wx-table th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; padding: 10px 8px; text-align: left; background: var(--snow); color: var(--text-sec); font-weight: 600; border-bottom: 2px solid var(--border); white-space: nowrap; }
@@ -323,6 +337,52 @@
             </div>
         </div>
     </header>
+
+    <!-- ZUSAMMENFASSUNG -->
+    <section class="summary-section">
+        <div class="container">
+            <h2 style="font-family:'Playfair Display',Georgia,serif;font-size:1.75rem;font-weight:600;margin-bottom:8px;">Auf einen Blick: So steht das Kleinwalsertal da</h2>
+            <p class="summary-intro">Das Wichtigste zusammengefasst &ndash; wo steht der Tourismus heute, wie hat er sich entwickelt und wohin geht die Reise?</p>
+            <div class="summary-grid" id="summaryGrid">
+                <div class="summary-card trend-up">
+                    <div class="summary-card-icon">&#x1F4C8;</div>
+                    <h3>Tourismus w&auml;chst</h3>
+                    <span class="summary-highlight" id="sumNights">&mdash;</span>
+                    <p id="sumNightsText">&Uuml;bernachtungen &ndash; der Tourismus im Kleinwalsertal erholt sich weiter und zeigt einen positiven Trend.</p>
+                </div>
+                <div class="summary-card trend-neutral">
+                    <div class="summary-card-icon">&#x1F30D;</div>
+                    <h3>G&auml;ste vor allem aus Deutschland</h3>
+                    <span class="summary-highlight" id="sumCountry">&mdash;</span>
+                    <p>Das Kleinwalsertal ist nur &uuml;ber Deutschland erreichbar &ndash; daher kommen die meisten G&auml;ste aus dem Nachbarland. &Ouml;sterreich und die Niederlande folgen.</p>
+                </div>
+                <div class="summary-card trend-up">
+                    <div class="summary-card-icon">&#x2744;</div>
+                    <h3>Winter bleibt St&auml;rker als Sommer</h3>
+                    <span class="summary-highlight" id="sumSeason">&mdash;</span>
+                    <p id="sumSeasonText">Der Winter bringt nach wie vor die meisten G&auml;ste. Doch der Sommertourismus legt kontinuierlich zu.</p>
+                </div>
+                <div class="summary-card trend-up">
+                    <div class="summary-card-icon">&#x1F4B0;</div>
+                    <h3>Wirtschaftlicher Wert</h3>
+                    <span class="summary-highlight" id="sumRevenue">&mdash;</span>
+                    <p>Gesch&auml;tzte Wertsch&ouml;pfung &ndash; so viel Geld bringen die G&auml;ste j&auml;hrlich ins Tal (Unterkunft, Skipass, Essen, Einkaufen).</p>
+                </div>
+                <div class="summary-card trend-neutral">
+                    <div class="summary-card-icon">&#x1F3E8;</div>
+                    <h3>Ferienwohnungen dominieren</h3>
+                    <span class="summary-highlight" id="sumAccomm">&mdash;</span>
+                    <p>Im Gegensatz zu vielen Skiorten &uuml;bernachten die meisten G&auml;ste in Ferienwohnungen &ndash; nicht in Hotels.</p>
+                </div>
+                <div class="summary-card trend-neutral">
+                    <div class="summary-card-icon">&#x1F3D4;</div>
+                    <h3>Vergleich in Vorarlberg</h3>
+                    <span class="summary-highlight" id="sumRank">&mdash;</span>
+                    <p id="sumRankText">Das Kleinwalsertal z&auml;hlt zu den st&auml;rksten Tourismusgemeinden in Vorarlberg &ndash; nur wenige Orte haben mehr &Uuml;bernachtungen.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <main class="main-content">
         <div class="container">
@@ -1268,7 +1328,89 @@
             document.getElementById('revenueYear').value = 2025;
         }
 
-        function updateAll() { updateKPIs(); updateMainChart(); updateMonthlyChart(); updateTable(); updateHeatmap(); updateCountryPie(); updateCountryList(); updateCountryTrend(); updateAccommodationCards(); updateAccommodationChart(); updateComparisonChart(); updateComparisonTable(); updateComparisonAccChart(); updateSeason(); updateOccupancy(); updateForecast(); updateRevenue(); }
+        function updateAll() { updateKPIs(); updateMainChart(); updateMonthlyChart(); updateTable(); updateHeatmap(); updateCountryPie(); updateCountryList(); updateCountryTrend(); updateAccommodationCards(); updateAccommodationChart(); updateComparisonChart(); updateComparisonTable(); updateComparisonAccChart(); updateSeason(); updateOccupancy(); updateForecast(); updateRevenue(); updateSummary(); }
+
+        function updateSummary() {
+            try {
+                // 1. Übernachtungen & Trend
+                var latestYear = yearlyData.filter(function(d){ return d.status === 'actual'; }).sort(function(a,b){ return b.year - a.year; })[0];
+                var prevYear = latestYear ? yearlyData.find(function(d){ return d.year === latestYear.year - 1; }) : null;
+                if (latestYear) {
+                    document.getElementById('sumNights').textContent = formatNum(latestYear.nights) + ' \u00DCN (' + latestYear.year + ')';
+                    if (prevYear) {
+                        var pct = ((latestYear.nights - prevYear.nights) / prevYear.nights * 100).toFixed(1);
+                        var arrow = parseFloat(pct) >= 0 ? '\u2197 +' : '\u2198 ';
+                        document.getElementById('sumNightsText').textContent = arrow + pct + '% gegen\u00fcber ' + prevYear.year + '. ' + (parseFloat(pct) >= 0 ? 'Der Tourismus im Kleinwalsertal w\u00e4chst weiter.' : 'Ein leichter R\u00fcckgang gegen\u00fcber dem Vorjahr.');
+                        var card = document.getElementById('sumNights').closest('.summary-card');
+                        if (card) card.className = 'summary-card ' + (parseFloat(pct) >= 0 ? 'trend-up' : 'trend-down');
+                    }
+                }
+
+                // 2. Herkunft
+                var cYear = 2025;
+                var cD = countryData[cYear] || FALLBACK.countries[cYear];
+                if (cD) {
+                    var sorted = Object.entries(cD).sort(function(a,b){ return b[1]-a[1]; });
+                    var total = sorted.reduce(function(s,e){ return s+e[1]; },0);
+                    if (sorted[0]) {
+                        var topPct = (sorted[0][1]/total*100).toFixed(0);
+                        document.getElementById('sumCountry').textContent = (CONFIG.COUNTRY_FLAGS[sorted[0][0]]||'') + ' ' + sorted[0][0] + ' mit ' + topPct + '%';
+                    }
+                }
+
+                // 3. Saison
+                if (latestYear) {
+                    var mData = monthlyData[latestYear.year] || FALLBACK.monthly[latestYear.year] || {};
+                    var winter = 0, sommer = 0;
+                    for (var mm = 1; mm <= 12; mm++) {
+                        if ([11,12,1,2,3,4].indexOf(mm) >= 0) winter += (mData[mm]||0);
+                        else sommer += (mData[mm]||0);
+                    }
+                    var winterPct = latestYear.nights > 0 ? (winter/latestYear.nights*100).toFixed(0) : 0;
+                    var sommerPct = latestYear.nights > 0 ? (sommer/latestYear.nights*100).toFixed(0) : 0;
+                    document.getElementById('sumSeason').textContent = 'Winter ' + winterPct + '% \u00b7 Sommer ' + sommerPct + '%';
+                }
+
+                // 4. Wertsch\u00f6pfung
+                if (latestYear) {
+                    var mD = monthlyData[latestYear.year] || FALLBACK.monthly[latestYear.year] || {};
+                    var wN = 0, sN = 0;
+                    for (var mo = 1; mo <= 12; mo++) {
+                        if ([11,12,1,2,3,4].indexOf(mo) >= 0) wN += (mD[mo]||0);
+                        else sN += (mD[mo]||0);
+                    }
+                    var rev = wN * 231 + sN * 164;
+                    document.getElementById('sumRevenue').textContent = (rev/1000000).toFixed(0) + ' Mio. \u20ac';
+                }
+
+                // 5. Unterkunft
+                if (typeof accommodationData !== 'undefined') {
+                    var accY = accommodationData[2025] || accommodationData[2024];
+                    if (accY) {
+                        var accEntries = Object.entries(accY).sort(function(a,b){return b[1]-a[1];});
+                        var accTotal = accEntries.reduce(function(s,e){return s+e[1];},0);
+                        if (accEntries[0]) {
+                            var topAcc = accEntries[0][0];
+                            var topAccPct = (accEntries[0][1]/accTotal*100).toFixed(0);
+                            document.getElementById('sumAccomm').textContent = topAcc + ' \u00b7 ' + topAccPct + '%';
+                        }
+                    }
+                }
+
+                // 6. Ranking (comparisonData uses GKZ codes, values have .nights and .name)
+                if (typeof comparisonData !== 'undefined') {
+                    var compY = comparisonData[2025] || comparisonData[2024];
+                    if (compY) {
+                        var compSorted = Object.entries(compY).filter(function(e){ return e[1] && e[1].nights; }).map(function(e){ return {gkz:e[0], name:e[1].name||e[0], nights:e[1].nights||0}; }).sort(function(a,b){return b.nights-a.nights;});
+                        var rank = compSorted.findIndex(function(e){ return e.gkz === '80228'; });
+                        if (rank >= 0) {
+                            document.getElementById('sumRank').textContent = 'Platz ' + (rank+1) + ' von ' + compSorted.length;
+                            document.getElementById('sumRankText').textContent = 'Das Kleinwalsertal belegt Platz ' + (rank+1) + ' von ' + compSorted.length + ' Tourismusgemeinden in Vorarlberg \u2013 gemessen an den \u00dcbernachtungszahlen.';
+                        }
+                    }
+                }
+            } catch(e) { console.log('Summary update error:', e); }
+        }
 
         function updateKPIs() {
             const y2025 = yearlyData.find(d => d.year === 2025);
