@@ -2,9 +2,8 @@ name: Update Tourism Data
 
 on:
   schedule:
-    # Läuft täglich um 6:00 Uhr UTC (7:00 MEZ / 8:00 MESZ)
-    - cron: '0 6 * * *'
-  workflow_dispatch: # Ermöglicht manuelles Ausführen
+    - cron: '17 * * * *'
+  workflow_dispatch:
 
 jobs:
   update-data:
@@ -17,16 +16,31 @@ jobs:
       - name: Create data directory
         run: mkdir -p data
       
-      - name: Download main CSV (Übernachtungen & Ankünfte)
+      - name: Download main CSV
         run: |
           curl -L -o data/hauptgliederung.csv \
-            "https://www.data.gv.at/katalog/dataset/3ef56cc4-3dcc-4f31-9f82-b62bb34bbe99/resource/4f86b84d-8f58-4f35-ae1a-d94bcdfcc8c9/download/wirfin_vbg_tour_ankuenfte_naechtigungen_hauptgliederung_monatlich.csv"
-      
-      - name: Download countries CSV (Herkunftsländer)
+            "https://data.vorarlberg.gv.at/katalog/wirtschaft/wirfin_vbg_tour_ankuenfte_naechtigungen_hauptgliederung_monatlich.csv"
+
+      - name: Download countries CSV
         run: |
           curl -L -o data/staaten.csv \
-            "https://www.data.gv.at/katalog/dataset/3ef56cc4-3dcc-4f31-9f82-b62bb34bbe99/resource/db9d31c0-e38b-43c0-aa27-00b8bb148ca5/download/wirfin_vbg_tour_ankuenfte_naechtigungen_staaten_monatlich.csv"
-      
+            "https://data.vorarlberg.gv.at/katalog/wirtschaft/wirfin_vbg_tour_ankuenfte_naechtigungen_staaten_monatlich.csv"
+
+      - name: Validate CSV files
+        run: |
+          for f in data/hauptgliederung.csv data/staaten.csv; do
+            if grep -q '<!DOCTYPE\|<html' "$f" 2>/dev/null; then
+              echo "ERROR: $f contains HTML instead of CSV"
+              rm "$f"
+              exit 1
+            fi
+            if [ ! -s "$f" ]; then
+              echo "ERROR: $f is empty"
+              exit 1
+            fi
+          done
+          echo "CSV files validated OK"
+
       - name: Update timestamp
         run: |
           echo "Letztes Update: $(date '+%Y-%m-%d %H:%M:%S UTC')" > data/last-update.txt
@@ -36,5 +50,5 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add data/
-          git diff --staged --quiet || git commit -m "📊 Daten-Update $(date '+%Y-%m-%d')"
+          git diff --staged --quiet || git commit -m "Daten-Update $(date '+%Y-%m-%d %H:%M')"
           git push
