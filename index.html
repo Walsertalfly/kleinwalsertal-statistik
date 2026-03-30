@@ -214,52 +214,50 @@
         .summary-card.trend-neutral { border-left-color: var(--winter); }
         .summary-intro { font-size: 1.05rem; color: var(--text-sec); line-height: 1.7; max-width: 900px; }
 
-        /* Weather season table */
-        .wx-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-        .wx-table th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; padding: 10px 8px; text-align: left; background: var(--snow); color: var(--text-sec); font-weight: 600; border-bottom: 2px solid var(--border); white-space: nowrap; }
-        .wx-table td { padding: 10px 8px; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; }
-        .wx-table .num { text-align: right; }
-        .wx-table .bar-cell { padding: 10px 4px; width: 80px; }
-        .wx-mini-bar { height: 8px; border-radius: 4px; transition: width 0.3s ease; }
-        .wx-mini-bar.nights { background: linear-gradient(90deg, var(--accent), var(--primary-light)); }
-        .wx-mini-bar.snow { background: linear-gradient(90deg, #4fc3f7, #0288d1); }
-        .wx-mini-bar.sun { background: linear-gradient(90deg, #ffd54f, #ff8f00); }
-        .wx-table tr.active-season { background: rgba(41,128,185,0.06); }
-        /* Correlation Visual */
-        .wx-verdict { text-align: center; padding: 24px 20px; background: var(--snow); border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 20px; }
-        .wx-verdict-emoji { font-size: 2.5rem; margin-bottom: 8px; }
-        .wx-verdict-text { font-family: 'Playfair Display', Georgia, serif; font-weight: 700; font-size: 1.3rem; line-height: 1.3; margin-bottom: 6px; }
-        .wx-verdict-sub { font-size: 0.85rem; color: var(--text-sec); max-width: 500px; margin: 0 auto; line-height: 1.5; }
-        /* Barometer gauge */
-        .wx-barometer { margin: 16px 0 20px; }
-        .wx-barometer-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-sec); margin-bottom: 6px; text-align: center; }
-        .wx-barometer-track { position: relative; height: 24px; border-radius: 12px; overflow: hidden; background: linear-gradient(90deg, #ef5350 0%, #ffa726 25%, #ffd54f 50%, #81c784 75%, #4caf50 100%); opacity: 0.2; }
-        .wx-barometer-fill { position: absolute; top: 0; left: 0; height: 100%; border-radius: 12px; background: linear-gradient(90deg, #ef5350 0%, #ffa726 25%, #ffd54f 50%, #81c784 75%, #4caf50 100%); transition: width 1s ease; }
-        .wx-barometer-needle { position: absolute; top: -4px; width: 3px; height: 32px; background: var(--text); border-radius: 2px; transform: translateX(-50%); transition: left 1s ease; z-index: 2; }
-        .wx-barometer-labels { display: flex; justify-content: space-between; font-size: 0.65rem; color: var(--text-sec); margin-top: 4px; }
-        /* Ranking bars */
-        .wx-rank-row { display: grid; grid-template-columns: 65px 1fr; gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
-        .wx-rank-row:last-child { border-bottom: none; }
-        .wx-rank-season { font-weight: 700; font-size: 0.85rem; }
-        .wx-rank-bars { display: flex; flex-direction: column; gap: 3px; }
-        .wx-rank-bar-wrap { display: flex; align-items: center; gap: 6px; }
-        .wx-rank-icon { font-size: 0.7rem; width: 18px; text-align: center; flex-shrink: 0; }
-        .wx-rank-bar { height: 18px; border-radius: 5px; display: flex; align-items: center; padding: 0 7px; font-size: 0.65rem; font-weight: 600; color: white; transition: width 0.6s ease; min-width: 20px; }
-        .wx-rank-bar.snow { background: linear-gradient(90deg, #4fc3f7, #0288d1); }
-        .wx-rank-bar.nights { background: linear-gradient(90deg, #81c784, #388e3c); }
-        /* Best/Worst cards */
-        .wx-corr-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
-        .wx-corr-card-item { background: var(--snow); border-radius: var(--radius-sm); padding: 14px; border: 1px solid var(--border); text-align: center; }
-        .wx-corr-card-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-sec); margin-bottom: 4px; }
-        .wx-corr-card-season { font-size: 1.1rem; font-weight: 700; margin-bottom: 2px; }
-        .wx-corr-card-detail { font-size: 0.75rem; color: var(--text-sec); }
+        /* Wintercheck: Saison-KPI-Karten */
+        .wx-kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+        .wx-kpi-card { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); padding: 20px 16px; text-align: center; box-shadow: var(--shadow); position: relative; overflow: hidden; }
+        .wx-kpi-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+        .wx-kpi-card.snow-valley::before { background: linear-gradient(90deg, #4fc3f7, #0288d1); }
+        .wx-kpi-card.snow-mountain::before { background: linear-gradient(90deg, #f48fb1, #e91e63); }
+        .wx-kpi-card.snow-days::before { background: linear-gradient(90deg, #90caf9, #1565c0); }
+        .wx-kpi-card.sun-hours::before { background: linear-gradient(90deg, #ffd54f, #ff8f00); }
+        .wx-kpi-icon { font-size: 1.8rem; margin-bottom: 6px; }
+        .wx-kpi-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-sec); font-weight: 600; margin-bottom: 4px; }
+        .wx-kpi-value { font-size: 1.8rem; font-weight: 700; color: var(--text); line-height: 1.2; }
+        .wx-kpi-unit { font-size: 0.85rem; font-weight: 400; color: var(--text-sec); }
+        .wx-kpi-trend { display: inline-flex; align-items: center; gap: 4px; font-size: 0.8rem; font-weight: 600; margin-top: 8px; padding: 3px 10px; border-radius: 20px; }
+        .wx-kpi-trend.up { color: #2e7d32; background: rgba(46,125,50,0.1); }
+        .wx-kpi-trend.down { color: #c62828; background: rgba(198,40,40,0.1); }
+        .wx-kpi-trend.neutral { color: var(--text-sec); background: var(--snow); }
+        .wx-season-headline { text-align: center; padding: 16px 20px; background: var(--snow); border-radius: var(--radius); border: 1px solid var(--border); margin-bottom: 20px; }
+        .wx-season-headline h3 { font-family: 'Playfair Display', Georgia, serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
+        .wx-season-headline p { font-size: 0.85rem; color: var(--text-sec); margin: 0; }
+
+        /* Wintercheck: Vergleichstabelle */
+        .wx-compare-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .wx-compare-table thead th { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; padding: 12px 10px; text-align: right; background: var(--snow); color: var(--text-sec); font-weight: 600; border-bottom: 2px solid var(--border); white-space: nowrap; }
+        .wx-compare-table thead th:first-child { text-align: left; }
+        .wx-compare-table tbody td { padding: 12px 10px; border-bottom: 1px solid var(--border); text-align: right; font-variant-numeric: tabular-nums; }
+        .wx-compare-table tbody td:first-child { text-align: left; font-weight: 700; }
+        .wx-compare-table tbody tr:hover { background: rgba(41,128,185,0.04); }
+        .wx-compare-table tbody tr.wx-current-season { background: rgba(41,128,185,0.06); font-weight: 600; }
+        .wx-compare-table .wx-bar-cell { padding: 12px 6px; width: 100px; }
+        .wx-inline-bar { height: 10px; border-radius: 5px; transition: width 0.5s ease; display: inline-block; vertical-align: middle; }
+        .wx-inline-bar.snow { background: linear-gradient(90deg, #4fc3f7, #0288d1); }
+        .wx-inline-bar.guests { background: linear-gradient(90deg, #81c784, #388e3c); }
+        .wx-inline-bar.sun { background: linear-gradient(90deg, #ffd54f, #ff8f00); }
+        .wx-covid-badge { display: inline-block; font-size: 0.6rem; background: #fff3e0; color: #e65100; padding: 1px 6px; border-radius: 8px; margin-left: 6px; font-weight: 500; vertical-align: middle; }
+        .wx-best-badge { display: inline-block; font-size: 0.6rem; background: #e8f5e9; color: #2e7d32; padding: 1px 6px; border-radius: 8px; margin-left: 6px; font-weight: 600; vertical-align: middle; }
+
         @media (max-width: 768px) {
-            .wx-table { font-size: 0.75rem; }
-            .wx-table th, .wx-table td { padding: 8px 4px; }
-            .wx-corr-cards { grid-template-columns: 1fr; }
-            .wx-rank-row { grid-template-columns: 55px 1fr; }
-            .wx-rank-bar { height: 15px; font-size: 0.6rem; }
-            .wx-verdict-text { font-size: 1.1rem; }
+            .wx-kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .wx-kpi-value { font-size: 1.4rem; }
+            .wx-kpi-card { padding: 14px 10px; }
+            .wx-compare-table { font-size: 0.75rem; }
+            .wx-compare-table thead th, .wx-compare-table tbody td { padding: 8px 6px; }
+            .wx-compare-table .wx-bar-cell { width: 60px; }
+            .wx-season-headline h3 { font-size: 1rem; }
         }
 
         /* Cookie Banner */
@@ -390,13 +388,13 @@
             <!-- WETTER & SCHNEE (kombiniert mit Korrelation) -->
             <section class="section" id="sec-wetter">
                 <div class="accordion-toggle" onclick="toggleAccordion(this);">
-                    <h2>&#x2744; Wetter &amp; Schnee <span class="subtitle">Schneeh&ouml;he &middot; Wintervergleich &middot; Mehr Schnee = mehr G&auml;ste?</span></h2>
+                    <h2>&#x2744; Wintercheck <span class="subtitle">Schneeh&ouml;hen &middot; Saisonvergleich &middot; Schneeverlauf</span></h2>
                     <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
                 </div>
                 <div class="accordion-body">
-                    <p class="section-desc">Bringt viel Schnee auch viele G&auml;ste ins Tal? Das ist eine spannende Frage! Wir vergleichen hier die Schneeh&ouml;he mit den &Uuml;bernachtungszahlen im Winter &ndash; und pr&uuml;fen, ob es wirklich einen Zusammenhang gibt.</p>
+                    <p class="section-desc">Wie war der Winter im Kleinwalsertal? Hier siehst du auf einen Blick, wie viel Schnee es gab, wie sich die aktuelle Saison im Vergleich zu fr&uuml;heren Wintern schl&auml;gt und wie sich die Schneeh&ouml;he &uuml;ber die Monate entwickelt.</p>
                     <button class="info-toggle" onclick="toggleInfo(this)"><span class="info-icon">i</span> Mehr erfahren</button>
-                    <div class="info-detail">Die Schneeh&ouml;he wird in Riezlern auf 1.086 Metern gemessen &ndash; also im Tal, nicht am Berg. Wir schauen uns an, wie viel Schnee durchschnittlich in einer ganzen Wintersaison (November bis April) lag, und vergleichen das mit der Anzahl der &Uuml;bernachtungen in der gleichen Saison. <strong>Einfach gesagt:</strong> Wenn in Wintern mit viel Schnee auch deutlich mehr G&auml;ste kommen, dann gibt es einen starken Zusammenhang. Wenn die G&auml;stezahlen unabh&auml;ngig vom Schnee schwanken, ist der Zusammenhang schwach. Die Anzeige zeigt dir, wie stark dieser Zusammenhang ist. Je mehr Winter wir vergleichen k&ouml;nnen, desto verl&auml;sslicher wird das Ergebnis &ndash; mit nur wenigen Jahren ist es eher ein erster Hinweis.</div>
+                    <div class="info-detail">Wir messen den Schnee an zwei Orten: Im <strong>Tal (Riezlern, 1.086 m)</strong> und am <strong>Berg (Ifen/Kanzelwand, ca. 1.500 m)</strong>. Am Berg liegt nat&uuml;rlich immer deutlich mehr Schnee als im Tal. Die Daten stammen von GeoSphere Austria (Schnee-Satellitenmessung) und Open-Meteo (Wetter). <strong>Schneetage</strong> sind Tage, an denen neuer Schnee gefallen ist &ndash; nicht Tage mit Schneedecke. Die <strong>Sonnenstunden</strong> zeigen, wie viel Sonne im ganzen Winter geschienen hat. In der Vergleichstabelle kannst du alle Winter seit 2021/22 nebeneinander sehen. Die COVID-Winter 2019/20 und 2020/21 sind ausgeblendet, weil Hotels teilweise geschlossen waren und die Zahlen deshalb nicht vergleichbar sind.</div>
 
                     <div id="wetterLoading" style="text-align:center;padding:40px 0;color:var(--text-sec);">
                         <div style="display:inline-block;width:24px;height:24px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:12px;"></div>
@@ -404,12 +402,12 @@
                     </div>
                     <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
 
-                    <!-- 1) Visuelles Ergebnis: Barometer + Verdict -->
+                    <!-- 1) Aktuelle Saison im Überblick: KPI-Karten -->
                     <div id="wxCorrSummary" style="display:none;"></div>
 
-                    <!-- 2) Visueller Vergleich: Schnee vs. Nächtigungen pro Saison -->
-                    <div id="wxVisualCompareWrap" style="display:none;margin-top:20px;">
-                        <h3 style="font-size:1rem;font-weight:600;margin-bottom:12px;">&#x2744;&#x1F6CF; Schnee &amp; G&auml;ste im Direktvergleich</h3>
+                    <!-- 2) Alle Winter im Vergleich: Übersichtliche Tabelle -->
+                    <div id="wxVisualCompareWrap" style="display:none;margin-top:24px;">
+                        <h3 style="font-size:1rem;font-weight:600;margin-bottom:12px;">&#x1F4CB; Alle Winter im Vergleich</h3>
                         <div id="wxVisualCompare"></div>
                     </div>
 
@@ -423,12 +421,6 @@
                             </div>
                         </div>
                         <div style="position:relative;height:320px;"><canvas id="wxSnowTimeChart"></canvas></div>
-                    </div>
-
-                    <!-- 4) Wintervergleich Tabelle -->
-                    <div id="wetterTableWrap" style="display:none;margin-top:24px;">
-                        <h3 style="font-size:1rem;font-weight:600;margin-bottom:12px;">&#x1F4CB; Wintervergleich &middot; Alle Saisonen</h3>
-                        <div class="table-wrapper" id="wxSeasonTable"></div>
                     </div>
 
                     <div id="wetterLink" style="display:none;margin-top:16px;text-align:right;">
@@ -849,12 +841,12 @@
 
     <script>
         const CONFIG = {
-            // Lokale Dateien (von GitHub Actions täglich aktualisiert)
-            CSV_URL: 'data/hauptgliederung.csv',
-            COUNTRIES_CSV_URL: 'data/staaten.csv',
-            // Direkte API-Fallback-URLs von data.gv.at
-            CSV_URL_FALLBACK: 'https://data.vorarlberg.gv.at/katalog/wirtschaft/wirfin_vbg_tour_ankuenfte_naechtigungen_hauptgliederung_monatlich.csv',
-            COUNTRIES_CSV_URL_FALLBACK: 'https://data.vorarlberg.gv.at/katalog/wirtschaft/wirfin_vbg_tour_ankuenfte_naechtigungen_staaten_monatlich.csv',
+            // Primär: Direkt von data.vorarlberg.gv.at (immer aktuell)
+            CSV_URL: 'https://data.vorarlberg.gv.at/katalog/wirtschaft/wirfin_vbg_tour_ankuenfte_naechtigungen_hauptgliederung_monatlich.csv',
+            COUNTRIES_CSV_URL: 'https://data.vorarlberg.gv.at/katalog/wirtschaft/wirfin_vbg_tour_ankuenfte_naechtigungen_staaten_monatlich.csv',
+            // Fallback: Lokale Kopie (von GitHub Actions aktualisiert)
+            CSV_URL_FALLBACK: 'data/hauptgliederung.csv',
+            COUNTRIES_CSV_URL_FALLBACK: 'data/staaten.csv',
             GKZ: '80228',
             MONTHS_DE: ['Jän', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
             MONTHS_FULL: ['Jänner', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
@@ -2487,91 +2479,92 @@
 
             renderCorrSummary() {
                 const el=document.getElementById('wxCorrSummary');
-                const result=this.computeCorrelations();
-                if(!result||result.pairs.length<3){el.innerHTML='<p style="color:var(--text-sec);padding:20px;">Noch nicht genug abgeschlossene Saisonen.</p>';el.style.display='block';return;}
-                const{snowR,sunR,n,pairs}=result;
-                const snowPct=Math.max(0,Math.min(100,(snowR+1)/2*100));
-                const sunPct=Math.max(0,Math.min(100,(sunR+1)/2*100));
-                const sorted=[...pairs].sort((a,b)=>b.nights-a.nights);
-                const best=sorted[0],worst=sorted[sorted.length-1];
+                // Aktuelle Saison und Vorsaison finden
+                const currentId=this.activeSeason;
+                const currentIdx=this.SEASONS.findIndex(s=>s.id===currentId);
+                const currentTotals=this.seasonTotals(currentId);
+                if(!currentTotals){el.innerHTML='<p style="color:var(--text-sec);padding:20px;">Noch keine Daten f&uuml;r die aktuelle Saison verf&uuml;gbar.</p>';el.style.display='block';return;}
 
-                const snowStronger=Math.abs(snowR)>=Math.abs(sunR);
-                let emoji,verdictMain,verdictSub,color;
-                if(Math.abs(snowR)>0.5||Math.abs(sunR)>0.5){
-                    const stronger=snowStronger?'Schnee':'Sonnenstunden';
-                    emoji='✅';color='var(--accent)';
-                    verdictMain=`${stronger} beeinflusst die G&auml;stezahlen deutlich!`;
-                    verdictSub=`Mehr ${snowStronger?'Schnee':'Sonne'} = mehr G&auml;ste. Das Wetter spielt eine wichtige Rolle f&uuml;r den Wintertourismus.`;
-                } else if(Math.abs(snowR)>0.2||Math.abs(sunR)>0.2){
-                    emoji='📊';color='var(--gold)';
-                    verdictMain='Das Wetter spielt eine Rolle &mdash; aber nicht die einzige';
-                    verdictSub='Schnee und Sonne beeinflussen die G&auml;stezahlen messbar, aber andere Faktoren (Events, Ferien, Trends) wirken ebenfalls mit.';
-                } else {
-                    emoji='🤔';color='var(--text-sec)';
-                    verdictMain='Kein klarer Wetter-Einfluss erkennbar';
-                    verdictSub='Die G&auml;stezahlen h&auml;ngen hier kaum vom Wetter ab. Andere Faktoren wie Buchungstrends oder Ferienzeiten scheinen wichtiger.';
+                // Vorsaison finden (nicht-COVID, abgeschlossen)
+                let prevTotals=null,prevId=null;
+                for(let i=currentIdx-1;i>=0;i--){
+                    const s=this.SEASONS[i];
+                    if(!this.COVID_IDS.has(s.id)&&this.weatherData[s.id]){
+                        prevTotals=this.seasonTotals(s.id);
+                        prevId=s.id;
+                        break;
+                    }
                 }
 
+                const ct=currentTotals;
+                const valleyMax=ct.valley.maxSnow;
+                const mountainMax=ct.mountain.maxSnow;
+                const valleyAvg=ct.valley.avgSnow;
+                const mountainAvg=ct.mountain.avgSnow;
+                const snowDays=ct.valley.snowDays;
+                const sunHours=ct.valley.totalSun;
+
+                // Trends berechnen (auf max Schneehöhe bezogen)
+                const trend=(cur,prev)=>{
+                    if(!prev||prev===0) return{cls:'neutral',arrow:'&mdash;',text:'keine Vorsaison'};
+                    const pct=((cur-prev)/prev*100);
+                    if(pct>3) return{cls:'up',arrow:'&#x25B2;',text:`+${pct.toFixed(0)}% vs. ${prevId}`};
+                    if(pct<-3) return{cls:'down',arrow:'&#x25BC;',text:`${pct.toFixed(0)}% vs. ${prevId}`};
+                    return{cls:'neutral',arrow:'&#x25AC;',text:`&asymp; gleich wie ${prevId}`};
+                };
+
+                const tValley=prevTotals?trend(valleyMax,prevTotals.valley.maxSnow):{cls:'neutral',arrow:'',text:''};
+                const tMountain=prevTotals?trend(mountainMax,prevTotals.mountain.maxSnow):{cls:'neutral',arrow:'',text:''};
+                const tSnowDays=prevTotals?trend(snowDays,prevTotals.valley.snowDays):{cls:'neutral',arrow:'',text:''};
+                const tSun=prevTotals?trend(sunHours,prevTotals.valley.totalSun):{cls:'neutral',arrow:'',text:''};
+
+                // Headline (auf max Schnee bezogen)
+                let headlineText='';
+                if(prevTotals){
+                    const moreSnow=valleyMax>prevTotals.valley.maxSnow;
+                    const moreSun=sunHours>prevTotals.valley.totalSun;
+                    if(moreSnow&&moreSun) headlineText='Mehr Schnee und mehr Sonne als letzten Winter!';
+                    else if(moreSnow&&!moreSun) headlineText='Mehr Schnee als letzten Winter, aber weniger Sonne.';
+                    else if(!moreSnow&&moreSun) headlineText='Weniger Schnee als letzten Winter, daf&uuml;r mehr Sonnenschein.';
+                    else headlineText='Weniger Schnee und weniger Sonne als im Vorwinter.';
+                } else {
+                    headlineText='Erster vollst&auml;ndiger Winter in der Auswertung.';
+                }
+
+                const isRunning=new Date()<new Date(this.SEASONS.find(s=>s.id===currentId).end);
+
                 el.innerHTML=`
-                    <div class="wx-verdict">
-                        <div class="wx-verdict-emoji">${emoji}</div>
-                        <div class="wx-verdict-text" style="color:${color}">${verdictMain}</div>
-                        <div class="wx-verdict-sub">${verdictSub}</div>
+                    <div class="wx-season-headline">
+                        <h3>&#x2744; Winter ${currentId}${isRunning?' <span style="font-size:0.7rem;font-weight:400;color:var(--text-sec);">(l&auml;uft noch)</span>':''}</h3>
+                        <p>${headlineText}</p>
                     </div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0;">
-                        <div class="wx-barometer">
-                            <div class="wx-barometer-label">&#x2744; Schnee &harr; G&auml;ste</div>
-                            <div style="position:relative;height:20px;border-radius:10px;overflow:visible;">
-                                <div class="wx-barometer-track"></div>
-                                <div class="wx-barometer-fill" style="width:${snowPct}%"></div>
-                                <div class="wx-barometer-needle" style="left:${snowPct}%"></div>
-                            </div>
-                            <div style="text-align:center;margin-top:4px;font-size:0.8rem;font-weight:700;color:var(--winter);">r = ${snowR.toFixed(2)} <span style="font-weight:400;color:var(--text-sec);">(${this.rLabel(snowR)})</span></div>
+                    <div class="wx-kpi-grid">
+                        <div class="wx-kpi-card snow-valley">
+                            <div class="wx-kpi-icon">&#x2744;</div>
+                            <div class="wx-kpi-label">Max. Schnee Tal</div>
+                            <div class="wx-kpi-value">${valleyMax.toFixed(0)} <span class="wx-kpi-unit">cm</span></div>
+                            <div style="font-size:0.75rem;color:var(--text-sec);margin-top:2px;">&Oslash; ${valleyAvg.toFixed(0)} cm</div>
+                            ${tValley.text?`<div class="wx-kpi-trend ${tValley.cls}">${tValley.arrow} ${tValley.text}</div>`:''}
                         </div>
-                        <div class="wx-barometer">
-                            <div class="wx-barometer-label">&#x2600; Sonne &harr; G&auml;ste</div>
-                            <div style="position:relative;height:20px;border-radius:10px;overflow:visible;">
-                                <div class="wx-barometer-track"></div>
-                                <div class="wx-barometer-fill" style="width:${sunPct}%"></div>
-                                <div class="wx-barometer-needle" style="left:${sunPct}%"></div>
-                            </div>
-                            <div style="text-align:center;margin-top:4px;font-size:0.8rem;font-weight:700;color:var(--gold);">r = ${sunR.toFixed(2)} <span style="font-weight:400;color:var(--text-sec);">(${this.rLabel(sunR)})</span></div>
+                        <div class="wx-kpi-card snow-mountain">
+                            <div class="wx-kpi-icon">&#x26F0;</div>
+                            <div class="wx-kpi-label">Max. Schnee Berg</div>
+                            <div class="wx-kpi-value">${mountainMax.toFixed(0)} <span class="wx-kpi-unit">cm</span></div>
+                            <div style="font-size:0.75rem;color:var(--text-sec);margin-top:2px;">&Oslash; ${mountainAvg.toFixed(0)} cm</div>
+                            ${tMountain.text?`<div class="wx-kpi-trend ${tMountain.cls}">${tMountain.arrow} ${tMountain.text}</div>`:''}
                         </div>
-                    </div>
-                    <div class="wx-corr-cards">
-                        <div class="wx-corr-card-item">
-                            <div class="wx-corr-card-label">&#x1F3C6; Beste Saison</div>
-                            <div class="wx-corr-card-season" style="color:var(--accent)">Winter ${best.id}</div>
-                            <div class="wx-corr-card-detail">${this.fmtNum(best.nights)} N&auml;chtigungen<br>&Oslash; ${best.snow.toFixed(0)} cm &middot; ${best.sun.toFixed(0)} h &#x2600;</div>
+                        <div class="wx-kpi-card snow-days">
+                            <div class="wx-kpi-icon">&#x1F328;</div>
+                            <div class="wx-kpi-label">Schneetage</div>
+                            <div class="wx-kpi-value">${snowDays} <span class="wx-kpi-unit">Tage</span></div>
+                            ${tSnowDays.text?`<div class="wx-kpi-trend ${tSnowDays.cls}">${tSnowDays.arrow} ${tSnowDays.text}</div>`:''}
                         </div>
-                        <div class="wx-corr-card-item">
-                            <div class="wx-corr-card-label">&#x1F4C9; Schw&auml;chste Saison</div>
-                            <div class="wx-corr-card-season" style="color:var(--sunset)">Winter ${worst.id}</div>
-                            <div class="wx-corr-card-detail">${this.fmtNum(worst.nights)} N&auml;chtigungen<br>&Oslash; ${worst.snow.toFixed(0)} cm &middot; ${worst.sun.toFixed(0)} h &#x2600;</div>
+                        <div class="wx-kpi-card sun-hours">
+                            <div class="wx-kpi-icon">&#x2600;</div>
+                            <div class="wx-kpi-label">Sonnenstunden</div>
+                            <div class="wx-kpi-value">${sunHours.toFixed(0)} <span class="wx-kpi-unit">h</span></div>
+                            ${tSun.text?`<div class="wx-kpi-trend ${tSun.cls}">${tSun.arrow} ${tSun.text}</div>`:''}
                         </div>
-                    </div>
-                    <table style="width:100%;border-collapse:collapse;font-size:0.72rem;margin-top:12px;">
-                        <thead><tr style="border-bottom:1px solid var(--border);">
-                            <th style="text-align:left;padding:5px 6px;color:var(--text-sec);font-weight:500;">Saison</th>
-                            <th style="text-align:right;padding:5px 6px;color:var(--winter);font-weight:500;">&#x2744; Schnee</th>
-                            <th style="text-align:right;padding:5px 6px;color:var(--gold);font-weight:500;">&#x2600; Sonne</th>
-                            <th style="text-align:right;padding:5px 6px;color:var(--accent);font-weight:500;">&#x1F6CF; N&auml;chtigungen</th>
-                        </tr></thead><tbody>
-                        ${pairs.map(p=>`<tr style="border-bottom:1px solid var(--border-light,rgba(0,0,0,0.06));">
-                            <td style="padding:4px 6px;font-weight:600;">${p.id}</td>
-                            <td style="padding:4px 6px;text-align:right;">${p.snow.toFixed(0)} cm</td>
-                            <td style="padding:4px 6px;text-align:right;">${p.sun.toFixed(0)} h</td>
-                            <td style="padding:4px 6px;text-align:right;">${this.fmtNum(p.nights)}</td>
-                        </tr>`).join('')}
-                        </tbody></table>
-                    <div style="margin-top:12px;padding:10px 12px;background:var(--snow);border-radius:var(--radius-sm);border:1px solid var(--border);font-size:0.72rem;color:var(--text-sec);line-height:1.7;">
-                        <strong style="color:var(--text);">&#x1F4D6; So liest du diese Analyse</strong><br>
-                        Wir vergleichen f&uuml;r jede abgeschlossene Wintersaison das <strong style="color:var(--winter);">Wetter</strong> (Schneeh&ouml;he, Sonne) mit den <strong style="color:var(--accent);">&Uuml;bernachtungen</strong>.
-                        Der <strong>Wert r</strong> zeigt den Zusammenhang:<br>
-                        <span style="color:var(--accent);font-weight:600;">r nahe +1</span> = starker Zusammenhang &middot;
-                        <span style="font-weight:600;">r nahe 0</span> = kein Zusammenhang &middot;
-                        <span style="color:var(--sunset);font-weight:600;">r nahe &minus;1</span> = gegenl&auml;ufig<br>
-                        <span style="opacity:0.75;">Basis: ${n} abgeschlossene Saisonen (Nov&ndash;Apr). Saison 25/26 ausgenommen, da noch laufend.</span>
                     </div>
                 `;
                 el.style.display='block';
@@ -2580,30 +2573,92 @@
             renderVisualCompare() {
                 const el=document.getElementById('wxVisualCompare');
                 if(!el) return;
+
+                // Alle Saisons sammeln (ohne COVID, mit Daten)
                 const rows=[];
-                this.SEASONS.filter(s=>this.isComplete(s)).forEach(s=>{
+                this.SEASONS.forEach(s=>{
+                    if(this.COVID_IDS.has(s.id)) return;
+                    if(!this.weatherData[s.id]) return;
                     const t=this.seasonTotals(s.id);if(!t)return;
                     const tour=this.getTourism(s.id);
-                    rows.push({id:s.id,snow:t.valley.avgSnow,nights:tour.total});
+                    const isRunning=new Date()<new Date(s.end);
+                    rows.push({
+                        id:s.id,
+                        valleyMax:t.valley.maxSnow,
+                        mountainMax:t.mountain.maxSnow,
+                        valleyAvg:t.valley.avgSnow,
+                        mountainAvg:t.mountain.avgSnow,
+                        snowDays:t.valley.snowDays,
+                        sunHours:t.valley.totalSun,
+                        nights:tour.total,
+                        isRunning
+                    });
                 });
+
                 if(!rows.length){el.innerHTML='<p style="color:var(--text-sec);">Keine Daten verf&uuml;gbar.</p>';return;}
 
-                const maxSnow=Math.max(...rows.map(r=>r.snow));
-                const maxNights=Math.max(...rows.map(r=>r.nights));
-
-                let html='';
-                rows.forEach(r=>{
-                    const snowPct=maxSnow>0?Math.round(r.snow/maxSnow*100):0;
-                    const nightPct=maxNights>0?Math.round(r.nights/maxNights*100):0;
-                    html+=`<div class="wx-rank-row">
-                        <div class="wx-rank-season">${r.id}</div>
-                        <div class="wx-rank-bars">
-                            <div class="wx-rank-bar-wrap"><div class="wx-rank-icon">&#x2744;</div><div class="wx-rank-bar snow" style="width:${snowPct}%">${r.snow.toFixed(0)} cm</div></div>
-                            <div class="wx-rank-bar-wrap"><div class="wx-rank-icon">&#x1F6CF;</div><div class="wx-rank-bar nights" style="width:${nightPct}%">${this.fmtNum(r.nights)}</div></div>
-                        </div>
-                    </div>`;
+                // Sortiert: neueste oben
+                rows.sort((a,b)=>{
+                    const ya=parseInt('20'+a.id.split('/')[1]),yb=parseInt('20'+b.id.split('/')[1]);
+                    return yb-ya;
                 });
-                html+=`<p style="margin-top:10px;font-size:0.75rem;color:var(--text-sec);">Wenn Schnee G&auml;ste bringt, sollten blaue und gr&uuml;ne Balken &auml;hnlich lang sein.</p>`;
+
+                // Maximalwerte für Balken
+                const maxValley=Math.max(...rows.map(r=>r.valleyMax));
+                const maxMountain=Math.max(...rows.map(r=>r.mountainMax));
+                const maxNights=Math.max(...rows.filter(r=>!r.isRunning).map(r=>r.nights),1);
+                const maxSun=Math.max(...rows.map(r=>r.sunHours));
+
+                // Beste Saison (meiste Nächte, nur abgeschlossene)
+                const completedRows=rows.filter(r=>!r.isRunning);
+                const bestId=completedRows.length?completedRows.reduce((best,r)=>r.nights>best.nights?r:best,completedRows[0]).id:null;
+
+                let html=`<div class="table-wrapper"><table class="wx-compare-table">
+                    <thead><tr>
+                        <th style="text-align:left;">Saison</th>
+                        <th>&#x2744; Max Tal</th>
+                        <th>&#x26F0; Max Berg</th>
+                        <th>&#x1F328; Schneetage</th>
+                        <th>&#x2600; Sonne</th>
+                        <th>&#x1F6CF; G&auml;ste</th>
+                    </tr></thead><tbody>`;
+
+                rows.forEach(r=>{
+                    const vPct=maxValley>0?Math.round(r.valleyMax/maxValley*100):0;
+                    const mPct=maxMountain>0?Math.round(r.mountainMax/maxMountain*100):0;
+                    const nPct=maxNights>0?Math.round(r.nights/maxNights*100):0;
+                    const sPct=maxSun>0?Math.round(r.sunHours/maxSun*100):0;
+                    const isCurrent=r.id===this.activeSeason;
+                    const isBest=r.id===bestId;
+
+                    html+=`<tr${isCurrent?' class="wx-current-season"':''}>
+                        <td>
+                            <strong>${r.id}</strong>
+                            ${r.isRunning?'<span class="wx-covid-badge" style="background:#e3f2fd;color:#1565c0;">l&auml;uft</span>':''}
+                            ${isBest?'<span class="wx-best-badge">&#x1F3C6; Beste</span>':''}
+                        </td>
+                        <td>
+                            ${r.valleyMax.toFixed(0)} cm
+                            <div class="wx-inline-bar snow" style="width:${vPct}%;max-width:80px;display:block;margin-top:3px;"></div>
+                        </td>
+                        <td>
+                            ${r.mountainMax.toFixed(0)} cm
+                            <div class="wx-inline-bar snow" style="width:${mPct}%;max-width:80px;display:block;margin-top:3px;background:linear-gradient(90deg,#f48fb1,#e91e63);"></div>
+                        </td>
+                        <td>${r.snowDays}</td>
+                        <td>
+                            ${r.sunHours.toFixed(0)} h
+                            <div class="wx-inline-bar sun" style="width:${sPct}%;max-width:80px;display:block;margin-top:3px;"></div>
+                        </td>
+                        <td>
+                            ${r.isRunning?'<span style="color:var(--text-sec);font-style:italic;">noch offen</span>':this.fmtNum(r.nights)}
+                            ${!r.isRunning?`<div class="wx-inline-bar guests" style="width:${nPct}%;max-width:80px;display:block;margin-top:3px;"></div>`:''}
+                        </td>
+                    </tr>`;
+                });
+
+                html+=`</tbody></table></div>`;
+                html+=`<p style="margin-top:10px;font-size:0.75rem;color:var(--text-sec);line-height:1.5;">Alle Werte beziehen sich auf die Wintersaison November bis April. COVID-Winter (19/20, 20/21) sind nicht dargestellt. Schneeh&ouml;he = maximale gemessene Schneeh&ouml;he der Saison.</p>`;
                 el.innerHTML=html;
             },
 
@@ -2624,13 +2679,11 @@
                 // Sektionen einblenden
                 const vcw=document.getElementById('wxVisualCompareWrap');if(vcw)vcw.style.display='block';
                 const stw=document.getElementById('wetterSnowTimeWrap');if(stw)stw.style.display='block';
-                const ttw=document.getElementById('wetterTableWrap');if(ttw)ttw.style.display='block';
                 const lnk=document.getElementById('wetterLink');if(lnk)lnk.style.display='block';
                 // Charts rendern
-                this.renderVisualCompare();
                 this.renderCorrSummary();
+                this.renderVisualCompare();
                 this.renderSnowTimeline();
-                this.renderSeasonTable();
                 // Resize nach kurzer Verzögerung
                 setTimeout(()=>window.dispatchEvent(new Event('resize')),100);
             }
@@ -2651,8 +2704,8 @@
         }
         function wetterChangeSeason(val) {
             WX.activeSeason = val;
+            WX.renderCorrSummary();
             WX.renderSnowTimeline();
-            WX.renderSeasonTable();
         }
     </script>
 </body>
