@@ -841,12 +841,12 @@
 
     <script>
         const CONFIG = {
-            // Primär: Direkt von data.vorarlberg.gv.at (immer aktuell)
-            CSV_URL: 'https://data.vorarlberg.gv.at/katalog/wirtschaft/wirfin_vbg_tour_ankuenfte_naechtigungen_hauptgliederung_monatlich.csv',
-            COUNTRIES_CSV_URL: 'https://data.vorarlberg.gv.at/katalog/wirtschaft/wirfin_vbg_tour_ankuenfte_naechtigungen_staaten_monatlich.csv',
-            // Fallback: Lokale Kopie (von GitHub Actions aktualisiert)
-            CSV_URL_FALLBACK: 'data/hauptgliederung.csv',
-            COUNTRIES_CSV_URL_FALLBACK: 'data/staaten.csv',
+            // Lokale Dateien (von GitHub Actions stündlich aktualisiert)
+            CSV_URL: 'data/hauptgliederung.csv',
+            COUNTRIES_CSV_URL: 'data/staaten.csv',
+            // API-Fallback (CORS kann blockieren, daher lokal bevorzugt)
+            CSV_URL_FALLBACK: 'https://data.vorarlberg.gv.at/katalog/wirtschaft/wirfin_vbg_tour_ankuenfte_naechtigungen_hauptgliederung_monatlich.csv',
+            COUNTRIES_CSV_URL_FALLBACK: 'https://data.vorarlberg.gv.at/katalog/wirtschaft/wirfin_vbg_tour_ankuenfte_naechtigungen_staaten_monatlich.csv',
             GKZ: '80228',
             MONTHS_DE: ['Jän', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
             MONTHS_FULL: ['Jänner', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
