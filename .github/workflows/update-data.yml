@@ -5,6 +5,11 @@ on:
     - cron: '17 * * * *'
   workflow_dispatch:
 
+# Verhindert parallele Läufe (race conditions beim Push)
+concurrency:
+  group: update-data
+  cancel-in-progress: false
+
 jobs:
   update-data:
     runs-on: ubuntu-latest
@@ -59,5 +64,14 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add data/
-          git diff --staged --quiet || git commit -m "Daten-Update $(date '+%Y-%m-%d %H:%M')"
-          git push
+          if ! git diff --staged --quiet; then
+            git commit -m "Daten-Update $(date '+%Y-%m-%d %H:%M')"
+            # Retry-Loop: pull --rebase, dann push (gegen race conditions)
+            for i in 1 2 3; do
+              git pull --rebase origin main && git push && break
+              echo "Push attempt $i failed, retrying..."
+              sleep 3
+            done
+          else
+            echo "Keine Änderungen – nichts zu committen."
+          fi
