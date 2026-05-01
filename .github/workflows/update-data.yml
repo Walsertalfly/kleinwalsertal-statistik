@@ -8,14 +8,19 @@ on:
 jobs:
   update-data:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
       - name: Create data directory
         run: mkdir -p data
-      
+
       - name: Download main CSV
         run: |
           curl -L -o data/hauptgliederung.csv \
@@ -41,10 +46,14 @@ jobs:
           done
           echo "CSV files validated OK"
 
+      - name: Append preview months from Land Vorarlberg Excel
+        run: node scripts/update-preview.js
+        continue-on-error: true
+
       - name: Update timestamp
         run: |
           echo "Letztes Update: $(date '+%Y-%m-%d %H:%M:%S UTC')" > data/last-update.txt
-      
+
       - name: Commit and push if changed
         run: |
           git config --local user.email "action@github.com"
