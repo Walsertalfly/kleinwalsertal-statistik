@@ -1440,12 +1440,12 @@
 2025;2025;"Sommer";9;80101;"Bartholomäberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";1205;4045
 2025;2025;"Sommer";9;80101;"Bartholomäberg";"Privatquartiere";"endgültig";303;2404
 2025;2025;"Sommer";9;80101;"Bartholomäberg";"Andere Unterkünfte";"endgültig";938;2301
-2025;2025;"Sommer";10;80101;"Bartholomäberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1563;4514
-2025;2025;"Sommer";10;80101;"Bartholomäberg";"Privatquartiere";"vorläufig";220;1236
-2025;2025;"Sommer";10;80101;"Bartholomäberg";"Andere Unterkünfte";"vorläufig";965;2575
-2025;2026;"Winter";11;80101;"Bartholomäberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1365;3879
-2025;2026;"Winter";11;80101;"Bartholomäberg";"Privatquartiere";"vorläufig";53;199
-2025;2026;"Winter";11;80101;"Bartholomäberg";"Andere Unterkünfte";"vorläufig";37;78
+2025;2025;"Sommer";10;80101;"Bartholomäberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";1563;4514
+2025;2025;"Sommer";10;80101;"Bartholomäberg";"Privatquartiere";"endgültig";220;1236
+2025;2025;"Sommer";10;80101;"Bartholomäberg";"Andere Unterkünfte";"endgültig";965;2575
+2025;2026;"Winter";11;80101;"Bartholomäberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";1365;3879
+2025;2026;"Winter";11;80101;"Bartholomäberg";"Privatquartiere";"endgültig";53;199
+2025;2026;"Winter";11;80101;"Bartholomäberg";"Andere Unterkünfte";"endgültig";37;78
 2025;2026;"Winter";12;80101;"Bartholomäberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1507;5362
 2025;2026;"Winter";12;80101;"Bartholomäberg";"Privatquartiere";"vorläufig";563;3090
 2025;2026;"Winter";12;80101;"Bartholomäberg";"Andere Unterkünfte";"vorläufig";1155;3534
@@ -1455,6 +1455,12 @@
 2026;2026;"Winter";2;80101;"Bartholomäberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1807;6973
 2026;2026;"Winter";2;80101;"Bartholomäberg";"Privatquartiere";"vorläufig";968;5968
 2026;2026;"Winter";2;80101;"Bartholomäberg";"Andere Unterkünfte";"vorläufig";1425;4341
+2026;2026;"Winter";3;80101;"Bartholomäberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1470;4732
+2026;2026;"Winter";3;80101;"Bartholomäberg";"Privatquartiere";"vorläufig";459;2383
+2026;2026;"Winter";3;80101;"Bartholomäberg";"Andere Unterkünfte";"vorläufig";1094;3092
+2026;2026;"Winter";4;80101;"Bartholomäberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1197;3740
+2026;2026;"Winter";4;80101;"Bartholomäberg";"Privatquartiere";"vorläufig";192;1395
+2026;2026;"Winter";4;80101;"Bartholomäberg";"Andere Unterkünfte";"vorläufig";416;1116
 1984;1985;"Winter";12;80102;"Blons";"Gewerbliche Beherbergungsbetriebe";"endgültig";31;191
 1984;1985;"Winter";12;80102;"Blons";"Privatquartiere";"endgültig";594;2030
 1985;1985;"Winter";1;80102;"Blons";"Gewerbliche Beherbergungsbetriebe";"endgültig";12;40
@@ -2107,12 +2113,14 @@
 2025;2025;"Sommer";8;80102;"Blons";"Gewerbliche Beherbergungsbetriebe";"endgültig";39;178
 2025;2025;"Sommer";8;80102;"Blons";"Privatquartiere";"endgültig";7;49
 2025;2025;"Sommer";9;80102;"Blons";"Privatquartiere";"endgültig";34;308
-2025;2025;"Sommer";10;80102;"Blons";"Privatquartiere";"vorläufig";13;58
-2025;2026;"Winter";11;80102;"Blons";"Privatquartiere";"vorläufig";12;156
+2025;2025;"Sommer";10;80102;"Blons";"Privatquartiere";"endgültig";13;58
+2025;2026;"Winter";11;80102;"Blons";"Privatquartiere";"endgültig";12;156
 2025;2026;"Winter";12;80102;"Blons";"Privatquartiere";"vorläufig";10;150
 2026;2026;"Winter";1;80102;"Blons";"Gewerbliche Beherbergungsbetriebe";"vorläufig";141;407
 2026;2026;"Winter";2;80102;"Blons";"Gewerbliche Beherbergungsbetriebe";"vorläufig";155;426
 2026;2026;"Winter";2;80102;"Blons";"Privatquartiere";"vorläufig";131;784
+2026;2026;"Winter";3;80102;"Blons";"Privatquartiere";"vorläufig";10;155
+2026;2026;"Winter";4;80102;"Blons";"Privatquartiere";"vorläufig";15;165
 1984;1985;"Winter";11;80103;"Bludenz";"Gewerbliche Beherbergungsbetriebe";"endgültig";666;1261
 1984;1985;"Winter";11;80103;"Bludenz";"Privatquartiere";"endgültig";53;438
 1984;1985;"Winter";11;80103;"Bludenz";"Andere Unterkünfte";"endgültig";60;122
@@ -3571,12 +3579,12 @@
 2025;2025;"Sommer";9;80103;"Bludenz";"Gewerbliche Beherbergungsbetriebe";"endgültig";3434;6241
 2025;2025;"Sommer";9;80103;"Bludenz";"Privatquartiere";"endgültig";180;1133
 2025;2025;"Sommer";9;80103;"Bludenz";"Andere Unterkünfte";"endgültig";151;1100
-2025;2025;"Sommer";10;80103;"Bludenz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";3094;6321
-2025;2025;"Sommer";10;80103;"Bludenz";"Privatquartiere";"vorläufig";127;1021
-2025;2025;"Sommer";10;80103;"Bludenz";"Andere Unterkünfte";"vorläufig";56;120
-2025;2026;"Winter";11;80103;"Bludenz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2620;5117
-2025;2026;"Winter";11;80103;"Bludenz";"Privatquartiere";"vorläufig";56;565
-2025;2026;"Winter";11;80103;"Bludenz";"Andere Unterkünfte";"vorläufig";29;56
+2025;2025;"Sommer";10;80103;"Bludenz";"Gewerbliche Beherbergungsbetriebe";"endgültig";3094;6321
+2025;2025;"Sommer";10;80103;"Bludenz";"Privatquartiere";"endgültig";127;1021
+2025;2025;"Sommer";10;80103;"Bludenz";"Andere Unterkünfte";"endgültig";56;120
+2025;2026;"Winter";11;80103;"Bludenz";"Gewerbliche Beherbergungsbetriebe";"endgültig";2620;5117
+2025;2026;"Winter";11;80103;"Bludenz";"Privatquartiere";"endgültig";56;565
+2025;2026;"Winter";11;80103;"Bludenz";"Andere Unterkünfte";"endgültig";29;56
 2025;2026;"Winter";12;80103;"Bludenz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";3614;7928
 2025;2026;"Winter";12;80103;"Bludenz";"Privatquartiere";"vorläufig";431;1909
 2025;2026;"Winter";12;80103;"Bludenz";"Andere Unterkünfte";"vorläufig";58;155
@@ -3586,6 +3594,12 @@
 2026;2026;"Winter";2;80103;"Bludenz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";3652;8414
 2026;2026;"Winter";2;80103;"Bludenz";"Privatquartiere";"vorläufig";662;2675
 2026;2026;"Winter";2;80103;"Bludenz";"Andere Unterkünfte";"vorläufig";54;137
+2026;2026;"Winter";3;80103;"Bludenz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";3360;6240
+2026;2026;"Winter";3;80103;"Bludenz";"Privatquartiere";"vorläufig";289;1061
+2026;2026;"Winter";3;80103;"Bludenz";"Andere Unterkünfte";"vorläufig";33;78
+2026;2026;"Winter";4;80103;"Bludenz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2750;5328
+2026;2026;"Winter";4;80103;"Bludenz";"Privatquartiere";"vorläufig";206;1131
+2026;2026;"Winter";4;80103;"Bludenz";"Andere Unterkünfte";"vorläufig";86;1141
 1984;1985;"Winter";11;80105;"Brand";"Gewerbliche Beherbergungsbetriebe";"endgültig";8;119
 1984;1985;"Winter";11;80105;"Brand";"Privatquartiere";"endgültig";78;341
 1984;1985;"Winter";12;80105;"Brand";"Gewerbliche Beherbergungsbetriebe";"endgültig";1891;12471
@@ -4625,12 +4639,12 @@
 2025;2025;"Sommer";9;80105;"Brand";"Gewerbliche Beherbergungsbetriebe";"endgültig";5750;19753
 2025;2025;"Sommer";9;80105;"Brand";"Privatquartiere";"endgültig";339;1620
 2025;2025;"Sommer";9;80105;"Brand";"Andere Unterkünfte";"endgültig";139;343
-2025;2025;"Sommer";10;80105;"Brand";"Gewerbliche Beherbergungsbetriebe";"vorläufig";6166;19973
-2025;2025;"Sommer";10;80105;"Brand";"Privatquartiere";"vorläufig";182;845
-2025;2025;"Sommer";10;80105;"Brand";"Andere Unterkünfte";"vorläufig";242;501
-2025;2026;"Winter";11;80105;"Brand";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1848;4728
-2025;2026;"Winter";11;80105;"Brand";"Privatquartiere";"vorläufig";17;57
-2025;2026;"Winter";11;80105;"Brand";"Andere Unterkünfte";"vorläufig";25;68
+2025;2025;"Sommer";10;80105;"Brand";"Gewerbliche Beherbergungsbetriebe";"endgültig";6166;19973
+2025;2025;"Sommer";10;80105;"Brand";"Privatquartiere";"endgültig";182;845
+2025;2025;"Sommer";10;80105;"Brand";"Andere Unterkünfte";"endgültig";242;501
+2025;2026;"Winter";11;80105;"Brand";"Gewerbliche Beherbergungsbetriebe";"endgültig";1848;4728
+2025;2026;"Winter";11;80105;"Brand";"Privatquartiere";"endgültig";17;57
+2025;2026;"Winter";11;80105;"Brand";"Andere Unterkünfte";"endgültig";25;68
 2025;2026;"Winter";12;80105;"Brand";"Gewerbliche Beherbergungsbetriebe";"vorläufig";5263;21974
 2025;2026;"Winter";12;80105;"Brand";"Privatquartiere";"vorläufig";535;2673
 2025;2026;"Winter";12;80105;"Brand";"Andere Unterkünfte";"vorläufig";108;310
@@ -4640,6 +4654,12 @@
 2026;2026;"Winter";2;80105;"Brand";"Gewerbliche Beherbergungsbetriebe";"vorläufig";8864;43111
 2026;2026;"Winter";2;80105;"Brand";"Privatquartiere";"vorläufig";971;6174
 2026;2026;"Winter";2;80105;"Brand";"Andere Unterkünfte";"vorläufig";249;673
+2026;2026;"Winter";3;80105;"Brand";"Gewerbliche Beherbergungsbetriebe";"vorläufig";4697;16497
+2026;2026;"Winter";3;80105;"Brand";"Privatquartiere";"vorläufig";329;1496
+2026;2026;"Winter";3;80105;"Brand";"Andere Unterkünfte";"vorläufig";154;386
+2026;2026;"Winter";4;80105;"Brand";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2432;7401
+2026;2026;"Winter";4;80105;"Brand";"Privatquartiere";"vorläufig";76;347
+2026;2026;"Winter";4;80105;"Brand";"Andere Unterkünfte";"vorläufig";62;180
 1984;1985;"Winter";11;80106;"Bürs";"Gewerbliche Beherbergungsbetriebe";"endgültig";25;249
 1984;1985;"Winter";11;80106;"Bürs";"Privatquartiere";"endgültig";4;36
 1984;1985;"Winter";11;80106;"Bürs";"Andere Unterkünfte";"endgültig";10;74
@@ -5980,12 +6000,12 @@
 2025;2025;"Sommer";9;80106;"Bürs";"Gewerbliche Beherbergungsbetriebe";"endgültig";39;140
 2025;2025;"Sommer";9;80106;"Bürs";"Privatquartiere";"endgültig";38;101
 2025;2025;"Sommer";9;80106;"Bürs";"Andere Unterkünfte";"endgültig";420;596
-2025;2025;"Sommer";10;80106;"Bürs";"Gewerbliche Beherbergungsbetriebe";"vorläufig";33;89
-2025;2025;"Sommer";10;80106;"Bürs";"Privatquartiere";"vorläufig";20;77
-2025;2025;"Sommer";10;80106;"Bürs";"Andere Unterkünfte";"vorläufig";55;144
-2025;2026;"Winter";11;80106;"Bürs";"Gewerbliche Beherbergungsbetriebe";"vorläufig";47;98
-2025;2026;"Winter";11;80106;"Bürs";"Privatquartiere";"vorläufig";2;8
-2025;2026;"Winter";11;80106;"Bürs";"Andere Unterkünfte";"vorläufig";32;92
+2025;2025;"Sommer";10;80106;"Bürs";"Gewerbliche Beherbergungsbetriebe";"endgültig";33;89
+2025;2025;"Sommer";10;80106;"Bürs";"Privatquartiere";"endgültig";20;77
+2025;2025;"Sommer";10;80106;"Bürs";"Andere Unterkünfte";"endgültig";55;144
+2025;2026;"Winter";11;80106;"Bürs";"Gewerbliche Beherbergungsbetriebe";"endgültig";47;98
+2025;2026;"Winter";11;80106;"Bürs";"Privatquartiere";"endgültig";2;8
+2025;2026;"Winter";11;80106;"Bürs";"Andere Unterkünfte";"endgültig";32;92
 2025;2026;"Winter";12;80106;"Bürs";"Gewerbliche Beherbergungsbetriebe";"vorläufig";127;322
 2025;2026;"Winter";12;80106;"Bürs";"Privatquartiere";"vorläufig";62;247
 2025;2026;"Winter";12;80106;"Bürs";"Andere Unterkünfte";"vorläufig";97;433
@@ -5995,6 +6015,12 @@
 2026;2026;"Winter";2;80106;"Bürs";"Gewerbliche Beherbergungsbetriebe";"vorläufig";112;281
 2026;2026;"Winter";2;80106;"Bürs";"Privatquartiere";"vorläufig";82;382
 2026;2026;"Winter";2;80106;"Bürs";"Andere Unterkünfte";"vorläufig";99;303
+2026;2026;"Winter";3;80106;"Bürs";"Gewerbliche Beherbergungsbetriebe";"vorläufig";71;169
+2026;2026;"Winter";3;80106;"Bürs";"Privatquartiere";"vorläufig";60;181
+2026;2026;"Winter";3;80106;"Bürs";"Andere Unterkünfte";"vorläufig";71;184
+2026;2026;"Winter";4;80106;"Bürs";"Gewerbliche Beherbergungsbetriebe";"vorläufig";96;204
+2026;2026;"Winter";4;80106;"Bürs";"Privatquartiere";"vorläufig";21;107
+2026;2026;"Winter";4;80106;"Bürs";"Andere Unterkünfte";"vorläufig";74;250
 1984;1985;"Winter";11;80107;"Bürserberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";3;9
 1984;1985;"Winter";11;80107;"Bürserberg";"Privatquartiere";"endgültig";54;358
 1984;1985;"Winter";12;80107;"Bürserberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";502;3245
@@ -7390,12 +7416,12 @@
 2025;2025;"Sommer";9;80107;"Bürserberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";1965;8532
 2025;2025;"Sommer";9;80107;"Bürserberg";"Privatquartiere";"endgültig";154;720
 2025;2025;"Sommer";9;80107;"Bürserberg";"Andere Unterkünfte";"endgültig";369;1026
-2025;2025;"Sommer";10;80107;"Bürserberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2824;13108
-2025;2025;"Sommer";10;80107;"Bürserberg";"Privatquartiere";"vorläufig";101;546
-2025;2025;"Sommer";10;80107;"Bürserberg";"Andere Unterkünfte";"vorläufig";500;1024
-2025;2026;"Winter";11;80107;"Bürserberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";111;345
-2025;2026;"Winter";11;80107;"Bürserberg";"Privatquartiere";"vorläufig";38;118
-2025;2026;"Winter";11;80107;"Bürserberg";"Andere Unterkünfte";"vorläufig";92;279
+2025;2025;"Sommer";10;80107;"Bürserberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";2824;13108
+2025;2025;"Sommer";10;80107;"Bürserberg";"Privatquartiere";"endgültig";101;546
+2025;2025;"Sommer";10;80107;"Bürserberg";"Andere Unterkünfte";"endgültig";500;1024
+2025;2026;"Winter";11;80107;"Bürserberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";111;345
+2025;2026;"Winter";11;80107;"Bürserberg";"Privatquartiere";"endgültig";38;118
+2025;2026;"Winter";11;80107;"Bürserberg";"Andere Unterkünfte";"endgültig";92;279
 2025;2026;"Winter";12;80107;"Bürserberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1911;9408
 2025;2026;"Winter";12;80107;"Bürserberg";"Privatquartiere";"vorläufig";366;1587
 2025;2026;"Winter";12;80107;"Bürserberg";"Andere Unterkünfte";"vorläufig";221;662
@@ -7405,6 +7431,12 @@
 2026;2026;"Winter";2;80107;"Bürserberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";3152;17973
 2026;2026;"Winter";2;80107;"Bürserberg";"Privatquartiere";"vorläufig";447;2560
 2026;2026;"Winter";2;80107;"Bürserberg";"Andere Unterkünfte";"vorläufig";438;1566
+2026;2026;"Winter";3;80107;"Bürserberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1364;6906
+2026;2026;"Winter";3;80107;"Bürserberg";"Privatquartiere";"vorläufig";148;583
+2026;2026;"Winter";3;80107;"Bürserberg";"Andere Unterkünfte";"vorläufig";442;1064
+2026;2026;"Winter";4;80107;"Bürserberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";387;2107
+2026;2026;"Winter";4;80107;"Bürserberg";"Privatquartiere";"vorläufig";117;376
+2026;2026;"Winter";4;80107;"Bürserberg";"Andere Unterkünfte";"vorläufig";320;741
 1984;1985;"Winter";11;80108;"Dalaas";"Gewerbliche Beherbergungsbetriebe";"endgültig";40;65
 1984;1985;"Winter";11;80108;"Dalaas";"Privatquartiere";"endgültig";65;111
 1984;1985;"Winter";11;80108;"Dalaas";"Andere Unterkünfte";"endgültig";21;42
@@ -8860,12 +8892,12 @@
 2025;2025;"Sommer";9;80108;"Dalaas";"Gewerbliche Beherbergungsbetriebe";"endgültig";670;2733
 2025;2025;"Sommer";9;80108;"Dalaas";"Privatquartiere";"endgültig";164;942
 2025;2025;"Sommer";9;80108;"Dalaas";"Andere Unterkünfte";"endgültig";213;723
-2025;2025;"Sommer";10;80108;"Dalaas";"Gewerbliche Beherbergungsbetriebe";"vorläufig";527;2166
-2025;2025;"Sommer";10;80108;"Dalaas";"Privatquartiere";"vorläufig";185;783
-2025;2025;"Sommer";10;80108;"Dalaas";"Andere Unterkünfte";"vorläufig";147;338
-2025;2026;"Winter";11;80108;"Dalaas";"Gewerbliche Beherbergungsbetriebe";"vorläufig";21;137
-2025;2026;"Winter";11;80108;"Dalaas";"Privatquartiere";"vorläufig";34;116
-2025;2026;"Winter";11;80108;"Dalaas";"Andere Unterkünfte";"vorläufig";91;177
+2025;2025;"Sommer";10;80108;"Dalaas";"Gewerbliche Beherbergungsbetriebe";"endgültig";527;2166
+2025;2025;"Sommer";10;80108;"Dalaas";"Privatquartiere";"endgültig";185;783
+2025;2025;"Sommer";10;80108;"Dalaas";"Andere Unterkünfte";"endgültig";147;338
+2025;2026;"Winter";11;80108;"Dalaas";"Gewerbliche Beherbergungsbetriebe";"endgültig";21;137
+2025;2026;"Winter";11;80108;"Dalaas";"Privatquartiere";"endgültig";34;116
+2025;2026;"Winter";11;80108;"Dalaas";"Andere Unterkünfte";"endgültig";91;177
 2025;2026;"Winter";12;80108;"Dalaas";"Gewerbliche Beherbergungsbetriebe";"vorläufig";807;3220
 2025;2026;"Winter";12;80108;"Dalaas";"Privatquartiere";"vorläufig";956;4361
 2025;2026;"Winter";12;80108;"Dalaas";"Andere Unterkünfte";"vorläufig";385;1146
@@ -8875,6 +8907,12 @@
 2026;2026;"Winter";2;80108;"Dalaas";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1665;8130
 2026;2026;"Winter";2;80108;"Dalaas";"Privatquartiere";"vorläufig";1551;8990
 2026;2026;"Winter";2;80108;"Dalaas";"Andere Unterkünfte";"vorläufig";627;1968
+2026;2026;"Winter";3;80108;"Dalaas";"Gewerbliche Beherbergungsbetriebe";"vorläufig";926;3772
+2026;2026;"Winter";3;80108;"Dalaas";"Privatquartiere";"vorläufig";939;4544
+2026;2026;"Winter";3;80108;"Dalaas";"Andere Unterkünfte";"vorläufig";457;1503
+2026;2026;"Winter";4;80108;"Dalaas";"Gewerbliche Beherbergungsbetriebe";"vorläufig";313;1276
+2026;2026;"Winter";4;80108;"Dalaas";"Privatquartiere";"vorläufig";267;1574
+2026;2026;"Winter";4;80108;"Dalaas";"Andere Unterkünfte";"vorläufig";157;653
 1984;1985;"Winter";11;80109;"Fontanella";"Gewerbliche Beherbergungsbetriebe";"endgültig";98;751
 1984;1985;"Winter";11;80109;"Fontanella";"Privatquartiere";"endgültig";312;1919
 1984;1985;"Winter";11;80109;"Fontanella";"Andere Unterkünfte";"endgültig";85;606
@@ -10274,12 +10312,12 @@
 2025;2025;"Sommer";9;80109;"Fontanella";"Gewerbliche Beherbergungsbetriebe";"endgültig";928;3333
 2025;2025;"Sommer";9;80109;"Fontanella";"Privatquartiere";"endgültig";301;1413
 2025;2025;"Sommer";9;80109;"Fontanella";"Andere Unterkünfte";"endgültig";40;201
-2025;2025;"Sommer";10;80109;"Fontanella";"Gewerbliche Beherbergungsbetriebe";"vorläufig";979;3001
-2025;2025;"Sommer";10;80109;"Fontanella";"Privatquartiere";"vorläufig";231;801
-2025;2025;"Sommer";10;80109;"Fontanella";"Andere Unterkünfte";"vorläufig";79;197
-2025;2026;"Winter";11;80109;"Fontanella";"Gewerbliche Beherbergungsbetriebe";"vorläufig";524;1566
-2025;2026;"Winter";11;80109;"Fontanella";"Privatquartiere";"vorläufig";21;154
-2025;2026;"Winter";11;80109;"Fontanella";"Andere Unterkünfte";"vorläufig";17;80
+2025;2025;"Sommer";10;80109;"Fontanella";"Gewerbliche Beherbergungsbetriebe";"endgültig";979;3001
+2025;2025;"Sommer";10;80109;"Fontanella";"Privatquartiere";"endgültig";231;801
+2025;2025;"Sommer";10;80109;"Fontanella";"Andere Unterkünfte";"endgültig";79;197
+2025;2026;"Winter";11;80109;"Fontanella";"Gewerbliche Beherbergungsbetriebe";"endgültig";524;1566
+2025;2026;"Winter";11;80109;"Fontanella";"Privatquartiere";"endgültig";21;154
+2025;2026;"Winter";11;80109;"Fontanella";"Andere Unterkünfte";"endgültig";17;80
 2025;2026;"Winter";12;80109;"Fontanella";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1143;5074
 2025;2026;"Winter";12;80109;"Fontanella";"Privatquartiere";"vorläufig";344;1761
 2025;2026;"Winter";12;80109;"Fontanella";"Andere Unterkünfte";"vorläufig";100;421
@@ -10289,6 +10327,12 @@
 2026;2026;"Winter";2;80109;"Fontanella";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2042;10513
 2026;2026;"Winter";2;80109;"Fontanella";"Privatquartiere";"vorläufig";650;3767
 2026;2026;"Winter";2;80109;"Fontanella";"Andere Unterkünfte";"vorläufig";131;480
+2026;2026;"Winter";3;80109;"Fontanella";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1402;5890
+2026;2026;"Winter";3;80109;"Fontanella";"Privatquartiere";"vorläufig";377;1903
+2026;2026;"Winter";3;80109;"Fontanella";"Andere Unterkünfte";"vorläufig";150;543
+2026;2026;"Winter";4;80109;"Fontanella";"Gewerbliche Beherbergungsbetriebe";"vorläufig";298;1570
+2026;2026;"Winter";4;80109;"Fontanella";"Privatquartiere";"vorläufig";94;450
+2026;2026;"Winter";4;80109;"Fontanella";"Andere Unterkünfte";"vorläufig";12;108
 1984;1985;"Winter";11;80110;"Gaschurn";"Gewerbliche Beherbergungsbetriebe";"endgültig";44;311
 1984;1985;"Winter";11;80110;"Gaschurn";"Privatquartiere";"endgültig";12;36
 1984;1985;"Winter";12;80110;"Gaschurn";"Gewerbliche Beherbergungsbetriebe";"endgültig";2193;14837
@@ -11709,11 +11753,11 @@
 2025;2025;"Sommer";9;80110;"Gaschurn";"Gewerbliche Beherbergungsbetriebe";"endgültig";4716;15459
 2025;2025;"Sommer";9;80110;"Gaschurn";"Privatquartiere";"endgültig";232;2106
 2025;2025;"Sommer";9;80110;"Gaschurn";"Andere Unterkünfte";"endgültig";2663;4746
-2025;2025;"Sommer";10;80110;"Gaschurn";"Gewerbliche Beherbergungsbetriebe";"vorläufig";3522;10800
-2025;2025;"Sommer";10;80110;"Gaschurn";"Privatquartiere";"vorläufig";142;874
-2025;2025;"Sommer";10;80110;"Gaschurn";"Andere Unterkünfte";"vorläufig";239;569
-2025;2026;"Winter";11;80110;"Gaschurn";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2095;5110
-2025;2026;"Winter";11;80110;"Gaschurn";"Privatquartiere";"vorläufig";27;47
+2025;2025;"Sommer";10;80110;"Gaschurn";"Gewerbliche Beherbergungsbetriebe";"endgültig";3522;10800
+2025;2025;"Sommer";10;80110;"Gaschurn";"Privatquartiere";"endgültig";142;874
+2025;2025;"Sommer";10;80110;"Gaschurn";"Andere Unterkünfte";"endgültig";239;569
+2025;2026;"Winter";11;80110;"Gaschurn";"Gewerbliche Beherbergungsbetriebe";"endgültig";2095;5110
+2025;2026;"Winter";11;80110;"Gaschurn";"Privatquartiere";"endgültig";27;47
 2025;2026;"Winter";12;80110;"Gaschurn";"Gewerbliche Beherbergungsbetriebe";"vorläufig";8974;36234
 2025;2026;"Winter";12;80110;"Gaschurn";"Privatquartiere";"vorläufig";1925;9739
 2025;2026;"Winter";12;80110;"Gaschurn";"Andere Unterkünfte";"vorläufig";50;235
@@ -11723,6 +11767,12 @@
 2026;2026;"Winter";2;80110;"Gaschurn";"Gewerbliche Beherbergungsbetriebe";"vorläufig";13055;64729
 2026;2026;"Winter";2;80110;"Gaschurn";"Privatquartiere";"vorläufig";3203;19781
 2026;2026;"Winter";2;80110;"Gaschurn";"Andere Unterkünfte";"vorläufig";451;1211
+2026;2026;"Winter";3;80110;"Gaschurn";"Gewerbliche Beherbergungsbetriebe";"vorläufig";9695;39781
+2026;2026;"Winter";3;80110;"Gaschurn";"Privatquartiere";"vorläufig";1876;10233
+2026;2026;"Winter";3;80110;"Gaschurn";"Andere Unterkünfte";"vorläufig";389;983
+2026;2026;"Winter";4;80110;"Gaschurn";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2984;13482
+2026;2026;"Winter";4;80110;"Gaschurn";"Privatquartiere";"vorläufig";358;2870
+2026;2026;"Winter";4;80110;"Gaschurn";"Andere Unterkünfte";"vorläufig";230;546
 1984;1985;"Winter";11;80111;"Innerbraz";"Gewerbliche Beherbergungsbetriebe";"endgültig";17;25
 1984;1985;"Winter";11;80111;"Innerbraz";"Privatquartiere";"endgültig";0;12
 1984;1985;"Winter";12;80111;"Innerbraz";"Gewerbliche Beherbergungsbetriebe";"endgültig";131;488
@@ -12897,12 +12947,12 @@
 2025;2025;"Sommer";9;80111;"Innerbraz";"Gewerbliche Beherbergungsbetriebe";"endgültig";212;408
 2025;2025;"Sommer";9;80111;"Innerbraz";"Privatquartiere";"endgültig";79;295
 2025;2025;"Sommer";9;80111;"Innerbraz";"Andere Unterkünfte";"endgültig";322;1714
-2025;2025;"Sommer";10;80111;"Innerbraz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";208;384
-2025;2025;"Sommer";10;80111;"Innerbraz";"Privatquartiere";"vorläufig";56;184
-2025;2025;"Sommer";10;80111;"Innerbraz";"Andere Unterkünfte";"vorläufig";262;581
-2025;2026;"Winter";11;80111;"Innerbraz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";85;144
-2025;2026;"Winter";11;80111;"Innerbraz";"Privatquartiere";"vorläufig";20;78
-2025;2026;"Winter";11;80111;"Innerbraz";"Andere Unterkünfte";"vorläufig";11;17
+2025;2025;"Sommer";10;80111;"Innerbraz";"Gewerbliche Beherbergungsbetriebe";"endgültig";208;384
+2025;2025;"Sommer";10;80111;"Innerbraz";"Privatquartiere";"endgültig";56;184
+2025;2025;"Sommer";10;80111;"Innerbraz";"Andere Unterkünfte";"endgültig";262;581
+2025;2026;"Winter";11;80111;"Innerbraz";"Gewerbliche Beherbergungsbetriebe";"endgültig";85;144
+2025;2026;"Winter";11;80111;"Innerbraz";"Privatquartiere";"endgültig";20;78
+2025;2026;"Winter";11;80111;"Innerbraz";"Andere Unterkünfte";"endgültig";11;17
 2025;2026;"Winter";12;80111;"Innerbraz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";225;552
 2025;2026;"Winter";12;80111;"Innerbraz";"Privatquartiere";"vorläufig";141;460
 2025;2026;"Winter";12;80111;"Innerbraz";"Andere Unterkünfte";"vorläufig";358;1302
@@ -12910,8 +12960,14 @@
 2026;2026;"Winter";1;80111;"Innerbraz";"Privatquartiere";"vorläufig";179;565
 2026;2026;"Winter";1;80111;"Innerbraz";"Andere Unterkünfte";"vorläufig";379;1239
 2026;2026;"Winter";2;80111;"Innerbraz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";370;1157
-2026;2026;"Winter";2;80111;"Innerbraz";"Privatquartiere";"vorläufig";130;484
+2026;2026;"Winter";2;80111;"Innerbraz";"Privatquartiere";"vorläufig";155;609
 2026;2026;"Winter";2;80111;"Innerbraz";"Andere Unterkünfte";"vorläufig";334;1131
+2026;2026;"Winter";3;80111;"Innerbraz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";304;725
+2026;2026;"Winter";3;80111;"Innerbraz";"Privatquartiere";"vorläufig";99;317
+2026;2026;"Winter";3;80111;"Innerbraz";"Andere Unterkünfte";"vorläufig";242;734
+2026;2026;"Winter";4;80111;"Innerbraz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";89;252
+2026;2026;"Winter";4;80111;"Innerbraz";"Privatquartiere";"vorläufig";24;85
+2026;2026;"Winter";4;80111;"Innerbraz";"Andere Unterkünfte";"vorläufig";272;2813
 1984;1985;"Winter";11;80112;"Klösterle";"Gewerbliche Beherbergungsbetriebe";"endgültig";47;88
 1984;1985;"Winter";11;80112;"Klösterle";"Privatquartiere";"endgültig";22;74
 1984;1985;"Winter";11;80112;"Klösterle";"Andere Unterkünfte";"endgültig";104;183
@@ -14369,12 +14425,12 @@
 2025;2025;"Sommer";9;80112;"Klösterle";"Gewerbliche Beherbergungsbetriebe";"endgültig";2378;5318
 2025;2025;"Sommer";9;80112;"Klösterle";"Privatquartiere";"endgültig";99;446
 2025;2025;"Sommer";9;80112;"Klösterle";"Andere Unterkünfte";"endgültig";292;1692
-2025;2025;"Sommer";10;80112;"Klösterle";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1047;2422
-2025;2025;"Sommer";10;80112;"Klösterle";"Privatquartiere";"vorläufig";71;254
-2025;2025;"Sommer";10;80112;"Klösterle";"Andere Unterkünfte";"vorläufig";115;246
-2025;2026;"Winter";11;80112;"Klösterle";"Gewerbliche Beherbergungsbetriebe";"vorläufig";273;646
-2025;2026;"Winter";11;80112;"Klösterle";"Privatquartiere";"vorläufig";24;40
-2025;2026;"Winter";11;80112;"Klösterle";"Andere Unterkünfte";"vorläufig";26;52
+2025;2025;"Sommer";10;80112;"Klösterle";"Gewerbliche Beherbergungsbetriebe";"endgültig";1047;2422
+2025;2025;"Sommer";10;80112;"Klösterle";"Privatquartiere";"endgültig";71;254
+2025;2025;"Sommer";10;80112;"Klösterle";"Andere Unterkünfte";"endgültig";115;246
+2025;2026;"Winter";11;80112;"Klösterle";"Gewerbliche Beherbergungsbetriebe";"endgültig";273;646
+2025;2026;"Winter";11;80112;"Klösterle";"Privatquartiere";"endgültig";24;40
+2025;2026;"Winter";11;80112;"Klösterle";"Andere Unterkünfte";"endgültig";26;52
 2025;2026;"Winter";12;80112;"Klösterle";"Gewerbliche Beherbergungsbetriebe";"vorläufig";4603;18946
 2025;2026;"Winter";12;80112;"Klösterle";"Privatquartiere";"vorläufig";680;3171
 2025;2026;"Winter";12;80112;"Klösterle";"Andere Unterkünfte";"vorläufig";732;2445
@@ -14384,6 +14440,12 @@
 2026;2026;"Winter";2;80112;"Klösterle";"Gewerbliche Beherbergungsbetriebe";"vorläufig";5397;27554
 2026;2026;"Winter";2;80112;"Klösterle";"Privatquartiere";"vorläufig";1113;6298
 2026;2026;"Winter";2;80112;"Klösterle";"Andere Unterkünfte";"vorläufig";1064;3804
+2026;2026;"Winter";3;80112;"Klösterle";"Gewerbliche Beherbergungsbetriebe";"vorläufig";4662;18853
+2026;2026;"Winter";3;80112;"Klösterle";"Privatquartiere";"vorläufig";708;3589
+2026;2026;"Winter";3;80112;"Klösterle";"Andere Unterkünfte";"vorläufig";908;2304
+2026;2026;"Winter";4;80112;"Klösterle";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2225;7537
+2026;2026;"Winter";4;80112;"Klösterle";"Privatquartiere";"vorläufig";223;1314
+2026;2026;"Winter";4;80112;"Klösterle";"Andere Unterkünfte";"vorläufig";332;1195
 1984;1985;"Winter";12;80113;"Lech";"Gewerbliche Beherbergungsbetriebe";"endgültig";11111;82740
 1984;1985;"Winter";12;80113;"Lech";"Privatquartiere";"endgültig";709;4276
 1985;1985;"Winter";1;80113;"Lech";"Gewerbliche Beherbergungsbetriebe";"endgültig";21814;174404
@@ -15682,10 +15744,10 @@
 2025;2025;"Sommer";9;80113;"Lech";"Gewerbliche Beherbergungsbetriebe";"endgültig";7887;20664
 2025;2025;"Sommer";9;80113;"Lech";"Privatquartiere";"endgültig";265;1034
 2025;2025;"Sommer";9;80113;"Lech";"Andere Unterkünfte";"endgültig";1507;1678
-2025;2025;"Sommer";10;80113;"Lech";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2037;4309
-2025;2025;"Sommer";10;80113;"Lech";"Privatquartiere";"vorläufig";77;276
-2025;2026;"Winter";11;80113;"Lech";"Gewerbliche Beherbergungsbetriebe";"vorläufig";897;2156
-2025;2026;"Winter";11;80113;"Lech";"Privatquartiere";"vorläufig";22;59
+2025;2025;"Sommer";10;80113;"Lech";"Gewerbliche Beherbergungsbetriebe";"endgültig";2037;4309
+2025;2025;"Sommer";10;80113;"Lech";"Privatquartiere";"endgültig";77;276
+2025;2026;"Winter";11;80113;"Lech";"Gewerbliche Beherbergungsbetriebe";"endgültig";897;2156
+2025;2026;"Winter";11;80113;"Lech";"Privatquartiere";"endgültig";22;59
 2025;2026;"Winter";12;80113;"Lech";"Gewerbliche Beherbergungsbetriebe";"vorläufig";29845;135922
 2025;2026;"Winter";12;80113;"Lech";"Privatquartiere";"vorläufig";1073;5668
 2025;2026;"Winter";12;80113;"Lech";"Andere Unterkünfte";"vorläufig";372;1375
@@ -15695,6 +15757,12 @@
 2026;2026;"Winter";2;80113;"Lech";"Gewerbliche Beherbergungsbetriebe";"vorläufig";35115;203178
 2026;2026;"Winter";2;80113;"Lech";"Privatquartiere";"vorläufig";1526;9710
 2026;2026;"Winter";2;80113;"Lech";"Andere Unterkünfte";"vorläufig";532;2123
+2026;2026;"Winter";3;80113;"Lech";"Gewerbliche Beherbergungsbetriebe";"vorläufig";30926;158806
+2026;2026;"Winter";3;80113;"Lech";"Privatquartiere";"vorläufig";1154;6914
+2026;2026;"Winter";3;80113;"Lech";"Andere Unterkünfte";"vorläufig";608;2186
+2026;2026;"Winter";4;80113;"Lech";"Gewerbliche Beherbergungsbetriebe";"vorläufig";8807;48338
+2026;2026;"Winter";4;80113;"Lech";"Privatquartiere";"vorläufig";259;1840
+2026;2026;"Winter";4;80113;"Lech";"Andere Unterkünfte";"vorläufig";166;576
 1984;1985;"Winter";11;80115;"Ludesch";"Gewerbliche Beherbergungsbetriebe";"endgültig";2;2
 1984;1985;"Winter";12;80115;"Ludesch";"Privatquartiere";"endgültig";2;2
 1985;1985;"Winter";1;80115;"Ludesch";"Privatquartiere";"endgültig";9;36
@@ -16374,15 +16442,17 @@
 2025;2025;"Sommer";7;80115;"Ludesch";"Privatquartiere";"endgültig";29;215
 2025;2025;"Sommer";8;80115;"Ludesch";"Privatquartiere";"endgültig";50;400
 2025;2025;"Sommer";9;80115;"Ludesch";"Privatquartiere";"endgültig";17;136
-2025;2025;"Sommer";10;80115;"Ludesch";"Gewerbliche Beherbergungsbetriebe";"vorläufig";3;21
-2025;2025;"Sommer";10;80115;"Ludesch";"Privatquartiere";"vorläufig";20;127
-2025;2026;"Winter";11;80115;"Ludesch";"Privatquartiere";"vorläufig";1;7
+2025;2025;"Sommer";10;80115;"Ludesch";"Gewerbliche Beherbergungsbetriebe";"endgültig";3;21
+2025;2025;"Sommer";10;80115;"Ludesch";"Privatquartiere";"endgültig";20;127
+2025;2026;"Winter";11;80115;"Ludesch";"Privatquartiere";"endgültig";1;7
 2025;2026;"Winter";12;80115;"Ludesch";"Gewerbliche Beherbergungsbetriebe";"vorläufig";5;50
 2025;2026;"Winter";12;80115;"Ludesch";"Privatquartiere";"vorläufig";30;127
 2026;2026;"Winter";1;80115;"Ludesch";"Gewerbliche Beherbergungsbetriebe";"vorläufig";6;18
 2026;2026;"Winter";1;80115;"Ludesch";"Privatquartiere";"vorläufig";46;138
 2026;2026;"Winter";2;80115;"Ludesch";"Gewerbliche Beherbergungsbetriebe";"vorläufig";3;45
 2026;2026;"Winter";2;80115;"Ludesch";"Privatquartiere";"vorläufig";82;362
+2026;2026;"Winter";3;80115;"Ludesch";"Privatquartiere";"vorläufig";15;76
+2026;2026;"Winter";4;80115;"Ludesch";"Privatquartiere";"vorläufig";14;61
 1984;1985;"Winter";11;80116;"Nenzing";"Gewerbliche Beherbergungsbetriebe";"endgültig";50;92
 1984;1985;"Winter";11;80116;"Nenzing";"Privatquartiere";"endgültig";193;992
 1984;1985;"Winter";12;80116;"Nenzing";"Gewerbliche Beherbergungsbetriebe";"endgültig";61;353
@@ -17833,12 +17903,12 @@
 2025;2025;"Sommer";9;80116;"Nenzing";"Gewerbliche Beherbergungsbetriebe";"endgültig";541;1176
 2025;2025;"Sommer";9;80116;"Nenzing";"Privatquartiere";"endgültig";57;323
 2025;2025;"Sommer";9;80116;"Nenzing";"Andere Unterkünfte";"endgültig";2260;8974
-2025;2025;"Sommer";10;80116;"Nenzing";"Gewerbliche Beherbergungsbetriebe";"vorläufig";449;1181
-2025;2025;"Sommer";10;80116;"Nenzing";"Privatquartiere";"vorläufig";57;296
-2025;2025;"Sommer";10;80116;"Nenzing";"Andere Unterkünfte";"vorläufig";2172;8604
-2025;2026;"Winter";11;80116;"Nenzing";"Gewerbliche Beherbergungsbetriebe";"vorläufig";78;157
-2025;2026;"Winter";11;80116;"Nenzing";"Privatquartiere";"vorläufig";18;70
-2025;2026;"Winter";11;80116;"Nenzing";"Andere Unterkünfte";"vorläufig";82;347
+2025;2025;"Sommer";10;80116;"Nenzing";"Gewerbliche Beherbergungsbetriebe";"endgültig";449;1181
+2025;2025;"Sommer";10;80116;"Nenzing";"Privatquartiere";"endgültig";57;296
+2025;2025;"Sommer";10;80116;"Nenzing";"Andere Unterkünfte";"endgültig";2172;8604
+2025;2026;"Winter";11;80116;"Nenzing";"Gewerbliche Beherbergungsbetriebe";"endgültig";78;157
+2025;2026;"Winter";11;80116;"Nenzing";"Privatquartiere";"endgültig";18;70
+2025;2026;"Winter";11;80116;"Nenzing";"Andere Unterkünfte";"endgültig";82;347
 2025;2026;"Winter";12;80116;"Nenzing";"Gewerbliche Beherbergungsbetriebe";"vorläufig";206;511
 2025;2026;"Winter";12;80116;"Nenzing";"Privatquartiere";"vorläufig";79;302
 2025;2026;"Winter";12;80116;"Nenzing";"Andere Unterkünfte";"vorläufig";789;3785
@@ -17848,6 +17918,12 @@
 2026;2026;"Winter";2;80116;"Nenzing";"Gewerbliche Beherbergungsbetriebe";"vorläufig";330;811
 2026;2026;"Winter";2;80116;"Nenzing";"Privatquartiere";"vorläufig";82;294
 2026;2026;"Winter";2;80116;"Nenzing";"Andere Unterkünfte";"vorläufig";881;3801
+2026;2026;"Winter";3;80116;"Nenzing";"Gewerbliche Beherbergungsbetriebe";"vorläufig";251;543
+2026;2026;"Winter";3;80116;"Nenzing";"Privatquartiere";"vorläufig";38;135
+2026;2026;"Winter";3;80116;"Nenzing";"Andere Unterkünfte";"vorläufig";886;3276
+2026;2026;"Winter";4;80116;"Nenzing";"Gewerbliche Beherbergungsbetriebe";"vorläufig";227;498
+2026;2026;"Winter";4;80116;"Nenzing";"Privatquartiere";"vorläufig";80;269
+2026;2026;"Winter";4;80116;"Nenzing";"Andere Unterkünfte";"vorläufig";1474;5264
 1984;1985;"Winter";11;80117;"Nüziders";"Gewerbliche Beherbergungsbetriebe";"endgültig";58;97
 1984;1985;"Winter";11;80117;"Nüziders";"Privatquartiere";"endgültig";11;156
 1984;1985;"Winter";12;80117;"Nüziders";"Gewerbliche Beherbergungsbetriebe";"endgültig";123;184
@@ -19056,16 +19132,20 @@
 2025;2025;"Sommer";9;80117;"Nüziders";"Gewerbliche Beherbergungsbetriebe";"endgültig";368;860
 2025;2025;"Sommer";9;80117;"Nüziders";"Privatquartiere";"endgültig";28;112
 2025;2025;"Sommer";9;80117;"Nüziders";"Andere Unterkünfte";"endgültig";693;4608
-2025;2025;"Sommer";10;80117;"Nüziders";"Gewerbliche Beherbergungsbetriebe";"vorläufig";172;429
-2025;2025;"Sommer";10;80117;"Nüziders";"Privatquartiere";"vorläufig";43;149
-2025;2026;"Winter";11;80117;"Nüziders";"Gewerbliche Beherbergungsbetriebe";"vorläufig";186;466
-2025;2026;"Winter";11;80117;"Nüziders";"Privatquartiere";"vorläufig";15;33
+2025;2025;"Sommer";10;80117;"Nüziders";"Gewerbliche Beherbergungsbetriebe";"endgültig";172;429
+2025;2025;"Sommer";10;80117;"Nüziders";"Privatquartiere";"endgültig";43;149
+2025;2026;"Winter";11;80117;"Nüziders";"Gewerbliche Beherbergungsbetriebe";"endgültig";186;466
+2025;2026;"Winter";11;80117;"Nüziders";"Privatquartiere";"endgültig";15;33
 2025;2026;"Winter";12;80117;"Nüziders";"Gewerbliche Beherbergungsbetriebe";"vorläufig";349;878
 2025;2026;"Winter";12;80117;"Nüziders";"Privatquartiere";"vorläufig";50;154
 2026;2026;"Winter";1;80117;"Nüziders";"Gewerbliche Beherbergungsbetriebe";"vorläufig";473;1169
 2026;2026;"Winter";1;80117;"Nüziders";"Privatquartiere";"vorläufig";72;242
 2026;2026;"Winter";2;80117;"Nüziders";"Gewerbliche Beherbergungsbetriebe";"vorläufig";575;1092
 2026;2026;"Winter";2;80117;"Nüziders";"Privatquartiere";"vorläufig";88;382
+2026;2026;"Winter";3;80117;"Nüziders";"Gewerbliche Beherbergungsbetriebe";"vorläufig";318;616
+2026;2026;"Winter";3;80117;"Nüziders";"Privatquartiere";"vorläufig";37;95
+2026;2026;"Winter";4;80117;"Nüziders";"Gewerbliche Beherbergungsbetriebe";"vorläufig";168;462
+2026;2026;"Winter";4;80117;"Nüziders";"Privatquartiere";"vorläufig";38;140
 1984;1985;"Winter";11;80118;"Raggal";"Gewerbliche Beherbergungsbetriebe";"endgültig";87;151
 1984;1985;"Winter";11;80118;"Raggal";"Privatquartiere";"endgültig";64;178
 1984;1985;"Winter";12;80118;"Raggal";"Gewerbliche Beherbergungsbetriebe";"endgültig";460;2386
@@ -20517,12 +20597,12 @@
 2025;2025;"Sommer";9;80118;"Raggal";"Gewerbliche Beherbergungsbetriebe";"endgültig";249;814
 2025;2025;"Sommer";9;80118;"Raggal";"Privatquartiere";"endgültig";261;1068
 2025;2025;"Sommer";9;80118;"Raggal";"Andere Unterkünfte";"endgültig";560;1803
-2025;2025;"Sommer";10;80118;"Raggal";"Gewerbliche Beherbergungsbetriebe";"vorläufig";156;400
-2025;2025;"Sommer";10;80118;"Raggal";"Privatquartiere";"vorläufig";260;873
-2025;2025;"Sommer";10;80118;"Raggal";"Andere Unterkünfte";"vorläufig";198;633
-2025;2026;"Winter";11;80118;"Raggal";"Gewerbliche Beherbergungsbetriebe";"vorläufig";72;157
-2025;2026;"Winter";11;80118;"Raggal";"Privatquartiere";"vorläufig";57;261
-2025;2026;"Winter";11;80118;"Raggal";"Andere Unterkünfte";"vorläufig";75;219
+2025;2025;"Sommer";10;80118;"Raggal";"Gewerbliche Beherbergungsbetriebe";"endgültig";156;400
+2025;2025;"Sommer";10;80118;"Raggal";"Privatquartiere";"endgültig";260;873
+2025;2025;"Sommer";10;80118;"Raggal";"Andere Unterkünfte";"endgültig";198;633
+2025;2026;"Winter";11;80118;"Raggal";"Gewerbliche Beherbergungsbetriebe";"endgültig";72;157
+2025;2026;"Winter";11;80118;"Raggal";"Privatquartiere";"endgültig";57;261
+2025;2026;"Winter";11;80118;"Raggal";"Andere Unterkünfte";"endgültig";75;219
 2025;2026;"Winter";12;80118;"Raggal";"Gewerbliche Beherbergungsbetriebe";"vorläufig";323;1061
 2025;2026;"Winter";12;80118;"Raggal";"Privatquartiere";"vorläufig";205;1087
 2025;2026;"Winter";12;80118;"Raggal";"Andere Unterkünfte";"vorläufig";120;467
@@ -20532,6 +20612,12 @@
 2026;2026;"Winter";2;80118;"Raggal";"Gewerbliche Beherbergungsbetriebe";"vorläufig";482;1915
 2026;2026;"Winter";2;80118;"Raggal";"Privatquartiere";"vorläufig";375;1977
 2026;2026;"Winter";2;80118;"Raggal";"Andere Unterkünfte";"vorläufig";143;398
+2026;2026;"Winter";3;80118;"Raggal";"Gewerbliche Beherbergungsbetriebe";"vorläufig";333;733
+2026;2026;"Winter";3;80118;"Raggal";"Privatquartiere";"vorläufig";333;1820
+2026;2026;"Winter";3;80118;"Raggal";"Andere Unterkünfte";"vorläufig";117;333
+2026;2026;"Winter";4;80118;"Raggal";"Gewerbliche Beherbergungsbetriebe";"vorläufig";150;450
+2026;2026;"Winter";4;80118;"Raggal";"Privatquartiere";"vorläufig";203;891
+2026;2026;"Winter";4;80118;"Raggal";"Andere Unterkünfte";"vorläufig";156;475
 1984;1985;"Winter";12;80119;"St. Anton im Montafon";"Gewerbliche Beherbergungsbetriebe";"endgültig";192;903
 1984;1985;"Winter";12;80119;"St. Anton im Montafon";"Privatquartiere";"endgültig";319;1763
 1985;1985;"Winter";1;80119;"St. Anton im Montafon";"Gewerbliche Beherbergungsbetriebe";"endgültig";477;2022
@@ -21472,15 +21558,19 @@
 2025;2025;"Sommer";8;80119;"St. Anton im Montafon";"Privatquartiere";"endgültig";64;495
 2025;2025;"Sommer";9;80119;"St. Anton im Montafon";"Gewerbliche Beherbergungsbetriebe";"endgültig";224;752
 2025;2025;"Sommer";9;80119;"St. Anton im Montafon";"Privatquartiere";"endgültig";23;162
-2025;2025;"Sommer";10;80119;"St. Anton im Montafon";"Gewerbliche Beherbergungsbetriebe";"vorläufig";172;479
-2025;2025;"Sommer";10;80119;"St. Anton im Montafon";"Privatquartiere";"vorläufig";23;109
-2025;2026;"Winter";11;80119;"St. Anton im Montafon";"Privatquartiere";"vorläufig";10;47
+2025;2025;"Sommer";10;80119;"St. Anton im Montafon";"Gewerbliche Beherbergungsbetriebe";"endgültig";172;479
+2025;2025;"Sommer";10;80119;"St. Anton im Montafon";"Privatquartiere";"endgültig";23;109
+2025;2026;"Winter";11;80119;"St. Anton im Montafon";"Privatquartiere";"endgültig";10;47
 2025;2026;"Winter";12;80119;"St. Anton im Montafon";"Gewerbliche Beherbergungsbetriebe";"vorläufig";331;1031
 2025;2026;"Winter";12;80119;"St. Anton im Montafon";"Privatquartiere";"vorläufig";105;464
 2026;2026;"Winter";1;80119;"St. Anton im Montafon";"Gewerbliche Beherbergungsbetriebe";"vorläufig";360;1207
 2026;2026;"Winter";1;80119;"St. Anton im Montafon";"Privatquartiere";"vorläufig";132;550
 2026;2026;"Winter";2;80119;"St. Anton im Montafon";"Gewerbliche Beherbergungsbetriebe";"vorläufig";468;1573
 2026;2026;"Winter";2;80119;"St. Anton im Montafon";"Privatquartiere";"vorläufig";163;803
+2026;2026;"Winter";3;80119;"St. Anton im Montafon";"Gewerbliche Beherbergungsbetriebe";"vorläufig";276;706
+2026;2026;"Winter";3;80119;"St. Anton im Montafon";"Privatquartiere";"vorläufig";81;279
+2026;2026;"Winter";4;80119;"St. Anton im Montafon";"Gewerbliche Beherbergungsbetriebe";"vorläufig";264;579
+2026;2026;"Winter";4;80119;"St. Anton im Montafon";"Privatquartiere";"vorläufig";20;102
 1984;1985;"Winter";12;80120;"St. Gallenkirch";"Gewerbliche Beherbergungsbetriebe";"endgültig";2046;16361
 1984;1985;"Winter";12;80120;"St. Gallenkirch";"Privatquartiere";"endgültig";2867;15875
 1984;1985;"Winter";12;80120;"St. Gallenkirch";"Andere Unterkünfte";"endgültig";328;3285
@@ -22911,12 +23001,12 @@
 2025;2025;"Sommer";9;80120;"St. Gallenkirch";"Gewerbliche Beherbergungsbetriebe";"endgültig";6168;28218
 2025;2025;"Sommer";9;80120;"St. Gallenkirch";"Privatquartiere";"endgültig";509;3561
 2025;2025;"Sommer";9;80120;"St. Gallenkirch";"Andere Unterkünfte";"endgültig";306;1057
-2025;2025;"Sommer";10;80120;"St. Gallenkirch";"Gewerbliche Beherbergungsbetriebe";"vorläufig";4882;20581
-2025;2025;"Sommer";10;80120;"St. Gallenkirch";"Privatquartiere";"vorläufig";235;1161
-2025;2025;"Sommer";10;80120;"St. Gallenkirch";"Andere Unterkünfte";"vorläufig";31;94
-2025;2026;"Winter";11;80120;"St. Gallenkirch";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1017;3041
-2025;2026;"Winter";11;80120;"St. Gallenkirch";"Privatquartiere";"vorläufig";75;187
-2025;2026;"Winter";11;80120;"St. Gallenkirch";"Andere Unterkünfte";"vorläufig";2;4
+2025;2025;"Sommer";10;80120;"St. Gallenkirch";"Gewerbliche Beherbergungsbetriebe";"endgültig";4882;20581
+2025;2025;"Sommer";10;80120;"St. Gallenkirch";"Privatquartiere";"endgültig";235;1161
+2025;2025;"Sommer";10;80120;"St. Gallenkirch";"Andere Unterkünfte";"endgültig";31;94
+2025;2026;"Winter";11;80120;"St. Gallenkirch";"Gewerbliche Beherbergungsbetriebe";"endgültig";1017;3041
+2025;2026;"Winter";11;80120;"St. Gallenkirch";"Privatquartiere";"endgültig";75;187
+2025;2026;"Winter";11;80120;"St. Gallenkirch";"Andere Unterkünfte";"endgültig";2;4
 2025;2026;"Winter";12;80120;"St. Gallenkirch";"Gewerbliche Beherbergungsbetriebe";"vorläufig";13159;58475
 2025;2026;"Winter";12;80120;"St. Gallenkirch";"Privatquartiere";"vorläufig";2211;11147
 2025;2026;"Winter";12;80120;"St. Gallenkirch";"Andere Unterkünfte";"vorläufig";238;941
@@ -22926,6 +23016,12 @@
 2026;2026;"Winter";2;80120;"St. Gallenkirch";"Gewerbliche Beherbergungsbetriebe";"vorläufig";20502;108899
 2026;2026;"Winter";2;80120;"St. Gallenkirch";"Privatquartiere";"vorläufig";3690;23267
 2026;2026;"Winter";2;80120;"St. Gallenkirch";"Andere Unterkünfte";"vorläufig";401;1418
+2026;2026;"Winter";3;80120;"St. Gallenkirch";"Gewerbliche Beherbergungsbetriebe";"vorläufig";14623;69434
+2026;2026;"Winter";3;80120;"St. Gallenkirch";"Privatquartiere";"vorläufig";2393;12637
+2026;2026;"Winter";3;80120;"St. Gallenkirch";"Andere Unterkünfte";"vorläufig";324;1176
+2026;2026;"Winter";4;80120;"St. Gallenkirch";"Gewerbliche Beherbergungsbetriebe";"vorläufig";3718;23833
+2026;2026;"Winter";4;80120;"St. Gallenkirch";"Privatquartiere";"vorläufig";476;3867
+2026;2026;"Winter";4;80120;"St. Gallenkirch";"Andere Unterkünfte";"vorläufig";107;577
 2016;2017;"Winter";11;80121;"St. Gerold";"Gewerbliche Beherbergungsbetriebe";"endgültig";130;511
 2016;2017;"Winter";12;80121;"St. Gerold";"Gewerbliche Beherbergungsbetriebe";"endgültig";143;638
 2017;2017;"Winter";1;80121;"St. Gerold";"Gewerbliche Beherbergungsbetriebe";"endgültig";208;657
@@ -23093,15 +23189,18 @@
 2025;2025;"Sommer";8;80121;"St. Gerold";"Privatquartiere";"endgültig";6;14
 2025;2025;"Sommer";9;80121;"St. Gerold";"Gewerbliche Beherbergungsbetriebe";"endgültig";449;1075
 2025;2025;"Sommer";9;80121;"St. Gerold";"Privatquartiere";"endgültig";10;34
-2025;2025;"Sommer";10;80121;"St. Gerold";"Gewerbliche Beherbergungsbetriebe";"vorläufig";378;828
-2025;2025;"Sommer";10;80121;"St. Gerold";"Privatquartiere";"vorläufig";5;18
-2025;2026;"Winter";11;80121;"St. Gerold";"Gewerbliche Beherbergungsbetriebe";"vorläufig";245;557
+2025;2025;"Sommer";10;80121;"St. Gerold";"Gewerbliche Beherbergungsbetriebe";"endgültig";378;828
+2025;2025;"Sommer";10;80121;"St. Gerold";"Privatquartiere";"endgültig";5;18
+2025;2026;"Winter";11;80121;"St. Gerold";"Gewerbliche Beherbergungsbetriebe";"endgültig";245;557
 2025;2026;"Winter";12;80121;"St. Gerold";"Gewerbliche Beherbergungsbetriebe";"vorläufig";301;588
 2025;2026;"Winter";12;80121;"St. Gerold";"Privatquartiere";"vorläufig";10;28
 2026;2026;"Winter";1;80121;"St. Gerold";"Gewerbliche Beherbergungsbetriebe";"vorläufig";279;509
 2026;2026;"Winter";1;80121;"St. Gerold";"Privatquartiere";"vorläufig";6;40
 2026;2026;"Winter";2;80121;"St. Gerold";"Gewerbliche Beherbergungsbetriebe";"vorläufig";244;429
 2026;2026;"Winter";2;80121;"St. Gerold";"Privatquartiere";"vorläufig";11;64
+2026;2026;"Winter";3;80121;"St. Gerold";"Gewerbliche Beherbergungsbetriebe";"vorläufig";307;567
+2026;2026;"Winter";3;80121;"St. Gerold";"Privatquartiere";"vorläufig";2;6
+2026;2026;"Winter";4;80121;"St. Gerold";"Gewerbliche Beherbergungsbetriebe";"vorläufig";313;624
 1984;1985;"Winter";11;80122;"Schruns";"Gewerbliche Beherbergungsbetriebe";"endgültig";191;538
 1984;1985;"Winter";11;80122;"Schruns";"Privatquartiere";"endgültig";44;112
 1984;1985;"Winter";12;80122;"Schruns";"Gewerbliche Beherbergungsbetriebe";"endgültig";2112;13294
@@ -24537,12 +24636,12 @@
 2025;2025;"Sommer";9;80122;"Schruns";"Gewerbliche Beherbergungsbetriebe";"endgültig";8298;26844
 2025;2025;"Sommer";9;80122;"Schruns";"Privatquartiere";"endgültig";512;4201
 2025;2025;"Sommer";9;80122;"Schruns";"Andere Unterkünfte";"endgültig";1048;1915
-2025;2025;"Sommer";10;80122;"Schruns";"Gewerbliche Beherbergungsbetriebe";"vorläufig";9581;26151
-2025;2025;"Sommer";10;80122;"Schruns";"Privatquartiere";"vorläufig";411;1987
-2025;2025;"Sommer";10;80122;"Schruns";"Andere Unterkünfte";"vorläufig";508;1112
-2025;2026;"Winter";11;80122;"Schruns";"Gewerbliche Beherbergungsbetriebe";"vorläufig";5262;11730
-2025;2026;"Winter";11;80122;"Schruns";"Privatquartiere";"vorläufig";92;361
-2025;2026;"Winter";11;80122;"Schruns";"Andere Unterkünfte";"vorläufig";242;566
+2025;2025;"Sommer";10;80122;"Schruns";"Gewerbliche Beherbergungsbetriebe";"endgültig";9581;26151
+2025;2025;"Sommer";10;80122;"Schruns";"Privatquartiere";"endgültig";411;1987
+2025;2025;"Sommer";10;80122;"Schruns";"Andere Unterkünfte";"endgültig";508;1112
+2025;2026;"Winter";11;80122;"Schruns";"Gewerbliche Beherbergungsbetriebe";"endgültig";5262;11730
+2025;2026;"Winter";11;80122;"Schruns";"Privatquartiere";"endgültig";92;361
+2025;2026;"Winter";11;80122;"Schruns";"Andere Unterkünfte";"endgültig";242;566
 2025;2026;"Winter";12;80122;"Schruns";"Gewerbliche Beherbergungsbetriebe";"vorläufig";10271;32296
 2025;2026;"Winter";12;80122;"Schruns";"Privatquartiere";"vorläufig";1913;10294
 2025;2026;"Winter";12;80122;"Schruns";"Andere Unterkünfte";"vorläufig";1057;3035
@@ -24552,6 +24651,12 @@
 2026;2026;"Winter";2;80122;"Schruns";"Gewerbliche Beherbergungsbetriebe";"vorläufig";12261;49225
 2026;2026;"Winter";2;80122;"Schruns";"Privatquartiere";"vorläufig";3205;19830
 2026;2026;"Winter";2;80122;"Schruns";"Andere Unterkünfte";"vorläufig";2347;4432
+2026;2026;"Winter";3;80122;"Schruns";"Gewerbliche Beherbergungsbetriebe";"vorläufig";11388;35042
+2026;2026;"Winter";3;80122;"Schruns";"Privatquartiere";"vorläufig";1959;11118
+2026;2026;"Winter";3;80122;"Schruns";"Andere Unterkünfte";"vorläufig";1821;3050
+2026;2026;"Winter";4;80122;"Schruns";"Gewerbliche Beherbergungsbetriebe";"vorläufig";6573;18052
+2026;2026;"Winter";4;80122;"Schruns";"Privatquartiere";"vorläufig";388;3369
+2026;2026;"Winter";4;80122;"Schruns";"Andere Unterkünfte";"vorläufig";372;1175
 1984;1985;"Winter";12;80123;"Silbertal";"Gewerbliche Beherbergungsbetriebe";"endgültig";152;1044
 1984;1985;"Winter";12;80123;"Silbertal";"Privatquartiere";"endgültig";757;4965
 1984;1985;"Winter";12;80123;"Silbertal";"Andere Unterkünfte";"endgültig";121;561
@@ -25775,16 +25880,20 @@
 2025;2025;"Sommer";8;80123;"Silbertal";"Privatquartiere";"endgültig";820;5649
 2025;2025;"Sommer";9;80123;"Silbertal";"Gewerbliche Beherbergungsbetriebe";"endgültig";919;3818
 2025;2025;"Sommer";9;80123;"Silbertal";"Privatquartiere";"endgültig";219;1734
-2025;2025;"Sommer";10;80123;"Silbertal";"Gewerbliche Beherbergungsbetriebe";"vorläufig";649;2311
-2025;2025;"Sommer";10;80123;"Silbertal";"Privatquartiere";"vorläufig";529;2716
-2025;2026;"Winter";11;80123;"Silbertal";"Gewerbliche Beherbergungsbetriebe";"vorläufig";14;38
-2025;2026;"Winter";11;80123;"Silbertal";"Privatquartiere";"vorläufig";26;62
+2025;2025;"Sommer";10;80123;"Silbertal";"Gewerbliche Beherbergungsbetriebe";"endgültig";649;2311
+2025;2025;"Sommer";10;80123;"Silbertal";"Privatquartiere";"endgültig";529;2716
+2025;2026;"Winter";11;80123;"Silbertal";"Gewerbliche Beherbergungsbetriebe";"endgültig";14;38
+2025;2026;"Winter";11;80123;"Silbertal";"Privatquartiere";"endgültig";26;62
 2025;2026;"Winter";12;80123;"Silbertal";"Gewerbliche Beherbergungsbetriebe";"vorläufig";975;3842
 2025;2026;"Winter";12;80123;"Silbertal";"Privatquartiere";"vorläufig";669;3496
 2026;2026;"Winter";1;80123;"Silbertal";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1580;6530
 2026;2026;"Winter";1;80123;"Silbertal";"Privatquartiere";"vorläufig";885;4793
 2026;2026;"Winter";2;80123;"Silbertal";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1710;7745
 2026;2026;"Winter";2;80123;"Silbertal";"Privatquartiere";"vorläufig";967;5904
+2026;2026;"Winter";3;80123;"Silbertal";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1093;4147
+2026;2026;"Winter";3;80123;"Silbertal";"Privatquartiere";"vorläufig";574;3261
+2026;2026;"Winter";4;80123;"Silbertal";"Gewerbliche Beherbergungsbetriebe";"vorläufig";250;1136
+2026;2026;"Winter";4;80123;"Silbertal";"Privatquartiere";"vorläufig";290;1699
 1984;1985;"Winter";11;80124;"Sonntag";"Gewerbliche Beherbergungsbetriebe";"endgültig";48;186
 1984;1985;"Winter";11;80124;"Sonntag";"Privatquartiere";"endgültig";69;358
 1984;1985;"Winter";12;80124;"Sonntag";"Gewerbliche Beherbergungsbetriebe";"endgültig";164;1187
@@ -27078,11 +27187,11 @@
 2025;2025;"Sommer";9;80124;"Sonntag";"Gewerbliche Beherbergungsbetriebe";"endgültig";438;1742
 2025;2025;"Sommer";9;80124;"Sonntag";"Privatquartiere";"endgültig";137;684
 2025;2025;"Sommer";9;80124;"Sonntag";"Andere Unterkünfte";"endgültig";1083;1255
-2025;2025;"Sommer";10;80124;"Sonntag";"Gewerbliche Beherbergungsbetriebe";"vorläufig";508;1334
-2025;2025;"Sommer";10;80124;"Sonntag";"Privatquartiere";"vorläufig";172;640
-2025;2025;"Sommer";10;80124;"Sonntag";"Andere Unterkünfte";"vorläufig";199;395
-2025;2026;"Winter";11;80124;"Sonntag";"Gewerbliche Beherbergungsbetriebe";"vorläufig";264;810
-2025;2026;"Winter";11;80124;"Sonntag";"Privatquartiere";"vorläufig";1;23
+2025;2025;"Sommer";10;80124;"Sonntag";"Gewerbliche Beherbergungsbetriebe";"endgültig";508;1334
+2025;2025;"Sommer";10;80124;"Sonntag";"Privatquartiere";"endgültig";172;640
+2025;2025;"Sommer";10;80124;"Sonntag";"Andere Unterkünfte";"endgültig";199;395
+2025;2026;"Winter";11;80124;"Sonntag";"Gewerbliche Beherbergungsbetriebe";"endgültig";264;810
+2025;2026;"Winter";11;80124;"Sonntag";"Privatquartiere";"endgültig";1;23
 2025;2026;"Winter";12;80124;"Sonntag";"Gewerbliche Beherbergungsbetriebe";"vorläufig";272;1161
 2025;2026;"Winter";12;80124;"Sonntag";"Privatquartiere";"vorläufig";128;617
 2025;2026;"Winter";12;80124;"Sonntag";"Andere Unterkünfte";"vorläufig";58;295
@@ -27092,6 +27201,12 @@
 2026;2026;"Winter";2;80124;"Sonntag";"Gewerbliche Beherbergungsbetriebe";"vorläufig";548;1912
 2026;2026;"Winter";2;80124;"Sonntag";"Privatquartiere";"vorläufig";292;1575
 2026;2026;"Winter";2;80124;"Sonntag";"Andere Unterkünfte";"vorläufig";379;1322
+2026;2026;"Winter";3;80124;"Sonntag";"Gewerbliche Beherbergungsbetriebe";"vorläufig";289;856
+2026;2026;"Winter";3;80124;"Sonntag";"Privatquartiere";"vorläufig";107;626
+2026;2026;"Winter";3;80124;"Sonntag";"Andere Unterkünfte";"vorläufig";286;752
+2026;2026;"Winter";4;80124;"Sonntag";"Gewerbliche Beherbergungsbetriebe";"vorläufig";245;815
+2026;2026;"Winter";4;80124;"Sonntag";"Privatquartiere";"vorläufig";74;318
+2026;2026;"Winter";4;80124;"Sonntag";"Andere Unterkünfte";"vorläufig";2;50
 1984;1985;"Winter";12;80126;"Thüringen";"Gewerbliche Beherbergungsbetriebe";"endgültig";32;200
 1984;1985;"Winter";12;80126;"Thüringen";"Privatquartiere";"endgültig";39;406
 1985;1985;"Winter";1;80126;"Thüringen";"Gewerbliche Beherbergungsbetriebe";"endgültig";6;48
@@ -27738,15 +27853,19 @@
 2025;2025;"Sommer";8;80126;"Thüringen";"Andere Unterkünfte";"endgültig";29;377
 2025;2025;"Sommer";9;80126;"Thüringen";"Privatquartiere";"endgültig";5;19
 2025;2025;"Sommer";9;80126;"Thüringen";"Andere Unterkünfte";"endgültig";21;119
-2025;2025;"Sommer";10;80126;"Thüringen";"Privatquartiere";"vorläufig";5;5
-2025;2025;"Sommer";10;80126;"Thüringen";"Andere Unterkünfte";"vorläufig";24;160
-2025;2026;"Winter";11;80126;"Thüringen";"Privatquartiere";"vorläufig";2;6
+2025;2025;"Sommer";10;80126;"Thüringen";"Privatquartiere";"endgültig";5;5
+2025;2025;"Sommer";10;80126;"Thüringen";"Andere Unterkünfte";"endgültig";24;160
+2025;2026;"Winter";11;80126;"Thüringen";"Privatquartiere";"endgültig";2;6
 2025;2026;"Winter";12;80126;"Thüringen";"Privatquartiere";"vorläufig";29;78
 2025;2026;"Winter";12;80126;"Thüringen";"Andere Unterkünfte";"vorläufig";1;10
 2026;2026;"Winter";1;80126;"Thüringen";"Privatquartiere";"vorläufig";22;66
 2026;2026;"Winter";1;80126;"Thüringen";"Andere Unterkünfte";"vorläufig";31;104
 2026;2026;"Winter";2;80126;"Thüringen";"Privatquartiere";"vorläufig";28;78
 2026;2026;"Winter";2;80126;"Thüringen";"Andere Unterkünfte";"vorläufig";5;35
+2026;2026;"Winter";3;80126;"Thüringen";"Privatquartiere";"vorläufig";7;40
+2026;2026;"Winter";3;80126;"Thüringen";"Andere Unterkünfte";"vorläufig";16;70
+2026;2026;"Winter";4;80126;"Thüringen";"Privatquartiere";"vorläufig";7;26
+2026;2026;"Winter";4;80126;"Thüringen";"Andere Unterkünfte";"vorläufig";18;86
 1984;1985;"Winter";12;80127;"Thüringerberg";"Privatquartiere";"endgültig";69;568
 1984;1985;"Winter";12;80127;"Thüringerberg";"Andere Unterkünfte";"endgültig";11;98
 1985;1985;"Winter";1;80127;"Thüringerberg";"Privatquartiere";"endgültig";245;911
@@ -28404,16 +28523,19 @@
 2025;2025;"Sommer";8;80127;"Thüringerberg";"Andere Unterkünfte";"endgültig";29;304
 2025;2025;"Sommer";9;80127;"Thüringerberg";"Privatquartiere";"endgültig";20;100
 2025;2025;"Sommer";9;80127;"Thüringerberg";"Andere Unterkünfte";"endgültig";32;212
-2025;2025;"Sommer";10;80127;"Thüringerberg";"Privatquartiere";"vorläufig";67;247
-2025;2025;"Sommer";10;80127;"Thüringerberg";"Andere Unterkünfte";"vorläufig";17;67
-2025;2026;"Winter";11;80127;"Thüringerberg";"Privatquartiere";"vorläufig";13;54
-2025;2026;"Winter";11;80127;"Thüringerberg";"Andere Unterkünfte";"vorläufig";25;101
+2025;2025;"Sommer";10;80127;"Thüringerberg";"Privatquartiere";"endgültig";67;247
+2025;2025;"Sommer";10;80127;"Thüringerberg";"Andere Unterkünfte";"endgültig";17;67
+2025;2026;"Winter";11;80127;"Thüringerberg";"Privatquartiere";"endgültig";13;54
+2025;2026;"Winter";11;80127;"Thüringerberg";"Andere Unterkünfte";"endgültig";25;101
 2025;2026;"Winter";12;80127;"Thüringerberg";"Privatquartiere";"vorläufig";15;99
 2025;2026;"Winter";12;80127;"Thüringerberg";"Andere Unterkünfte";"vorläufig";7;46
 2026;2026;"Winter";1;80127;"Thüringerberg";"Privatquartiere";"vorläufig";60;273
 2026;2026;"Winter";1;80127;"Thüringerberg";"Andere Unterkünfte";"vorläufig";6;18
 2026;2026;"Winter";2;80127;"Thüringerberg";"Privatquartiere";"vorläufig";62;235
 2026;2026;"Winter";2;80127;"Thüringerberg";"Andere Unterkünfte";"vorläufig";2;4
+2026;2026;"Winter";3;80127;"Thüringerberg";"Privatquartiere";"vorläufig";10;22
+2026;2026;"Winter";4;80127;"Thüringerberg";"Privatquartiere";"vorläufig";28;118
+2026;2026;"Winter";4;80127;"Thüringerberg";"Andere Unterkünfte";"vorläufig";33;157
 1984;1985;"Winter";11;80128;"Tschagguns";"Gewerbliche Beherbergungsbetriebe";"endgültig";19;58
 1984;1985;"Winter";11;80128;"Tschagguns";"Privatquartiere";"endgültig";209;703
 1984;1985;"Winter";11;80128;"Tschagguns";"Andere Unterkünfte";"endgültig";89;236
@@ -29877,12 +29999,12 @@
 2025;2025;"Sommer";9;80128;"Tschagguns";"Gewerbliche Beherbergungsbetriebe";"endgültig";3879;13132
 2025;2025;"Sommer";9;80128;"Tschagguns";"Privatquartiere";"endgültig";949;5427
 2025;2025;"Sommer";9;80128;"Tschagguns";"Andere Unterkünfte";"endgültig";4342;4878
-2025;2025;"Sommer";10;80128;"Tschagguns";"Gewerbliche Beherbergungsbetriebe";"vorläufig";4093;14529
-2025;2025;"Sommer";10;80128;"Tschagguns";"Privatquartiere";"vorläufig";818;3273
-2025;2025;"Sommer";10;80128;"Tschagguns";"Andere Unterkünfte";"vorläufig";1008;1703
-2025;2026;"Winter";11;80128;"Tschagguns";"Gewerbliche Beherbergungsbetriebe";"vorläufig";702;2269
-2025;2026;"Winter";11;80128;"Tschagguns";"Privatquartiere";"vorläufig";226;733
-2025;2026;"Winter";11;80128;"Tschagguns";"Andere Unterkünfte";"vorläufig";46;54
+2025;2025;"Sommer";10;80128;"Tschagguns";"Gewerbliche Beherbergungsbetriebe";"endgültig";4093;14529
+2025;2025;"Sommer";10;80128;"Tschagguns";"Privatquartiere";"endgültig";818;3273
+2025;2025;"Sommer";10;80128;"Tschagguns";"Andere Unterkünfte";"endgültig";1008;1703
+2025;2026;"Winter";11;80128;"Tschagguns";"Gewerbliche Beherbergungsbetriebe";"endgültig";702;2269
+2025;2026;"Winter";11;80128;"Tschagguns";"Privatquartiere";"endgültig";226;733
+2025;2026;"Winter";11;80128;"Tschagguns";"Andere Unterkünfte";"endgültig";46;54
 2025;2026;"Winter";12;80128;"Tschagguns";"Gewerbliche Beherbergungsbetriebe";"vorläufig";4067;15955
 2025;2026;"Winter";12;80128;"Tschagguns";"Privatquartiere";"vorläufig";2184;9696
 2025;2026;"Winter";12;80128;"Tschagguns";"Andere Unterkünfte";"vorläufig";916;1438
@@ -29892,6 +30014,12 @@
 2026;2026;"Winter";2;80128;"Tschagguns";"Gewerbliche Beherbergungsbetriebe";"vorläufig";6002;27387
 2026;2026;"Winter";2;80128;"Tschagguns";"Privatquartiere";"vorläufig";3514;19849
 2026;2026;"Winter";2;80128;"Tschagguns";"Andere Unterkünfte";"vorläufig";1932;3314
+2026;2026;"Winter";3;80128;"Tschagguns";"Gewerbliche Beherbergungsbetriebe";"vorläufig";4930;18353
+2026;2026;"Winter";3;80128;"Tschagguns";"Privatquartiere";"vorläufig";2354;10914
+2026;2026;"Winter";3;80128;"Tschagguns";"Andere Unterkünfte";"vorläufig";1424;2230
+2026;2026;"Winter";4;80128;"Tschagguns";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2029;8114
+2026;2026;"Winter";4;80128;"Tschagguns";"Privatquartiere";"vorläufig";639;4087
+2026;2026;"Winter";4;80128;"Tschagguns";"Andere Unterkünfte";"vorläufig";199;727
 1984;1985;"Winter";11;80129;"Vandans";"Gewerbliche Beherbergungsbetriebe";"endgültig";14;44
 1984;1985;"Winter";11;80129;"Vandans";"Privatquartiere";"endgültig";39;167
 1984;1985;"Winter";12;80129;"Vandans";"Gewerbliche Beherbergungsbetriebe";"endgültig";489;3070
@@ -31017,17 +31145,21 @@
 2025;2025;"Sommer";9;80129;"Vandans";"Gewerbliche Beherbergungsbetriebe";"endgültig";1293;4651
 2025;2025;"Sommer";9;80129;"Vandans";"Privatquartiere";"endgültig";331;2114
 2025;2025;"Sommer";9;80129;"Vandans";"Andere Unterkünfte";"endgültig";3469;3471
-2025;2025;"Sommer";10;80129;"Vandans";"Gewerbliche Beherbergungsbetriebe";"vorläufig";938;3181
-2025;2025;"Sommer";10;80129;"Vandans";"Privatquartiere";"vorläufig";299;1530
-2025;2025;"Sommer";10;80129;"Vandans";"Andere Unterkünfte";"vorläufig";436;436
-2025;2026;"Winter";11;80129;"Vandans";"Gewerbliche Beherbergungsbetriebe";"vorläufig";131;562
-2025;2026;"Winter";11;80129;"Vandans";"Privatquartiere";"vorläufig";66;415
+2025;2025;"Sommer";10;80129;"Vandans";"Gewerbliche Beherbergungsbetriebe";"endgültig";938;3181
+2025;2025;"Sommer";10;80129;"Vandans";"Privatquartiere";"endgültig";299;1530
+2025;2025;"Sommer";10;80129;"Vandans";"Andere Unterkünfte";"endgültig";436;436
+2025;2026;"Winter";11;80129;"Vandans";"Gewerbliche Beherbergungsbetriebe";"endgültig";131;562
+2025;2026;"Winter";11;80129;"Vandans";"Privatquartiere";"endgültig";66;415
 2025;2026;"Winter";12;80129;"Vandans";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1489;5536
 2025;2026;"Winter";12;80129;"Vandans";"Privatquartiere";"vorläufig";1051;5098
 2026;2026;"Winter";1;80129;"Vandans";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2511;9139
 2026;2026;"Winter";1;80129;"Vandans";"Privatquartiere";"vorläufig";1529;7473
 2026;2026;"Winter";2;80129;"Vandans";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2689;11315
 2026;2026;"Winter";2;80129;"Vandans";"Privatquartiere";"vorläufig";1494;8731
+2026;2026;"Winter";3;80129;"Vandans";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1849;6354
+2026;2026;"Winter";3;80129;"Vandans";"Privatquartiere";"vorläufig";878;3989
+2026;2026;"Winter";4;80129;"Vandans";"Gewerbliche Beherbergungsbetriebe";"vorläufig";542;2393
+2026;2026;"Winter";4;80129;"Vandans";"Privatquartiere";"vorläufig";296;1869
 1984;1985;"Winter";11;80201;"Alberschwende";"Gewerbliche Beherbergungsbetriebe";"endgültig";17;55
 1984;1985;"Winter";11;80201;"Alberschwende";"Privatquartiere";"endgültig";13;188
 1984;1985;"Winter";12;80201;"Alberschwende";"Gewerbliche Beherbergungsbetriebe";"endgültig";230;1025
@@ -31990,16 +32122,20 @@
 2025;2025;"Sommer";8;80201;"Alberschwende";"Privatquartiere";"endgültig";269;1935
 2025;2025;"Sommer";9;80201;"Alberschwende";"Gewerbliche Beherbergungsbetriebe";"endgültig";669;1164
 2025;2025;"Sommer";9;80201;"Alberschwende";"Privatquartiere";"endgültig";128;749
-2025;2025;"Sommer";10;80201;"Alberschwende";"Gewerbliche Beherbergungsbetriebe";"vorläufig";513;1122
-2025;2025;"Sommer";10;80201;"Alberschwende";"Privatquartiere";"vorläufig";197;969
-2025;2026;"Winter";11;80201;"Alberschwende";"Gewerbliche Beherbergungsbetriebe";"vorläufig";109;224
-2025;2026;"Winter";11;80201;"Alberschwende";"Privatquartiere";"vorläufig";51;651
+2025;2025;"Sommer";10;80201;"Alberschwende";"Gewerbliche Beherbergungsbetriebe";"endgültig";513;1122
+2025;2025;"Sommer";10;80201;"Alberschwende";"Privatquartiere";"endgültig";197;969
+2025;2026;"Winter";11;80201;"Alberschwende";"Gewerbliche Beherbergungsbetriebe";"endgültig";109;224
+2025;2026;"Winter";11;80201;"Alberschwende";"Privatquartiere";"endgültig";51;651
 2025;2026;"Winter";12;80201;"Alberschwende";"Gewerbliche Beherbergungsbetriebe";"vorläufig";121;275
 2025;2026;"Winter";12;80201;"Alberschwende";"Privatquartiere";"vorläufig";107;423
 2026;2026;"Winter";1;80201;"Alberschwende";"Gewerbliche Beherbergungsbetriebe";"vorläufig";323;808
 2026;2026;"Winter";1;80201;"Alberschwende";"Privatquartiere";"vorläufig";55;398
 2026;2026;"Winter";2;80201;"Alberschwende";"Gewerbliche Beherbergungsbetriebe";"vorläufig";493;1037
 2026;2026;"Winter";2;80201;"Alberschwende";"Privatquartiere";"vorläufig";137;690
+2026;2026;"Winter";3;80201;"Alberschwende";"Gewerbliche Beherbergungsbetriebe";"vorläufig";374;755
+2026;2026;"Winter";3;80201;"Alberschwende";"Privatquartiere";"vorläufig";58;180
+2026;2026;"Winter";4;80201;"Alberschwende";"Gewerbliche Beherbergungsbetriebe";"vorläufig";323;519
+2026;2026;"Winter";4;80201;"Alberschwende";"Privatquartiere";"vorläufig";129;488
 1984;1985;"Winter";11;80202;"Andelsbuch";"Gewerbliche Beherbergungsbetriebe";"endgültig";124;209
 1984;1985;"Winter";11;80202;"Andelsbuch";"Privatquartiere";"endgültig";19;81
 1984;1985;"Winter";11;80202;"Andelsbuch";"Andere Unterkünfte";"endgültig";130;215
@@ -33350,12 +33486,12 @@
 2025;2025;"Sommer";9;80202;"Andelsbuch";"Gewerbliche Beherbergungsbetriebe";"endgültig";248;519
 2025;2025;"Sommer";9;80202;"Andelsbuch";"Privatquartiere";"endgültig";184;995
 2025;2025;"Sommer";9;80202;"Andelsbuch";"Andere Unterkünfte";"endgültig";55;199
-2025;2025;"Sommer";10;80202;"Andelsbuch";"Gewerbliche Beherbergungsbetriebe";"vorläufig";182;324
-2025;2025;"Sommer";10;80202;"Andelsbuch";"Privatquartiere";"vorläufig";272;1044
-2025;2025;"Sommer";10;80202;"Andelsbuch";"Andere Unterkünfte";"vorläufig";77;168
-2025;2026;"Winter";11;80202;"Andelsbuch";"Gewerbliche Beherbergungsbetriebe";"vorläufig";125;188
-2025;2026;"Winter";11;80202;"Andelsbuch";"Privatquartiere";"vorläufig";15;53
-2025;2026;"Winter";11;80202;"Andelsbuch";"Andere Unterkünfte";"vorläufig";38;87
+2025;2025;"Sommer";10;80202;"Andelsbuch";"Gewerbliche Beherbergungsbetriebe";"endgültig";182;324
+2025;2025;"Sommer";10;80202;"Andelsbuch";"Privatquartiere";"endgültig";272;1044
+2025;2025;"Sommer";10;80202;"Andelsbuch";"Andere Unterkünfte";"endgültig";77;168
+2025;2026;"Winter";11;80202;"Andelsbuch";"Gewerbliche Beherbergungsbetriebe";"endgültig";125;188
+2025;2026;"Winter";11;80202;"Andelsbuch";"Privatquartiere";"endgültig";15;53
+2025;2026;"Winter";11;80202;"Andelsbuch";"Andere Unterkünfte";"endgültig";38;87
 2025;2026;"Winter";12;80202;"Andelsbuch";"Gewerbliche Beherbergungsbetriebe";"vorläufig";242;483
 2025;2026;"Winter";12;80202;"Andelsbuch";"Privatquartiere";"vorläufig";292;1205
 2025;2026;"Winter";12;80202;"Andelsbuch";"Andere Unterkünfte";"vorläufig";38;120
@@ -33365,6 +33501,12 @@
 2026;2026;"Winter";2;80202;"Andelsbuch";"Gewerbliche Beherbergungsbetriebe";"vorläufig";350;923
 2026;2026;"Winter";2;80202;"Andelsbuch";"Privatquartiere";"vorläufig";368;1942
 2026;2026;"Winter";2;80202;"Andelsbuch";"Andere Unterkünfte";"vorläufig";48;129
+2026;2026;"Winter";3;80202;"Andelsbuch";"Gewerbliche Beherbergungsbetriebe";"vorläufig";158;296
+2026;2026;"Winter";3;80202;"Andelsbuch";"Privatquartiere";"vorläufig";152;533
+2026;2026;"Winter";3;80202;"Andelsbuch";"Andere Unterkünfte";"vorläufig";24;48
+2026;2026;"Winter";4;80202;"Andelsbuch";"Gewerbliche Beherbergungsbetriebe";"vorläufig";138;211
+2026;2026;"Winter";4;80202;"Andelsbuch";"Privatquartiere";"vorläufig";202;676
+2026;2026;"Winter";4;80202;"Andelsbuch";"Andere Unterkünfte";"vorläufig";81;168
 1984;1985;"Winter";11;80203;"Au";"Gewerbliche Beherbergungsbetriebe";"endgültig";63;171
 1984;1985;"Winter";11;80203;"Au";"Privatquartiere";"endgültig";66;155
 1984;1985;"Winter";12;80203;"Au";"Gewerbliche Beherbergungsbetriebe";"endgültig";711;3257
@@ -34802,12 +34944,12 @@
 2025;2025;"Sommer";9;80203;"Au";"Gewerbliche Beherbergungsbetriebe";"endgültig";3372;12885
 2025;2025;"Sommer";9;80203;"Au";"Privatquartiere";"endgültig";854;5634
 2025;2025;"Sommer";9;80203;"Au";"Andere Unterkünfte";"endgültig";801;2488
-2025;2025;"Sommer";10;80203;"Au";"Gewerbliche Beherbergungsbetriebe";"vorläufig";4112;13799
-2025;2025;"Sommer";10;80203;"Au";"Privatquartiere";"vorläufig";920;3837
-2025;2025;"Sommer";10;80203;"Au";"Andere Unterkünfte";"vorläufig";536;1535
-2025;2026;"Winter";11;80203;"Au";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1434;4002
-2025;2026;"Winter";11;80203;"Au";"Privatquartiere";"vorläufig";56;323
-2025;2026;"Winter";11;80203;"Au";"Andere Unterkünfte";"vorläufig";88;208
+2025;2025;"Sommer";10;80203;"Au";"Gewerbliche Beherbergungsbetriebe";"endgültig";4112;13799
+2025;2025;"Sommer";10;80203;"Au";"Privatquartiere";"endgültig";920;3837
+2025;2025;"Sommer";10;80203;"Au";"Andere Unterkünfte";"endgültig";536;1535
+2025;2026;"Winter";11;80203;"Au";"Gewerbliche Beherbergungsbetriebe";"endgültig";1434;4002
+2025;2026;"Winter";11;80203;"Au";"Privatquartiere";"endgültig";56;323
+2025;2026;"Winter";11;80203;"Au";"Andere Unterkünfte";"endgültig";88;208
 2025;2026;"Winter";12;80203;"Au";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2448;8599
 2025;2026;"Winter";12;80203;"Au";"Privatquartiere";"vorläufig";1291;6120
 2025;2026;"Winter";12;80203;"Au";"Andere Unterkünfte";"vorläufig";818;1765
@@ -34817,6 +34959,12 @@
 2026;2026;"Winter";2;80203;"Au";"Gewerbliche Beherbergungsbetriebe";"vorläufig";4078;16598
 2026;2026;"Winter";2;80203;"Au";"Privatquartiere";"vorläufig";2572;14875
 2026;2026;"Winter";2;80203;"Au";"Andere Unterkünfte";"vorläufig";1178;3810
+2026;2026;"Winter";3;80203;"Au";"Gewerbliche Beherbergungsbetriebe";"vorläufig";3123;10815
+2026;2026;"Winter";3;80203;"Au";"Privatquartiere";"vorläufig";1044;5562
+2026;2026;"Winter";3;80203;"Au";"Andere Unterkünfte";"vorläufig";859;3137
+2026;2026;"Winter";4;80203;"Au";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1747;4963
+2026;2026;"Winter";4;80203;"Au";"Privatquartiere";"vorläufig";458;2170
+2026;2026;"Winter";4;80203;"Au";"Andere Unterkünfte";"vorläufig";379;926
 1984;1985;"Winter";11;80204;"Bezau";"Gewerbliche Beherbergungsbetriebe";"endgültig";411;827
 1984;1985;"Winter";11;80204;"Bezau";"Privatquartiere";"endgültig";74;201
 1984;1985;"Winter";11;80204;"Bezau";"Andere Unterkünfte";"endgültig";55;163
@@ -36273,12 +36421,12 @@
 2025;2025;"Sommer";9;80204;"Bezau";"Gewerbliche Beherbergungsbetriebe";"endgültig";1679;5711
 2025;2025;"Sommer";9;80204;"Bezau";"Privatquartiere";"endgültig";247;1599
 2025;2025;"Sommer";9;80204;"Bezau";"Andere Unterkünfte";"endgültig";627;1793
-2025;2025;"Sommer";10;80204;"Bezau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2097;6165
-2025;2025;"Sommer";10;80204;"Bezau";"Privatquartiere";"vorläufig";280;1147
-2025;2025;"Sommer";10;80204;"Bezau";"Andere Unterkünfte";"vorläufig";609;1838
-2025;2026;"Winter";11;80204;"Bezau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1480;3478
-2025;2026;"Winter";11;80204;"Bezau";"Privatquartiere";"vorläufig";17;96
-2025;2026;"Winter";11;80204;"Bezau";"Andere Unterkünfte";"vorläufig";179;384
+2025;2025;"Sommer";10;80204;"Bezau";"Gewerbliche Beherbergungsbetriebe";"endgültig";2097;6165
+2025;2025;"Sommer";10;80204;"Bezau";"Privatquartiere";"endgültig";280;1147
+2025;2025;"Sommer";10;80204;"Bezau";"Andere Unterkünfte";"endgültig";609;1838
+2025;2026;"Winter";11;80204;"Bezau";"Gewerbliche Beherbergungsbetriebe";"endgültig";1480;3478
+2025;2026;"Winter";11;80204;"Bezau";"Privatquartiere";"endgültig";17;96
+2025;2026;"Winter";11;80204;"Bezau";"Andere Unterkünfte";"endgültig";179;384
 2025;2026;"Winter";12;80204;"Bezau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1643;4935
 2025;2026;"Winter";12;80204;"Bezau";"Privatquartiere";"vorläufig";248;1040
 2025;2026;"Winter";12;80204;"Bezau";"Andere Unterkünfte";"vorläufig";293;1135
@@ -36288,6 +36436,12 @@
 2026;2026;"Winter";2;80204;"Bezau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2678;8836
 2026;2026;"Winter";2;80204;"Bezau";"Privatquartiere";"vorläufig";438;2168
 2026;2026;"Winter";2;80204;"Bezau";"Andere Unterkünfte";"vorläufig";459;2412
+2026;2026;"Winter";3;80204;"Bezau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1651;4520
+2026;2026;"Winter";3;80204;"Bezau";"Privatquartiere";"vorläufig";200;913
+2026;2026;"Winter";3;80204;"Bezau";"Andere Unterkünfte";"vorläufig";572;2044
+2026;2026;"Winter";4;80204;"Bezau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1361;3495
+2026;2026;"Winter";4;80204;"Bezau";"Privatquartiere";"vorläufig";171;583
+2026;2026;"Winter";4;80204;"Bezau";"Andere Unterkünfte";"vorläufig";337;1097
 2002;2003;"Winter";11;80205;"Bildstein";"Gewerbliche Beherbergungsbetriebe";"endgültig";24;41
 2002;2003;"Winter";11;80205;"Bildstein";"Privatquartiere";"endgültig";13;13
 2002;2003;"Winter";12;80205;"Bildstein";"Gewerbliche Beherbergungsbetriebe";"endgültig";30;42
@@ -36803,16 +36957,19 @@
 2025;2025;"Sommer";8;80205;"Bildstein";"Privatquartiere";"endgültig";152;773
 2025;2025;"Sommer";9;80205;"Bildstein";"Gewerbliche Beherbergungsbetriebe";"endgültig";27;51
 2025;2025;"Sommer";9;80205;"Bildstein";"Privatquartiere";"endgültig";83;391
-2025;2025;"Sommer";10;80205;"Bildstein";"Gewerbliche Beherbergungsbetriebe";"vorläufig";23;63
-2025;2025;"Sommer";10;80205;"Bildstein";"Privatquartiere";"vorläufig";81;364
-2025;2026;"Winter";11;80205;"Bildstein";"Gewerbliche Beherbergungsbetriebe";"vorläufig";5;11
-2025;2026;"Winter";11;80205;"Bildstein";"Privatquartiere";"vorläufig";27;75
+2025;2025;"Sommer";10;80205;"Bildstein";"Gewerbliche Beherbergungsbetriebe";"endgültig";23;63
+2025;2025;"Sommer";10;80205;"Bildstein";"Privatquartiere";"endgültig";81;364
+2025;2026;"Winter";11;80205;"Bildstein";"Gewerbliche Beherbergungsbetriebe";"endgültig";5;11
+2025;2026;"Winter";11;80205;"Bildstein";"Privatquartiere";"endgültig";27;75
 2025;2026;"Winter";12;80205;"Bildstein";"Gewerbliche Beherbergungsbetriebe";"vorläufig";12;25
 2025;2026;"Winter";12;80205;"Bildstein";"Privatquartiere";"vorläufig";51;162
 2026;2026;"Winter";1;80205;"Bildstein";"Gewerbliche Beherbergungsbetriebe";"vorläufig";7;33
 2026;2026;"Winter";1;80205;"Bildstein";"Privatquartiere";"vorläufig";22;95
 2026;2026;"Winter";2;80205;"Bildstein";"Gewerbliche Beherbergungsbetriebe";"vorläufig";9;9
 2026;2026;"Winter";2;80205;"Bildstein";"Privatquartiere";"vorläufig";57;247
+2026;2026;"Winter";3;80205;"Bildstein";"Privatquartiere";"vorläufig";37;141
+2026;2026;"Winter";4;80205;"Bildstein";"Gewerbliche Beherbergungsbetriebe";"vorläufig";23;32
+2026;2026;"Winter";4;80205;"Bildstein";"Privatquartiere";"vorläufig";58;215
 1984;1985;"Winter";11;80206;"Bizau";"Gewerbliche Beherbergungsbetriebe";"endgültig";3;7
 1984;1985;"Winter";11;80206;"Bizau";"Privatquartiere";"endgültig";6;22
 1984;1985;"Winter";12;80206;"Bizau";"Gewerbliche Beherbergungsbetriebe";"endgültig";154;910
@@ -37973,16 +38130,20 @@
 2025;2025;"Sommer";8;80206;"Bizau";"Privatquartiere";"endgültig";435;3159
 2025;2025;"Sommer";9;80206;"Bizau";"Gewerbliche Beherbergungsbetriebe";"endgültig";341;1194
 2025;2025;"Sommer";9;80206;"Bizau";"Privatquartiere";"endgültig";240;1547
-2025;2025;"Sommer";10;80206;"Bizau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";282;1022
-2025;2025;"Sommer";10;80206;"Bizau";"Privatquartiere";"vorläufig";325;1538
-2025;2026;"Winter";11;80206;"Bizau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";80;194
-2025;2026;"Winter";11;80206;"Bizau";"Privatquartiere";"vorläufig";21;130
+2025;2025;"Sommer";10;80206;"Bizau";"Gewerbliche Beherbergungsbetriebe";"endgültig";282;1022
+2025;2025;"Sommer";10;80206;"Bizau";"Privatquartiere";"endgültig";325;1538
+2025;2026;"Winter";11;80206;"Bizau";"Gewerbliche Beherbergungsbetriebe";"endgültig";80;194
+2025;2026;"Winter";11;80206;"Bizau";"Privatquartiere";"endgültig";21;130
 2025;2026;"Winter";12;80206;"Bizau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";228;833
 2025;2026;"Winter";12;80206;"Bizau";"Privatquartiere";"vorläufig";230;1213
 2026;2026;"Winter";1;80206;"Bizau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";378;1004
 2026;2026;"Winter";1;80206;"Bizau";"Privatquartiere";"vorläufig";372;1576
 2026;2026;"Winter";2;80206;"Bizau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";448;1678
 2026;2026;"Winter";2;80206;"Bizau";"Privatquartiere";"vorläufig";357;2186
+2026;2026;"Winter";3;80206;"Bizau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";239;1105
+2026;2026;"Winter";3;80206;"Bizau";"Privatquartiere";"vorläufig";166;763
+2026;2026;"Winter";4;80206;"Bizau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";163;540
+2026;2026;"Winter";4;80206;"Bizau";"Privatquartiere";"vorläufig";102;546
 1984;1985;"Winter";11;80207;"Bregenz";"Gewerbliche Beherbergungsbetriebe";"endgültig";3245;5347
 1984;1985;"Winter";11;80207;"Bregenz";"Privatquartiere";"endgültig";65;65
 1984;1985;"Winter";11;80207;"Bregenz";"Andere Unterkünfte";"endgültig";18;77
@@ -39411,12 +39572,12 @@
 2025;2025;"Sommer";9;80207;"Bregenz";"Gewerbliche Beherbergungsbetriebe";"endgültig";17503;30330
 2025;2025;"Sommer";9;80207;"Bregenz";"Privatquartiere";"endgültig";1425;3988
 2025;2025;"Sommer";9;80207;"Bregenz";"Andere Unterkünfte";"endgültig";2858;6227
-2025;2025;"Sommer";10;80207;"Bregenz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";12722;20797
-2025;2025;"Sommer";10;80207;"Bregenz";"Privatquartiere";"vorläufig";1269;3347
-2025;2025;"Sommer";10;80207;"Bregenz";"Andere Unterkünfte";"vorläufig";582;1116
-2025;2026;"Winter";11;80207;"Bregenz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";9693;14946
-2025;2026;"Winter";11;80207;"Bregenz";"Privatquartiere";"vorläufig";756;1969
-2025;2026;"Winter";11;80207;"Bregenz";"Andere Unterkünfte";"vorläufig";31;54
+2025;2025;"Sommer";10;80207;"Bregenz";"Gewerbliche Beherbergungsbetriebe";"endgültig";12722;20797
+2025;2025;"Sommer";10;80207;"Bregenz";"Privatquartiere";"endgültig";1269;3347
+2025;2025;"Sommer";10;80207;"Bregenz";"Andere Unterkünfte";"endgültig";582;1116
+2025;2026;"Winter";11;80207;"Bregenz";"Gewerbliche Beherbergungsbetriebe";"endgültig";9693;14946
+2025;2026;"Winter";11;80207;"Bregenz";"Privatquartiere";"endgültig";756;1969
+2025;2026;"Winter";11;80207;"Bregenz";"Andere Unterkünfte";"endgültig";31;54
 2025;2026;"Winter";12;80207;"Bregenz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";11246;17641
 2025;2026;"Winter";12;80207;"Bregenz";"Privatquartiere";"vorläufig";1060;3081
 2025;2026;"Winter";12;80207;"Bregenz";"Andere Unterkünfte";"vorläufig";7;13
@@ -39426,6 +39587,12 @@
 2026;2026;"Winter";2;80207;"Bregenz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";9216;13277
 2026;2026;"Winter";2;80207;"Bregenz";"Privatquartiere";"vorläufig";649;2117
 2026;2026;"Winter";2;80207;"Bregenz";"Andere Unterkünfte";"vorläufig";3;33
+2026;2026;"Winter";3;80207;"Bregenz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";9274;14879
+2026;2026;"Winter";3;80207;"Bregenz";"Privatquartiere";"vorläufig";708;2361
+2026;2026;"Winter";3;80207;"Bregenz";"Andere Unterkünfte";"vorläufig";64;192
+2026;2026;"Winter";4;80207;"Bregenz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";12851;21403
+2026;2026;"Winter";4;80207;"Bregenz";"Privatquartiere";"vorläufig";1195;3706
+2026;2026;"Winter";4;80207;"Bregenz";"Andere Unterkünfte";"vorläufig";700;1466
 1984;1985;"Winter";11;80208;"Buch";"Privatquartiere";"endgültig";9;17
 1985;1985;"Winter";1;80208;"Buch";"Privatquartiere";"endgültig";16;82
 1985;1985;"Winter";4;80208;"Buch";"Privatquartiere";"endgültig";2;34
@@ -40661,10 +40828,10 @@
 2025;2025;"Sommer";8;80209;"Damüls";"Privatquartiere";"endgültig";506;2762
 2025;2025;"Sommer";9;80209;"Damüls";"Gewerbliche Beherbergungsbetriebe";"endgültig";5057;18452
 2025;2025;"Sommer";9;80209;"Damüls";"Privatquartiere";"endgültig";189;850
-2025;2025;"Sommer";10;80209;"Damüls";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2685;8463
-2025;2025;"Sommer";10;80209;"Damüls";"Privatquartiere";"vorläufig";113;377
-2025;2026;"Winter";11;80209;"Damüls";"Gewerbliche Beherbergungsbetriebe";"vorläufig";156;507
-2025;2026;"Winter";11;80209;"Damüls";"Privatquartiere";"vorläufig";46;170
+2025;2025;"Sommer";10;80209;"Damüls";"Gewerbliche Beherbergungsbetriebe";"endgültig";2685;8463
+2025;2025;"Sommer";10;80209;"Damüls";"Privatquartiere";"endgültig";113;377
+2025;2026;"Winter";11;80209;"Damüls";"Gewerbliche Beherbergungsbetriebe";"endgültig";156;507
+2025;2026;"Winter";11;80209;"Damüls";"Privatquartiere";"endgültig";46;170
 2025;2026;"Winter";12;80209;"Damüls";"Gewerbliche Beherbergungsbetriebe";"vorläufig";7550;30143
 2025;2026;"Winter";12;80209;"Damüls";"Privatquartiere";"vorläufig";423;2243
 2025;2026;"Winter";12;80209;"Damüls";"Andere Unterkünfte";"vorläufig";211;637
@@ -40674,6 +40841,12 @@
 2026;2026;"Winter";2;80209;"Damüls";"Gewerbliche Beherbergungsbetriebe";"vorläufig";11426;57815
 2026;2026;"Winter";2;80209;"Damüls";"Privatquartiere";"vorläufig";643;4315
 2026;2026;"Winter";2;80209;"Damüls";"Andere Unterkünfte";"vorläufig";266;1176
+2026;2026;"Winter";3;80209;"Damüls";"Gewerbliche Beherbergungsbetriebe";"vorläufig";9420;38304
+2026;2026;"Winter";3;80209;"Damüls";"Privatquartiere";"vorläufig";453;2890
+2026;2026;"Winter";3;80209;"Damüls";"Andere Unterkünfte";"vorläufig";184;616
+2026;2026;"Winter";4;80209;"Damüls";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1986;9213
+2026;2026;"Winter";4;80209;"Damüls";"Privatquartiere";"vorläufig";107;815
+2026;2026;"Winter";4;80209;"Damüls";"Andere Unterkünfte";"vorläufig";21;97
 1984;1985;"Winter";11;80210;"Doren";"Privatquartiere";"endgültig";22;93
 1984;1985;"Winter";11;80210;"Doren";"Andere Unterkünfte";"endgültig";171;319
 1984;1985;"Winter";12;80210;"Doren";"Gewerbliche Beherbergungsbetriebe";"endgültig";34;275
@@ -41798,14 +41971,20 @@
 2025;2025;"Sommer";9;80210;"Doren";"Gewerbliche Beherbergungsbetriebe";"endgültig";13;26
 2025;2025;"Sommer";9;80210;"Doren";"Privatquartiere";"endgültig";64;322
 2025;2025;"Sommer";9;80210;"Doren";"Andere Unterkünfte";"endgültig";123;199
-2025;2025;"Sommer";10;80210;"Doren";"Gewerbliche Beherbergungsbetriebe";"vorläufig";6;24
-2025;2025;"Sommer";10;80210;"Doren";"Privatquartiere";"vorläufig";26;149
-2025;2025;"Sommer";10;80210;"Doren";"Andere Unterkünfte";"vorläufig";40;117
-2025;2026;"Winter";11;80210;"Doren";"Privatquartiere";"vorläufig";4;14
+2025;2025;"Sommer";10;80210;"Doren";"Gewerbliche Beherbergungsbetriebe";"endgültig";6;24
+2025;2025;"Sommer";10;80210;"Doren";"Privatquartiere";"endgültig";26;149
+2025;2025;"Sommer";10;80210;"Doren";"Andere Unterkünfte";"endgültig";40;117
+2025;2026;"Winter";11;80210;"Doren";"Privatquartiere";"endgültig";4;14
 2025;2026;"Winter";12;80210;"Doren";"Privatquartiere";"vorläufig";59;251
 2026;2026;"Winter";1;80210;"Doren";"Gewerbliche Beherbergungsbetriebe";"vorläufig";11;28
 2026;2026;"Winter";1;80210;"Doren";"Privatquartiere";"vorläufig";40;152
 2026;2026;"Winter";2;80210;"Doren";"Privatquartiere";"vorläufig";52;199
+2026;2026;"Winter";3;80210;"Doren";"Gewerbliche Beherbergungsbetriebe";"vorläufig";4;8
+2026;2026;"Winter";3;80210;"Doren";"Privatquartiere";"vorläufig";8;22
+2026;2026;"Winter";3;80210;"Doren";"Andere Unterkünfte";"vorläufig";6;12
+2026;2026;"Winter";4;80210;"Doren";"Gewerbliche Beherbergungsbetriebe";"vorläufig";12;24
+2026;2026;"Winter";4;80210;"Doren";"Privatquartiere";"vorläufig";48;102
+2026;2026;"Winter";4;80210;"Doren";"Andere Unterkünfte";"vorläufig";166;298
 1984;1985;"Winter";11;80211;"Egg";"Gewerbliche Beherbergungsbetriebe";"endgültig";63;188
 1984;1985;"Winter";11;80211;"Egg";"Privatquartiere";"endgültig";52;218
 1984;1985;"Winter";12;80211;"Egg";"Gewerbliche Beherbergungsbetriebe";"endgültig";449;2719
@@ -43236,12 +43415,12 @@
 2025;2025;"Sommer";9;80211;"Egg";"Gewerbliche Beherbergungsbetriebe";"endgültig";672;2164
 2025;2025;"Sommer";9;80211;"Egg";"Privatquartiere";"endgültig";426;1886
 2025;2025;"Sommer";9;80211;"Egg";"Andere Unterkünfte";"endgültig";236;570
-2025;2025;"Sommer";10;80211;"Egg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";830;2282
-2025;2025;"Sommer";10;80211;"Egg";"Privatquartiere";"vorläufig";351;1365
-2025;2025;"Sommer";10;80211;"Egg";"Andere Unterkünfte";"vorläufig";233;457
-2025;2026;"Winter";11;80211;"Egg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";398;1153
-2025;2026;"Winter";11;80211;"Egg";"Privatquartiere";"vorläufig";123;389
-2025;2026;"Winter";11;80211;"Egg";"Andere Unterkünfte";"vorläufig";102;227
+2025;2025;"Sommer";10;80211;"Egg";"Gewerbliche Beherbergungsbetriebe";"endgültig";830;2282
+2025;2025;"Sommer";10;80211;"Egg";"Privatquartiere";"endgültig";351;1365
+2025;2025;"Sommer";10;80211;"Egg";"Andere Unterkünfte";"endgültig";233;457
+2025;2026;"Winter";11;80211;"Egg";"Gewerbliche Beherbergungsbetriebe";"endgültig";398;1153
+2025;2026;"Winter";11;80211;"Egg";"Privatquartiere";"endgültig";123;389
+2025;2026;"Winter";11;80211;"Egg";"Andere Unterkünfte";"endgültig";102;227
 2025;2026;"Winter";12;80211;"Egg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";683;2313
 2025;2026;"Winter";12;80211;"Egg";"Privatquartiere";"vorläufig";489;1939
 2025;2026;"Winter";12;80211;"Egg";"Andere Unterkünfte";"vorläufig";203;534
@@ -43251,6 +43430,12 @@
 2026;2026;"Winter";2;80211;"Egg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1087;3765
 2026;2026;"Winter";2;80211;"Egg";"Privatquartiere";"vorläufig";790;3788
 2026;2026;"Winter";2;80211;"Egg";"Andere Unterkünfte";"vorläufig";324;905
+2026;2026;"Winter";3;80211;"Egg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";510;1680
+2026;2026;"Winter";3;80211;"Egg";"Privatquartiere";"vorläufig";265;745
+2026;2026;"Winter";3;80211;"Egg";"Andere Unterkünfte";"vorläufig";173;372
+2026;2026;"Winter";4;80211;"Egg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";595;1876
+2026;2026;"Winter";4;80211;"Egg";"Privatquartiere";"vorläufig";320;996
+2026;2026;"Winter";4;80211;"Egg";"Andere Unterkünfte";"vorläufig";80;184
 1984;1985;"Winter";12;80212;"Eichenberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";33;145
 1984;1985;"Winter";12;80212;"Eichenberg";"Privatquartiere";"endgültig";24;136
 1985;1985;"Winter";1;80212;"Eichenberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";51;372
@@ -44212,16 +44397,20 @@
 2025;2025;"Sommer";8;80212;"Eichenberg";"Privatquartiere";"endgültig";104;853
 2025;2025;"Sommer";9;80212;"Eichenberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";551;1319
 2025;2025;"Sommer";9;80212;"Eichenberg";"Privatquartiere";"endgültig";52;500
-2025;2025;"Sommer";10;80212;"Eichenberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";447;1021
-2025;2025;"Sommer";10;80212;"Eichenberg";"Privatquartiere";"vorläufig";99;628
-2025;2026;"Winter";11;80212;"Eichenberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";88;181
-2025;2026;"Winter";11;80212;"Eichenberg";"Privatquartiere";"vorläufig";7;47
+2025;2025;"Sommer";10;80212;"Eichenberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";447;1021
+2025;2025;"Sommer";10;80212;"Eichenberg";"Privatquartiere";"endgültig";99;628
+2025;2026;"Winter";11;80212;"Eichenberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";88;181
+2025;2026;"Winter";11;80212;"Eichenberg";"Privatquartiere";"endgültig";7;47
 2025;2026;"Winter";12;80212;"Eichenberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";284;739
 2025;2026;"Winter";12;80212;"Eichenberg";"Privatquartiere";"vorläufig";10;50
 2026;2026;"Winter";1;80212;"Eichenberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";65;277
 2026;2026;"Winter";1;80212;"Eichenberg";"Privatquartiere";"vorläufig";7;116
 2026;2026;"Winter";2;80212;"Eichenberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";18;84
 2026;2026;"Winter";2;80212;"Eichenberg";"Privatquartiere";"vorläufig";35;114
+2026;2026;"Winter";3;80212;"Eichenberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";323;562
+2026;2026;"Winter";3;80212;"Eichenberg";"Privatquartiere";"vorläufig";18;73
+2026;2026;"Winter";4;80212;"Eichenberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";404;810
+2026;2026;"Winter";4;80212;"Eichenberg";"Privatquartiere";"vorläufig";73;489
 1984;1985;"Winter";12;80213;"Fußach";"Gewerbliche Beherbergungsbetriebe";"endgültig";101;142
 1985;1985;"Winter";1;80213;"Fußach";"Gewerbliche Beherbergungsbetriebe";"endgültig";140;140
 1985;1985;"Winter";3;80213;"Fußach";"Gewerbliche Beherbergungsbetriebe";"endgültig";66;66
@@ -44996,12 +45185,16 @@
 2025;2025;"Sommer";8;80213;"Fußach";"Andere Unterkünfte";"endgültig";673;1479
 2025;2025;"Sommer";9;80213;"Fußach";"Privatquartiere";"endgültig";30;94
 2025;2025;"Sommer";9;80213;"Fußach";"Andere Unterkünfte";"endgültig";276;518
-2025;2025;"Sommer";10;80213;"Fußach";"Privatquartiere";"vorläufig";22;48
-2025;2025;"Sommer";10;80213;"Fußach";"Andere Unterkünfte";"vorläufig";44;63
-2025;2026;"Winter";11;80213;"Fußach";"Privatquartiere";"vorläufig";8;14
+2025;2025;"Sommer";10;80213;"Fußach";"Privatquartiere";"endgültig";22;48
+2025;2025;"Sommer";10;80213;"Fußach";"Andere Unterkünfte";"endgültig";44;63
+2025;2026;"Winter";11;80213;"Fußach";"Privatquartiere";"endgültig";8;14
 2025;2026;"Winter";12;80213;"Fußach";"Privatquartiere";"vorläufig";10;27
 2026;2026;"Winter";1;80213;"Fußach";"Privatquartiere";"vorläufig";15;28
 2026;2026;"Winter";2;80213;"Fußach";"Privatquartiere";"vorläufig";12;18
+2026;2026;"Winter";3;80213;"Fußach";"Privatquartiere";"vorläufig";6;12
+2026;2026;"Winter";3;80213;"Fußach";"Andere Unterkünfte";"vorläufig";11;21
+2026;2026;"Winter";4;80213;"Fußach";"Privatquartiere";"vorläufig";51;130
+2026;2026;"Winter";4;80213;"Fußach";"Andere Unterkünfte";"vorläufig";252;479
 1984;1985;"Winter";11;80215;"Hard";"Gewerbliche Beherbergungsbetriebe";"endgültig";174;259
 1984;1985;"Winter";11;80215;"Hard";"Privatquartiere";"endgültig";12;30
 1984;1985;"Winter";12;80215;"Hard";"Gewerbliche Beherbergungsbetriebe";"endgültig";66;68
@@ -46302,17 +46495,21 @@
 2025;2025;"Sommer";9;80215;"Hard";"Gewerbliche Beherbergungsbetriebe";"endgültig";1285;2359
 2025;2025;"Sommer";9;80215;"Hard";"Privatquartiere";"endgültig";114;433
 2025;2025;"Sommer";9;80215;"Hard";"Andere Unterkünfte";"endgültig";305;695
-2025;2025;"Sommer";10;80215;"Hard";"Gewerbliche Beherbergungsbetriebe";"vorläufig";964;1590
-2025;2025;"Sommer";10;80215;"Hard";"Privatquartiere";"vorläufig";92;197
-2025;2025;"Sommer";10;80215;"Hard";"Andere Unterkünfte";"vorläufig";208;524
-2025;2026;"Winter";11;80215;"Hard";"Gewerbliche Beherbergungsbetriebe";"vorläufig";593;1023
-2025;2026;"Winter";11;80215;"Hard";"Privatquartiere";"vorläufig";2;10
+2025;2025;"Sommer";10;80215;"Hard";"Gewerbliche Beherbergungsbetriebe";"endgültig";964;1590
+2025;2025;"Sommer";10;80215;"Hard";"Privatquartiere";"endgültig";92;197
+2025;2025;"Sommer";10;80215;"Hard";"Andere Unterkünfte";"endgültig";208;524
+2025;2026;"Winter";11;80215;"Hard";"Gewerbliche Beherbergungsbetriebe";"endgültig";593;1023
+2025;2026;"Winter";11;80215;"Hard";"Privatquartiere";"endgültig";2;10
 2025;2026;"Winter";12;80215;"Hard";"Gewerbliche Beherbergungsbetriebe";"vorläufig";626;1100
 2025;2026;"Winter";12;80215;"Hard";"Privatquartiere";"vorläufig";65;223
 2026;2026;"Winter";1;80215;"Hard";"Gewerbliche Beherbergungsbetriebe";"vorläufig";457;774
 2026;2026;"Winter";1;80215;"Hard";"Privatquartiere";"vorläufig";15;134
 2026;2026;"Winter";2;80215;"Hard";"Gewerbliche Beherbergungsbetriebe";"vorläufig";667;1127
 2026;2026;"Winter";2;80215;"Hard";"Privatquartiere";"vorläufig";14;101
+2026;2026;"Winter";3;80215;"Hard";"Gewerbliche Beherbergungsbetriebe";"vorläufig";684;1414
+2026;2026;"Winter";3;80215;"Hard";"Privatquartiere";"vorläufig";42;117
+2026;2026;"Winter";4;80215;"Hard";"Gewerbliche Beherbergungsbetriebe";"vorläufig";914;1724
+2026;2026;"Winter";4;80215;"Hard";"Privatquartiere";"vorläufig";88;307
 1984;1985;"Winter";11;80216;"Hittisau";"Gewerbliche Beherbergungsbetriebe";"endgültig";96;165
 1984;1985;"Winter";11;80216;"Hittisau";"Privatquartiere";"endgültig";154;486
 1984;1985;"Winter";12;80216;"Hittisau";"Gewerbliche Beherbergungsbetriebe";"endgültig";442;2760
@@ -47754,12 +47951,12 @@
 2025;2025;"Sommer";9;80216;"Hittisau";"Gewerbliche Beherbergungsbetriebe";"endgültig";1006;3501
 2025;2025;"Sommer";9;80216;"Hittisau";"Privatquartiere";"endgültig";489;2301
 2025;2025;"Sommer";9;80216;"Hittisau";"Andere Unterkünfte";"endgültig";163;335
-2025;2025;"Sommer";10;80216;"Hittisau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1429;4449
-2025;2025;"Sommer";10;80216;"Hittisau";"Privatquartiere";"vorläufig";456;1837
-2025;2025;"Sommer";10;80216;"Hittisau";"Andere Unterkünfte";"vorläufig";187;324
-2025;2026;"Winter";11;80216;"Hittisau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";321;1249
-2025;2026;"Winter";11;80216;"Hittisau";"Privatquartiere";"vorläufig";109;308
-2025;2026;"Winter";11;80216;"Hittisau";"Andere Unterkünfte";"vorläufig";51;134
+2025;2025;"Sommer";10;80216;"Hittisau";"Gewerbliche Beherbergungsbetriebe";"endgültig";1429;4449
+2025;2025;"Sommer";10;80216;"Hittisau";"Privatquartiere";"endgültig";456;1837
+2025;2025;"Sommer";10;80216;"Hittisau";"Andere Unterkünfte";"endgültig";187;324
+2025;2026;"Winter";11;80216;"Hittisau";"Gewerbliche Beherbergungsbetriebe";"endgültig";321;1249
+2025;2026;"Winter";11;80216;"Hittisau";"Privatquartiere";"endgültig";109;308
+2025;2026;"Winter";11;80216;"Hittisau";"Andere Unterkünfte";"endgültig";51;134
 2025;2026;"Winter";12;80216;"Hittisau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";829;2932
 2025;2026;"Winter";12;80216;"Hittisau";"Privatquartiere";"vorläufig";453;1850
 2025;2026;"Winter";12;80216;"Hittisau";"Andere Unterkünfte";"vorläufig";94;257
@@ -47769,6 +47966,12 @@
 2026;2026;"Winter";2;80216;"Hittisau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1386;5046
 2026;2026;"Winter";2;80216;"Hittisau";"Privatquartiere";"vorläufig";648;3334
 2026;2026;"Winter";2;80216;"Hittisau";"Andere Unterkünfte";"vorläufig";105;258
+2026;2026;"Winter";3;80216;"Hittisau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";699;2825
+2026;2026;"Winter";3;80216;"Hittisau";"Privatquartiere";"vorläufig";228;725
+2026;2026;"Winter";3;80216;"Hittisau";"Andere Unterkünfte";"vorläufig";47;130
+2026;2026;"Winter";4;80216;"Hittisau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";907;2648
+2026;2026;"Winter";4;80216;"Hittisau";"Privatquartiere";"vorläufig";375;1101
+2026;2026;"Winter";4;80216;"Hittisau";"Andere Unterkünfte";"vorläufig";85;256
 1984;1985;"Winter";12;80217;"Höchst";"Gewerbliche Beherbergungsbetriebe";"endgültig";4;12
 1985;1985;"Winter";2;80217;"Höchst";"Gewerbliche Beherbergungsbetriebe";"endgültig";4;4
 1985;1985;"Winter";3;80217;"Höchst";"Gewerbliche Beherbergungsbetriebe";"endgültig";5;5
@@ -48644,16 +48847,20 @@
 2025;2025;"Sommer";8;80217;"Höchst";"Privatquartiere";"endgültig";261;1026
 2025;2025;"Sommer";9;80217;"Höchst";"Gewerbliche Beherbergungsbetriebe";"endgültig";1547;2541
 2025;2025;"Sommer";9;80217;"Höchst";"Privatquartiere";"endgültig";69;478
-2025;2025;"Sommer";10;80217;"Höchst";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1195;2172
-2025;2025;"Sommer";10;80217;"Höchst";"Privatquartiere";"vorläufig";75;295
-2025;2026;"Winter";11;80217;"Höchst";"Gewerbliche Beherbergungsbetriebe";"vorläufig";633;1079
-2025;2026;"Winter";11;80217;"Höchst";"Privatquartiere";"vorläufig";24;133
+2025;2025;"Sommer";10;80217;"Höchst";"Gewerbliche Beherbergungsbetriebe";"endgültig";1195;2172
+2025;2025;"Sommer";10;80217;"Höchst";"Privatquartiere";"endgültig";75;295
+2025;2026;"Winter";11;80217;"Höchst";"Gewerbliche Beherbergungsbetriebe";"endgültig";633;1079
+2025;2026;"Winter";11;80217;"Höchst";"Privatquartiere";"endgültig";24;133
 2025;2026;"Winter";12;80217;"Höchst";"Gewerbliche Beherbergungsbetriebe";"vorläufig";785;1342
 2025;2026;"Winter";12;80217;"Höchst";"Privatquartiere";"vorläufig";82;478
 2026;2026;"Winter";1;80217;"Höchst";"Gewerbliche Beherbergungsbetriebe";"vorläufig";637;1198
 2026;2026;"Winter";1;80217;"Höchst";"Privatquartiere";"vorläufig";46;255
 2026;2026;"Winter";2;80217;"Höchst";"Gewerbliche Beherbergungsbetriebe";"vorläufig";598;1191
 2026;2026;"Winter";2;80217;"Höchst";"Privatquartiere";"vorläufig";56;282
+2026;2026;"Winter";3;80217;"Höchst";"Gewerbliche Beherbergungsbetriebe";"vorläufig";727;1370
+2026;2026;"Winter";3;80217;"Höchst";"Privatquartiere";"vorläufig";27;184
+2026;2026;"Winter";4;80217;"Höchst";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1252;2234
+2026;2026;"Winter";4;80217;"Höchst";"Privatquartiere";"vorläufig";75;249
 1984;1985;"Winter";11;80218;"Hörbranz";"Gewerbliche Beherbergungsbetriebe";"endgültig";46;219
 1984;1985;"Winter";11;80218;"Hörbranz";"Privatquartiere";"endgültig";5;57
 1984;1985;"Winter";12;80218;"Hörbranz";"Gewerbliche Beherbergungsbetriebe";"endgültig";67;246
@@ -49636,16 +49843,20 @@
 2025;2025;"Sommer";8;80218;"Hörbranz";"Privatquartiere";"endgültig";179;675
 2025;2025;"Sommer";9;80218;"Hörbranz";"Gewerbliche Beherbergungsbetriebe";"endgültig";487;1125
 2025;2025;"Sommer";9;80218;"Hörbranz";"Privatquartiere";"endgültig";54;251
-2025;2025;"Sommer";10;80218;"Hörbranz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";299;766
-2025;2025;"Sommer";10;80218;"Hörbranz";"Privatquartiere";"vorläufig";38;160
-2025;2026;"Winter";11;80218;"Hörbranz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";65;122
-2025;2026;"Winter";11;80218;"Hörbranz";"Privatquartiere";"vorläufig";16;55
+2025;2025;"Sommer";10;80218;"Hörbranz";"Gewerbliche Beherbergungsbetriebe";"endgültig";299;766
+2025;2025;"Sommer";10;80218;"Hörbranz";"Privatquartiere";"endgültig";38;160
+2025;2026;"Winter";11;80218;"Hörbranz";"Gewerbliche Beherbergungsbetriebe";"endgültig";65;122
+2025;2026;"Winter";11;80218;"Hörbranz";"Privatquartiere";"endgültig";16;55
 2025;2026;"Winter";12;80218;"Hörbranz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";125;244
 2025;2026;"Winter";12;80218;"Hörbranz";"Privatquartiere";"vorläufig";34;107
 2026;2026;"Winter";1;80218;"Hörbranz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";86;291
 2026;2026;"Winter";1;80218;"Hörbranz";"Privatquartiere";"vorläufig";14;59
 2026;2026;"Winter";2;80218;"Hörbranz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";85;191
 2026;2026;"Winter";2;80218;"Hörbranz";"Privatquartiere";"vorläufig";13;91
+2026;2026;"Winter";3;80218;"Hörbranz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";121;245
+2026;2026;"Winter";3;80218;"Hörbranz";"Privatquartiere";"vorläufig";14;44
+2026;2026;"Winter";4;80218;"Hörbranz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";300;731
+2026;2026;"Winter";4;80218;"Hörbranz";"Privatquartiere";"vorläufig";41;136
 1984;1985;"Winter";11;80221;"Krumbach";"Gewerbliche Beherbergungsbetriebe";"endgültig";52;136
 1984;1985;"Winter";12;80221;"Krumbach";"Gewerbliche Beherbergungsbetriebe";"endgültig";97;603
 1984;1985;"Winter";12;80221;"Krumbach";"Privatquartiere";"endgültig";80;451
@@ -51059,11 +51270,11 @@
 2025;2025;"Sommer";9;80221;"Krumbach";"Gewerbliche Beherbergungsbetriebe";"endgültig";12;24
 2025;2025;"Sommer";9;80221;"Krumbach";"Privatquartiere";"endgültig";63;273
 2025;2025;"Sommer";9;80221;"Krumbach";"Andere Unterkünfte";"endgültig";34;252
-2025;2025;"Sommer";10;80221;"Krumbach";"Gewerbliche Beherbergungsbetriebe";"vorläufig";52;139
-2025;2025;"Sommer";10;80221;"Krumbach";"Privatquartiere";"vorläufig";37;202
-2025;2025;"Sommer";10;80221;"Krumbach";"Andere Unterkünfte";"vorläufig";43;75
-2025;2026;"Winter";11;80221;"Krumbach";"Gewerbliche Beherbergungsbetriebe";"vorläufig";13;90
-2025;2026;"Winter";11;80221;"Krumbach";"Andere Unterkünfte";"vorläufig";73;157
+2025;2025;"Sommer";10;80221;"Krumbach";"Gewerbliche Beherbergungsbetriebe";"endgültig";52;139
+2025;2025;"Sommer";10;80221;"Krumbach";"Privatquartiere";"endgültig";37;202
+2025;2025;"Sommer";10;80221;"Krumbach";"Andere Unterkünfte";"endgültig";43;75
+2025;2026;"Winter";11;80221;"Krumbach";"Gewerbliche Beherbergungsbetriebe";"endgültig";13;90
+2025;2026;"Winter";11;80221;"Krumbach";"Andere Unterkünfte";"endgültig";73;157
 2025;2026;"Winter";12;80221;"Krumbach";"Gewerbliche Beherbergungsbetriebe";"vorläufig";89;235
 2025;2026;"Winter";12;80221;"Krumbach";"Privatquartiere";"vorläufig";77;341
 2025;2026;"Winter";12;80221;"Krumbach";"Andere Unterkünfte";"vorläufig";20;100
@@ -51073,6 +51284,12 @@
 2026;2026;"Winter";2;80221;"Krumbach";"Gewerbliche Beherbergungsbetriebe";"vorläufig";164;520
 2026;2026;"Winter";2;80221;"Krumbach";"Privatquartiere";"vorläufig";76;379
 2026;2026;"Winter";2;80221;"Krumbach";"Andere Unterkünfte";"vorläufig";46;154
+2026;2026;"Winter";3;80221;"Krumbach";"Gewerbliche Beherbergungsbetriebe";"vorläufig";94;356
+2026;2026;"Winter";3;80221;"Krumbach";"Privatquartiere";"vorläufig";13;30
+2026;2026;"Winter";3;80221;"Krumbach";"Andere Unterkünfte";"vorläufig";22;44
+2026;2026;"Winter";4;80221;"Krumbach";"Gewerbliche Beherbergungsbetriebe";"vorläufig";80;173
+2026;2026;"Winter";4;80221;"Krumbach";"Privatquartiere";"vorläufig";34;131
+2026;2026;"Winter";4;80221;"Krumbach";"Andere Unterkünfte";"vorläufig";55;110
 1984;1985;"Winter";11;80222;"Langen bei Bregenz";"Gewerbliche Beherbergungsbetriebe";"endgültig";24;60
 1984;1985;"Winter";12;80222;"Langen bei Bregenz";"Privatquartiere";"endgültig";39;105
 1985;1985;"Winter";1;80222;"Langen bei Bregenz";"Gewerbliche Beherbergungsbetriebe";"endgültig";58;141
@@ -51720,16 +51937,20 @@
 2025;2025;"Sommer";8;80222;"Langen bei Bregenz";"Privatquartiere";"endgültig";61;368
 2025;2025;"Sommer";9;80222;"Langen bei Bregenz";"Gewerbliche Beherbergungsbetriebe";"endgültig";56;114
 2025;2025;"Sommer";9;80222;"Langen bei Bregenz";"Privatquartiere";"endgültig";36;198
-2025;2025;"Sommer";10;80222;"Langen bei Bregenz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";30;83
-2025;2025;"Sommer";10;80222;"Langen bei Bregenz";"Privatquartiere";"vorläufig";33;128
-2025;2026;"Winter";11;80222;"Langen bei Bregenz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";14;20
-2025;2026;"Winter";11;80222;"Langen bei Bregenz";"Privatquartiere";"vorläufig";14;66
+2025;2025;"Sommer";10;80222;"Langen bei Bregenz";"Gewerbliche Beherbergungsbetriebe";"endgültig";30;83
+2025;2025;"Sommer";10;80222;"Langen bei Bregenz";"Privatquartiere";"endgültig";33;128
+2025;2026;"Winter";11;80222;"Langen bei Bregenz";"Gewerbliche Beherbergungsbetriebe";"endgültig";14;20
+2025;2026;"Winter";11;80222;"Langen bei Bregenz";"Privatquartiere";"endgültig";14;66
 2025;2026;"Winter";12;80222;"Langen bei Bregenz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";12;16
 2025;2026;"Winter";12;80222;"Langen bei Bregenz";"Privatquartiere";"vorläufig";12;50
 2026;2026;"Winter";1;80222;"Langen bei Bregenz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";17;37
 2026;2026;"Winter";1;80222;"Langen bei Bregenz";"Privatquartiere";"vorläufig";0;22
 2026;2026;"Winter";2;80222;"Langen bei Bregenz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";32;71
 2026;2026;"Winter";2;80222;"Langen bei Bregenz";"Privatquartiere";"vorläufig";8;36
+2026;2026;"Winter";3;80222;"Langen bei Bregenz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";29;45
+2026;2026;"Winter";3;80222;"Langen bei Bregenz";"Privatquartiere";"vorläufig";9;29
+2026;2026;"Winter";4;80222;"Langen bei Bregenz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";0;8
+2026;2026;"Winter";4;80222;"Langen bei Bregenz";"Privatquartiere";"vorläufig";41;160
 1984;1985;"Winter";11;80223;"Langenegg";"Privatquartiere";"endgültig";7;24
 1984;1985;"Winter";12;80223;"Langenegg";"Gewerbliche Beherbergungsbetriebe";"endgültig";85;483
 1984;1985;"Winter";12;80223;"Langenegg";"Privatquartiere";"endgültig";83;702
@@ -52657,16 +52878,20 @@
 2025;2025;"Sommer";8;80223;"Langenegg";"Privatquartiere";"endgültig";48;384
 2025;2025;"Sommer";9;80223;"Langenegg";"Gewerbliche Beherbergungsbetriebe";"endgültig";281;336
 2025;2025;"Sommer";9;80223;"Langenegg";"Privatquartiere";"endgültig";33;158
-2025;2025;"Sommer";10;80223;"Langenegg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";389;509
-2025;2025;"Sommer";10;80223;"Langenegg";"Privatquartiere";"vorläufig";60;303
-2025;2026;"Winter";11;80223;"Langenegg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";218;360
-2025;2026;"Winter";11;80223;"Langenegg";"Privatquartiere";"vorläufig";12;36
+2025;2025;"Sommer";10;80223;"Langenegg";"Gewerbliche Beherbergungsbetriebe";"endgültig";389;509
+2025;2025;"Sommer";10;80223;"Langenegg";"Privatquartiere";"endgültig";60;303
+2025;2026;"Winter";11;80223;"Langenegg";"Gewerbliche Beherbergungsbetriebe";"endgültig";218;360
+2025;2026;"Winter";11;80223;"Langenegg";"Privatquartiere";"endgültig";12;36
 2025;2026;"Winter";12;80223;"Langenegg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";211;462
 2025;2026;"Winter";12;80223;"Langenegg";"Privatquartiere";"vorläufig";65;312
 2026;2026;"Winter";1;80223;"Langenegg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";261;411
 2026;2026;"Winter";1;80223;"Langenegg";"Privatquartiere";"vorläufig";40;146
 2026;2026;"Winter";2;80223;"Langenegg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";271;366
 2026;2026;"Winter";2;80223;"Langenegg";"Privatquartiere";"vorläufig";118;376
+2026;2026;"Winter";3;80223;"Langenegg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";268;478
+2026;2026;"Winter";3;80223;"Langenegg";"Privatquartiere";"vorläufig";22;90
+2026;2026;"Winter";4;80223;"Langenegg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";298;382
+2026;2026;"Winter";4;80223;"Langenegg";"Privatquartiere";"vorläufig";88;280
 1984;1985;"Winter";11;80224;"Lauterach";"Gewerbliche Beherbergungsbetriebe";"endgültig";11;11
 1984;1985;"Winter";11;80224;"Lauterach";"Privatquartiere";"endgültig";12;52
 1984;1985;"Winter";12;80224;"Lauterach";"Gewerbliche Beherbergungsbetriebe";"endgültig";39;57
@@ -53596,16 +53821,20 @@
 2025;2025;"Sommer";8;80224;"Lauterach";"Privatquartiere";"endgültig";31;207
 2025;2025;"Sommer";9;80224;"Lauterach";"Gewerbliche Beherbergungsbetriebe";"endgültig";586;998
 2025;2025;"Sommer";9;80224;"Lauterach";"Privatquartiere";"endgültig";53;387
-2025;2025;"Sommer";10;80224;"Lauterach";"Gewerbliche Beherbergungsbetriebe";"vorläufig";391;737
-2025;2025;"Sommer";10;80224;"Lauterach";"Privatquartiere";"vorläufig";14;114
-2025;2026;"Winter";11;80224;"Lauterach";"Gewerbliche Beherbergungsbetriebe";"vorläufig";261;512
-2025;2026;"Winter";11;80224;"Lauterach";"Privatquartiere";"vorläufig";13;89
+2025;2025;"Sommer";10;80224;"Lauterach";"Gewerbliche Beherbergungsbetriebe";"endgültig";391;737
+2025;2025;"Sommer";10;80224;"Lauterach";"Privatquartiere";"endgültig";14;114
+2025;2026;"Winter";11;80224;"Lauterach";"Gewerbliche Beherbergungsbetriebe";"endgültig";261;512
+2025;2026;"Winter";11;80224;"Lauterach";"Privatquartiere";"endgültig";13;89
 2025;2026;"Winter";12;80224;"Lauterach";"Gewerbliche Beherbergungsbetriebe";"vorläufig";285;584
 2025;2026;"Winter";12;80224;"Lauterach";"Privatquartiere";"vorläufig";30;109
 2026;2026;"Winter";1;80224;"Lauterach";"Gewerbliche Beherbergungsbetriebe";"vorläufig";208;632
 2026;2026;"Winter";1;80224;"Lauterach";"Privatquartiere";"vorläufig";5;29
 2026;2026;"Winter";2;80224;"Lauterach";"Gewerbliche Beherbergungsbetriebe";"vorläufig";237;610
 2026;2026;"Winter";2;80224;"Lauterach";"Privatquartiere";"vorläufig";7;49
+2026;2026;"Winter";3;80224;"Lauterach";"Gewerbliche Beherbergungsbetriebe";"vorläufig";248;805
+2026;2026;"Winter";3;80224;"Lauterach";"Privatquartiere";"vorläufig";24;110
+2026;2026;"Winter";4;80224;"Lauterach";"Gewerbliche Beherbergungsbetriebe";"vorläufig";264;549
+2026;2026;"Winter";4;80224;"Lauterach";"Privatquartiere";"vorläufig";4;65
 1984;1985;"Winter";11;80225;"Lingenau";"Gewerbliche Beherbergungsbetriebe";"endgültig";92;841
 1984;1985;"Winter";11;80225;"Lingenau";"Privatquartiere";"endgültig";16;103
 1984;1985;"Winter";11;80225;"Lingenau";"Andere Unterkünfte";"endgültig";59;266
@@ -55060,12 +55289,12 @@
 2025;2025;"Sommer";9;80225;"Lingenau";"Gewerbliche Beherbergungsbetriebe";"endgültig";981;2568
 2025;2025;"Sommer";9;80225;"Lingenau";"Privatquartiere";"endgültig";80;324
 2025;2025;"Sommer";9;80225;"Lingenau";"Andere Unterkünfte";"endgültig";151;345
-2025;2025;"Sommer";10;80225;"Lingenau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";840;1972
-2025;2025;"Sommer";10;80225;"Lingenau";"Privatquartiere";"vorläufig";36;155
-2025;2025;"Sommer";10;80225;"Lingenau";"Andere Unterkünfte";"vorläufig";109;261
-2025;2026;"Winter";11;80225;"Lingenau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";265;520
-2025;2026;"Winter";11;80225;"Lingenau";"Privatquartiere";"vorläufig";8;16
-2025;2026;"Winter";11;80225;"Lingenau";"Andere Unterkünfte";"vorläufig";51;130
+2025;2025;"Sommer";10;80225;"Lingenau";"Gewerbliche Beherbergungsbetriebe";"endgültig";840;1972
+2025;2025;"Sommer";10;80225;"Lingenau";"Privatquartiere";"endgültig";36;155
+2025;2025;"Sommer";10;80225;"Lingenau";"Andere Unterkünfte";"endgültig";109;261
+2025;2026;"Winter";11;80225;"Lingenau";"Gewerbliche Beherbergungsbetriebe";"endgültig";265;520
+2025;2026;"Winter";11;80225;"Lingenau";"Privatquartiere";"endgültig";8;16
+2025;2026;"Winter";11;80225;"Lingenau";"Andere Unterkünfte";"endgültig";51;130
 2025;2026;"Winter";12;80225;"Lingenau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";628;1669
 2025;2026;"Winter";12;80225;"Lingenau";"Privatquartiere";"vorläufig";62;265
 2025;2026;"Winter";12;80225;"Lingenau";"Andere Unterkünfte";"vorläufig";91;302
@@ -55075,6 +55304,12 @@
 2026;2026;"Winter";2;80225;"Lingenau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1328;2979
 2026;2026;"Winter";2;80225;"Lingenau";"Privatquartiere";"vorläufig";67;310
 2026;2026;"Winter";2;80225;"Lingenau";"Andere Unterkünfte";"vorläufig";82;209
+2026;2026;"Winter";3;80225;"Lingenau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";419;864
+2026;2026;"Winter";3;80225;"Lingenau";"Privatquartiere";"vorläufig";4;16
+2026;2026;"Winter";3;80225;"Lingenau";"Andere Unterkünfte";"vorläufig";62;170
+2026;2026;"Winter";4;80225;"Lingenau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";466;897
+2026;2026;"Winter";4;80225;"Lingenau";"Privatquartiere";"vorläufig";19;112
+2026;2026;"Winter";4;80225;"Lingenau";"Andere Unterkünfte";"vorläufig";97;184
 1984;1985;"Winter";11;80226;"Lochau";"Gewerbliche Beherbergungsbetriebe";"endgültig";98;180
 1984;1985;"Winter";11;80226;"Lochau";"Privatquartiere";"endgültig";7;14
 1984;1985;"Winter";11;80226;"Lochau";"Andere Unterkünfte";"endgültig";153;375
@@ -56143,16 +56378,20 @@
 2025;2025;"Sommer";8;80226;"Lochau";"Privatquartiere";"endgültig";340;1535
 2025;2025;"Sommer";9;80226;"Lochau";"Gewerbliche Beherbergungsbetriebe";"endgültig";3527;8325
 2025;2025;"Sommer";9;80226;"Lochau";"Privatquartiere";"endgültig";214;685
-2025;2025;"Sommer";10;80226;"Lochau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";3260;7025
-2025;2025;"Sommer";10;80226;"Lochau";"Privatquartiere";"vorläufig";314;642
-2025;2026;"Winter";11;80226;"Lochau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2115;4356
-2025;2026;"Winter";11;80226;"Lochau";"Privatquartiere";"vorläufig";33;104
+2025;2025;"Sommer";10;80226;"Lochau";"Gewerbliche Beherbergungsbetriebe";"endgültig";3260;7025
+2025;2025;"Sommer";10;80226;"Lochau";"Privatquartiere";"endgültig";314;642
+2025;2026;"Winter";11;80226;"Lochau";"Gewerbliche Beherbergungsbetriebe";"endgültig";2115;4356
+2025;2026;"Winter";11;80226;"Lochau";"Privatquartiere";"endgültig";33;104
 2025;2026;"Winter";12;80226;"Lochau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2742;5589
 2025;2026;"Winter";12;80226;"Lochau";"Privatquartiere";"vorläufig";63;277
 2026;2026;"Winter";1;80226;"Lochau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1733;3050
 2026;2026;"Winter";1;80226;"Lochau";"Privatquartiere";"vorläufig";16;84
 2026;2026;"Winter";2;80226;"Lochau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2626;4927
 2026;2026;"Winter";2;80226;"Lochau";"Privatquartiere";"vorläufig";62;221
+2026;2026;"Winter";3;80226;"Lochau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2803;5175
+2026;2026;"Winter";3;80226;"Lochau";"Privatquartiere";"vorläufig";71;215
+2026;2026;"Winter";4;80226;"Lochau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";3636;7594
+2026;2026;"Winter";4;80226;"Lochau";"Privatquartiere";"vorläufig";188;550
 1984;1985;"Winter";11;80227;"Mellau";"Gewerbliche Beherbergungsbetriebe";"endgültig";690;2400
 1984;1985;"Winter";11;80227;"Mellau";"Privatquartiere";"endgültig";29;127
 1984;1985;"Winter";11;80227;"Mellau";"Andere Unterkünfte";"endgültig";140;1106
@@ -57615,11 +57854,11 @@
 2025;2025;"Sommer";9;80227;"Mellau";"Gewerbliche Beherbergungsbetriebe";"endgültig";3288;11339
 2025;2025;"Sommer";9;80227;"Mellau";"Privatquartiere";"endgültig";484;2981
 2025;2025;"Sommer";9;80227;"Mellau";"Andere Unterkünfte";"endgültig";84;192
-2025;2025;"Sommer";10;80227;"Mellau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";3761;10476
-2025;2025;"Sommer";10;80227;"Mellau";"Privatquartiere";"vorläufig";343;1349
-2025;2025;"Sommer";10;80227;"Mellau";"Andere Unterkünfte";"vorläufig";200;560
-2025;2026;"Winter";11;80227;"Mellau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2290;4756
-2025;2026;"Winter";11;80227;"Mellau";"Privatquartiere";"vorläufig";51;135
+2025;2025;"Sommer";10;80227;"Mellau";"Gewerbliche Beherbergungsbetriebe";"endgültig";3761;10476
+2025;2025;"Sommer";10;80227;"Mellau";"Privatquartiere";"endgültig";343;1349
+2025;2025;"Sommer";10;80227;"Mellau";"Andere Unterkünfte";"endgültig";200;560
+2025;2026;"Winter";11;80227;"Mellau";"Gewerbliche Beherbergungsbetriebe";"endgültig";2290;4756
+2025;2026;"Winter";11;80227;"Mellau";"Privatquartiere";"endgültig";51;135
 2025;2026;"Winter";12;80227;"Mellau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";3335;11942
 2025;2026;"Winter";12;80227;"Mellau";"Privatquartiere";"vorläufig";895;4286
 2025;2026;"Winter";12;80227;"Mellau";"Andere Unterkünfte";"vorläufig";191;725
@@ -57629,6 +57868,12 @@
 2026;2026;"Winter";2;80227;"Mellau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";5829;24870
 2026;2026;"Winter";2;80227;"Mellau";"Privatquartiere";"vorläufig";1528;9372
 2026;2026;"Winter";2;80227;"Mellau";"Andere Unterkünfte";"vorläufig";338;1721
+2026;2026;"Winter";3;80227;"Mellau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";3821;11456
+2026;2026;"Winter";3;80227;"Mellau";"Privatquartiere";"vorläufig";786;4116
+2026;2026;"Winter";3;80227;"Mellau";"Andere Unterkünfte";"vorläufig";327;1412
+2026;2026;"Winter";4;80227;"Mellau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1665;4829
+2026;2026;"Winter";4;80227;"Mellau";"Privatquartiere";"vorläufig";300;1707
+2026;2026;"Winter";4;80227;"Mellau";"Andere Unterkünfte";"vorläufig";36;508
 1984;1985;"Winter";11;80228;"Mittelberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";1816;4763
 1984;1985;"Winter";11;80228;"Mittelberg";"Privatquartiere";"endgültig";166;692
 1984;1985;"Winter";11;80228;"Mittelberg";"Andere Unterkünfte";"endgültig";212;621
@@ -59099,12 +59344,12 @@
 2025;2025;"Sommer";9;80228;"Mittelberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";21716;113948
 2025;2025;"Sommer";9;80228;"Mittelberg";"Privatquartiere";"endgültig";3928;29695
 2025;2025;"Sommer";9;80228;"Mittelberg";"Andere Unterkünfte";"endgültig";6517;26850
-2025;2025;"Sommer";10;80228;"Mittelberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";20779;91301
-2025;2025;"Sommer";10;80228;"Mittelberg";"Privatquartiere";"vorläufig";3555;21093
-2025;2025;"Sommer";10;80228;"Mittelberg";"Andere Unterkünfte";"vorläufig";6084;21317
-2025;2026;"Winter";11;80228;"Mittelberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";3774;11035
-2025;2026;"Winter";11;80228;"Mittelberg";"Privatquartiere";"vorläufig";351;1579
-2025;2026;"Winter";11;80228;"Mittelberg";"Andere Unterkünfte";"vorläufig";1550;4532
+2025;2025;"Sommer";10;80228;"Mittelberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";20779;91301
+2025;2025;"Sommer";10;80228;"Mittelberg";"Privatquartiere";"endgültig";3555;21093
+2025;2025;"Sommer";10;80228;"Mittelberg";"Andere Unterkünfte";"endgültig";6084;21317
+2025;2026;"Winter";11;80228;"Mittelberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";3774;11035
+2025;2026;"Winter";11;80228;"Mittelberg";"Privatquartiere";"endgültig";351;1579
+2025;2026;"Winter";11;80228;"Mittelberg";"Andere Unterkünfte";"endgültig";1550;4532
 2025;2026;"Winter";12;80228;"Mittelberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";17608;80818
 2025;2026;"Winter";12;80228;"Mittelberg";"Privatquartiere";"vorläufig";4606;25556
 2025;2026;"Winter";12;80228;"Mittelberg";"Andere Unterkünfte";"vorläufig";3684;15288
@@ -59114,6 +59359,12 @@
 2026;2026;"Winter";2;80228;"Mittelberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";28335;153344
 2026;2026;"Winter";2;80228;"Mittelberg";"Privatquartiere";"vorläufig";7498;48859
 2026;2026;"Winter";2;80228;"Mittelberg";"Andere Unterkünfte";"vorläufig";7090;32897
+2026;2026;"Winter";3;80228;"Mittelberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";16717;74248
+2026;2026;"Winter";3;80228;"Mittelberg";"Privatquartiere";"vorläufig";3774;22054
+2026;2026;"Winter";3;80228;"Mittelberg";"Andere Unterkünfte";"vorläufig";5105;22431
+2026;2026;"Winter";4;80228;"Mittelberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";5470;24646
+2026;2026;"Winter";4;80228;"Mittelberg";"Privatquartiere";"vorläufig";975;7560
+2026;2026;"Winter";4;80228;"Mittelberg";"Andere Unterkünfte";"vorläufig";2131;8824
 1984;1985;"Winter";11;80229;"Möggers";"Gewerbliche Beherbergungsbetriebe";"endgültig";26;83
 1984;1985;"Winter";11;80229;"Möggers";"Privatquartiere";"endgültig";7;21
 1984;1985;"Winter";12;80229;"Möggers";"Gewerbliche Beherbergungsbetriebe";"endgültig";27;155
@@ -60001,15 +60252,18 @@
 2025;2025;"Sommer";8;80229;"Möggers";"Privatquartiere";"endgültig";107;775
 2025;2025;"Sommer";9;80229;"Möggers";"Gewerbliche Beherbergungsbetriebe";"endgültig";79;235
 2025;2025;"Sommer";9;80229;"Möggers";"Privatquartiere";"endgültig";55;330
-2025;2025;"Sommer";10;80229;"Möggers";"Gewerbliche Beherbergungsbetriebe";"vorläufig";51;135
-2025;2025;"Sommer";10;80229;"Möggers";"Privatquartiere";"vorläufig";31;234
-2025;2026;"Winter";11;80229;"Möggers";"Gewerbliche Beherbergungsbetriebe";"vorläufig";16;34
-2025;2026;"Winter";11;80229;"Möggers";"Privatquartiere";"vorläufig";0;13
+2025;2025;"Sommer";10;80229;"Möggers";"Gewerbliche Beherbergungsbetriebe";"endgültig";51;135
+2025;2025;"Sommer";10;80229;"Möggers";"Privatquartiere";"endgültig";31;234
+2025;2026;"Winter";11;80229;"Möggers";"Gewerbliche Beherbergungsbetriebe";"endgültig";16;34
+2025;2026;"Winter";11;80229;"Möggers";"Privatquartiere";"endgültig";0;13
 2025;2026;"Winter";12;80229;"Möggers";"Gewerbliche Beherbergungsbetriebe";"vorläufig";17;59
 2025;2026;"Winter";12;80229;"Möggers";"Privatquartiere";"vorläufig";24;128
 2026;2026;"Winter";1;80229;"Möggers";"Gewerbliche Beherbergungsbetriebe";"vorläufig";0;24
 2026;2026;"Winter";1;80229;"Möggers";"Privatquartiere";"vorläufig";12;86
 2026;2026;"Winter";2;80229;"Möggers";"Privatquartiere";"vorläufig";11;79
+2026;2026;"Winter";3;80229;"Möggers";"Privatquartiere";"vorläufig";5;71
+2026;2026;"Winter";4;80229;"Möggers";"Gewerbliche Beherbergungsbetriebe";"vorläufig";46;85
+2026;2026;"Winter";4;80229;"Möggers";"Privatquartiere";"vorläufig";25;142
 1984;1985;"Winter";11;80230;"Reuthe";"Gewerbliche Beherbergungsbetriebe";"endgültig";317;4023
 1984;1985;"Winter";11;80230;"Reuthe";"Privatquartiere";"endgültig";22;136
 1984;1985;"Winter";12;80230;"Reuthe";"Gewerbliche Beherbergungsbetriebe";"endgültig";269;1982
@@ -60948,15 +61202,19 @@
 2025;2025;"Sommer";8;80230;"Reuthe";"Privatquartiere";"endgültig";33;179
 2025;2025;"Sommer";9;80230;"Reuthe";"Gewerbliche Beherbergungsbetriebe";"endgültig";1426;5561
 2025;2025;"Sommer";9;80230;"Reuthe";"Privatquartiere";"endgültig";3;50
-2025;2025;"Sommer";10;80230;"Reuthe";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2047;6773
-2025;2025;"Sommer";10;80230;"Reuthe";"Privatquartiere";"vorläufig";8;49
-2025;2026;"Winter";11;80230;"Reuthe";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2016;6084
+2025;2025;"Sommer";10;80230;"Reuthe";"Gewerbliche Beherbergungsbetriebe";"endgültig";2047;6773
+2025;2025;"Sommer";10;80230;"Reuthe";"Privatquartiere";"endgültig";8;49
+2025;2026;"Winter";11;80230;"Reuthe";"Gewerbliche Beherbergungsbetriebe";"endgültig";2016;6084
 2025;2026;"Winter";12;80230;"Reuthe";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1958;6830
 2025;2026;"Winter";12;80230;"Reuthe";"Privatquartiere";"vorläufig";12;57
 2026;2026;"Winter";1;80230;"Reuthe";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1644;5630
 2026;2026;"Winter";1;80230;"Reuthe";"Privatquartiere";"vorläufig";16;86
 2026;2026;"Winter";2;80230;"Reuthe";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1865;5571
 2026;2026;"Winter";2;80230;"Reuthe";"Privatquartiere";"vorläufig";30;148
+2026;2026;"Winter";3;80230;"Reuthe";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1573;5086
+2026;2026;"Winter";3;80230;"Reuthe";"Privatquartiere";"vorläufig";9;37
+2026;2026;"Winter";4;80230;"Reuthe";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1534;5252
+2026;2026;"Winter";4;80230;"Reuthe";"Privatquartiere";"vorläufig";0;4
 1984;1985;"Winter";11;80231;"Riefensberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";13;39
 1984;1985;"Winter";11;80231;"Riefensberg";"Privatquartiere";"endgültig";7;13
 1984;1985;"Winter";11;80231;"Riefensberg";"Andere Unterkünfte";"endgültig";302;552
@@ -62329,12 +62587,12 @@
 2025;2025;"Sommer";9;80231;"Riefensberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";211;478
 2025;2025;"Sommer";9;80231;"Riefensberg";"Privatquartiere";"endgültig";109;372
 2025;2025;"Sommer";9;80231;"Riefensberg";"Andere Unterkünfte";"endgültig";83;205
-2025;2025;"Sommer";10;80231;"Riefensberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";410;1165
-2025;2025;"Sommer";10;80231;"Riefensberg";"Privatquartiere";"vorläufig";89;233
-2025;2025;"Sommer";10;80231;"Riefensberg";"Andere Unterkünfte";"vorläufig";229;549
-2025;2026;"Winter";11;80231;"Riefensberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";23;50
-2025;2026;"Winter";11;80231;"Riefensberg";"Privatquartiere";"vorläufig";39;78
-2025;2026;"Winter";11;80231;"Riefensberg";"Andere Unterkünfte";"vorläufig";102;264
+2025;2025;"Sommer";10;80231;"Riefensberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";410;1165
+2025;2025;"Sommer";10;80231;"Riefensberg";"Privatquartiere";"endgültig";89;233
+2025;2025;"Sommer";10;80231;"Riefensberg";"Andere Unterkünfte";"endgültig";229;549
+2025;2026;"Winter";11;80231;"Riefensberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";23;50
+2025;2026;"Winter";11;80231;"Riefensberg";"Privatquartiere";"endgültig";39;78
+2025;2026;"Winter";11;80231;"Riefensberg";"Andere Unterkünfte";"endgültig";102;264
 2025;2026;"Winter";12;80231;"Riefensberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";548;1653
 2025;2026;"Winter";12;80231;"Riefensberg";"Privatquartiere";"vorläufig";72;232
 2025;2026;"Winter";12;80231;"Riefensberg";"Andere Unterkünfte";"vorläufig";193;906
@@ -62344,6 +62602,12 @@
 2026;2026;"Winter";2;80231;"Riefensberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";612;2646
 2026;2026;"Winter";2;80231;"Riefensberg";"Privatquartiere";"vorläufig";103;401
 2026;2026;"Winter";2;80231;"Riefensberg";"Andere Unterkünfte";"vorläufig";68;149
+2026;2026;"Winter";3;80231;"Riefensberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";133;314
+2026;2026;"Winter";3;80231;"Riefensberg";"Privatquartiere";"vorläufig";20;47
+2026;2026;"Winter";3;80231;"Riefensberg";"Andere Unterkünfte";"vorläufig";90;224
+2026;2026;"Winter";4;80231;"Riefensberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";75;240
+2026;2026;"Winter";4;80231;"Riefensberg";"Privatquartiere";"vorläufig";72;177
+2026;2026;"Winter";4;80231;"Riefensberg";"Andere Unterkünfte";"vorläufig";79;224
 1984;1985;"Winter";11;80232;"Schnepfau";"Gewerbliche Beherbergungsbetriebe";"endgültig";52;78
 1984;1985;"Winter";11;80232;"Schnepfau";"Privatquartiere";"endgültig";88;665
 1984;1985;"Winter";12;80232;"Schnepfau";"Gewerbliche Beherbergungsbetriebe";"endgültig";96;608
@@ -63631,11 +63895,11 @@
 2025;2025;"Sommer";9;80232;"Schnepfau";"Gewerbliche Beherbergungsbetriebe";"endgültig";105;306
 2025;2025;"Sommer";9;80232;"Schnepfau";"Privatquartiere";"endgültig";190;805
 2025;2025;"Sommer";9;80232;"Schnepfau";"Andere Unterkünfte";"endgültig";156;443
-2025;2025;"Sommer";10;80232;"Schnepfau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";95;217
-2025;2025;"Sommer";10;80232;"Schnepfau";"Privatquartiere";"vorläufig";148;556
-2025;2025;"Sommer";10;80232;"Schnepfau";"Andere Unterkünfte";"vorläufig";153;390
-2025;2026;"Winter";11;80232;"Schnepfau";"Privatquartiere";"vorläufig";46;115
-2025;2026;"Winter";11;80232;"Schnepfau";"Andere Unterkünfte";"vorläufig";92;199
+2025;2025;"Sommer";10;80232;"Schnepfau";"Gewerbliche Beherbergungsbetriebe";"endgültig";95;217
+2025;2025;"Sommer";10;80232;"Schnepfau";"Privatquartiere";"endgültig";148;556
+2025;2025;"Sommer";10;80232;"Schnepfau";"Andere Unterkünfte";"endgültig";153;390
+2025;2026;"Winter";11;80232;"Schnepfau";"Privatquartiere";"endgültig";46;115
+2025;2026;"Winter";11;80232;"Schnepfau";"Andere Unterkünfte";"endgültig";92;199
 2025;2026;"Winter";12;80232;"Schnepfau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";48;205
 2025;2026;"Winter";12;80232;"Schnepfau";"Privatquartiere";"vorläufig";238;1082
 2025;2026;"Winter";12;80232;"Schnepfau";"Andere Unterkünfte";"vorläufig";143;427
@@ -63645,6 +63909,12 @@
 2026;2026;"Winter";2;80232;"Schnepfau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";118;508
 2026;2026;"Winter";2;80232;"Schnepfau";"Privatquartiere";"vorläufig";462;2536
 2026;2026;"Winter";2;80232;"Schnepfau";"Andere Unterkünfte";"vorläufig";145;369
+2026;2026;"Winter";3;80232;"Schnepfau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";52;151
+2026;2026;"Winter";3;80232;"Schnepfau";"Privatquartiere";"vorläufig";250;1052
+2026;2026;"Winter";3;80232;"Schnepfau";"Andere Unterkünfte";"vorläufig";115;274
+2026;2026;"Winter";4;80232;"Schnepfau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";37;90
+2026;2026;"Winter";4;80232;"Schnepfau";"Privatquartiere";"vorläufig";134;444
+2026;2026;"Winter";4;80232;"Schnepfau";"Andere Unterkünfte";"vorläufig";141;321
 1984;1985;"Winter";11;80233;"Schoppernau";"Gewerbliche Beherbergungsbetriebe";"endgültig";151;467
 1984;1985;"Winter";11;80233;"Schoppernau";"Privatquartiere";"endgültig";78;308
 1984;1985;"Winter";11;80233;"Schoppernau";"Andere Unterkünfte";"endgültig";0;8
@@ -64995,12 +65265,12 @@
 2025;2025;"Sommer";9;80233;"Schoppernau";"Gewerbliche Beherbergungsbetriebe";"endgültig";1862;6813
 2025;2025;"Sommer";9;80233;"Schoppernau";"Privatquartiere";"endgültig";1178;7154
 2025;2025;"Sommer";9;80233;"Schoppernau";"Andere Unterkünfte";"endgültig";192;696
-2025;2025;"Sommer";10;80233;"Schoppernau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1441;4240
-2025;2025;"Sommer";10;80233;"Schoppernau";"Privatquartiere";"vorläufig";873;3796
-2025;2025;"Sommer";10;80233;"Schoppernau";"Andere Unterkünfte";"vorläufig";189;624
-2025;2026;"Winter";11;80233;"Schoppernau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";356;820
-2025;2026;"Winter";11;80233;"Schoppernau";"Privatquartiere";"vorläufig";54;212
-2025;2026;"Winter";11;80233;"Schoppernau";"Andere Unterkünfte";"vorläufig";67;189
+2025;2025;"Sommer";10;80233;"Schoppernau";"Gewerbliche Beherbergungsbetriebe";"endgültig";1441;4240
+2025;2025;"Sommer";10;80233;"Schoppernau";"Privatquartiere";"endgültig";873;3796
+2025;2025;"Sommer";10;80233;"Schoppernau";"Andere Unterkünfte";"endgültig";189;624
+2025;2026;"Winter";11;80233;"Schoppernau";"Gewerbliche Beherbergungsbetriebe";"endgültig";356;820
+2025;2026;"Winter";11;80233;"Schoppernau";"Privatquartiere";"endgültig";54;212
+2025;2026;"Winter";11;80233;"Schoppernau";"Andere Unterkünfte";"endgültig";67;189
 2025;2026;"Winter";12;80233;"Schoppernau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1417;5424
 2025;2026;"Winter";12;80233;"Schoppernau";"Privatquartiere";"vorläufig";1497;7837
 2025;2026;"Winter";12;80233;"Schoppernau";"Andere Unterkünfte";"vorläufig";176;708
@@ -65010,6 +65280,12 @@
 2026;2026;"Winter";2;80233;"Schoppernau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2721;12261
 2026;2026;"Winter";2;80233;"Schoppernau";"Privatquartiere";"vorläufig";2701;17924
 2026;2026;"Winter";2;80233;"Schoppernau";"Andere Unterkünfte";"vorläufig";251;1132
+2026;2026;"Winter";3;80233;"Schoppernau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1584;5451
+2026;2026;"Winter";3;80233;"Schoppernau";"Privatquartiere";"vorläufig";1407;8037
+2026;2026;"Winter";3;80233;"Schoppernau";"Andere Unterkünfte";"vorläufig";238;782
+2026;2026;"Winter";4;80233;"Schoppernau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";335;1264
+2026;2026;"Winter";4;80233;"Schoppernau";"Privatquartiere";"vorläufig";448;2762
+2026;2026;"Winter";4;80233;"Schoppernau";"Andere Unterkünfte";"vorläufig";149;419
 1984;1985;"Winter";12;80234;"Schröcken";"Gewerbliche Beherbergungsbetriebe";"endgültig";477;3092
 1984;1985;"Winter";12;80234;"Schröcken";"Privatquartiere";"endgültig";339;2570
 1985;1985;"Winter";1;80234;"Schröcken";"Gewerbliche Beherbergungsbetriebe";"endgültig";975;4376
@@ -66190,12 +66466,12 @@
 2025;2025;"Sommer";9;80234;"Schröcken";"Gewerbliche Beherbergungsbetriebe";"endgültig";1491;4653
 2025;2025;"Sommer";9;80234;"Schröcken";"Privatquartiere";"endgültig";368;1119
 2025;2025;"Sommer";9;80234;"Schröcken";"Andere Unterkünfte";"endgültig";97;273
-2025;2025;"Sommer";10;80234;"Schröcken";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1192;3801
-2025;2025;"Sommer";10;80234;"Schröcken";"Privatquartiere";"vorläufig";208;614
-2025;2025;"Sommer";10;80234;"Schröcken";"Andere Unterkünfte";"vorläufig";102;276
-2025;2026;"Winter";11;80234;"Schröcken";"Gewerbliche Beherbergungsbetriebe";"vorläufig";150;444
-2025;2026;"Winter";11;80234;"Schröcken";"Privatquartiere";"vorläufig";61;190
-2025;2026;"Winter";11;80234;"Schröcken";"Andere Unterkünfte";"vorläufig";38;91
+2025;2025;"Sommer";10;80234;"Schröcken";"Gewerbliche Beherbergungsbetriebe";"endgültig";1192;3801
+2025;2025;"Sommer";10;80234;"Schröcken";"Privatquartiere";"endgültig";208;614
+2025;2025;"Sommer";10;80234;"Schröcken";"Andere Unterkünfte";"endgültig";102;276
+2025;2026;"Winter";11;80234;"Schröcken";"Gewerbliche Beherbergungsbetriebe";"endgültig";150;444
+2025;2026;"Winter";11;80234;"Schröcken";"Privatquartiere";"endgültig";61;190
+2025;2026;"Winter";11;80234;"Schröcken";"Andere Unterkünfte";"endgültig";38;91
 2025;2026;"Winter";12;80234;"Schröcken";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2485;11217
 2025;2026;"Winter";12;80234;"Schröcken";"Privatquartiere";"vorläufig";809;3516
 2025;2026;"Winter";12;80234;"Schröcken";"Andere Unterkünfte";"vorläufig";88;270
@@ -66205,6 +66481,12 @@
 2026;2026;"Winter";2;80234;"Schröcken";"Gewerbliche Beherbergungsbetriebe";"vorläufig";3776;20251
 2026;2026;"Winter";2;80234;"Schröcken";"Privatquartiere";"vorläufig";1146;6170
 2026;2026;"Winter";2;80234;"Schröcken";"Andere Unterkünfte";"vorläufig";193;482
+2026;2026;"Winter";3;80234;"Schröcken";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2978;14338
+2026;2026;"Winter";3;80234;"Schröcken";"Privatquartiere";"vorläufig";976;5055
+2026;2026;"Winter";3;80234;"Schröcken";"Andere Unterkünfte";"vorläufig";107;389
+2026;2026;"Winter";4;80234;"Schröcken";"Gewerbliche Beherbergungsbetriebe";"vorläufig";972;4751
+2026;2026;"Winter";4;80234;"Schröcken";"Privatquartiere";"vorläufig";257;1692
+2026;2026;"Winter";4;80234;"Schröcken";"Andere Unterkünfte";"vorläufig";72;236
 1984;1985;"Winter";11;80235;"Schwarzach";"Gewerbliche Beherbergungsbetriebe";"endgültig";17;44
 1984;1985;"Winter";11;80235;"Schwarzach";"Privatquartiere";"endgültig";39;150
 1984;1985;"Winter";12;80235;"Schwarzach";"Privatquartiere";"endgültig";17;71
@@ -67832,12 +68114,12 @@
 2025;2025;"Sommer";9;80236;"Schwarzenberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";1248;2806
 2025;2025;"Sommer";9;80236;"Schwarzenberg";"Privatquartiere";"endgültig";407;1927
 2025;2025;"Sommer";9;80236;"Schwarzenberg";"Andere Unterkünfte";"endgültig";107;267
-2025;2025;"Sommer";10;80236;"Schwarzenberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1243;2718
-2025;2025;"Sommer";10;80236;"Schwarzenberg";"Privatquartiere";"vorläufig";568;1955
-2025;2025;"Sommer";10;80236;"Schwarzenberg";"Andere Unterkünfte";"vorläufig";119;230
-2025;2026;"Winter";11;80236;"Schwarzenberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";559;1046
-2025;2026;"Winter";11;80236;"Schwarzenberg";"Privatquartiere";"vorläufig";171;422
-2025;2026;"Winter";11;80236;"Schwarzenberg";"Andere Unterkünfte";"vorläufig";87;254
+2025;2025;"Sommer";10;80236;"Schwarzenberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";1243;2718
+2025;2025;"Sommer";10;80236;"Schwarzenberg";"Privatquartiere";"endgültig";568;1955
+2025;2025;"Sommer";10;80236;"Schwarzenberg";"Andere Unterkünfte";"endgültig";119;230
+2025;2026;"Winter";11;80236;"Schwarzenberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";559;1046
+2025;2026;"Winter";11;80236;"Schwarzenberg";"Privatquartiere";"endgültig";171;422
+2025;2026;"Winter";11;80236;"Schwarzenberg";"Andere Unterkünfte";"endgültig";87;254
 2025;2026;"Winter";12;80236;"Schwarzenberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";984;2700
 2025;2026;"Winter";12;80236;"Schwarzenberg";"Privatquartiere";"vorläufig";405;1573
 2025;2026;"Winter";12;80236;"Schwarzenberg";"Andere Unterkünfte";"vorläufig";174;452
@@ -67847,6 +68129,12 @@
 2026;2026;"Winter";2;80236;"Schwarzenberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1528;4138
 2026;2026;"Winter";2;80236;"Schwarzenberg";"Privatquartiere";"vorläufig";702;3208
 2026;2026;"Winter";2;80236;"Schwarzenberg";"Andere Unterkünfte";"vorläufig";138;594
+2026;2026;"Winter";3;80236;"Schwarzenberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";824;1722
+2026;2026;"Winter";3;80236;"Schwarzenberg";"Privatquartiere";"vorläufig";350;1137
+2026;2026;"Winter";3;80236;"Schwarzenberg";"Andere Unterkünfte";"vorläufig";94;263
+2026;2026;"Winter";4;80236;"Schwarzenberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";651;1369
+2026;2026;"Winter";4;80236;"Schwarzenberg";"Privatquartiere";"vorläufig";414;1284
+2026;2026;"Winter";4;80236;"Schwarzenberg";"Andere Unterkünfte";"vorläufig";81;202
 1984;1985;"Winter";11;80237;"Sibratsgfäll";"Gewerbliche Beherbergungsbetriebe";"endgültig";252;844
 1984;1985;"Winter";11;80237;"Sibratsgfäll";"Privatquartiere";"endgültig";23;109
 1984;1985;"Winter";12;80237;"Sibratsgfäll";"Gewerbliche Beherbergungsbetriebe";"endgültig";440;1791
@@ -69207,12 +69495,12 @@
 2025;2025;"Sommer";9;80237;"Sibratsgfäll";"Gewerbliche Beherbergungsbetriebe";"endgültig";143;537
 2025;2025;"Sommer";9;80237;"Sibratsgfäll";"Privatquartiere";"endgültig";259;1234
 2025;2025;"Sommer";9;80237;"Sibratsgfäll";"Andere Unterkünfte";"endgültig";9;15
-2025;2025;"Sommer";10;80237;"Sibratsgfäll";"Gewerbliche Beherbergungsbetriebe";"vorläufig";84;380
-2025;2025;"Sommer";10;80237;"Sibratsgfäll";"Privatquartiere";"vorläufig";252;843
-2025;2025;"Sommer";10;80237;"Sibratsgfäll";"Andere Unterkünfte";"vorläufig";108;275
-2025;2026;"Winter";11;80237;"Sibratsgfäll";"Gewerbliche Beherbergungsbetriebe";"vorläufig";11;75
-2025;2026;"Winter";11;80237;"Sibratsgfäll";"Privatquartiere";"vorläufig";64;247
-2025;2026;"Winter";11;80237;"Sibratsgfäll";"Andere Unterkünfte";"vorläufig";89;192
+2025;2025;"Sommer";10;80237;"Sibratsgfäll";"Gewerbliche Beherbergungsbetriebe";"endgültig";84;380
+2025;2025;"Sommer";10;80237;"Sibratsgfäll";"Privatquartiere";"endgültig";252;843
+2025;2025;"Sommer";10;80237;"Sibratsgfäll";"Andere Unterkünfte";"endgültig";108;275
+2025;2026;"Winter";11;80237;"Sibratsgfäll";"Gewerbliche Beherbergungsbetriebe";"endgültig";11;75
+2025;2026;"Winter";11;80237;"Sibratsgfäll";"Privatquartiere";"endgültig";64;247
+2025;2026;"Winter";11;80237;"Sibratsgfäll";"Andere Unterkünfte";"endgültig";89;192
 2025;2026;"Winter";12;80237;"Sibratsgfäll";"Gewerbliche Beherbergungsbetriebe";"vorläufig";82;325
 2025;2026;"Winter";12;80237;"Sibratsgfäll";"Privatquartiere";"vorläufig";184;782
 2025;2026;"Winter";12;80237;"Sibratsgfäll";"Andere Unterkünfte";"vorläufig";89;321
@@ -69222,6 +69510,12 @@
 2026;2026;"Winter";2;80237;"Sibratsgfäll";"Gewerbliche Beherbergungsbetriebe";"vorläufig";87;421
 2026;2026;"Winter";2;80237;"Sibratsgfäll";"Privatquartiere";"vorläufig";317;1519
 2026;2026;"Winter";2;80237;"Sibratsgfäll";"Andere Unterkünfte";"vorläufig";135;633
+2026;2026;"Winter";3;80237;"Sibratsgfäll";"Gewerbliche Beherbergungsbetriebe";"vorläufig";40;165
+2026;2026;"Winter";3;80237;"Sibratsgfäll";"Privatquartiere";"vorläufig";117;397
+2026;2026;"Winter";3;80237;"Sibratsgfäll";"Andere Unterkünfte";"vorläufig";130;296
+2026;2026;"Winter";4;80237;"Sibratsgfäll";"Gewerbliche Beherbergungsbetriebe";"vorläufig";69;270
+2026;2026;"Winter";4;80237;"Sibratsgfäll";"Privatquartiere";"vorläufig";167;562
+2026;2026;"Winter";4;80237;"Sibratsgfäll";"Andere Unterkünfte";"vorläufig";122;331
 1984;1985;"Winter";11;80238;"Sulzberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";117;253
 1984;1985;"Winter";11;80238;"Sulzberg";"Privatquartiere";"endgültig";70;277
 1984;1985;"Winter";11;80238;"Sulzberg";"Andere Unterkünfte";"endgültig";142;284
@@ -70633,12 +70927,12 @@
 2025;2025;"Sommer";9;80238;"Sulzberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";463;1301
 2025;2025;"Sommer";9;80238;"Sulzberg";"Privatquartiere";"endgültig";368;1873
 2025;2025;"Sommer";9;80238;"Sulzberg";"Andere Unterkünfte";"endgültig";89;167
-2025;2025;"Sommer";10;80238;"Sulzberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";524;1476
-2025;2025;"Sommer";10;80238;"Sulzberg";"Privatquartiere";"vorläufig";433;1641
-2025;2025;"Sommer";10;80238;"Sulzberg";"Andere Unterkünfte";"vorläufig";61;115
-2025;2026;"Winter";11;80238;"Sulzberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";511;1285
-2025;2026;"Winter";11;80238;"Sulzberg";"Privatquartiere";"vorläufig";132;351
-2025;2026;"Winter";11;80238;"Sulzberg";"Andere Unterkünfte";"vorläufig";2;4
+2025;2025;"Sommer";10;80238;"Sulzberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";524;1476
+2025;2025;"Sommer";10;80238;"Sulzberg";"Privatquartiere";"endgültig";433;1641
+2025;2025;"Sommer";10;80238;"Sulzberg";"Andere Unterkünfte";"endgültig";61;115
+2025;2026;"Winter";11;80238;"Sulzberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";511;1285
+2025;2026;"Winter";11;80238;"Sulzberg";"Privatquartiere";"endgültig";132;351
+2025;2026;"Winter";11;80238;"Sulzberg";"Andere Unterkünfte";"endgültig";2;4
 2025;2026;"Winter";12;80238;"Sulzberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";490;1407
 2025;2026;"Winter";12;80238;"Sulzberg";"Privatquartiere";"vorläufig";299;1184
 2025;2026;"Winter";12;80238;"Sulzberg";"Andere Unterkünfte";"vorläufig";53;159
@@ -70648,6 +70942,12 @@
 2026;2026;"Winter";2;80238;"Sulzberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";475;1194
 2026;2026;"Winter";2;80238;"Sulzberg";"Privatquartiere";"vorläufig";325;1446
 2026;2026;"Winter";2;80238;"Sulzberg";"Andere Unterkünfte";"vorläufig";24;48
+2026;2026;"Winter";3;80238;"Sulzberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";256;659
+2026;2026;"Winter";3;80238;"Sulzberg";"Privatquartiere";"vorläufig";179;579
+2026;2026;"Winter";3;80238;"Sulzberg";"Andere Unterkünfte";"vorläufig";65;130
+2026;2026;"Winter";4;80238;"Sulzberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";504;1450
+2026;2026;"Winter";4;80238;"Sulzberg";"Privatquartiere";"vorläufig";322;1169
+2026;2026;"Winter";4;80238;"Sulzberg";"Andere Unterkünfte";"vorläufig";99;170
 1984;1985;"Winter";12;80239;"Warth";"Gewerbliche Beherbergungsbetriebe";"endgültig";627;4292
 1984;1985;"Winter";12;80239;"Warth";"Privatquartiere";"endgültig";473;2982
 1984;1985;"Winter";12;80239;"Warth";"Andere Unterkünfte";"endgültig";43;340
@@ -71985,11 +72285,11 @@
 2025;2025;"Sommer";9;80239;"Warth";"Gewerbliche Beherbergungsbetriebe";"endgültig";2916;7960
 2025;2025;"Sommer";9;80239;"Warth";"Privatquartiere";"endgültig";230;992
 2025;2025;"Sommer";9;80239;"Warth";"Andere Unterkünfte";"endgültig";33;66
-2025;2025;"Sommer";10;80239;"Warth";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1726;4385
-2025;2025;"Sommer";10;80239;"Warth";"Privatquartiere";"vorläufig";53;235
-2025;2025;"Sommer";10;80239;"Warth";"Andere Unterkünfte";"vorläufig";66;96
-2025;2026;"Winter";11;80239;"Warth";"Gewerbliche Beherbergungsbetriebe";"vorläufig";286;837
-2025;2026;"Winter";11;80239;"Warth";"Privatquartiere";"vorläufig";2;63
+2025;2025;"Sommer";10;80239;"Warth";"Gewerbliche Beherbergungsbetriebe";"endgültig";1726;4385
+2025;2025;"Sommer";10;80239;"Warth";"Privatquartiere";"endgültig";53;235
+2025;2025;"Sommer";10;80239;"Warth";"Andere Unterkünfte";"endgültig";66;96
+2025;2026;"Winter";11;80239;"Warth";"Gewerbliche Beherbergungsbetriebe";"endgültig";286;837
+2025;2026;"Winter";11;80239;"Warth";"Privatquartiere";"endgültig";2;63
 2025;2026;"Winter";12;80239;"Warth";"Gewerbliche Beherbergungsbetriebe";"vorläufig";5718;22983
 2025;2026;"Winter";12;80239;"Warth";"Privatquartiere";"vorläufig";626;2956
 2025;2026;"Winter";12;80239;"Warth";"Andere Unterkünfte";"vorläufig";30;178
@@ -71999,6 +72299,12 @@
 2026;2026;"Winter";2;80239;"Warth";"Gewerbliche Beherbergungsbetriebe";"vorläufig";6673;34778
 2026;2026;"Winter";2;80239;"Warth";"Privatquartiere";"vorläufig";939;6074
 2026;2026;"Winter";2;80239;"Warth";"Andere Unterkünfte";"vorläufig";45;306
+2026;2026;"Winter";3;80239;"Warth";"Gewerbliche Beherbergungsbetriebe";"vorläufig";6037;26561
+2026;2026;"Winter";3;80239;"Warth";"Privatquartiere";"vorläufig";757;4886
+2026;2026;"Winter";3;80239;"Warth";"Andere Unterkünfte";"vorläufig";44;266
+2026;2026;"Winter";4;80239;"Warth";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1547;7695
+2026;2026;"Winter";4;80239;"Warth";"Privatquartiere";"vorläufig";201;1510
+2026;2026;"Winter";4;80239;"Warth";"Andere Unterkünfte";"vorläufig";0;51
 1984;1985;"Winter";11;80240;"Wolfurt";"Gewerbliche Beherbergungsbetriebe";"endgültig";58;132
 1984;1985;"Winter";12;80240;"Wolfurt";"Privatquartiere";"endgültig";4;16
 1985;1985;"Winter";1;80240;"Wolfurt";"Gewerbliche Beherbergungsbetriebe";"endgültig";24;56
@@ -72686,14 +72992,18 @@
 2025;2025;"Sommer";8;80240;"Wolfurt";"Privatquartiere";"endgültig";36;80
 2025;2025;"Sommer";9;80240;"Wolfurt";"Gewerbliche Beherbergungsbetriebe";"endgültig";799;1739
 2025;2025;"Sommer";9;80240;"Wolfurt";"Privatquartiere";"endgültig";24;74
-2025;2025;"Sommer";10;80240;"Wolfurt";"Gewerbliche Beherbergungsbetriebe";"vorläufig";806;1651
-2025;2025;"Sommer";10;80240;"Wolfurt";"Privatquartiere";"vorläufig";10;20
-2025;2026;"Winter";11;80240;"Wolfurt";"Gewerbliche Beherbergungsbetriebe";"vorläufig";581;1212
-2025;2026;"Winter";11;80240;"Wolfurt";"Privatquartiere";"vorläufig";5;5
+2025;2025;"Sommer";10;80240;"Wolfurt";"Gewerbliche Beherbergungsbetriebe";"endgültig";806;1651
+2025;2025;"Sommer";10;80240;"Wolfurt";"Privatquartiere";"endgültig";10;20
+2025;2026;"Winter";11;80240;"Wolfurt";"Gewerbliche Beherbergungsbetriebe";"endgültig";581;1212
+2025;2026;"Winter";11;80240;"Wolfurt";"Privatquartiere";"endgültig";5;5
 2025;2026;"Winter";12;80240;"Wolfurt";"Privatquartiere";"vorläufig";10;33
 2026;2026;"Winter";1;80240;"Wolfurt";"Privatquartiere";"vorläufig";6;25
 2026;2026;"Winter";2;80240;"Wolfurt";"Gewerbliche Beherbergungsbetriebe";"vorläufig";920;1712
 2026;2026;"Winter";2;80240;"Wolfurt";"Privatquartiere";"vorläufig";8;23
+2026;2026;"Winter";3;80240;"Wolfurt";"Gewerbliche Beherbergungsbetriebe";"vorläufig";513;1013
+2026;2026;"Winter";3;80240;"Wolfurt";"Privatquartiere";"vorläufig";2;4
+2026;2026;"Winter";4;80240;"Wolfurt";"Gewerbliche Beherbergungsbetriebe";"vorläufig";706;1410
+2026;2026;"Winter";4;80240;"Wolfurt";"Privatquartiere";"vorläufig";8;18
 1984;1985;"Winter";11;80301;"Dornbirn";"Gewerbliche Beherbergungsbetriebe";"endgültig";2186;4104
 1984;1985;"Winter";11;80301;"Dornbirn";"Privatquartiere";"endgültig";211;884
 1984;1985;"Winter";11;80301;"Dornbirn";"Andere Unterkünfte";"endgültig";108;128
@@ -74156,18 +74466,22 @@
 2025;2025;"Sommer";9;80301;"Dornbirn";"Gewerbliche Beherbergungsbetriebe";"endgültig";14996;28006
 2025;2025;"Sommer";9;80301;"Dornbirn";"Privatquartiere";"endgültig";485;1665
 2025;2025;"Sommer";9;80301;"Dornbirn";"Andere Unterkünfte";"endgültig";1197;2464
-2025;2025;"Sommer";10;80301;"Dornbirn";"Gewerbliche Beherbergungsbetriebe";"vorläufig";14090;25587
-2025;2025;"Sommer";10;80301;"Dornbirn";"Privatquartiere";"vorläufig";1147;3203
-2025;2025;"Sommer";10;80301;"Dornbirn";"Andere Unterkünfte";"vorläufig";817;2171
-2025;2026;"Winter";11;80301;"Dornbirn";"Gewerbliche Beherbergungsbetriebe";"vorläufig";10827;19624
-2025;2026;"Winter";11;80301;"Dornbirn";"Privatquartiere";"vorläufig";249;741
-2025;2026;"Winter";11;80301;"Dornbirn";"Andere Unterkünfte";"vorläufig";1;3
+2025;2025;"Sommer";10;80301;"Dornbirn";"Gewerbliche Beherbergungsbetriebe";"endgültig";14090;25587
+2025;2025;"Sommer";10;80301;"Dornbirn";"Privatquartiere";"endgültig";1147;3203
+2025;2025;"Sommer";10;80301;"Dornbirn";"Andere Unterkünfte";"endgültig";817;2171
+2025;2026;"Winter";11;80301;"Dornbirn";"Gewerbliche Beherbergungsbetriebe";"endgültig";10827;19624
+2025;2026;"Winter";11;80301;"Dornbirn";"Privatquartiere";"endgültig";249;741
+2025;2026;"Winter";11;80301;"Dornbirn";"Andere Unterkünfte";"endgültig";1;3
 2025;2026;"Winter";12;80301;"Dornbirn";"Gewerbliche Beherbergungsbetriebe";"vorläufig";7298;13940
 2025;2026;"Winter";12;80301;"Dornbirn";"Privatquartiere";"vorläufig";624;2053
 2026;2026;"Winter";1;80301;"Dornbirn";"Gewerbliche Beherbergungsbetriebe";"vorläufig";6654;12283
 2026;2026;"Winter";1;80301;"Dornbirn";"Privatquartiere";"vorläufig";434;1524
 2026;2026;"Winter";2;80301;"Dornbirn";"Gewerbliche Beherbergungsbetriebe";"vorläufig";8314;14550
 2026;2026;"Winter";2;80301;"Dornbirn";"Privatquartiere";"vorläufig";562;2058
+2026;2026;"Winter";3;80301;"Dornbirn";"Gewerbliche Beherbergungsbetriebe";"vorläufig";7106;12499
+2026;2026;"Winter";3;80301;"Dornbirn";"Privatquartiere";"vorläufig";441;1366
+2026;2026;"Winter";4;80301;"Dornbirn";"Gewerbliche Beherbergungsbetriebe";"vorläufig";8470;16036
+2026;2026;"Winter";4;80301;"Dornbirn";"Privatquartiere";"vorläufig";894;2371
 1984;1985;"Winter";11;80302;"Hohenems";"Gewerbliche Beherbergungsbetriebe";"endgültig";424;1621
 1984;1985;"Winter";11;80302;"Hohenems";"Privatquartiere";"endgültig";42;210
 1984;1985;"Winter";12;80302;"Hohenems";"Gewerbliche Beherbergungsbetriebe";"endgültig";299;1476
@@ -75399,12 +75713,12 @@
 2025;2025;"Sommer";9;80302;"Hohenems";"Gewerbliche Beherbergungsbetriebe";"endgültig";3416;6506
 2025;2025;"Sommer";9;80302;"Hohenems";"Privatquartiere";"endgültig";97;237
 2025;2025;"Sommer";9;80302;"Hohenems";"Andere Unterkünfte";"endgültig";154;686
-2025;2025;"Sommer";10;80302;"Hohenems";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2902;5593
-2025;2025;"Sommer";10;80302;"Hohenems";"Privatquartiere";"vorläufig";150;442
-2025;2025;"Sommer";10;80302;"Hohenems";"Andere Unterkünfte";"vorläufig";13;13
-2025;2026;"Winter";11;80302;"Hohenems";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1949;3820
-2025;2026;"Winter";11;80302;"Hohenems";"Privatquartiere";"vorläufig";47;131
-2025;2026;"Winter";11;80302;"Hohenems";"Andere Unterkünfte";"vorläufig";1;1
+2025;2025;"Sommer";10;80302;"Hohenems";"Gewerbliche Beherbergungsbetriebe";"endgültig";2902;5593
+2025;2025;"Sommer";10;80302;"Hohenems";"Privatquartiere";"endgültig";150;442
+2025;2025;"Sommer";10;80302;"Hohenems";"Andere Unterkünfte";"endgültig";13;13
+2025;2026;"Winter";11;80302;"Hohenems";"Gewerbliche Beherbergungsbetriebe";"endgültig";1949;3820
+2025;2026;"Winter";11;80302;"Hohenems";"Privatquartiere";"endgültig";47;131
+2025;2026;"Winter";11;80302;"Hohenems";"Andere Unterkünfte";"endgültig";1;1
 2025;2026;"Winter";12;80302;"Hohenems";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2083;3588
 2025;2026;"Winter";12;80302;"Hohenems";"Privatquartiere";"vorläufig";89;217
 2026;2026;"Winter";1;80302;"Hohenems";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1934;3509
@@ -75412,6 +75726,11 @@
 2026;2026;"Winter";2;80302;"Hohenems";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2299;3931
 2026;2026;"Winter";2;80302;"Hohenems";"Privatquartiere";"vorläufig";97;310
 2026;2026;"Winter";2;80302;"Hohenems";"Andere Unterkünfte";"vorläufig";6;6
+2026;2026;"Winter";3;80302;"Hohenems";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1994;3280
+2026;2026;"Winter";3;80302;"Hohenems";"Privatquartiere";"vorläufig";77;253
+2026;2026;"Winter";4;80302;"Hohenems";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2405;5205
+2026;2026;"Winter";4;80302;"Hohenems";"Privatquartiere";"vorläufig";85;235
+2026;2026;"Winter";4;80302;"Hohenems";"Andere Unterkünfte";"vorläufig";14;14
 1984;1985;"Winter";11;80303;"Lustenau";"Gewerbliche Beherbergungsbetriebe";"endgültig";1324;2472
 1984;1985;"Winter";11;80303;"Lustenau";"Privatquartiere";"endgültig";65;145
 1984;1985;"Winter";12;80303;"Lustenau";"Gewerbliche Beherbergungsbetriebe";"endgültig";1147;2679
@@ -75956,12 +76275,16 @@
 2025;2025;"Sommer";7;80303;"Lustenau";"Gewerbliche Beherbergungsbetriebe";"endgültig";8404;13811
 2025;2025;"Sommer";8;80303;"Lustenau";"Gewerbliche Beherbergungsbetriebe";"endgültig";8421;13899
 2025;2025;"Sommer";9;80303;"Lustenau";"Gewerbliche Beherbergungsbetriebe";"endgültig";6953;11106
-2025;2025;"Sommer";10;80303;"Lustenau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";5859;9354
-2025;2026;"Winter";11;80303;"Lustenau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2392;3791
+2025;2025;"Sommer";10;80303;"Lustenau";"Gewerbliche Beherbergungsbetriebe";"endgültig";5859;9354
+2025;2026;"Winter";11;80303;"Lustenau";"Gewerbliche Beherbergungsbetriebe";"endgültig";2392;3791
 2025;2026;"Winter";12;80303;"Lustenau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";4455;7395
 2026;2026;"Winter";1;80303;"Lustenau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";4025;6508
 2026;2026;"Winter";2;80303;"Lustenau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";4501;7073
 2026;2026;"Winter";2;80303;"Lustenau";"Privatquartiere";"vorläufig";57;226
+2026;2026;"Winter";3;80303;"Lustenau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";3603;5785
+2026;2026;"Winter";3;80303;"Lustenau";"Privatquartiere";"vorläufig";18;144
+2026;2026;"Winter";4;80303;"Lustenau";"Gewerbliche Beherbergungsbetriebe";"vorläufig";4413;7699
+2026;2026;"Winter";4;80303;"Lustenau";"Privatquartiere";"vorläufig";94;296
 1984;1985;"Winter";11;80401;"Altach";"Gewerbliche Beherbergungsbetriebe";"endgültig";21;34
 1984;1985;"Winter";12;80401;"Altach";"Gewerbliche Beherbergungsbetriebe";"endgültig";14;41
 1985;1985;"Winter";1;80401;"Altach";"Gewerbliche Beherbergungsbetriebe";"endgültig";29;72
@@ -76666,16 +76989,20 @@
 2025;2025;"Sommer";8;80401;"Altach";"Privatquartiere";"endgültig";42;143
 2025;2025;"Sommer";9;80401;"Altach";"Gewerbliche Beherbergungsbetriebe";"endgültig";36;104
 2025;2025;"Sommer";9;80401;"Altach";"Privatquartiere";"endgültig";27;138
-2025;2025;"Sommer";10;80401;"Altach";"Gewerbliche Beherbergungsbetriebe";"vorläufig";43;149
-2025;2025;"Sommer";10;80401;"Altach";"Privatquartiere";"vorläufig";18;65
-2025;2026;"Winter";11;80401;"Altach";"Gewerbliche Beherbergungsbetriebe";"vorläufig";54;158
-2025;2026;"Winter";11;80401;"Altach";"Privatquartiere";"vorläufig";1;2
+2025;2025;"Sommer";10;80401;"Altach";"Gewerbliche Beherbergungsbetriebe";"endgültig";43;149
+2025;2025;"Sommer";10;80401;"Altach";"Privatquartiere";"endgültig";18;65
+2025;2026;"Winter";11;80401;"Altach";"Gewerbliche Beherbergungsbetriebe";"endgültig";54;158
+2025;2026;"Winter";11;80401;"Altach";"Privatquartiere";"endgültig";1;2
 2025;2026;"Winter";12;80401;"Altach";"Gewerbliche Beherbergungsbetriebe";"vorläufig";40;103
 2025;2026;"Winter";12;80401;"Altach";"Privatquartiere";"vorläufig";6;16
 2026;2026;"Winter";1;80401;"Altach";"Gewerbliche Beherbergungsbetriebe";"vorläufig";35;91
 2026;2026;"Winter";1;80401;"Altach";"Privatquartiere";"vorläufig";5;21
 2026;2026;"Winter";2;80401;"Altach";"Gewerbliche Beherbergungsbetriebe";"vorläufig";31;157
 2026;2026;"Winter";2;80401;"Altach";"Privatquartiere";"vorläufig";24;68
+2026;2026;"Winter";3;80401;"Altach";"Gewerbliche Beherbergungsbetriebe";"vorläufig";44;198
+2026;2026;"Winter";3;80401;"Altach";"Privatquartiere";"vorläufig";5;12
+2026;2026;"Winter";4;80401;"Altach";"Gewerbliche Beherbergungsbetriebe";"vorläufig";55;214
+2026;2026;"Winter";4;80401;"Altach";"Privatquartiere";"vorläufig";5;13
 1984;1985;"Winter";12;80402;"Düns";"Privatquartiere";"endgültig";176;553
 1985;1985;"Winter";2;80402;"Düns";"Privatquartiere";"endgültig";65;221
 1985;1985;"Winter";3;80402;"Düns";"Privatquartiere";"endgültig";27;96
@@ -77700,15 +78027,18 @@
 2025;2025;"Sommer";8;80403;"Dünserberg";"Andere Unterkünfte";"endgültig";72;248
 2025;2025;"Sommer";9;80403;"Dünserberg";"Privatquartiere";"endgültig";33;92
 2025;2025;"Sommer";9;80403;"Dünserberg";"Andere Unterkünfte";"endgültig";95;251
-2025;2025;"Sommer";10;80403;"Dünserberg";"Privatquartiere";"vorläufig";37;91
-2025;2025;"Sommer";10;80403;"Dünserberg";"Andere Unterkünfte";"vorläufig";66;165
-2025;2026;"Winter";11;80403;"Dünserberg";"Privatquartiere";"vorläufig";6;41
-2025;2026;"Winter";11;80403;"Dünserberg";"Andere Unterkünfte";"vorläufig";0;14
+2025;2025;"Sommer";10;80403;"Dünserberg";"Privatquartiere";"endgültig";37;91
+2025;2025;"Sommer";10;80403;"Dünserberg";"Andere Unterkünfte";"endgültig";66;165
+2025;2026;"Winter";11;80403;"Dünserberg";"Privatquartiere";"endgültig";6;41
+2025;2026;"Winter";11;80403;"Dünserberg";"Andere Unterkünfte";"endgültig";0;14
 2025;2026;"Winter";12;80403;"Dünserberg";"Privatquartiere";"vorläufig";25;60
 2025;2026;"Winter";12;80403;"Dünserberg";"Andere Unterkünfte";"vorläufig";4;28
 2026;2026;"Winter";1;80403;"Dünserberg";"Privatquartiere";"vorläufig";30;118
 2026;2026;"Winter";2;80403;"Dünserberg";"Privatquartiere";"vorläufig";29;115
 2026;2026;"Winter";2;80403;"Dünserberg";"Andere Unterkünfte";"vorläufig";29;87
+2026;2026;"Winter";3;80403;"Dünserberg";"Privatquartiere";"vorläufig";20;34
+2026;2026;"Winter";3;80403;"Dünserberg";"Andere Unterkünfte";"vorläufig";15;30
+2026;2026;"Winter";4;80403;"Dünserberg";"Privatquartiere";"vorläufig";58;173
 1984;1985;"Winter";11;80404;"Feldkirch";"Gewerbliche Beherbergungsbetriebe";"endgültig";2764;4606
 1984;1985;"Winter";12;80404;"Feldkirch";"Gewerbliche Beherbergungsbetriebe";"endgültig";2935;6750
 1985;1985;"Winter";1;80404;"Feldkirch";"Gewerbliche Beherbergungsbetriebe";"endgültig";3064;5029
@@ -79137,12 +79467,12 @@
 2025;2025;"Sommer";9;80404;"Feldkirch";"Gewerbliche Beherbergungsbetriebe";"endgültig";11771;24523
 2025;2025;"Sommer";9;80404;"Feldkirch";"Privatquartiere";"endgültig";451;1191
 2025;2025;"Sommer";9;80404;"Feldkirch";"Andere Unterkünfte";"endgültig";745;1867
-2025;2025;"Sommer";10;80404;"Feldkirch";"Gewerbliche Beherbergungsbetriebe";"vorläufig";9755;19111
-2025;2025;"Sommer";10;80404;"Feldkirch";"Privatquartiere";"vorläufig";488;1314
-2025;2025;"Sommer";10;80404;"Feldkirch";"Andere Unterkünfte";"vorläufig";320;705
-2025;2026;"Winter";11;80404;"Feldkirch";"Gewerbliche Beherbergungsbetriebe";"vorläufig";6666;13207
-2025;2026;"Winter";11;80404;"Feldkirch";"Privatquartiere";"vorläufig";252;684
-2025;2026;"Winter";11;80404;"Feldkirch";"Andere Unterkünfte";"vorläufig";4;7
+2025;2025;"Sommer";10;80404;"Feldkirch";"Gewerbliche Beherbergungsbetriebe";"endgültig";9755;19111
+2025;2025;"Sommer";10;80404;"Feldkirch";"Privatquartiere";"endgültig";488;1314
+2025;2025;"Sommer";10;80404;"Feldkirch";"Andere Unterkünfte";"endgültig";320;705
+2025;2026;"Winter";11;80404;"Feldkirch";"Gewerbliche Beherbergungsbetriebe";"endgültig";6666;13207
+2025;2026;"Winter";11;80404;"Feldkirch";"Privatquartiere";"endgültig";252;684
+2025;2026;"Winter";11;80404;"Feldkirch";"Andere Unterkünfte";"endgültig";4;7
 2025;2026;"Winter";12;80404;"Feldkirch";"Gewerbliche Beherbergungsbetriebe";"vorläufig";6509;13937
 2025;2026;"Winter";12;80404;"Feldkirch";"Privatquartiere";"vorläufig";276;772
 2026;2026;"Winter";1;80404;"Feldkirch";"Gewerbliche Beherbergungsbetriebe";"vorläufig";10000;22930
@@ -79150,6 +79480,12 @@
 2026;2026;"Winter";1;80404;"Feldkirch";"Andere Unterkünfte";"vorläufig";3;4
 2026;2026;"Winter";2;80404;"Feldkirch";"Gewerbliche Beherbergungsbetriebe";"vorläufig";11824;26239
 2026;2026;"Winter";2;80404;"Feldkirch";"Privatquartiere";"vorläufig";408;1008
+2026;2026;"Winter";3;80404;"Feldkirch";"Gewerbliche Beherbergungsbetriebe";"vorläufig";9680;20887
+2026;2026;"Winter";3;80404;"Feldkirch";"Privatquartiere";"vorläufig";247;696
+2026;2026;"Winter";3;80404;"Feldkirch";"Andere Unterkünfte";"vorläufig";4;7
+2026;2026;"Winter";4;80404;"Feldkirch";"Gewerbliche Beherbergungsbetriebe";"vorläufig";8899;17655
+2026;2026;"Winter";4;80404;"Feldkirch";"Privatquartiere";"vorläufig";537;1382
+2026;2026;"Winter";4;80404;"Feldkirch";"Andere Unterkünfte";"vorläufig";494;1295
 1984;1985;"Winter";11;80405;"Frastanz";"Gewerbliche Beherbergungsbetriebe";"endgültig";4;4
 1984;1985;"Winter";11;80405;"Frastanz";"Privatquartiere";"endgültig";102;257
 1984;1985;"Winter";12;80405;"Frastanz";"Gewerbliche Beherbergungsbetriebe";"endgültig";146;310
@@ -80546,12 +80882,12 @@
 2025;2025;"Sommer";9;80405;"Frastanz";"Gewerbliche Beherbergungsbetriebe";"endgültig";204;423
 2025;2025;"Sommer";9;80405;"Frastanz";"Privatquartiere";"endgültig";51;237
 2025;2025;"Sommer";9;80405;"Frastanz";"Andere Unterkünfte";"endgültig";106;289
-2025;2025;"Sommer";10;80405;"Frastanz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";473;689
-2025;2025;"Sommer";10;80405;"Frastanz";"Privatquartiere";"vorläufig";25;90
-2025;2025;"Sommer";10;80405;"Frastanz";"Andere Unterkünfte";"vorläufig";105;166
-2025;2026;"Winter";11;80405;"Frastanz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";398;570
-2025;2026;"Winter";11;80405;"Frastanz";"Privatquartiere";"vorläufig";5;20
-2025;2026;"Winter";11;80405;"Frastanz";"Andere Unterkünfte";"vorläufig";114;172
+2025;2025;"Sommer";10;80405;"Frastanz";"Gewerbliche Beherbergungsbetriebe";"endgültig";473;689
+2025;2025;"Sommer";10;80405;"Frastanz";"Privatquartiere";"endgültig";25;90
+2025;2025;"Sommer";10;80405;"Frastanz";"Andere Unterkünfte";"endgültig";105;166
+2025;2026;"Winter";11;80405;"Frastanz";"Gewerbliche Beherbergungsbetriebe";"endgültig";398;570
+2025;2026;"Winter";11;80405;"Frastanz";"Privatquartiere";"endgültig";5;20
+2025;2026;"Winter";11;80405;"Frastanz";"Andere Unterkünfte";"endgültig";114;172
 2025;2026;"Winter";12;80405;"Frastanz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";105;237
 2025;2026;"Winter";12;80405;"Frastanz";"Privatquartiere";"vorläufig";18;135
 2025;2026;"Winter";12;80405;"Frastanz";"Andere Unterkünfte";"vorläufig";69;177
@@ -80561,6 +80897,12 @@
 2026;2026;"Winter";2;80405;"Frastanz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";503;832
 2026;2026;"Winter";2;80405;"Frastanz";"Privatquartiere";"vorläufig";42;181
 2026;2026;"Winter";2;80405;"Frastanz";"Andere Unterkünfte";"vorläufig";177;368
+2026;2026;"Winter";3;80405;"Frastanz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";233;375
+2026;2026;"Winter";3;80405;"Frastanz";"Privatquartiere";"vorläufig";13;56
+2026;2026;"Winter";3;80405;"Frastanz";"Andere Unterkünfte";"vorläufig";112;151
+2026;2026;"Winter";4;80405;"Frastanz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";478;711
+2026;2026;"Winter";4;80405;"Frastanz";"Privatquartiere";"vorläufig";25;98
+2026;2026;"Winter";4;80405;"Frastanz";"Andere Unterkünfte";"vorläufig";72;182
 1984;1985;"Winter";11;80406;"Fraxern";"Privatquartiere";"endgültig";3;9
 1984;1985;"Winter";12;80406;"Fraxern";"Privatquartiere";"endgültig";4;40
 1985;1985;"Winter";3;80406;"Fraxern";"Privatquartiere";"endgültig";8;44
@@ -82773,12 +83115,12 @@
 2025;2025;"Sommer";9;80408;"Götzis";"Gewerbliche Beherbergungsbetriebe";"endgültig";1772;3486
 2025;2025;"Sommer";9;80408;"Götzis";"Privatquartiere";"endgültig";36;88
 2025;2025;"Sommer";9;80408;"Götzis";"Andere Unterkünfte";"endgültig";688;1468
-2025;2025;"Sommer";10;80408;"Götzis";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1559;3117
-2025;2025;"Sommer";10;80408;"Götzis";"Privatquartiere";"vorläufig";36;110
-2025;2025;"Sommer";10;80408;"Götzis";"Andere Unterkünfte";"vorläufig";570;1221
-2025;2026;"Winter";11;80408;"Götzis";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1200;2563
-2025;2026;"Winter";11;80408;"Götzis";"Privatquartiere";"vorläufig";24;132
-2025;2026;"Winter";11;80408;"Götzis";"Andere Unterkünfte";"vorläufig";543;786
+2025;2025;"Sommer";10;80408;"Götzis";"Gewerbliche Beherbergungsbetriebe";"endgültig";1559;3117
+2025;2025;"Sommer";10;80408;"Götzis";"Privatquartiere";"endgültig";36;110
+2025;2025;"Sommer";10;80408;"Götzis";"Andere Unterkünfte";"endgültig";570;1221
+2025;2026;"Winter";11;80408;"Götzis";"Gewerbliche Beherbergungsbetriebe";"endgültig";1200;2563
+2025;2026;"Winter";11;80408;"Götzis";"Privatquartiere";"endgültig";24;132
+2025;2026;"Winter";11;80408;"Götzis";"Andere Unterkünfte";"endgültig";543;786
 2025;2026;"Winter";12;80408;"Götzis";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1201;2283
 2025;2026;"Winter";12;80408;"Götzis";"Privatquartiere";"vorläufig";43;115
 2025;2026;"Winter";12;80408;"Götzis";"Andere Unterkünfte";"vorläufig";226;477
@@ -82788,6 +83130,12 @@
 2026;2026;"Winter";2;80408;"Götzis";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1405;2502
 2026;2026;"Winter";2;80408;"Götzis";"Privatquartiere";"vorläufig";21;104
 2026;2026;"Winter";2;80408;"Götzis";"Andere Unterkünfte";"vorläufig";390;842
+2026;2026;"Winter";3;80408;"Götzis";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1479;2554
+2026;2026;"Winter";3;80408;"Götzis";"Privatquartiere";"vorläufig";14;25
+2026;2026;"Winter";3;80408;"Götzis";"Andere Unterkünfte";"vorläufig";440;733
+2026;2026;"Winter";4;80408;"Götzis";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1331;2452
+2026;2026;"Winter";4;80408;"Götzis";"Privatquartiere";"vorläufig";48;142
+2026;2026;"Winter";4;80408;"Götzis";"Andere Unterkünfte";"vorläufig";327;593
 1984;1985;"Winter";11;80409;"Klaus";"Gewerbliche Beherbergungsbetriebe";"endgültig";19;19
 1984;1985;"Winter";12;80409;"Klaus";"Gewerbliche Beherbergungsbetriebe";"endgültig";56;152
 1984;1985;"Winter";12;80409;"Klaus";"Privatquartiere";"endgültig";21;123
@@ -83715,13 +84063,16 @@
 2025;2025;"Sommer";8;80409;"Klaus";"Gewerbliche Beherbergungsbetriebe";"endgültig";252;823
 2025;2025;"Sommer";8;80409;"Klaus";"Privatquartiere";"endgültig";165;726
 2025;2025;"Sommer";9;80409;"Klaus";"Privatquartiere";"endgültig";101;375
-2025;2025;"Sommer";10;80409;"Klaus";"Privatquartiere";"vorläufig";90;366
-2025;2026;"Winter";11;80409;"Klaus";"Privatquartiere";"vorläufig";48;213
+2025;2025;"Sommer";10;80409;"Klaus";"Privatquartiere";"endgültig";90;366
+2025;2026;"Winter";11;80409;"Klaus";"Privatquartiere";"endgültig";48;213
 2025;2026;"Winter";12;80409;"Klaus";"Privatquartiere";"vorläufig";124;551
 2026;2026;"Winter";1;80409;"Klaus";"Gewerbliche Beherbergungsbetriebe";"vorläufig";152;280
 2026;2026;"Winter";1;80409;"Klaus";"Privatquartiere";"vorläufig";158;513
 2026;2026;"Winter";2;80409;"Klaus";"Gewerbliche Beherbergungsbetriebe";"vorläufig";40;113
 2026;2026;"Winter";2;80409;"Klaus";"Privatquartiere";"vorläufig";75;360
+2026;2026;"Winter";3;80409;"Klaus";"Privatquartiere";"vorläufig";101;435
+2026;2026;"Winter";4;80409;"Klaus";"Gewerbliche Beherbergungsbetriebe";"vorläufig";26;42
+2026;2026;"Winter";4;80409;"Klaus";"Privatquartiere";"vorläufig";132;352
 1984;1985;"Winter";11;80410;"Koblach";"Gewerbliche Beherbergungsbetriebe";"endgültig";23;157
 1984;1985;"Winter";12;80410;"Koblach";"Gewerbliche Beherbergungsbetriebe";"endgültig";26;170
 1984;1985;"Winter";12;80410;"Koblach";"Privatquartiere";"endgültig";1;21
@@ -85496,12 +85847,12 @@
 2025;2025;"Sommer";9;80411;"Laterns";"Gewerbliche Beherbergungsbetriebe";"endgültig";753;1855
 2025;2025;"Sommer";9;80411;"Laterns";"Privatquartiere";"endgültig";25;214
 2025;2025;"Sommer";9;80411;"Laterns";"Andere Unterkünfte";"endgültig";206;412
-2025;2025;"Sommer";10;80411;"Laterns";"Gewerbliche Beherbergungsbetriebe";"vorläufig";656;1553
-2025;2025;"Sommer";10;80411;"Laterns";"Privatquartiere";"vorläufig";28;161
-2025;2025;"Sommer";10;80411;"Laterns";"Andere Unterkünfte";"vorläufig";259;518
-2025;2026;"Winter";11;80411;"Laterns";"Gewerbliche Beherbergungsbetriebe";"vorläufig";24;79
-2025;2026;"Winter";11;80411;"Laterns";"Privatquartiere";"vorläufig";13;42
-2025;2026;"Winter";11;80411;"Laterns";"Andere Unterkünfte";"vorläufig";17;59
+2025;2025;"Sommer";10;80411;"Laterns";"Gewerbliche Beherbergungsbetriebe";"endgültig";656;1553
+2025;2025;"Sommer";10;80411;"Laterns";"Privatquartiere";"endgültig";28;161
+2025;2025;"Sommer";10;80411;"Laterns";"Andere Unterkünfte";"endgültig";259;518
+2025;2026;"Winter";11;80411;"Laterns";"Gewerbliche Beherbergungsbetriebe";"endgültig";24;79
+2025;2026;"Winter";11;80411;"Laterns";"Privatquartiere";"endgültig";13;42
+2025;2026;"Winter";11;80411;"Laterns";"Andere Unterkünfte";"endgültig";17;59
 2025;2026;"Winter";12;80411;"Laterns";"Gewerbliche Beherbergungsbetriebe";"vorläufig";618;1950
 2025;2026;"Winter";12;80411;"Laterns";"Privatquartiere";"vorläufig";108;468
 2025;2026;"Winter";12;80411;"Laterns";"Andere Unterkünfte";"vorläufig";113;270
@@ -85511,6 +85862,12 @@
 2026;2026;"Winter";2;80411;"Laterns";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1219;3920
 2026;2026;"Winter";2;80411;"Laterns";"Privatquartiere";"vorläufig";172;607
 2026;2026;"Winter";2;80411;"Laterns";"Andere Unterkünfte";"vorläufig";717;2145
+2026;2026;"Winter";3;80411;"Laterns";"Gewerbliche Beherbergungsbetriebe";"vorläufig";569;1704
+2026;2026;"Winter";3;80411;"Laterns";"Privatquartiere";"vorläufig";72;225
+2026;2026;"Winter";3;80411;"Laterns";"Andere Unterkünfte";"vorläufig";451;1224
+2026;2026;"Winter";4;80411;"Laterns";"Gewerbliche Beherbergungsbetriebe";"vorläufig";165;421
+2026;2026;"Winter";4;80411;"Laterns";"Privatquartiere";"vorläufig";94;271
+2026;2026;"Winter";4;80411;"Laterns";"Andere Unterkünfte";"vorläufig";63;126
 1984;1985;"Winter";11;80414;"Rankweil";"Gewerbliche Beherbergungsbetriebe";"endgültig";131;247
 1984;1985;"Winter";11;80414;"Rankweil";"Privatquartiere";"endgültig";2;40
 1984;1985;"Winter";12;80414;"Rankweil";"Gewerbliche Beherbergungsbetriebe";"endgültig";205;563
@@ -86455,16 +86812,20 @@
 2025;2025;"Sommer";8;80414;"Rankweil";"Privatquartiere";"endgültig";23;73
 2025;2025;"Sommer";9;80414;"Rankweil";"Gewerbliche Beherbergungsbetriebe";"endgültig";2208;3814
 2025;2025;"Sommer";9;80414;"Rankweil";"Privatquartiere";"endgültig";23;77
-2025;2025;"Sommer";10;80414;"Rankweil";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2517;4056
-2025;2025;"Sommer";10;80414;"Rankweil";"Privatquartiere";"vorläufig";28;106
-2025;2026;"Winter";11;80414;"Rankweil";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2047;3515
-2025;2026;"Winter";11;80414;"Rankweil";"Privatquartiere";"vorläufig";21;51
+2025;2025;"Sommer";10;80414;"Rankweil";"Gewerbliche Beherbergungsbetriebe";"endgültig";2517;4056
+2025;2025;"Sommer";10;80414;"Rankweil";"Privatquartiere";"endgültig";28;106
+2025;2026;"Winter";11;80414;"Rankweil";"Gewerbliche Beherbergungsbetriebe";"endgültig";2047;3515
+2025;2026;"Winter";11;80414;"Rankweil";"Privatquartiere";"endgültig";21;51
 2025;2026;"Winter";12;80414;"Rankweil";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1894;3224
 2025;2026;"Winter";12;80414;"Rankweil";"Privatquartiere";"vorläufig";22;61
 2026;2026;"Winter";1;80414;"Rankweil";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1960;3412
 2026;2026;"Winter";1;80414;"Rankweil";"Privatquartiere";"vorläufig";23;73
 2026;2026;"Winter";2;80414;"Rankweil";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2185;4009
 2026;2026;"Winter";2;80414;"Rankweil";"Privatquartiere";"vorläufig";44;127
+2026;2026;"Winter";3;80414;"Rankweil";"Gewerbliche Beherbergungsbetriebe";"vorläufig";1863;3429
+2026;2026;"Winter";3;80414;"Rankweil";"Privatquartiere";"vorläufig";29;119
+2026;2026;"Winter";4;80414;"Rankweil";"Gewerbliche Beherbergungsbetriebe";"vorläufig";2085;3261
+2026;2026;"Winter";4;80414;"Rankweil";"Privatquartiere";"vorläufig";35;117
 1984;1985;"Winter";11;80416;"Röthis";"Gewerbliche Beherbergungsbetriebe";"endgültig";57;95
 1984;1985;"Winter";11;80416;"Röthis";"Privatquartiere";"endgültig";10;26
 1984;1985;"Winter";12;80416;"Röthis";"Gewerbliche Beherbergungsbetriebe";"endgültig";131;661
@@ -87057,11 +87418,13 @@
 2025;2025;"Sommer";7;80416;"Röthis";"Gewerbliche Beherbergungsbetriebe";"endgültig";531;828
 2025;2025;"Sommer";8;80416;"Röthis";"Gewerbliche Beherbergungsbetriebe";"endgültig";536;1053
 2025;2025;"Sommer";9;80416;"Röthis";"Gewerbliche Beherbergungsbetriebe";"endgültig";402;746
-2025;2025;"Sommer";10;80416;"Röthis";"Gewerbliche Beherbergungsbetriebe";"vorläufig";227;468
-2025;2026;"Winter";11;80416;"Röthis";"Gewerbliche Beherbergungsbetriebe";"vorläufig";172;325
+2025;2025;"Sommer";10;80416;"Röthis";"Gewerbliche Beherbergungsbetriebe";"endgültig";227;468
+2025;2026;"Winter";11;80416;"Röthis";"Gewerbliche Beherbergungsbetriebe";"endgültig";172;325
 2025;2026;"Winter";12;80416;"Röthis";"Gewerbliche Beherbergungsbetriebe";"vorläufig";228;375
 2026;2026;"Winter";1;80416;"Röthis";"Gewerbliche Beherbergungsbetriebe";"vorläufig";184;317
 2026;2026;"Winter";2;80416;"Röthis";"Gewerbliche Beherbergungsbetriebe";"vorläufig";372;608
+2026;2026;"Winter";3;80416;"Röthis";"Gewerbliche Beherbergungsbetriebe";"vorläufig";305;488
+2026;2026;"Winter";4;80416;"Röthis";"Gewerbliche Beherbergungsbetriebe";"vorläufig";310;674
 1984;1985;"Winter";12;80418;"Schlins";"Gewerbliche Beherbergungsbetriebe";"endgültig";72;271
 1984;1985;"Winter";12;80418;"Schlins";"Privatquartiere";"endgültig";32;207
 1985;1985;"Winter";1;80418;"Schlins";"Gewerbliche Beherbergungsbetriebe";"endgültig";75;315
@@ -87788,11 +88151,13 @@
 2025;2025;"Sommer";7;80418;"Schlins";"Privatquartiere";"endgültig";23;114
 2025;2025;"Sommer";8;80418;"Schlins";"Privatquartiere";"endgültig";24;100
 2025;2025;"Sommer";9;80418;"Schlins";"Privatquartiere";"endgültig";5;50
-2025;2025;"Sommer";10;80418;"Schlins";"Privatquartiere";"vorläufig";14;67
-2025;2026;"Winter";11;80418;"Schlins";"Privatquartiere";"vorläufig";7;36
+2025;2025;"Sommer";10;80418;"Schlins";"Privatquartiere";"endgültig";14;67
+2025;2026;"Winter";11;80418;"Schlins";"Privatquartiere";"endgültig";7;36
 2025;2026;"Winter";12;80418;"Schlins";"Privatquartiere";"vorläufig";7;23
 2026;2026;"Winter";1;80418;"Schlins";"Privatquartiere";"vorläufig";4;21
 2026;2026;"Winter";2;80418;"Schlins";"Privatquartiere";"vorläufig";36;125
+2026;2026;"Winter";3;80418;"Schlins";"Privatquartiere";"vorläufig";5;49
+2026;2026;"Winter";4;80418;"Schlins";"Privatquartiere";"vorläufig";11;42
 1984;1985;"Winter";12;80419;"Schnifis";"Gewerbliche Beherbergungsbetriebe";"endgültig";54;160
 1985;1985;"Winter";1;80419;"Schnifis";"Privatquartiere";"endgültig";6;48
 1985;1985;"Winter";2;80419;"Schnifis";"Gewerbliche Beherbergungsbetriebe";"endgültig";92;150
@@ -88196,11 +88561,13 @@
 2025;2025;"Sommer";7;80420;"Sulz";"Gewerbliche Beherbergungsbetriebe";"endgültig";910;1944
 2025;2025;"Sommer";8;80420;"Sulz";"Gewerbliche Beherbergungsbetriebe";"endgültig";926;2040
 2025;2025;"Sommer";9;80420;"Sulz";"Gewerbliche Beherbergungsbetriebe";"endgültig";810;1675
-2025;2025;"Sommer";10;80420;"Sulz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";584;1472
-2025;2026;"Winter";11;80420;"Sulz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";341;763
+2025;2025;"Sommer";10;80420;"Sulz";"Gewerbliche Beherbergungsbetriebe";"endgültig";584;1472
+2025;2026;"Winter";11;80420;"Sulz";"Gewerbliche Beherbergungsbetriebe";"endgültig";341;763
 2025;2026;"Winter";12;80420;"Sulz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";316;758
 2026;2026;"Winter";1;80420;"Sulz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";375;886
 2026;2026;"Winter";2;80420;"Sulz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";518;1366
+2026;2026;"Winter";3;80420;"Sulz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";417;1198
+2026;2026;"Winter";4;80420;"Sulz";"Gewerbliche Beherbergungsbetriebe";"vorläufig";520;1128
 1984;1985;"Winter";12;80421;"Übersaxen";"Gewerbliche Beherbergungsbetriebe";"endgültig";60;428
 1984;1985;"Winter";12;80421;"Übersaxen";"Privatquartiere";"endgültig";27;268
 1985;1985;"Winter";1;80421;"Übersaxen";"Gewerbliche Beherbergungsbetriebe";"endgültig";8;104
@@ -88668,10 +89035,12 @@
 2025;2025;"Sommer";7;80421;"Übersaxen";"Gewerbliche Beherbergungsbetriebe";"endgültig";4;4
 2025;2025;"Sommer";8;80421;"Übersaxen";"Gewerbliche Beherbergungsbetriebe";"endgültig";18;23
 2025;2025;"Sommer";9;80421;"Übersaxen";"Gewerbliche Beherbergungsbetriebe";"endgültig";8;25
-2025;2025;"Sommer";10;80421;"Übersaxen";"Gewerbliche Beherbergungsbetriebe";"vorläufig";7;9
+2025;2025;"Sommer";10;80421;"Übersaxen";"Gewerbliche Beherbergungsbetriebe";"endgültig";7;9
 2025;2026;"Winter";12;80421;"Übersaxen";"Gewerbliche Beherbergungsbetriebe";"vorläufig";10;16
 2025;2026;"Winter";12;80421;"Übersaxen";"Andere Unterkünfte";"vorläufig";4;26
 2026;2026;"Winter";1;80421;"Übersaxen";"Gewerbliche Beherbergungsbetriebe";"vorläufig";22;35
+2026;2026;"Winter";3;80421;"Übersaxen";"Gewerbliche Beherbergungsbetriebe";"vorläufig";4;4
+2026;2026;"Winter";4;80421;"Übersaxen";"Gewerbliche Beherbergungsbetriebe";"vorläufig";11;14
 1985;1985;"Winter";1;80422;"Viktorsberg";"Privatquartiere";"endgültig";5;61
 1985;1985;"Winter";4;80422;"Viktorsberg";"Privatquartiere";"endgültig";7;50
 1985;1985;"Sommer";5;80422;"Viktorsberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";146;564
@@ -89322,12 +89691,15 @@
 2025;2025;"Sommer";8;80422;"Viktorsberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";276;993
 2025;2025;"Sommer";8;80422;"Viktorsberg";"Privatquartiere";"endgültig";27;128
 2025;2025;"Sommer";9;80422;"Viktorsberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";274;565
-2025;2025;"Sommer";10;80422;"Viktorsberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";253;442
-2025;2026;"Winter";11;80422;"Viktorsberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";98;141
-2025;2026;"Winter";11;80422;"Viktorsberg";"Privatquartiere";"vorläufig";2;14
+2025;2025;"Sommer";10;80422;"Viktorsberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";253;442
+2025;2026;"Winter";11;80422;"Viktorsberg";"Gewerbliche Beherbergungsbetriebe";"endgültig";98;141
+2025;2026;"Winter";11;80422;"Viktorsberg";"Privatquartiere";"endgültig";2;14
 2025;2026;"Winter";12;80422;"Viktorsberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";68;102
 2026;2026;"Winter";1;80422;"Viktorsberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";92;216
 2026;2026;"Winter";2;80422;"Viktorsberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";136;341
+2026;2026;"Winter";3;80422;"Viktorsberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";152;281
+2026;2026;"Winter";4;80422;"Viktorsberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";163;239
+2026;2026;"Winter";4;80422;"Viktorsberg";"Privatquartiere";"vorläufig";10;10
 1985;1985;"Winter";1;80423;"Weiler";"Gewerbliche Beherbergungsbetriebe";"endgültig";5;81
 1985;1985;"Winter";1;80423;"Weiler";"Privatquartiere";"endgültig";33;93
 1985;1985;"Winter";2;80423;"Weiler";"Privatquartiere";"endgültig";6;18
@@ -90317,16 +90689,17 @@
 2025;2025;"Sommer";8;80424;"Zwischenwasser";"Privatquartiere";"endgültig";189;892
 2025;2025;"Sommer";9;80424;"Zwischenwasser";"Gewerbliche Beherbergungsbetriebe";"endgültig";234;637
 2025;2025;"Sommer";9;80424;"Zwischenwasser";"Privatquartiere";"endgültig";114;566
-2025;2025;"Sommer";10;80424;"Zwischenwasser";"Gewerbliche Beherbergungsbetriebe";"vorläufig";230;591
-2025;2025;"Sommer";10;80424;"Zwischenwasser";"Privatquartiere";"vorläufig";109;455
-2025;2026;"Winter";11;80424;"Zwischenwasser";"Gewerbliche Beherbergungsbetriebe";"vorläufig";150;374
-2025;2026;"Winter";11;80424;"Zwischenwasser";"Privatquartiere";"vorläufig";84;323
+2025;2025;"Sommer";10;80424;"Zwischenwasser";"Gewerbliche Beherbergungsbetriebe";"endgültig";230;591
+2025;2025;"Sommer";10;80424;"Zwischenwasser";"Privatquartiere";"endgültig";109;455
+2025;2026;"Winter";11;80424;"Zwischenwasser";"Gewerbliche Beherbergungsbetriebe";"endgültig";150;374
+2025;2026;"Winter";11;80424;"Zwischenwasser";"Privatquartiere";"endgültig";84;323
 2025;2026;"Winter";12;80424;"Zwischenwasser";"Gewerbliche Beherbergungsbetriebe";"vorläufig";208;675
 2025;2026;"Winter";12;80424;"Zwischenwasser";"Privatquartiere";"vorläufig";118;553
 2026;2026;"Winter";1;80424;"Zwischenwasser";"Gewerbliche Beherbergungsbetriebe";"vorläufig";135;436
 2026;2026;"Winter";1;80424;"Zwischenwasser";"Privatquartiere";"vorläufig";138;570
 2026;2026;"Winter";2;80424;"Zwischenwasser";"Gewerbliche Beherbergungsbetriebe";"vorläufig";258;857
 2026;2026;"Winter";2;80424;"Zwischenwasser";"Privatquartiere";"vorläufig";179;800
-2026;2026;"Winter";3;80228;"Mittelberg";"Gewerbliche Beherbergungsbetriebe";"vorläufig";17124;78128
-2026;2026;"Winter";3;80228;"Mittelberg";"Privatquartiere";"vorläufig";4394;24262
-2026;2026;"Winter";3;80228;"Mittelberg";"Andere Unterkünfte";"vorläufig";4078;16344
+2026;2026;"Winter";3;80424;"Zwischenwasser";"Gewerbliche Beherbergungsbetriebe";"vorläufig";92;237
+2026;2026;"Winter";3;80424;"Zwischenwasser";"Privatquartiere";"vorläufig";176;567
+2026;2026;"Winter";4;80424;"Zwischenwasser";"Gewerbliche Beherbergungsbetriebe";"vorläufig";180;484
+2026;2026;"Winter";4;80424;"Zwischenwasser";"Privatquartiere";"vorläufig";256;683
